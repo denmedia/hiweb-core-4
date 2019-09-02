@@ -1,3 +1,11 @@
 {
-
+  "name": "hiweb/core",
+  "license": "GPL-3.0",
+  "require": {},
+  "autoload": {
+    "psr-0": {
+      "hiweb\\": "core",
+      "hiweb\\components": "components"
+    }
+  }
 }
