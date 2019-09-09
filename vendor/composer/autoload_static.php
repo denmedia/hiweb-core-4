@@ -4,11 +4,32 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInite7752510749db06facd5dbd40452f6f9
+class ComposerStaticInitec9f14460798ef46844dba2939f392ef
 {
+    public static $prefixLengthsPsr4 = array (
+        'h' => 
+        array (
+            'hiweb\\core\\' => 11,
+            'hiweb\\components\\' => 17,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'hiweb\\core\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/core',
+        ),
+        'hiweb\\components\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/components',
+        ),
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->prefixLengthsPsr4 = ComposerStaticInitec9f14460798ef46844dba2939f392ef::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitec9f14460798ef46844dba2939f392ef::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }

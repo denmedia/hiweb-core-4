@@ -6,4 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'hiweb\\core\\' => array($baseDir . '/core'),
+    'hiweb\\components\\' => array($baseDir . '/components'),
 );

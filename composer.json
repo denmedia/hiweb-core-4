@@ -1,11 +1,16 @@
 {
   "name": "hiweb/hiweb-core-4",
   "license": "GPL-3.0",
-  "require": {},
+  "require": {
+    "ext-json": "*",
+    "ext-gd": "*",
+    "ext-iconv": "*",
+    "ext-simplexml": "*"
+  },
   "autoload": {
     "psr-4": {
-      "core\\": "core",
-      "components\\": "components"
+      "hiweb\\core\\": "core",
+      "hiweb\\components\\": "components"
     }
   }
 }

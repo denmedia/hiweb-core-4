@@ -1,0 +1,99 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: hiweb-core-4\n"
+"POT-Creation-Date: 2019-09-04 22:14+0300\n"
+"PO-Revision-Date: 2019-09-04 22:19+0300\n"
+"Last-Translator: DenMedia\n"
+"Language-Team: DenMedia\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.3\n"
+"X-Poedit-Basepath: ../..\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;esc_attr__;esc_attr_e;esc_html__;"
+"esc_html_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: hiweb-core-3/include/admin/templates/default-form.php:37
+msgid "Save Changes"
+msgstr "Сохранить Изменения"
+
+#: hiweb-core-3/include/fields/fields.php:119
+#, php-format
+msgid "Field id:[%s] not found to display value by context"
+msgstr ""
+
+#: hiweb-core-3/types/repeat.php:356
+#, php-format
+msgid ""
+"For repeat input [%s] not add col fields. For that do this: <code>$field-"
+">add_col_field( add_field_text(...) )</code>"
+msgstr ""
+
+#: hiweb-core-3/vendors/froala_editor/js/plugins/video.min.js:7
+msgid "Loading video"
+msgstr ""
+
+#: hiweb-core-3/views/core-error-php-version.php:1
+msgid ""
+"<h3>hiWeb Core 3 error!</h3> Request PHP version great that <b>5.4.0</b>!"
+msgstr ""
+
+#: hiweb-core-4/hiweb-core-4.php:21
+msgid "Your version of PHP must be 7.0 or higher."
+msgstr "Ваша версия PHP должна быть 7.0 или выше."
+
+#: theme/migration/includes/hooks.php:85
+msgid "Migration Panel"
+msgstr ""
+
+#: theme/migration/template/options.php:7
+msgid "Site ready to mirgate..."
+msgstr ""
+
+#: theme/migration/template/options.php:9
+msgid ""
+"Download site & MySQL dump files via FTP or Client Panel by you'r hosting."
+msgstr ""
+
+#: theme/migration/template/options.php:10
+msgid "Upload this files on you'r new server."
+msgstr ""
+
+#: theme/migration/template/options.php:11
+msgid ""
+"Connect site to new MySQL server, change connect data in wp-config.php file"
+msgstr ""
+
+#: theme/migration/template/options.php:12
+msgid ""
+"Go to new home page. Now you see message: \"hiWeb Migrate Site Process\". "
+"This message indicates the beginning of a process to automatically replace "
+"the old ways to the new database. Wait until the end, it should not take "
+"more than few easy\n"
+"\t\t\tseconds."
+msgstr ""
+
+#: theme/migration/template/options.php:15
+msgid "Done. Enjoy ;)"
+msgstr ""
+
+#: theme/migration/template/options.php:22
+msgid ""
+"This option is useful if the domain has changed, but the hosting site and "
+"the folder is not changed"
+msgstr ""
+
+#: theme/migration/template/options.php:40
+msgid "RE-MIGRATE to New Domain"
+msgstr ""
+
+#: theme/migration/template/options.php:43
+msgid ""
+"Enter new domain (or stay them clear) and click this button to force a re-"
+"migrate procedure to new domain.<br>\n"
+"\t\tDon't forget about <b>http://</b> prefix."
+msgstr ""
