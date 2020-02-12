@@ -6,7 +6,7 @@
 	use hiweb\components\fields\Field;
 
 
-	class Screen extends \hiweb\core\arrays\Options{
+	class Screen extends \hiweb\core\ArrayObject\Options{
 
 		/**
 		 * Add filed to post edit screen

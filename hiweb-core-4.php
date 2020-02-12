@@ -9,7 +9,7 @@
 	*/
 
 	if( version_compare( PHP_VERSION, '7.0' ) >= 0 ){
-		require_once __DIR__ . '/vendor/autoload.php';
+		require_once __DIR__ . '/spl_autoload_register.php';
 		require_once __DIR__ . '/define.php';
 		require_once __DIR__ . '/init.php';
 	} else {

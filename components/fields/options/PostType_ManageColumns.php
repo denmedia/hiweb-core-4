@@ -3,7 +3,7 @@
 	namespace hiweb\components\fields\options;
 
 
-	class PostType_ManageColumns extends \hiweb\core\arrays\Options{
+	class PostType_ManageColumns extends \hiweb\core\ArrayObject\Options{
 
 
 		public function __construct( $parent_OptionsObject = null ){

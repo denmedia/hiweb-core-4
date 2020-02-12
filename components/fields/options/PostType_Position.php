@@ -3,7 +3,7 @@
 	namespace hiweb\components\fields\options;
 
 
-	use hiweb\core\arrays\Options_Once;
+	use hiweb\core\ArrayObject\Options_Once;
 
 
 	class PostType_Position extends Options_Once{

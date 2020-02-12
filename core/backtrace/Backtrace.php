@@ -3,7 +3,7 @@
 	namespace hiweb\core;
 
 
-	use hiweb\core\arrays\Arrays;
+	use hiweb\core\ArrayObject\Arrays;
 	use hiweb\core\Backtrace\Point;
 
 
@@ -95,10 +95,11 @@
 		static function file_locate( $depth = 0 ){
 			$debugBacktrace = debug_backtrace();
 			$R = '';
-			if( Arrays::make( $debugBacktrace )->count() < $depth ){
+			$array = new ArrayObject( $debugBacktrace );
+			if( $array->count() < $depth ){
 				//hiweb()->console()->warn( 'Слишком глубоко [' . $depth . ']', 1 );
 			} else {
-				$R = realpath( Arrays::make( $debugBacktrace)->_([ $depth, 'file' ], ':файл не найден:' ) ) . ' : ' . Arrays::make( $debugBacktrace)->_([ $depth, 'line' ] );
+				$R = realpath( $array( [ $depth, 'file' ], ':файл не найден:' ) ) . ' : ' . $array( [ $depth, 'line' ] );
 			}
 
 			return $R;

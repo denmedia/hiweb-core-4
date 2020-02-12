@@ -3,7 +3,7 @@
 	namespace hiweb\components\fields;
 
 
-	use hiweb\core\arrays\Arrays;
+	use hiweb\core\ArrayObject\Arrays;
 
 
 	class Form{

@@ -3,7 +3,7 @@
 	namespace hiweb\components\fields\options;
 
 
-	class PostType_MetaBox_Context extends \hiweb\core\arrays\Options_Once{
+	class PostType_MetaBox_Context extends \hiweb\core\ArrayObject\Options_Once{
 
 		/**
 		 * @return PostType_MetaBox

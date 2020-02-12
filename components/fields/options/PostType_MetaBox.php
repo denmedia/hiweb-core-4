@@ -6,7 +6,7 @@
 	use hiweb\core\strings\Strings;
 
 
-	class PostType_MetaBox extends \hiweb\core\arrays\Options{
+	class PostType_MetaBox extends \hiweb\core\ArrayObject\Options{
 
 		public function __construct( $parent_OptionsObject = null ){
 			parent::__construct( $parent_OptionsObject );

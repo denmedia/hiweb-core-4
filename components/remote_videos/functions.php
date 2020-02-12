@@ -10,9 +10,7 @@
 
 		/**
 		 * Return video class from url like ""
-		 *
 		 * @param $url
-		 *
 		 * @return \hiweb\remote_videos\video
 		 */
 		function get_remote_video( $url ) {

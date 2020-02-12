@@ -3,7 +3,7 @@
 	namespace hiweb\users;
 
 
-	class user{
+	class User{
 
 		/** @var int */
 		private $id;

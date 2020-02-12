@@ -4,11 +4,11 @@
 
 
 	use hiweb\components\fields\Field;
-	use hiweb\core\arrays\Arrays;
+	use hiweb\core\ArrayObject\Arrays;
 	use hiweb\core\Strings;
 
 
-	class PostType extends \hiweb\core\arrays\Options{
+	class PostType extends \hiweb\core\ArrayObject\Options{
 
 		public function __construct( $parent_OptionsObject ){
 			parent::__construct( $parent_OptionsObject );

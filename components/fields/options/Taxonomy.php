@@ -3,7 +3,7 @@
 	namespace hiweb\components\fields\options;
 
 
-	class Taxonomy extends \hiweb\core\arrays\Options{
+	class Taxonomy extends \hiweb\core\ArrayObject\Options{
 
 
 		/**

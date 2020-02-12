@@ -3,18 +3,18 @@
 	namespace hiweb;
 
 
-	class users{
+	class Users{
 
 		//use hw_hidden_methods_props;
 
-		/** @var users\user[] */
+		/** @var users\User[] */
 		static private $users = [];
 
 
 		/**
 		 * Возвращает корневой класс для работы с данными пользователя
 		 * @param $idOrLoginOrEmail - если не указывать, то будет взят текущий авторизированный пользователь
-		 * @return users\user
+		 * @return users\User
 		 */
 		static function get( $idOrLoginOrEmail = null ){
 			///
@@ -25,7 +25,7 @@
 			}
 			///
 			if( !isset( self::$users[ $idOrLoginOrEmail ] ) ){
-				$user = new users\user( $idOrLoginOrEmail );
+				$user = new users\User( $idOrLoginOrEmail );
 				self::$users[ $idOrLoginOrEmail ] = $user;
 				if( $user->is_exist() ){
 					self::$users[ $user->id() ] = $user;

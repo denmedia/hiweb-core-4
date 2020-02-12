@@ -9,7 +9,7 @@
 	namespace hiweb\css;
 
 
-	use hiweb\arrays;
+	use hiweb\ArrayObject;
 	use hiweb\paths\path;
 
 
@@ -112,7 +112,7 @@
 			if( $return_array ){
 				return $this->tags;
 			} else {
-				return Arrays::make( $this->tags )->get_param_html_tags();
+				return ArrayObject::make( $this->tags )->get_param_html_tags();
 			}
 		}
 

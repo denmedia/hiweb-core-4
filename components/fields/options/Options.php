@@ -6,7 +6,7 @@
 	use hiweb\components\fields\Field;
 
 
-	class Options extends \hiweb\core\arrays\Options{
+	class Options extends \hiweb\core\ArrayObject\Options{
 
 		/** @var Field */
 		private $Field;

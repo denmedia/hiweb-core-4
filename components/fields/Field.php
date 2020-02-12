@@ -4,7 +4,7 @@
 
 
 	use hiweb\components\fields\options\Options;
-	use hiweb\core\arrays\Arrays;
+	use hiweb\core\ArrayObject\Arrays;
 	use hiweb\core\hidden_methods;
 
 
