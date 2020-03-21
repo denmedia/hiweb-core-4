@@ -1,0 +1,20 @@
+{
+  "name": "denmedia/hiweb-core-4",
+  "description": "WordPress Framework",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Den Media",
+      "email": "d9251132826@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "hiweb\\": "src\\"
+    }
+  },
+  "require": {
+    "ext-json": "*"
+  }
+}
