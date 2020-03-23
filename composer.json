@@ -3,6 +3,12 @@
   "description": "WordPress Framework",
   "minimum-stability": "stable",
   "license": "MIT",
+  "repositories": [
+    {
+      "type": "github",
+      "url": "https://github.com/denmedia/hiweb-core-4"
+    }
+  ],
   "authors": [
     {
       "name": "Den Media",
@@ -11,10 +17,14 @@
   ],
   "autoload": {
     "psr-4": {
-      "hiweb\\": "src\\"
+      "hiweb\\core\\": "core",
+      "hiweb\\components\\": "components"
     }
   },
   "require": {
-    "ext-json": "*"
+    "php": "^7.0",
+    "ext-json": "*",
+    "intervention/image": "^2.5",
+    "ext-fileinfo": "*"
   }
 }

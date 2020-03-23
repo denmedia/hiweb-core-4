@@ -5,7 +5,7 @@
       <paths name="develop.hiweb.moscow">
         <serverdata>
           <mappings>
-            <mapping deploy="/wp-content/themes/hiweb-alpha/hiweb-alpha/hiweb-core-4" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/wp-content/themes/hiweb-theme/hiweb-core-4" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
