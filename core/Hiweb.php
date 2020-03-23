@@ -19,10 +19,10 @@
 
 		/**
 		 * @param $array_or_firstItem
-		 * @return \hiweb\core\ArrayObject
+		 * @return \hiweb\core\ArrayObject\ArrayObject
 		 */
 		public function ArrayObject( $array_or_firstItem ){
-			return new \hiweb\core\ArrayObject( $array_or_firstItem );
+			return new \hiweb\core\ArrayObject\ArrayObject( $array_or_firstItem );
 		}
 
 	}

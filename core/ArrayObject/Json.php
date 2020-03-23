@@ -9,8 +9,8 @@
 	namespace hiweb\core\ArrayObject;
 
 
-	use hiweb\core\ArrayObject;
-	use hiweb\core\ArrayObject;
+	use hiweb\core\ArrayObject\ArrayObject;
+	use hiweb\core\ArrayObject\ArrayObject;
 
 
 	class Json{

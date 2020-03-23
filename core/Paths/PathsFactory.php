@@ -6,10 +6,11 @@
 	 * Time: 01:44
 	 */
 
-	namespace hiweb\core;
+	namespace hiweb\core\Paths;
 
 
 	use hiweb\core\Paths\Path;
+	use hiweb\core\strings;
 
 
 	class PathsFactory{

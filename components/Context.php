@@ -3,7 +3,7 @@
 	namespace hiweb\components;
 
 
-	use hiweb\core\PathsFactory;
+	use hiweb\core\Paths\PathsFactory;
 
 
 	class Context{

@@ -3,10 +3,10 @@
 	namespace hiweb\components\Images;
 
 
-	use hiweb\core\ArrayObject;
+	use hiweb\core\ArrayObject\ArrayObject;
 	use hiweb\core\Paths\File;
 	use hiweb\core\Paths\Path;
-	use hiweb\core\PathsFactory;
+	use hiweb\core\Paths\PathsFactory;
 
 
 	class Images{

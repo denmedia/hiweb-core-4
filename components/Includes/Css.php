@@ -5,7 +5,7 @@
 
 	use hiweb\components\Includes\Css\Media;
 	use hiweb\components\Includes\Css\Rel;
-	use hiweb\core\Options;
+	use hiweb\core\Options\Options;
 	use hiweb\core\Paths\Path;
 
 
@@ -30,11 +30,21 @@
 
 
 		/**
+		 * Put file include to footer OR get bool is in footer
+		 * @param null|bool $set
+		 * @return Js|bool
+		 */
+		public function to_footer( $set = null ){
+			return $this->_( 'footer', $set );
+		}
+
+
+		/**
 		 * @param null|bool $set
 		 * @return array|Css|mixed|null
 		 */
 		public function on_frontend( $set = null ){
-			return $this->_( 'is_frontend', $set );
+			return $this->_( 'on_frontend', $set );
 		}
 
 
@@ -43,7 +53,16 @@
 		 * @return array|Css|mixed|null
 		 */
 		public function on_admin( $set = null ){
-			return $this->_( 'is_admin', $set );
+			return $this->_( 'on_admin', $set );
+		}
+
+
+		/**
+		 * @param null|bool $set
+		 * @return array|Js|mixed|null
+		 */
+		public function on_login( $set = null ){
+			return $this->_( 'on_login', $set );
 		}
 
 
@@ -69,7 +88,7 @@
 		/**
 		 * @return Rel
 		 */
-		public function set_Rel(){
+		public function Rel(){
 			if( !$this->_( 'rel' ) instanceof Rel ){
 				$this->_( 'rel', new Rel( $this ) );
 			}
@@ -80,7 +99,7 @@
 		/**
 		 * @return Media
 		 */
-		public function set_Media(){
+		public function Media(){
 			if( !$this->_( 'media' ) instanceof Media ){
 				$this->_( 'media', new Media( $this ) );
 			}
@@ -93,11 +112,13 @@
 		 * @return string
 		 */
 		public function get_html(){
-			return '<link type="text/css" href="' . $this->Path()->Url()->get_clear() . '" ' . $this->set_Rel()() . ' ' . $this->set_Media()() . ' />';
+			$version = '';
+			if( $this->Path()->is_local() ) $version = '?ver=' . filemtime( $this->Path()->File()->get_path() );
+			return '<link ' . $this->Rel()() . ' id="' . $this->Path()->handle() . '" href="' . $this->Path()->Url()->get_clear() . $version . '" type="text/css" ' . $this->Media()() . ' />';
 		}
 
 
-		public function the(){
+		public function the_html(){
 			echo $this->get_html();
 		}
 

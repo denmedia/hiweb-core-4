@@ -9,7 +9,7 @@
 	use hiweb\core\Paths\File;
 	use hiweb\core\Paths\Path;
 	use hiweb\core\Paths\Url;
-	use hiweb\core\PathsFactory;
+	use hiweb\core\Paths\PathsFactory;
 
 
 	if( !function_exists( 'get_path' ) ){

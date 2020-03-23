@@ -3,8 +3,8 @@
 	namespace hiweb\core\Paths;
 
 
-	use hiweb\core\ArrayObject;
-	use hiweb\core\PathsFactory;
+	use hiweb\core\ArrayObject\ArrayObject;
+	use hiweb\core\Paths\PathsFactory;
 	use hiweb\core\urls\Urls;
 
 

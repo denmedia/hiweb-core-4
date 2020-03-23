@@ -9,8 +9,8 @@
 	namespace hiweb\core\Paths;
 
 
-	use hiweb\core\CacheFactory;
-	use hiweb\core\PathsFactory;
+	use hiweb\core\Cache\CacheFactory;
+	use hiweb\core\Paths\PathsFactory;
 	use hiweb\core\Strings;
 
 

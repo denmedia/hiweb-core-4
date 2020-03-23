@@ -10,7 +10,7 @@
 
 
 	use hiweb\components\Includes\Css;
-	use hiweb\core\Options;
+	use hiweb\core\Options\Options;
 	use hiweb\core\Options\Options_Once;
 
 
@@ -22,7 +22,7 @@
 
 		public function __construct( $parent_OptionsObject = null ){
 			parent::__construct( $parent_OptionsObject );
-			$this->set( 'media', [] );
+			$this->set( 'media', ['all'] );
 		}
 
 

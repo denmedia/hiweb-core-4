@@ -1,6 +1,6 @@
 <?php
 
-	namespace hiweb\core;
+	namespace hiweb\core\ArrayObject;
 
 
 	use hiweb\core\ArrayObject\Json;

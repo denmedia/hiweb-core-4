@@ -1,8 +1,10 @@
 <?php
 
-	namespace hiweb\core;
+	namespace hiweb\core\Options;
 
 
+	use hiweb\core\ArrayObject\ArrayObject;
+	use hiweb\core\hidden_methods;
 	use hiweb\core\Options\Options_Once;
 
 
@@ -16,13 +18,13 @@
 		use hidden_methods;
 
 		/** @var ArrayObject */
-		private $options;
+		private $Options;
 		/** @var Options|null */
 		private $parent_OptionsObject;
 
 
 		public function __construct( $parent_OptionsObject = null ){
-			$this->options = new ArrayObject( [] );
+			$this->Options = new ArrayObject( [] );
 			///Set Parent Options Object
 			if( $parent_OptionsObject instanceof Options ){
 				$this->parent_OptionsObject = $parent_OptionsObject;
@@ -53,7 +55,7 @@
 
 
 		protected function set( $option_key, $value ){
-			$this->options->set_value( $option_key, $value );
+			$this->Options->set_value( $option_key, $value );
 			return $this;
 		}
 
@@ -64,7 +66,7 @@
 		 * @return array|mixed|null
 		 */
 		protected function get( $option_key = null, $default = null ){
-			return $this->options->_( $option_key, $default );
+			return $this->Options->_( $option_key, $default );
 		}
 
 
@@ -75,7 +77,7 @@
 		 * @return ArrayObject
 		 */
 		protected function remove( $option_key ){
-			return $this->options->unset_key( $option_key );
+			return $this->Options->unset_key( $option_key );
 		}
 
 
@@ -92,7 +94,7 @@
 		 * @return ArrayObject
 		 */
 		protected function options_ArrayObject(){
-			return $this->options;
+			return $this->Options;
 		}
 
 
@@ -104,7 +106,7 @@
 		 */
 		public function _( $option_key, $value = null, $default = null ){
 			if( is_null( $value ) ){
-				return $this->options->_( $option_key, $default );
+				return $this->Options->_( $option_key, $default );
 			} else {
 				return $this->set( $option_key, $value );
 			}

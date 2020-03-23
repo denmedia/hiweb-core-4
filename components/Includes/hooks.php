@@ -9,3 +9,4 @@
 	add_action( 'shutdown', '\hiweb\components\Includes\IncludesFactory::_add_action_wp_register_script' );
 	//filter html script
 	add_filter( 'style_loader_tag', '\hiweb\components\Includes\IncludesFactory::_add_filter_style_loader_tag', 10, 4 );
+	add_filter( 'script_loader_tag', '\hiweb\components\Includes\IncludesFactory::_add_filter_script_loader_tag', 10, 3 );

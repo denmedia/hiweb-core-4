@@ -10,7 +10,7 @@
 
 
 	use hiweb\core\Paths\File;
-	use hiweb\core\PathsFactory;
+	use hiweb\core\Paths\PathsFactory;
 	use hiweb\core\Strings;
 
 

@@ -8,10 +8,10 @@
 		 * Return instance of ArrayObject from array / mixed item
 		 * @aliase get_ArrayObject($array_or_firstElement = [])
 		 * @param array|mixed $array_or_firstElement
-		 * @return \hiweb\core\ArrayObject
+		 * @return \hiweb\core\ArrayObject\ArrayObject
 		 */
 		function get_array( $array_or_firstElement = [] ){
-			return new \hiweb\core\ArrayObject( $array_or_firstElement );
+			return new \hiweb\core\ArrayObject\ArrayObject( $array_or_firstElement );
 		}
 	}
 
@@ -20,10 +20,10 @@
 		 * Return instance of arrays\item
 		 * @aliase get_array($array_or_firstElement = [])
 		 * @param array|mixed $array_or_firstElement
-		 * @return \hiweb\core\ArrayObject
+		 * @return \hiweb\core\ArrayObject\ArrayObject
 		 */
 		function get_ArrayObject( $array_or_firstElement = [] ){
-			return new \hiweb\core\ArrayObject( $array_or_firstElement );
+			return new \hiweb\core\ArrayObject\ArrayObject( $array_or_firstElement );
 		}
 	}
 

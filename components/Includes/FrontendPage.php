@@ -6,7 +6,7 @@
 	use hiweb\components\Context;
 
 
-	class Frontend extends IncludesFactory{
+	class FrontendPage extends IncludesFactory{
 
 		/**
 		 * @param null|string $fileNameOrPathOrURL

@@ -1,9 +1,6 @@
 <?php
 
-	namespace hiweb\core;
-
-
-	use hiweb\core\Cache\Cache;
+	namespace hiweb\core\Cache;
 
 
 	class CacheFactory{

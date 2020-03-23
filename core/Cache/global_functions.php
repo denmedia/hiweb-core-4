@@ -1,7 +1,7 @@
 <?php
 
 	use hiweb\core\Cache\Cache;
-	use hiweb\core\CacheFactory;
+	use hiweb\core\Cache\CacheFactory;
 
 
 	if( !function_exists( 'get_cache' ) ){

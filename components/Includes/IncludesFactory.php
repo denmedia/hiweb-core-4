@@ -6,10 +6,10 @@
 	use hiweb\components\Console\ConsoleFactory;
 	use hiweb\components\Context;
 	use hiweb\core\Backtrace\Backtrace;
-	use hiweb\core\CacheFactory;
+	use hiweb\core\Cache\CacheFactory;
 	use hiweb\core\hidden_methods;
 	use hiweb\core\Paths\Path;
-	use hiweb\core\PathsFactory;
+	use hiweb\core\Paths\PathsFactory;
 
 
 	class IncludesFactory{
@@ -76,11 +76,7 @@
 			$Path = self::get_Path_bySearch( $fileNameOrPathOrURL, 'css' );
 			return CacheFactory::get( $Path->handle(), __CLASS__ . ':css', function(){
 				$Path = func_get_arg( 0 );
-				///REGISTER STYLE
-				$Css = new Css( $Path );
-				wp_register_style( $Css->Path()->handle(), $Css->Path()->Url()->get_clear(), $Css->deeps(), filemtime( $Css->Path()->File()->get_path() ), $Css->set_Media()() );
-				console_warn( [$Css->Path()->handle(), $Css->Path()->Url()->get_clear(), $Css->deeps(), filemtime( $Css->Path()->File()->get_path() ), $Css->set_Media()()] );
-				return $Css;
+				return new Css( $Path );
 			}, $Path )();
 		}
 
@@ -102,20 +98,29 @@
 			foreach( CacheFactory::get_group( __CLASS__ . ':css' ) as $cache_Css ){
 				$Css = $cache_Css->get();
 				if( !$Css instanceof Css ) continue;
+				///Stop repeat include
 				if( in_array( $Css->Path()->handle(), self::$already_printed ) ) continue;
-				if( !( ( Context::is_frontend_page() && $Css->on_frontend() ) || ( Context::is_admin_page() && $Css->on_admin() ) ) && !$Css->_is_exists( 'is_frontend' ) && !( is_null( $Css->on_frontend() ) && is_null( $Css->on_admin() ) ) ) continue;
-				///QUEUE
-				wp_enqueue_style( $handle );
-				//$Css->the();
+				///Context check
+				if( !( ( Context::is_frontend_page() && $Css->on_frontend() ) || ( Context::is_admin_page() && $Css->on_admin() ) || ( Context::is_login_page() && $Css->on_login() ) ) && !( is_null( $Css->on_frontend() ) && is_null( $Css->on_admin() ) && is_null( $Css->on_login() ) ) ) continue;
+				///Footer check
+				if( !( did_action( 'wp_footer' ) || did_action( 'admin_footer' ) ) && $Css->to_footer() ) continue;
+				///REGISTER STYLE
+				wp_register_style( $Css->Path()->handle(), $Css->Path()->Url()->get_clear(), $Css->deeps(), $Css->Path()->is_local() ? filemtime( $Css->Path()->File()->get_path() ) : false, $Css->Media()() );
+				wp_enqueue_style( $Css->Path()->handle() );
 				self::$already_printed[] = $Css->Path()->handle();
 			}
 			foreach( CacheFactory::get_group( __CLASS__ . ':js' ) as $cache_Js ){
 				$Js = $cache_Js->get();
 				if( !$Js instanceof Js ) continue;
+				///Stop repeat include
 				if( in_array( $Js->Path()->handle(), self::$already_printed ) ) continue;
-				if( !( ( Context::is_frontend_page() && $Js->on_frontend() ) || ( Context::is_admin_page() && $Js->on_admin() ) ) && !( is_null( $Js->on_frontend() ) && is_null( $Js->on_admin() ) ) ) continue;
+				///Context check
+				if( !( ( Context::is_frontend_page() && $Js->on_frontend() ) || ( Context::is_admin_page() && $Js->on_admin() ) || ( Context::is_login_page() && $Js->on_login() ) ) && !( is_null( $Js->on_frontend() ) && is_null( $Js->on_admin() ) && is_null( $Js->on_login() ) ) ) continue;
+				///Footer check
 				if( !( did_action( 'wp_footer' ) || did_action( 'admin_footer' ) ) && $Js->to_footer() ) continue;
-				$Js->the();
+				///REGISTER SCRIPT
+				wp_register_script( $Js->Path()->handle(), $Js->Path()->Url()->get(), $Js->deeps(), $Js->Path()->is_local() ? filemtime( $Js->Path()->File()->get_path() ) : false, $Js->to_footer() );
+				wp_enqueue_script( $Js->Path()->handle() );
 				self::$already_printed[] = $Js->Path()->handle();
 			}
 		}
@@ -130,17 +135,23 @@
 		 */
 		static protected function _add_filter_style_loader_tag( $html = null, $handle = null, $href = null, $media = null ){
 			if( CacheFactory::is_exists( $handle, __CLASS__ . ':css' ) ){
-				$Css = CacheFactory::get( $handle, __CLASS__ . ':css' );
+				$Css = CacheFactory::get( $handle, __CLASS__ . ':css' )();
 				if( $Css instanceof Css ){
-					if( !in_array( $handle, self::$already_printed ) ){
-						self::$already_printed[] = $handle;
-						return $Css->get_html();
-					} else {
-						return '';
-					}
+					return $Css->get_html();
 				}
 			}
 			return $html;
+		}
+
+
+		static protected function _add_filter_script_loader_tag( $tag, $handle, $src ){
+			if( CacheFactory::is_exists( $handle, __CLASS__ . ':js' ) ){
+				$Js = CacheFactory::get( $handle, __CLASS__ . ':js' )();
+				if( $Js instanceof Js ){
+					return $Js->get_html();
+				}
+			}
+			return $tag;
 		}
 
 	}

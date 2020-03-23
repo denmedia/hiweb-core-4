@@ -9,7 +9,7 @@
 	namespace hiweb\components\Images;
 
 
-	use hiweb\core\ArrayObject;
+	use hiweb\core\ArrayObject\ArrayObject;
 	use hiweb\core\hidden_methods;
 	use WP_Post;
 

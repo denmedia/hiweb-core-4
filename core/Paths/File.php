@@ -4,9 +4,9 @@
 
 
 	use hiweb\components\Console\ConsoleFactory;
-	use hiweb\core\ArrayObject;
-	use hiweb\core\CacheFactory;
-	use hiweb\core\PathsFactory;
+	use hiweb\core\ArrayObject\ArrayObject;
+	use hiweb\core\Cache\CacheFactory;
+	use hiweb\core\Paths\PathsFactory;
 
 
 	class File{
@@ -337,7 +337,6 @@
 		 */
 		public function dirs(){
 			return CacheFactory::get( spl_object_id( $this->Path() ), __METHOD__ )->set_callable( function(){
-				console_info( explode( '/', func_get_arg(0)->dirname() ) );
 				return get_array( explode( '/', func_get_arg(0)->dirname() ) );
 			}, [$this] )->get();
 		}

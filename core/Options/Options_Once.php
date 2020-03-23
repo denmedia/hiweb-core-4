@@ -3,7 +3,7 @@
 	namespace hiweb\core\Options;
 
 
-	use hiweb\core\Options;
+	use hiweb\core\Options\Options;
 
 
 	/**

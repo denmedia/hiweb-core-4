@@ -9,8 +9,8 @@
 	namespace hiweb\core\Backtrace;
 
 
-	use hiweb\core\ArrayObject;
-	use hiweb\core\PathsFactory;
+	use hiweb\core\ArrayObject\ArrayObject;
+	use hiweb\core\Paths\PathsFactory;
 
 
 	class Node{

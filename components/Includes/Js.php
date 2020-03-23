@@ -3,7 +3,7 @@
 	namespace hiweb\components\Includes;
 
 
-	use hiweb\core\Options;
+	use hiweb\core\Options\Options;
 	use hiweb\core\Paths\Path;
 
 
@@ -42,7 +42,7 @@
 		 * @return array|Js|mixed|null
 		 */
 		public function on_frontend( $set = null ){
-			return $this->_( 'is_frontend', $set );
+			return $this->_( 'on_frontend', $set );
 		}
 
 
@@ -51,7 +51,16 @@
 		 * @return array|Js|mixed|null
 		 */
 		public function on_admin( $set = null ){
-			return $this->_( 'is_admin', $set );
+			return $this->_( 'on_admin', $set );
+		}
+
+
+		/**
+		 * @param null|bool $set
+		 * @return array|Js|mixed|null
+		 */
+		public function on_login( $set = null ){
+			return $this->_( 'on_login', $set );
 		}
 
 
@@ -59,8 +68,8 @@
 		 * @param bool $set
 		 * @return Js
 		 */
-		public function set_async( $set = true ){
-			if( $set ) $this->_( 'async', 'async' ); else $this->remove( 'async' );
+		public function async( $set = true ){
+			if( $set ) return $this->_( 'async', 'async' ); else $this->remove( 'async' );
 			return $this;
 		}
 
@@ -69,8 +78,8 @@
 		 * @param bool $set
 		 * @return Js
 		 */
-		public function set_defer( $set = true ){
-			if( $set ) $this->_( 'async', 'defer' ); else $this->remove( 'async' );
+		public function defer( $set = true ){
+			if( $set ) return $this->_( 'async', 'defer' ); else $this->remove( 'async' );
 			return $this;
 		}
 
@@ -79,18 +88,17 @@
 		 * @param array $deeps
 		 * @return Js
 		 */
-		public function set_deeps( $deeps = [] ){
-			$this->_( 'deeps', $deeps );
-			return $this;
+		public function deeps( $deeps = [] ){
+			return $this->_( 'deeps', $deeps );
 		}
 
 
 		public function get_html(){
-			return '<script ' . $this->_( 'async' ) . ' data-handle="' . $this->Path()->handle() . '" src="' . $this->Path()->Url()->get() . '"></script>';
+			return '<script type="text/javascript" src="' . $this->Path()->Url()->get() . '" ' . $this->_( 'async' ) . ' data-handle="' . $this->Path()->handle() . '"></script>';
 		}
 
 
-		public function the(){
+		public function the_html(){
 			echo $this->get_html();
 		}
 
