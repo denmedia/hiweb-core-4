@@ -336,9 +336,9 @@
 		 * @return ArrayObject
 		 */
 		public function dirs(){
-			return CacheFactory::get( spl_object_id( $this->Path() ), __METHOD__ )->set_callable( function(){
-				return get_array( explode( '/', func_get_arg(0)->dirname() ) );
-			}, [$this] )->get();
+			return CacheFactory::get( spl_object_id( $this->Path() ), __METHOD__ )->set_callableFunc( function(){
+				return get_array( explode( '/', func_get_arg( 0 )->dirname() ) );
+			}, [ $this ] )->get();
 		}
 
 
@@ -368,8 +368,8 @@
 		 * @version 1.1
 		 */
 		public function set_content( $content, $appendPrepend = false ){
-			if( !$this->is_local() ) return - 1;
-			if( !$this->is_writable() ) return - 2;
+			if( !$this->Path()->is_local() ) return - 1;
+			if( $this->is_exists() && !$this->is_writable() ) return - 2;
 			///
 			if( $appendPrepend === true || $appendPrepend > 0 ){
 				$content = (string)$this->get_content() . $content;

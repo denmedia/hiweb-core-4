@@ -7,12 +7,13 @@
 	if( !function_exists( 'get_cache' ) ){
 
 		/**
-		 * @param string $variable_name
-		 * @param        $group_name
-		 * @param        $value
+		 * @param string         $variable_name
+		 * @param                $group_name
+		 * @param mixed|callable $valueOrCallable
+		 * @param array|mixed    $callableArgs
 		 * @return Cache
 		 */
-		function get_cache( $value = null, $variable_name = '', $group_name = null ){
-			return CacheFactory::get( $value, $variable_name, $group_name );
+		function get_cache( $variable_name = '', $group_name = null, $valueOrCallable = null, $callableArgs = [] ){
+			return CacheFactory::get( $variable_name, $group_name, $valueOrCallable, $callableArgs = [] );
 		}
 	}

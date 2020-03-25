@@ -54,6 +54,11 @@
 		}
 
 
+		/**
+		 * @param $option_key
+		 * @param $value
+		 * @return $this
+		 */
 		protected function set( $option_key, $value ){
 			$this->Options->set_value( $option_key, $value );
 			return $this;
@@ -74,10 +79,11 @@
 		 * Remove option by key
 		 * @aliace \hiweb\core\ArrayObject\Options::unset
 		 * @param $option_key
-		 * @return ArrayObject
+		 * @return $this
 		 */
 		protected function remove( $option_key ){
-			return $this->Options->unset_key( $option_key );
+			$this->Options->unset_key( $option_key );
+			return $this;
 		}
 
 
@@ -138,6 +144,30 @@
 				}
 			}
 			return $R;
+		}
+
+
+		/**
+		 * @param array|mixed $arrayOrOnceData
+		 */
+		public function _set_optionsCollect( $arrayOrOnceData ){
+			foreach( $arrayOrOnceData as $key => $value ){
+				if( $this->_is_exists( $key ) && $this->_( $key ) instanceof Options ){
+					$this->_( $key )->_set_optionsCollect( $value );
+				} elseif( method_exists( $this, $key ) ) {
+					call_user_func( [ $this, $key ], $value );
+				} else {
+					$this->_( $key, $value );
+				}
+			}
+		}
+
+
+		/**
+		 * @return array
+		 */
+		public function __invoke(){
+			return $this->_get_optionsCollect();
 		}
 
 	}

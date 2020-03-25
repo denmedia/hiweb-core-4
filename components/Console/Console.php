@@ -18,9 +18,9 @@
 
 		/**
 		 * Console constructor.
-		 * @param string $content
-		 * @param string $type
-		 * @param null|mixed   $addition_data
+		 * @param string     $content
+		 * @param string     $type
+		 * @param null|mixed $addition_data
 		 */
 		public function __construct( $content = '', $type = 'info', $addition_data = null ){
 			$this->content = $content;
@@ -59,14 +59,16 @@
 		 * @return string
 		 */
 		private function get_variable_type( $variable ){
-			if( is_array( $variable ) ){
-				return ' [array → ' . count( $variable ) . ']';
+			if( is_null( $variable ) ){
+				return '[NULL]';
+			} elseif( is_array( $variable ) ) {
+				return '[array → ' . count( $variable ) . ']';
 			} elseif( is_object( $variable ) ) {
-				return ' [object → ' . get_class( $variable ) . ']';
+				return '[object → ' . get_class( $variable ) . ']';
 			} elseif( is_string( $variable ) ) {
-				return ' [string → ' . strlen( $variable ) . ']';
+				return '[string → ' . strlen( $variable ) . ']';
 			} else {
-				return ' [' . gettype( $variable ) . ']';
+				return '[' . gettype( $variable ) . ']';
 			}
 		}
 
@@ -86,16 +88,16 @@
 				}
 			}
 			$R = [];
-			if( is_array( $data ) ){
+			if( is_array( $data ) ) {
 				foreach( $data as $key => $val ){
-					$R[ $key . self::get_variable_type( $val ) ] = $this->get_variable_data( $val, $depth - 1 );
+					$R[ ($key == '' ? '' : $key.' ') . self::get_variable_type( $val ) ] = $this->get_variable_data( $val, $depth - 1 );
 				}
 				return $R;
 			} elseif( is_object( $data ) ) {
 				$pattern = '/^[\s\S]*' . preg_quote( get_class( $data ) ) . '/';
 				foreach( (array)$data as $key => $value ){
 					$key = preg_replace( $pattern, '', $key );
-					$R[ $key . self::get_variable_type( $value ) ] = $this->get_variable_data( $value, $depth - 1 );
+					$R[ ($key == '' ? '' : $key.' ') . self::get_variable_type( $value ) ] = $this->get_variable_data( $value, $depth - 1 );
 				}
 				return $R;
 			} else {
@@ -110,9 +112,9 @@
 		 */
 		public function html(){
 			if( !$this->debugStatus || ( is_user_logged_in() && ( is_user_admin() || is_super_admin() ) ) ){
-				$params = [ json_encode( $this->get_variable_data( $this->content ) ) ];
-				if(is_string($this->addition_data) && strlen($this->addition_data) > 0) $this->addition_data = [$this->addition_data];
-				if( is_array( $this->addition_data ) && count($this->addition_data) > 0 ) $params[] = json_encode( $this->addition_data );
+				$params = [ json_encode( [ self::get_variable_type( $this->content ) => $this->get_variable_data( $this->content ) ] ) ];
+				if( is_string( $this->addition_data ) && strlen( $this->addition_data ) > 0 ) $this->addition_data = [ $this->addition_data ];
+				if( is_array( $this->addition_data ) && count( $this->addition_data ) > 0 ) $params[] = json_encode( $this->addition_data );
 				$params = implode( ', ', $params );
 				return "<script>console.{$this->type()}({$params});</script>";
 			}

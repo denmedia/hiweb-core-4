@@ -3,10 +3,16 @@
 	namespace hiweb\core\Cache;
 
 
+	use hiweb\core\Paths\PathsFactory;
+
+
 	class CacheFactory{
 
 		/** @var array|Cache[][] */
 		static $caches = [];
+		/** @var string */
+		static $cache_dir = WP_CONTENT_DIR . '/cache/hiweb';
+		static $file_default_alive = 2.628e+6;
 
 
 		/**
@@ -15,13 +21,14 @@
 		 */
 		static private function key_convert( $groupOrVariableName ){
 			if( is_object( $groupOrVariableName ) ){
-				return get_class( $groupOrVariableName ) . '-' . spl_object_id( $groupOrVariableName );
+				$R = get_class( $groupOrVariableName ) . '-' . spl_object_id( $groupOrVariableName );
 			} elseif( is_array( $groupOrVariableName ) ) {
 				$R = json_encode( $groupOrVariableName );
-				return strlen( $R ) < 20 ? $R : md5( $R );
+				$R = strlen( $R ) < 20 ? $R : md5( $R );
 			} else {
-				return (string)$groupOrVariableName;
+				$R = (string)$groupOrVariableName;
 			}
+			return $R;
 		}
 
 
@@ -52,16 +59,23 @@
 		 * @param null                $group_name
 		 * @param null|mixed|callable $valueOrCallable - value or anonymous function(){ return '...'; }
 		 * @param array               $callableArgs
+		 * @param bool                $enableFile
 		 * @return Cache
 		 */
-		static function get( $variable_name = '', $group_name = null, $valueOrCallable = null, $callableArgs = [] ){
+		static function get( $variable_name = '', $group_name = null, $valueOrCallable = null, $callableArgs = [], $enableFile = false ){
 			$variable_name = self::key_convert( $variable_name );
 			$group_name = self::key_convert( $group_name );
 			if( self::is_exists( $variable_name, $group_name ) ){
 				return self::$caches[ $group_name ][ $variable_name ];
 			} else {
-				self::$caches[ $group_name ][ $variable_name ] = new Cache( $variable_name, $group_name );
-				if( !is_string( $valueOrCallable ) && !is_array( $valueOrCallable ) && is_callable( $valueOrCallable ) ) self::$caches[ $group_name ][ $variable_name ]->set_callable( $valueOrCallable, $callableArgs ); elseif( !is_null( $valueOrCallable ) ) self::$caches[ $group_name ][ $variable_name ]->set( $valueOrCallable );
+				$Cache = new Cache( $variable_name, $group_name );
+				if( !is_string( $valueOrCallable ) && !is_array( $valueOrCallable ) && is_callable( $valueOrCallable ) ){
+					$Cache->Cache_CallbackValue()->set_callable( $valueOrCallable, $callableArgs );
+				} elseif( !is_null( $valueOrCallable ) ) {
+					$Cache->set( $valueOrCallable );
+				}
+				if( $enableFile ) $Cache->Cache_File()->enable();
+				self::$caches[ $group_name ][ $variable_name ] = $Cache;
 			}
 			return self::$caches[ $group_name ][ $variable_name ];
 		}
@@ -116,6 +130,14 @@
 		static function remove_group( $group_name = null ){
 			$group_name = self::key_convert( $group_name );
 			unset( self::$caches[ $group_name ] );
+		}
+
+
+		static function clear_old_files(){
+			foreach( PathsFactory::get( self::$cache_dir )->File()->get_sub_files() as $File ){
+				if( !$File->is_file() ) continue;
+				if( ( filemtime( $File->get_path() ) + self::$file_default_alive ) < microtime( true ) ) @unlink( $File->get_path() );
+			}
 		}
 
 	}

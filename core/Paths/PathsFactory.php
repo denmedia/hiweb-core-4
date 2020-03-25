@@ -21,7 +21,7 @@
 		static private $root;
 		/** @var string[] */
 		private static $current_url = [];
-		static $use_universal_shema_urls = true;
+		static $use_universal_schema_urls = true;
 
 
 		/**
@@ -32,9 +32,11 @@
 			$path_or_url = str_replace( '\\', '/', (string)$path_or_url );
 			if( trim( $path_or_url, '/' ) == '' ) $path_or_url = self::root()->get_original_path();
 			///
-			return get_cache( $path_or_url, __CLASS__ . '::$paths' )->set_callable( function(){
-				return new Path( func_get_args()[0] );
-			}, [ $path_or_url ] )->get();
+			if( !array_key_exists( $path_or_url, self::$cache_paths ) ){
+				self::$cache_paths[ $path_or_url ] = new Path( $path_or_url );
+			}
+			///
+			return self::$cache_paths[ $path_or_url ];
 		}
 
 

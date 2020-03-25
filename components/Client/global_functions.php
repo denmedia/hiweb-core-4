@@ -1,6 +1,6 @@
 <?php
 
-	use hiweb\core\Client;
+	use hiweb\components\Client\Client;
 
 
 	if( !function_exists( 'get_client' ) ){

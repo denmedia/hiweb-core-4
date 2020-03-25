@@ -17,6 +17,3 @@
 			die( __( 'Your version of PHP must be 7.0 or higher.', 'hiweb-core-4' ) );
 		}, 11 );
 	}
-
-	include_frontend_css('css/admin');
-	include_frontend_js( 'js/admin' );

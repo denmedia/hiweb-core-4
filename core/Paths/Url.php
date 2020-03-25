@@ -102,7 +102,7 @@
 		public function base( $use_noscheme = null ){
 			$key = json_encode( $use_noscheme );
 			if( !is_string( $this->base[ $key ] ) ){
-				if( !is_bool( $use_noscheme ) ) $use_noscheme = PathsFactory::$use_universal_shema_urls;
+				if( !is_bool( $use_noscheme ) ) $use_noscheme = PathsFactory::$use_universal_schema_urls;
 				$this->base[ $key ] = ( $use_noscheme ? '//' : $this->schema() . '://' ) . $this->domain();
 			}
 			return apply_filters( '\hiweb\urls\url::base', $this->base[ $key ], $use_noscheme, $this );

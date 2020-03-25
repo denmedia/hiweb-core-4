@@ -6,7 +6,7 @@
 	 * Time: 10:08
 	 */
 
-	namespace hiweb\core;
+	namespace hiweb\components\Client;
 
 
 	/**
@@ -25,7 +25,7 @@
 			return $instance;
 		}
 
-		static function get_os(){
+		public function get_os(){
 
 			$R = false;
 
@@ -63,7 +63,7 @@
 		}
 
 
-		static function get_browser(){
+		public function get_browser(){
 
 			$browser = false;
 
@@ -88,7 +88,7 @@
 		}
 
 
-		static function get_os2(){
+		public function get_os2(){
 			if( isset( $_SERVER ) ){
 				$agent = $_SERVER['HTTP_USER_AGENT'];
 			} else {
@@ -207,7 +207,7 @@
 		/**
 		 * @return mixed
 		 */
-		static function get_ip(){
+		public function get_ip(){
 			if( !empty( $_SERVER['HTTP_CLIENT_IP'] ) )   //check ip from share internet
 			{
 				$ip = $_SERVER['HTTP_CLIENT_IP'];
@@ -224,7 +224,7 @@
 		/**
 		 * @return string
 		 */
-		static function get_id_OsIp(){
+		public function get_id_OsIp(){
 			return md5( self::get_ip().'-'.self::get_os2() );
 		}
 
@@ -232,7 +232,7 @@
 		/**
 		 * @return bool
 		 */
-		static function is_webBot(){
+		public function is_webBot(){
 			return (
 				isset($_SERVER['HTTP_USER_AGENT'])
 				&& preg_match('/bot|crawl|slurp|spider|mediapartners/i', $_SERVER['HTTP_USER_AGENT'])
