@@ -7,6 +7,13 @@
       <excludeFolder url="file://$MODULE_DIR$/components/OLD" />
       <excludeFolder url="file://$MODULE_DIR$/node_modules" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/font-awesome-5/css" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/font-awesome-5/js" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/font-awesome-5/less" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/font-awesome-5/metadata" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/font-awesome-5/scss" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/font-awesome-5/sprites" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/font-awesome-5/webfonts" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/guzzlehttp/psr7" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/intervention/image" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/http-message" />

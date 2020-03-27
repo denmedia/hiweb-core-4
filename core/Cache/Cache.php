@@ -88,7 +88,7 @@
 		 */
 		public function get(){
 			if( $this->Cache_File()->is_enable() ){
-				if( $this->Cache_File()->is_alive() ){
+				if($this->Cache_File()->is_alive() ){
 					$this->value = $this->Cache_File()->get();
 				} else {
 					if( $this->Cache_CallbackValue()->is_callable() && $this->Cache_CallbackValue()->get_count() == 0 ){

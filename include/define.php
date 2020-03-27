@@ -4,3 +4,4 @@
 	if( !defined( 'HIWEB_DIR_CORE' ) ) define( 'HIWEB_DIR_CORE', HIWEB_DIR . '/core' );
 	if( !defined( 'HIWEB_DIR_COMPONENTS' ) ) define( 'HIWEB_DIR_COMPONENTS', HIWEB_DIR . '/components' );
 	if( !defined( 'HIWEB_DIR_ASSETS' ) ) define( 'HIWEB_DIR_ASSETS', HIWEB_DIR . '/assets' );
+	if( !defined( 'HIWEB_DIR_VENDORS' ) ) define( 'HIWEB_DIR_VENDOR', HIWEB_DIR . '/vendor' );

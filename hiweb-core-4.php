@@ -17,3 +17,6 @@
 			die( __( 'Your version of PHP must be 7.0 or higher.', 'hiweb-core-4' ) );
 		}, 11 );
 	}
+
+	//console_info( \hiweb\components\FontAwesome\FontAwesomeFactory::get( 'wordpress' ) );
+	console_info( \hiweb\components\FontAwesome\FontAwesomeFactory::get_search_icons( 'facebook' ) );

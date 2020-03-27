@@ -359,7 +359,7 @@
 						$converter = 'convert';
 						$addition_options = [];
 						if( array_key_exists( $destination_file->extension(), array_flip( [ 'webp' ] ) ) ){
-							$converter = HIWEB_DIR_VENDORS . '/image-optimize/cwebp-linux';
+							$converter = HIWEB_DIR_VENDOR . '/image-optimize/cwebp-linux';
 							if( $destination_file->is_crop() ){
 								$addition_options[] = '-crop ' . $src_x . ' ' . $src_y . ' ' . $src_width . ' ' . $src_height;
 							}
