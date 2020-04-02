@@ -3,6 +3,7 @@
 	namespace hiweb\components\Taxonomies;
 
 
+	use hiweb\components\FontAwesome\FontAwesomeFactory;
 	use hiweb\core\Options\Options;
 
 
@@ -30,7 +31,7 @@
 
 		/**
 		 * Текст для названия меню. Эта строка обозначает название для пунктов меню. По умолчанию значение параметра name;
-		 * @param null $set
+		 * @param null|string $set
 		 * @return array|Taxonomy_Labels|mixed|null
 		 */
 		public function menu_name( $set = null ){

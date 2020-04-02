@@ -1,12 +1,12 @@
 <?php
 
-	namespace hiweb\errors;
+	namespace hiweb\components\DisplayErrors;
 
 
-	use hiweb\context;
+	use hiweb\components\Context;
 
 
-	class display{
+	class DisplayErrors{
 
 		static protected $showBacktrace = false;
 		static protected $footerErrorsHtml = [];
@@ -16,19 +16,29 @@
 		 * @param bool $showBacktrace
 		 * @return bool
 		 */
-		static function enable( $showBacktrace = false ){
+		static function init( $showBacktrace = false ){
 			if( !context::is_frontend_page() && !context::is_admin_page() ) return false;
-			\hiweb\css( HIWEB_URL_ASSETS . '/css/errors.css' );
+			include_css( __DIR__ . '/errors.css' );
 			self::$showBacktrace = $showBacktrace;
-			@ini_set( 'display_errors', 'off' );
+			@ini_set( 'display_errors', 'on' );
 			error_reporting( E_ALL & ~E_NOTICE );
 			@ini_set( 'error_reporting', E_ALL );
 			if( !defined( 'WP_DEBUG' ) ) define( 'WP_DEBUG', true );
 			if( !defined( 'WP_DEBUG_DISPLAY' ) ) define( 'WP_DEBUG_DISPLAY', true );
-			set_error_handler( 'hiweb\\errors\\display::errorHandler' );
+			set_error_handler( '\hiweb\components\DisplayErrors\DisplayErrors::errorHandler' );
 			//self::errorFatal(); // will die on any error except E_NOTICE
-			register_shutdown_function( 'hiweb\\errors\\display::errorFatal' );
+			register_shutdown_function( '\hiweb\components\DisplayErrors\DisplayErrors::errorHandler' );
 			return true;
+		}
+
+
+		/**
+		 * @param bool $showBacktrace
+		 * @return bool
+		 * @deprecated
+		 */
+		static function enable( $showBacktrace = false ){
+			return self::init( $showBacktrace );
 		}
 
 
@@ -39,8 +49,8 @@
 		 * @param $errline
 		 * @version 1.2
 		 */
-		static function errorHandler( $errno, $errstr, $errfile, $errline ){
-			if( preg_match( '/(wp-admin|wp-include)/g', $errfile ) > 0 ) return;
+		static function errorHandler( $errno = null, $errstr = null, $errfile = null, $errline = null ){
+			if( preg_match( '/(wp-admin|wp-include)/m', $errfile ) > 0 ) return;
 			$errno = $errno & error_reporting();
 			if( $errno == 0 ) return;
 			if( !defined( 'E_STRICT' ) ) define( 'E_STRICT', 2048 );
@@ -120,7 +130,7 @@
 		}
 
 
-		static function echo_footerErrorsHtml(){
+		static function _echo_footerErrorsHtml(){
 			echo implode( '', self::$footerErrorsHtml );
 		}
 	}

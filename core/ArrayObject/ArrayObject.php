@@ -39,12 +39,13 @@
 
 
 		/**
-		 * @param      $key
-		 * @param null $default
+		 * @param string|int          $key
+		 * @param null|mixed|callable $defaultOrCallable
+		 * @param array|mixed         $callableArgs
 		 * @return mixed|null
 		 */
-		public function __invoke( $key, $default = null ){
-			return $this->get_value( $key, $default );
+		public function __invoke( $key, $defaultOrCallable = null, $callableArgs = [] ){
+			return $this->get_value( $key, $defaultOrCallable, $callableArgs );
 		}
 
 
@@ -120,14 +121,13 @@
 
 
 		/**
-		 * @param      $key
-		 * @param null $default
+		 * @param string|int          $key
+		 * @param null|mixed|callable $defaultOrCallable
+		 * @param array|mixed         $callableArgs
 		 * @return mixed|null
 		 */
-		public function get_value( $key, $default = null ){
-			return $this->value_by_key( $key, $default );
-			//if( !$this->key_exists( $key ) ) return $default;
-			//return $this->array[ $key ];
+		public function get_value( $key, $defaultOrCallable = null, $callableArgs = [] ){
+			return $this->value_by_key( $key, $defaultOrCallable, $callableArgs );
 		}
 
 
@@ -157,17 +157,19 @@
 		 * @return mixed|null
 		 */
 		public function get_value_last( $default = null ){
-			return $this->get_value_by_index( -1, $default );
+			return $this->get_value_by_index( - 1, $default );
 		}
 
 
 		/**
-		 * @param null $key
-		 * @param null $default
+		 * Get array value by key, or return default value by mixed or callable
+		 * @param null|string|int     $key
+		 * @param null|mixed|callable $defaultOrCallable
+		 * @param array|mixed         $callableArgs
 		 * @return array|mixed|null
 		 */
-		public function _( $key = null, $default = null ){
-			if( is_null( $key ) ) return $this->get(); else return $this->get_value( $key, $default );
+		public function _( $key = null, $defaultOrCallable = null, $callableArgs = [] ){
+			if( is_null( $key ) ) return $this->get(); else return $this->get_value( $key, $defaultOrCallable, $callableArgs );
 		}
 
 
@@ -215,22 +217,31 @@
 
 		/**
 		 * Поиск значения ключа, включая вложенные массивы
-		 * @param int|string|array $key
-		 * @param null|mixed       $default
+		 * @param int|string|array    $key
+		 * @param null|mixed|callable $defaultOrCallable - default value, if current value is not exists, or callable function
+		 * @param array|mixed         $callableArgs      - array of arguments for callable default function
 		 * @return mixed|null
+		 * @version 1.1
 		 */
-		public function value_by_key( $key, $default = null ){
+		public function value_by_key( $key, $defaultOrCallable = null, $callableArgs = [] ){
 			if( !is_array( $key ) || count( $key ) == 1 ){
 				$key = is_array( $key ) ? reset( $key ) : $key;
-				return $this->has_key( $key ) ? $this->array[ $key ] : $default;
+				if( $this->has_key( $key ) ){
+					return $this->array[ $key ];
+				} elseif( !is_string( $defaultOrCallable ) && !is_array( $defaultOrCallable ) && is_callable( $defaultOrCallable ) ) {
+					if( !is_array( $callableArgs ) ) $callableArgs = [ $callableArgs ];
+					return call_user_func_array( $defaultOrCallable, $callableArgs );
+				} else {
+					return $defaultOrCallable;
+				}
 			} elseif( is_array( $key ) ) {
 				foreach( $key as $subkey ){
 					if( $this->has_key( $subkey ) ){
-						return ( new ArrayObject( $this->array[ $subkey ] ) )->value_by_key( array_slice( $key, 1 ), $default );
+						return ( new ArrayObject( $this->array[ $subkey ] ) )->value_by_key( array_slice( $key, 1 ), $defaultOrCallable, $callableArgs );
 					} else break;
 				}
 			}
-			return $default;
+			return $defaultOrCallable;
 		}
 
 

@@ -3,6 +3,8 @@
 	namespace hiweb\components\Taxonomies;
 
 
+	use hiweb\components\Console\ConsoleFactory;
+	use hiweb\components\FontAwesome\FontAwesomeFactory;
 	use hiweb\core\Cache\CacheFactory;
 	use hiweb\core\hidden_methods;
 	use hiweb\core\Strings;
@@ -26,6 +28,17 @@
 				$Taxonomy->object_type( func_get_arg( 1 ) );
 				return $Taxonomy;
 			}, [ $taxonomy_name, $object_type ] )->get();
+		}
+
+
+		private static function _register_taxonomy(){
+			foreach( CacheFactory::get_group( __CLASS__ . '::$taxonomies', true ) as $Taxonomy ){
+				if( !$Taxonomy instanceof Taxonomy ){
+					ConsoleFactory::add( 'This is not taxonomy!', 'warn', __METHOD__, $Taxonomy, true );
+					continue;
+				}
+				register_taxonomy( $Taxonomy->taxonomy(), $Taxonomy->object_type(), $Taxonomy->_get_optionsCollect() );
+			}
 		}
 
 	}

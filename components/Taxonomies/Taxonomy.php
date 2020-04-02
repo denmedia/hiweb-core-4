@@ -21,6 +21,15 @@
 
 
 		/**
+		 * Return taxonomy name
+		 * @return array|mixed|null
+		 */
+		public function taxonomy(){
+			return $this->get( 'taxonomy' );
+		}
+
+
+		/**
 		 * Название типов постов, к которым будет привязана таксономия. В этом параметре, например, можно указать 'post', тогда у обычных постов WordPress появится новая таксономия (возможность классификации).
 		 * @param null|string|array $set
 		 * @return array|Taxonomy|mixed|null
@@ -47,10 +56,10 @@
 		 * @return Taxonomy_Labels
 		 */
 		public function labels(){
-			if( !$this->labels instanceof Taxonomy_Labels ){
-				$this->labels = new Taxonomy_Labels( $this );
+			if( !$this->_( 'labels' ) instanceof Taxonomy_Labels ){
+				$this->_( 'labels', new Taxonomy_Labels( $this ) );
 			}
-			return $this->labels;
+			return $this->_( 'labels' );
 		}
 
 

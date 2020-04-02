@@ -105,9 +105,9 @@
 
 
 		/**
-		 * @param      $option_key
-		 * @param null $value
-		 * @param null $default
+		 * @param string|int           $option_key
+		 * @param null|mixed           $value
+		 * @param null |mixed|callable $default
 		 * @return $this|array|mixed|null
 		 */
 		public function _( $option_key, $value = null, $default = null ){

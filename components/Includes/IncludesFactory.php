@@ -20,12 +20,13 @@
 
 
 		/**
-		 * @param null   $fileNameOrPath
-		 * @param string $extenstion
+		 * @param null|string   $fileNameOrPath
+		 * @param string $extension - file extension. like css/js
 		 * @return Path
+		 *@version 1.1
 		 */
-		static private function get_Path_bySearch( $fileNameOrPath = null, $extenstion = 'css' ){
-			return CacheFactory::get( $fileNameOrPath . ':' . $extenstion, __METHOD__, function(){
+		static private function get_Path_bySearch( $fileNameOrPath = null, $extension = 'css' ){
+			return CacheFactory::get( $fileNameOrPath . ':' . $extension, __METHOD__, function(){
 				$fileNameOrPath = func_get_arg( 0 );
 				$extension = func_get_arg( 1 );
 				$test_file_name = $extension == 'css' ? 'style' : 'script';
@@ -53,18 +54,18 @@
 				];
 				$Path = PathsFactory::get_bySearch( $search_paths );
 				if( $Path->File()->extension() != $extension ){
-					ConsoleFactory::add( 'file [' . $fileNameOrPath . '] not found', 'warn', __METHOD__ . ' - the file is not have ' . $extension . ' extension', $Path->get_path_relative() );
+					ConsoleFactory::add( 'file [' . $fileNameOrPath . '] not found', 'warn', __CLASS__ . ' - the file is not have ' . $extension . ' extension', $Path->get_path_relative(), true );
 				} elseif( !$Path->is_local() ) {
 					return $Path;
 				} elseif( !$Path->File()->is_file() ) {
-					ConsoleFactory::add( 'file [' . $fileNameOrPath . '] not file', 'warn', __METHOD__ . ' - ' . $extension . ' file not found', $search_paths );
+					ConsoleFactory::add( 'file [' . $fileNameOrPath . '] not file', 'warn', __CLASS__ . ' - ' . $extension . ' file not found', $search_paths, true );
 				} elseif( !$Path->File()->is_exists() ) {
-					ConsoleFactory::add( 'file [' . $fileNameOrPath . '] not found', 'warn', __METHOD__ . ' - ' . $extension . ' file not found', $search_paths );
+					ConsoleFactory::add( 'file [' . $fileNameOrPath . '] not found', 'warn', __CLASS__ . ' - ' . $extension . ' file not found', $search_paths, true );
 				} elseif( !$Path->File()->is_readable() ) {
-					ConsoleFactory::add( 'file [' . $fileNameOrPath . '] not found', 'warn', __METHOD__ . ' - ' . $extension . ' file not readable', $Path->File()->get_relative_path() );
+					ConsoleFactory::add( 'file [' . $fileNameOrPath . '] not found', 'warn', __CLASS__ . ' - ' . $extension . ' file not readable', $Path->File()->get_relative_path(), true );
 				}
 				return $Path;
-			}, [ $fileNameOrPath, $extenstion ] )->get();
+			}, [ $fileNameOrPath, $extension ] )->get();
 		}
 
 

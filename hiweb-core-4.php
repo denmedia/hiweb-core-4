@@ -19,4 +19,5 @@
 	}
 
 	init_adminNotices();
-	$taxonomy = add_taxonomy( 'test', 'post' );
+	$taxonomy = add_taxonomy( 'category', 'post' );
+	$taxonomy->labels()->menu_name('TEST');
