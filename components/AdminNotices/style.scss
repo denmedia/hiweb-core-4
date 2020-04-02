@@ -1,0 +1,50 @@
+@import "../../assets/css/mixins";
+
+#hiweb-components-adminnotices-wrap {
+	position: relative;
+	height: 1px;
+	margin-right: 12px;
+	margin-top: 5px;
+	z-index: 1010;
+	max-width: 800px;
+}
+
+.noty_layout {
+	filter: none !important;
+	-webkit-filter: none !important;
+}
+
+.noty_theme__bootstrap-v3.noty_bar {
+	@include box-shadow(4px, .2, 1px, 2px);
+	background-color: rgba(255, 255, 255, .25);
+	-webkit-backdrop-filter: saturate(180%) brightness(120%) blur(10px);
+	backdrop-filter: saturate(180%) brightness(120%) blur(10px);
+
+	.noty_body {
+		padding: .4em 1.2em;
+		font-size: 1.2em;
+
+		p {
+			line-height: 1.2;
+			margin: 0 0 .2em 0;
+		}
+
+	}
+
+
+	&.noty_type__success {
+		border-left: 3px solid #46b450;
+	}
+
+	&.noty_type__error {
+		border-left: 3px solid #dc3232;
+	}
+
+	&.noty_type__warning {
+		border-left: 3px solid #ffb900;
+	}
+
+	&.noty_type__info {
+		border-left: 3px solid #00a0d2;
+	}
+}

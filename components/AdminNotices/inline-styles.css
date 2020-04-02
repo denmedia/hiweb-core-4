@@ -1,0 +1,5 @@
+#wpbody-content > .update-nag, #wpbody-content > .notice, #wpbody-content > .wrap > .update-nag, #wpbody-content > .wrap > .notice, .editor-notices > .update-nag, .editor-notices > .notice {
+  display: none !important;
+}
+
+/*# sourceMappingURL=inline-styles.css.map */

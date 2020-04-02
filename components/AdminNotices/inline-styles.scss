@@ -1,0 +1,5 @@
+#wpbody-content, #wpbody-content > .wrap, .editor-notices {
+	> .update-nag, > .notice {
+		display: none !important;
+	}
+}

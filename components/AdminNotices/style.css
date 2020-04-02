@@ -1,0 +1,45 @@
+#hiweb-components-adminnotices-wrap {
+  position: relative;
+  height: 1px;
+  margin-right: 12px;
+  margin-top: 5px;
+  z-index: 1010;
+  max-width: 800px;
+}
+
+.noty_layout {
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+.noty_theme__bootstrap-v3.noty_bar {
+  -webkit-box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.25);
+  -webkit-backdrop-filter: saturate(180%) brightness(120%) blur(10px);
+  backdrop-filter: saturate(180%) brightness(120%) blur(10px);
+}
+.noty_theme__bootstrap-v3.noty_bar .noty_body {
+  padding: 0.4em 1.2em;
+  font-size: 1.2em;
+}
+.noty_theme__bootstrap-v3.noty_bar .noty_body p {
+  line-height: 1.2;
+  margin: 0 0 0.2em 0;
+}
+.noty_theme__bootstrap-v3.noty_bar.noty_type__success {
+  border-left: 3px solid #46b450;
+}
+.noty_theme__bootstrap-v3.noty_bar.noty_type__error {
+  border-left: 3px solid #dc3232;
+}
+.noty_theme__bootstrap-v3.noty_bar.noty_type__warning {
+  border-left: 3px solid #ffb900;
+}
+.noty_theme__bootstrap-v3.noty_bar.noty_type__info {
+  border-left: 3px solid #00a0d2;
+}
+
+/*# sourceMappingURL=style.css.map */

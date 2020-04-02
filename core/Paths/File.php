@@ -6,7 +6,6 @@
 	use hiweb\components\Console\ConsoleFactory;
 	use hiweb\core\ArrayObject\ArrayObject;
 	use hiweb\core\Cache\CacheFactory;
-	use hiweb\core\Paths\PathsFactory;
 
 
 	class File{
@@ -158,12 +157,11 @@
 		 * @return File[]
 		 */
 		public function include_files( $fileExtension = [ 'php', 'css', 'js' ], $excludeFiles_withPrefix = '-' ){
-			$dir = $this->File();
 			$R = [];
-			if( !$dir->is_readable() || !$dir->is_dir() ){
-				console::debug_error( __METHOD__ . ': Папка не читаема или не существует', $dir );
+			if( !$this->is_readable() || !$this->is_dir() ){
+				ConsoleFactory::add( 'Dir is not readable or not exists', __METHOD__, [], true );
 			} else {
-				$subFiles = $dir->get_sub_files( $fileExtension );
+				$subFiles = $this->get_sub_files( $fileExtension );
 				foreach( $subFiles as $file ){
 					///skip folders and files
 					if( $file->get_next_file( '.notinclude' )->is_exists() ) continue;
@@ -182,7 +180,7 @@
 							$R[ $file->original_path ] = $file;
 							break;
 						case 'js':
-							$path = apply_filters( '\hiweb\paths\path::include_files-js', $file->get_url(), $file );
+							$path = apply_filters( '\hiweb\paths\path::include_files-js', $file->Url()->get(), $file );
 							//\hiweb\js( $path ); //TODO!
 							$R[ $file->original_path ] = $file;
 							break;
@@ -196,7 +194,7 @@
 
 		/**
 		 * @param array $needle_file_names
-		 * @return files\file[]
+		 * @return File[]
 		 */
 		//		public function include_files_by_name( $needle_file_names = [ 'functions.php' ] ){
 		//			if( !is_array( $needle_file_names ) ) $needle_file_names = [ $needle_file_names ];
@@ -336,7 +334,7 @@
 		 * @return ArrayObject
 		 */
 		public function dirs(){
-			return CacheFactory::get( spl_object_id( $this->Path() ), __METHOD__ )->set_callableFunc( function(){
+			return CacheFactory::get( spl_object_id( $this->Path() ), __METHOD__, function(){
 				return get_array( explode( '/', func_get_arg( 0 )->dirname() ) );
 			}, [ $this ] )->get();
 		}
@@ -437,6 +435,26 @@
 				}
 			}
 			return $this->cache_subFiles[ $maskKey ];
+		}
+
+
+		/**
+		 * Return all sub files, include sub-folders
+		 * @param bool $returnOnlyPaths - return only string paths in array
+		 * @return File[]|string[]
+		 */
+		public function get_sub_files_by_mtime( $returnOnlyPaths = false ){
+			$R = get_array();
+			if( $this->is_dir() ) foreach( scandir( $this->get_absolute_path() ) as $subFileName ){
+				if( $subFileName == '.' || $subFileName == '..' ) continue;
+				$subFilePath = $this->get_path() . '/' . $subFileName;
+				if( is_dir( $subFilePath ) && is_readable( $subFilePath ) ){
+					$R->push( PathsFactory::get( $subFilePath )->File()->get_sub_files_by_mtime() );
+				} else {
+					$R->push( $R->free_key( filemtime( $subFilePath ) ), $returnOnlyPaths ? $subFilePath : PathsFactory::get( $subFilePath )->File() );
+				}
+			}
+			return $R->get();
 		}
 
 

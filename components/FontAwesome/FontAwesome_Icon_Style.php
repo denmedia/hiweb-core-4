@@ -48,7 +48,7 @@
 		 * @return string
 		 */
 		public function get_raw(){
-			return $this->get_data_value( 'raw', '' );
+			return str_replace('<path ','<path fill="currentColor" ', $this->get_data_value( 'raw', '' ));
 		}
 
 

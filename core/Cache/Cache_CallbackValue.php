@@ -3,6 +3,9 @@
 	namespace hiweb\core\Cache;
 
 
+	use hiweb\components\Console\ConsoleFactory;
+
+
 	class Cache_CallbackValue{
 
 		/** @var Cache */
@@ -79,7 +82,11 @@
 			if( $this->is_callable() ){
 				if( !is_array( $this->func_args ) ) $this->func_args = [ $this->func_args ];
 				$this->call_count ++;
-				return call_user_func_array( $this->function, $this->func_args );
+				$R = call_user_func_array( $this->function, $this->func_args );
+				if( is_null( $R ) ){
+					ConsoleFactory::add( 'Callable function for [var: ' . $this->Cache()->get_variable_name() . ', group: ' . $this->Cache()->get_group_name() . '] return is NULL. Check it.', 'info', __CLASS__, [ $this->function, $this->func_args ], true );
+				}
+				return $R;
 			}
 			return null;
 		}

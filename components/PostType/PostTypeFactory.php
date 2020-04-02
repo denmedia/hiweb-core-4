@@ -5,6 +5,7 @@
 
 	use hiweb\core\Cache\CacheFactory;
 	use hiweb\core\hidden_methods;
+	use hiweb\core\Strings;
 
 
 	class PostTypeFactory{
@@ -28,11 +29,12 @@
 			}, $post_type_name )();
 		}
 
+
 		////action register post types
 		static protected function _register_post_types(){
 			foreach( CacheFactory::get_group( __CLASS__ . '::$post_types', true ) as $post_type_name => $PostType ){
 				if( !$PostType instanceof PostType ) continue;
-				register_post_type( $post_type_name, $PostType->_get_optionsCollect() );
+				register_post_type( $PostType->get_post_type_name(), $PostType->_get_optionsCollect() );
 			}
 		}
 

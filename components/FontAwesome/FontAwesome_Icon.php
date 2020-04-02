@@ -11,7 +11,16 @@
 		private $original_icon_class = '';
 
 		private $icon_name = '';
-		private $icon_type;
+		/** @var string //fab|far|fas|fad|fal */
+		private $default_type;
+		private $default_style;
+		private $style_convert = [
+			'fab' => 'brands',
+			'fal' => 'light',
+			'far' => 'regular',
+			'fas' => 'solid',
+			'fad' => 'duotone'
+		];
 
 		private $data_loaded = false;
 		private $exists = false;
@@ -29,8 +38,11 @@
 
 		public function __construct( $icon_name = 'fab fa-wordpress' ){
 			$this->original_icon_class = $icon_name;
-			if( preg_match( '/^fa(?>b|l|s|r) /i', $icon_name, $matches ) > 0 ){
-				$this->icon_type = trim( $matches[0] );
+			if( preg_match( '/^fa(?>b|l|s|r|d) /i', $icon_name, $matches ) > 0 ){
+				if( array_key_exists( trim( $matches[0] ), $this->style_convert ) ){
+					$this->default_type = trim( $matches[0] );
+					$this->default_style = $this->style_convert[ trim( $matches[0] ) ];
+				}
 			}
 			$this->icon_name = fontawesome_filter_icon_name( $icon_name );
 			///LOAD DATA
@@ -72,7 +84,7 @@
 				if( isset( $icon_data['svg'] ) ) $this->svg = $icon_data['svg'];
 				if( isset( $icon_data['free'] ) ) $this->free = $icon_data['free'];
 				if( is_array( $this->styles ) && count( $this->styles ) > 0 ){
-					$this->icon_type = 'fa' . substr( $this->styles[0], 0, 1 );
+					$this->default_type = 'fa' . substr( $this->styles[0], 0, 1 );
 				}
 				$this->exists = true;
 			}
@@ -98,7 +110,7 @@
 		 */
 		public function get_type(){
 			if( !$this->is_exists() ) return '';
-			return $this->icon_type;
+			return $this->default_type;
 		}
 
 
@@ -190,7 +202,7 @@
 		public function get_class(){
 			return CacheFactory::get( $this->icon_name, __METHOD__, function(){
 				if( $this->is_exists() ){
-					return $this->icon_type . ' fa-' . $this->icon_name;
+					return $this->default_type . ' fa-' . $this->icon_name;
 				} else {
 					return $this->original_icon_class;
 				}
@@ -252,15 +264,26 @@
 		}
 
 
+		public function get_src(){
+			return get_rest_url( null, 'hiweb/components/fontawesome/svg/' . $this->get_class() );
+		}
+
+
 		/**
 		 * @param string $style
 		 * @return FontAwesome_Icon_Style
 		 */
 		public function get_style( $style = null ){
-			if( (string)$style == '' ){
-				$style = reset( $this->get_styles() );
+			if( $this->is_brands() ){
+				$style = 'brands';
+			} elseif( (string)$style == '' ) {
+				if( $this->is_style_exists($this->default_style) ){
+					$style = $this->default_style;
+				} else {
+					$style = current( $this->get_styles() );
+				}
 			}
-			return CacheFactory::get( $style . '-' . $this->icon_name, __METHOD__, function(){
+			return CacheFactory::get( (string)$style . '-' . $this->icon_name, __METHOD__, function(){
 				return new FontAwesome_Icon_Style( $this, func_get_arg( 0 ) );
 			}, [ $style ] )();
 		}

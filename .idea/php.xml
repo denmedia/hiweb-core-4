@@ -15,6 +15,7 @@
       <path value="$PROJECT_DIR$/vendor/font-awesome-5/js" />
       <path value="$PROJECT_DIR$/vendor/font-awesome-5/less" />
       <path value="$PROJECT_DIR$/vendor/font-awesome-5/css" />
+      <path value="$PROJECT_DIR$/vendor/jquery.noty/themes" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7" />

@@ -13,6 +13,8 @@
 		/** @var string */
 		static $cache_dir = WP_CONTENT_DIR . '/cache/hiweb';
 		static $file_default_alive = 2.628e+6;
+		static $cache_dir_files_limit = 999;
+		static $cache_file_alive_max_limit = 2.628e+6;
 
 
 		/**
@@ -133,10 +135,20 @@
 		}
 
 
+		/**
+		 *
+		 */
 		static function clear_old_files(){
-			foreach( PathsFactory::get( self::$cache_dir )->File()->get_sub_files() as $File ){
-				if( !$File->is_file() ) continue;
-				if( ( filemtime( $File->get_path() ) + self::$file_default_alive ) < microtime( true ) ) @unlink( $File->get_path() );
+			$subFiles = PathsFactory::get( self::$cache_dir )->File()->get_sub_files_by_mtime( true );
+			if( count( $subFiles ) > self::$cache_dir_files_limit ){
+				ksort( $subFiles );
+				$delta = count( $subFiles ) - self::$cache_dir_files_limit;
+				while( $delta > 0 ){
+					$delta --;
+					preg_match( '~^[\d]+~i', key( $subFiles ), $mtime );
+					$mtime = intval( reset( $mtime ) );
+					if( $mtime + self::$cache_file_alive_max_limit < microtime( true ) ) unlink( array_shift( $subFiles ) );
+				}
 			}
 		}
 

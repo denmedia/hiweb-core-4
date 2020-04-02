@@ -49,6 +49,10 @@
 				$R = [];
 				$search = strtolower( func_get_arg( 0 ) );
 				foreach( FontAwesomeFactory::get_icons_data() as $id => $icon_data ){
+					if( strpos( $id, $search ) !== false ){
+						$R[] = $id;
+						continue;
+					}
 					if( strpos( $icon_data['label'], $search ) !== false ){
 						$R[] = $id;
 						continue;

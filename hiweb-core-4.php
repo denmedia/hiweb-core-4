@@ -18,5 +18,5 @@
 		}, 11 );
 	}
 
-	//console_info( \hiweb\components\FontAwesome\FontAwesomeFactory::get( 'wordpress' ) );
-	console_info( \hiweb\components\FontAwesome\FontAwesomeFactory::get_search_icons( 'facebook' ) );
+	init_adminNotices();
+	$taxonomy = add_taxonomy( 'test', 'post' );

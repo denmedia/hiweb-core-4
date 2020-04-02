@@ -7,12 +7,21 @@
 
 
 	/**
+	 * Return true if is fontawesome class
+	 * @param string $haystack_class
+	 * @return bool
+	 */
+	function is_fontawesome_class_name( $haystack_class = 'fab fa-wordpress' ){
+		return ( preg_match( '/^fa(?>b|l|s|r|d) fa[\-\w\d]+$/i', $haystack_class ) > 0 );
+	}
+
+	/**
 	 * @param string $icon_class
 	 * @return string
 	 */
 	function fontawesome_filter_icon_name( $icon_class = 'fab fa-wordpress' ){
 		return CacheFactory::get( $icon_class, __NAMESPACE__, function(){
-			return preg_replace('/^(fa(?>b|l|s|r) )?(fa-)?/i', '',  func_get_arg( 0 ));
+			return preg_replace( '/^(fa(?>b|l|s|r|d) )?(fa-)?/i', '', func_get_arg( 0 ) );
 		}, $icon_class )();
 	}
 
@@ -22,7 +31,7 @@
 	 * @return mixed
 	 */
 	function filter_fontawesome_menu_icon( $menu_icon ){
-		if( preg_match( '/^fa(?>b|l|s|r) fa[\-\w\d]+$/i', $menu_icon ) > 0 ){
+		if( is_fontawesome_class_name($menu_icon) ){
 			$cache_key = 'hiweb-core-post-type-menu-icon-fontawesome-' . $menu_icon;
 			CacheFactory::get( $cache_key, null, function(){
 				$menu_icon = func_get_arg( 0 );

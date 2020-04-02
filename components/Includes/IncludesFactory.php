@@ -25,7 +25,7 @@
 		 * @return Path
 		 */
 		static private function get_Path_bySearch( $fileNameOrPath = null, $extenstion = 'css' ){
-			return CacheFactory::get( $fileNameOrPath . ':' . $extenstion, __METHOD__ )->set_callableFunc( function(){
+			return CacheFactory::get( $fileNameOrPath . ':' . $extenstion, __METHOD__, function(){
 				$fileNameOrPath = func_get_arg( 0 );
 				$extension = func_get_arg( 1 );
 				$test_file_name = $extension == 'css' ? 'style' : 'script';

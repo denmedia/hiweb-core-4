@@ -3,13 +3,35 @@
 	namespace hiweb\components\PostType;
 
 
-	use hiweb\components\PostType\PostType\Labels;
+	use hiweb\components\FontAwesome\FontAwesomeFactory;
+	use hiweb\components\PostType\PostType\PostType_Labels;
 	use hiweb\components\PostType\PostType\Rewrite;
 	use hiweb\components\PostType\PostType\Supports;
 	use hiweb\core\Options\Options;
+	use hiweb\core\Strings;
+	use function hiweb\components\FontAwesome\is_fontawesome_class_name;
 
 
 	class PostType extends Options{
+
+		/** @var string */
+		private $post_type_name;
+
+
+		public function __construct( string $post_type_name ){
+			parent::__construct();
+			$this->post_type_name = Strings::sanitize_id( $post_type_name, '_', 20 );
+			$this->label( $post_type_name );
+			$this->menu_icon( 'fad fa-thumbtack' );
+		}
+
+
+		/**
+		 * @return string
+		 */
+		public function get_post_type_name(){
+			return $this->post_type_name;
+		}
 
 
 		/**
@@ -17,11 +39,11 @@
 		 * Для неустановленных строк (т.е. по умолчанию), будут использованы:
 		 * Для не древовидных типов записей - названия "постов".
 		 * Для древовидных типов записей - названия "постоянных страниц".
-		 * @return Labels
+		 * @return PostType_Labels
 		 */
 		public function Labels(){
-			if( !$this->_( 'labels' ) instanceof Labels ){
-				$this->_( 'labels', new Labels( $this ) );
+			if( !$this->_( 'labels' ) instanceof PostType_Labels ){
+				$this->_( 'labels', new PostType_Labels( $this ) );
 			}
 			return $this->_( 'labels' );
 		}
@@ -219,11 +241,15 @@
 		/**
 		 * Ссылка на картинку, которая будет использоваться для этого меню.
 		 * С выходом WordPress 3.8 появился новый пакет иконок Dashicons, который входит в состав ядра WordPress. Это комплект из более 150 векторных изображений. Чтобы установит одну из иконок, напишите её название в этот параметр. Например иконка постов, называется так: dashicons-admin-post, а ссылок dashicons-admin-links.
-		 * Так же имеется поддержка FontAwesome Pro 5.2, укажите полный класс иконки "fas fas-bars"
+		 * Так же имеется поддержка FontAwesome Pro 5.12, укажите полный класс иконки "fas fa-bars"
 		 * @param null $set
 		 * @return array|PostType|mixed|null
 		 */
 		public function menu_icon( $set = null ){
+			if(!is_null($set) && is_fontawesome_class_name( $set ) ){
+				$icon = FontAwesomeFactory::get( $set );
+				$set = 'data:image/svg+xml;base64,' . base64_encode( '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="' . join( ',', $icon->get_style()->get_viewBox() ) . '" style="fill: none;" height="24px" width="24px">' . $icon->get_style()->get_raw() . '</svg>' );
+			}
 			return $this->_( 'menu_icon', $set );
 		}
 
