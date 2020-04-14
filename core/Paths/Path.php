@@ -22,11 +22,20 @@
 		protected $cache_Url;
 		/** @var File */
 		protected $cache_File;
+		protected $handle;
 
 
-		public function __construct( $path_or_url = false ){
-			if( is_string( $path_or_url ) ){
-				$this->original_path = $path_or_url;
+		public function __construct( $path_or_url_or_handle = false ){
+			if(array_key_exists($path_or_url_or_handle, wp_scripts()->registered)) {
+				$path_or_url_or_handle = wp_scripts()->registered[$path_or_url_or_handle]->src;
+				$this->handle = wp_scripts()->registered[$path_or_url_or_handle]->handle;
+			}
+			elseif(array_key_exists($path_or_url_or_handle, wp_styles()->registered)) {
+				$path_or_url_or_handle = wp_styles()->registered[$path_or_url_or_handle]->src;
+				$this->handle = wp_styles()->registered[$path_or_url_or_handle]->handle;
+			}
+			if( is_string( $path_or_url_or_handle ) ){
+				$this->original_path = $path_or_url_or_handle;
 			}
 		}
 
@@ -84,8 +93,11 @@
 		 * @version 1.0
 		 */
 		public function handle(){
-			$path_to_handler = $this->is_local() ? join( '-', array_slice( $this->File()->dirs()->get(), - 3, 3 ) ) . '-' . $this->File()->basename() : $this->Url()->dirs()->join( '-' );
-			return trim( Strings::sanitize_id( $path_to_handler, '-' ), '_-' );
+			if( !is_string( $this->handle ) || trim( $this->handle ) == '' ) {
+				$path_to_handler = $this->is_local() ? join( '-', array_slice( $this->File()->dirs()->get(), - 3, 3 ) ) . '-' . $this->File()->basename() : $this->Url()->dirs()->join( '-' );
+				$this->handle = trim( Strings::sanitize_id( $path_to_handler, '-' ), '_-' );
+			}
+			return $this->handle;
 		}
 
 

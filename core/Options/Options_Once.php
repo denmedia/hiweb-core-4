@@ -19,7 +19,7 @@
 		 * @return array|mixed|null
 		 */
 		protected function get( $option_key = null, $default = null ){
-			return $this->options_ArrayObject()->get_value_first( $default );
+			return $this->options_ArrayObject()->get_value( '', $default );
 		}
 
 
@@ -29,8 +29,20 @@
 		 * @return Options|mixed
 		 */
 		protected function set( $null, $value ){
-			parent::set( 0, $value );
+			parent::set( '', $value );
 			return $this->getParent_OptionsObject();
+		}
+
+
+		/**
+		 * Set or get once option value
+		 * @param null|mixed $value
+		 * @param null|mixed $default
+		 * @param null       $null
+		 * @return array|\hiweb\core\Options\Options|mixed|null
+		 */
+		public function _( $value = null, $default = null, $null = null ){
+			return parent::_( '', $value, $default );
 		}
 
 

@@ -34,7 +34,7 @@
 				$Page->capability( 'edit_theme_options' );
 				$Page->position( 81 );
 				return $Page;
-			}, [ $slug, $title, $parent_slug ] )->get();
+			}, [ $slug, $title, $parent_slug ] )->get_value();
 		}
 
 

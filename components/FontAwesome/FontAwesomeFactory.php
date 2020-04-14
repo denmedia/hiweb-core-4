@@ -70,7 +70,7 @@
 					}
 				}
 				return $R;
-			}, $search )->Cache_File()->enable()->Cache()->get();
+			}, $search )->Cache_File()->enable()->Cache()->get_value();
 			///
 			return CacheFactory::get( $search, __METHOD__ . '::$search_result', function(){
 				$R = [];

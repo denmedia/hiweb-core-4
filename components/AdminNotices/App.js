@@ -1,7 +1,7 @@
 jQuery(document).ready(function ($) {
 
 
-    let $admin_notices = $('#wpbody-content > .wrap').find('> .update-nag, > .notice').not('.inline');
+    let $admin_notices = $('#wpbody-content > .wrap > .notice, #wpbody-content > .wrap > .manage-menus, #wpbody-content > .update-nag, #post-body-content > .notice').not('.hidden');
     if (typeof Noty === 'function') {
         let popups = {};
         let popup_ids = [];
@@ -28,17 +28,17 @@ jQuery(document).ready(function ($) {
             }
             if ($source_notice.is('.is-dismissible')) {
                 timeout = 60000;
-                $source_notice.find('.notice-dismiss').remove();
+                $source_notice.find('.notice-dismiss, .components-notice__dismiss').remove();
             }
             if ($source_notice.is('#local-storage-notice')) {
                 allow_close_to_time = false;
             }
-            if ($source_notice.is('.updated') || $source_notice.is('.notice-success')  || $source_notice.is('.is-success')) {
+            if ($source_notice.is('.updated') || $source_notice.is('.notice-success') || $source_notice.is('.is-success')) {
                 timeout = 5000;
                 allow_close_to_time = false;
                 type = 'success';
             }
-            if ($source_notice.is('.notice-error') || $source_notice.is('.is-error') ) {
+            if ($source_notice.is('.notice-error') || $source_notice.is('.is-error')) {
                 timeout = 60000;
                 type = 'error';
             }
@@ -50,6 +50,10 @@ jQuery(document).ready(function ($) {
                 type = 'info';
                 layout = 'bottomRight';
             }
+            if ($source_notice.is('.components-notice')) {
+                container = false;
+
+            }
             if (layout === 'bottomRight') {
                 container = false;
                 animation = {
@@ -60,15 +64,20 @@ jQuery(document).ready(function ($) {
             let text = $source_notice.html();
             let popup_id = md5(text);
             popups[popup_id] = new Noty({
-                text: text,
+                text: '',
                 type: type,
-                timeout: timeout,
+                timeout: timeout + (750 - (1500 * Math.random())),
                 layout: layout,
                 closeWith: closeWith,
                 container: container,
                 theme: 'bootstrap-v3',
                 id: popup_id,
-                animation: animation
+                animation: animation,
+                callbacks: {
+                    onShow: function () {
+                        $source_notice.clone(true).removeClass().appendTo('#' + popup_id + ' .noty_body');
+                    }
+                }
             });
             if (allow_close_to_time) {
                 popup_ids.push(popup_id);
@@ -108,9 +117,9 @@ jQuery(document).ready(function ($) {
             }
         });
 
-        $('#editor').on('DOMNodeInserted', function(){
-            let $notices = $(this).find('.components-notice-list > .components-notice');
-            $notices.each(function(){
+        $('#editor').on('DOMNodeInserted', function () {
+            let $notices = $(this).find('.components-notice-list > .components-notice, .components-notice-list > .components-notice');
+            $notices.each(function () {
                 make_popup($(this)).show();
             });
         });

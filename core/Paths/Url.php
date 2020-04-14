@@ -4,11 +4,14 @@
 
 
 	use hiweb\core\ArrayObject\ArrayObject;
+	use hiweb\core\hidden_methods;
 	use hiweb\core\Paths\PathsFactory;
 	use hiweb\core\urls\Urls;
 
 
 	class Url{
+
+		use hidden_methods;
 
 		/** @var Path */
 		private $Path;

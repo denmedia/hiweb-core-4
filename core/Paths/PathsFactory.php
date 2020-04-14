@@ -25,18 +25,18 @@
 
 
 		/**
-		 * @param string $path_or_url
+		 * @param string $path_or_url_handle
 		 * @return Path
 		 */
-		static function get( $path_or_url = '' ){
-			$path_or_url = str_replace( '\\', '/', (string)$path_or_url );
-			if( trim( $path_or_url, '/' ) == '' ) $path_or_url = self::root()->get_original_path();
+		static function get( $path_or_url_handle = '' ){
+			$path_or_url_handle = str_replace( '\\', '/', (string)$path_or_url_handle );
+			if( trim( $path_or_url_handle, '/' ) == '' ) $path_or_url_handle = self::root()->get_original_path();
 			///
-			if( !array_key_exists( $path_or_url, self::$cache_paths ) ){
-				self::$cache_paths[ $path_or_url ] = new Path( $path_or_url );
+			if( !array_key_exists( $path_or_url_handle, self::$cache_paths ) ){
+				self::$cache_paths[ $path_or_url_handle ] = new Path( $path_or_url_handle );
 			}
 			///
-			return self::$cache_paths[ $path_or_url ];
+			return self::$cache_paths[ $path_or_url_handle ];
 		}
 
 

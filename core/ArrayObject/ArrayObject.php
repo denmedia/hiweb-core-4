@@ -4,8 +4,8 @@
 
 
 	use hiweb\core\ArrayObject\Json;
-	use hiweb\core\ArrayObject\Manager;
-	use hiweb\core\ArrayObject\Rows;
+	use hiweb\core\ArrayObject\ArraysRowsFactory;
+	use hiweb\core\ArrayObject\ArrayObject_Rows;
 
 
 	class ArrayObject{
@@ -16,7 +16,7 @@
 		private $array;
 		/** @var Json */
 		private $Json;
-		/** @var Rows */
+		/** @var ArrayObject_Rows */
 		private $Rows;
 
 
@@ -26,7 +26,7 @@
 			} else {
 				$this->array = (array)$array_or_firstItem;
 			}
-			Manager::$latestCreated_ArrayObject = $this;
+			ArraysRowsFactory::$latestCreated_ArrayObject = $this;
 		}
 
 
@@ -95,10 +95,10 @@
 
 
 		/**
-		 * @return Rows
+		 * @return ArrayObject_Rows
 		 */
 		public function Rows(){
-			if( !$this->Rows instanceof Rows ) $this->Rows = new Rows( $this );
+			if( !$this->Rows instanceof ArrayObject_Rows ) $this->Rows = new ArrayObject_Rows( $this );
 			return $this->Rows;
 		}
 

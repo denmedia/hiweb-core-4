@@ -45,7 +45,7 @@
 			if( !$this->enable ){
 				if( !file_exists( CacheFactory::$cache_dir ) ) mkdir( CacheFactory::$cache_dir, 0755, true );
 				if( $this->Cache()->is_set() ){
-					$this->set( $this->Cache->get() );
+					$this->set( $this->Cache->get_value() );
 				}
 				$this->enable = true;
 			}

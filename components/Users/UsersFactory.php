@@ -29,7 +29,7 @@
 					CacheFactory::set( $user, $user->login(), __CLASS__ . '::$users' );
 					CacheFactory::set( $user, $user->email(), __CLASS__ . '::$users' );
 				}
-			}, [ $idOrLoginOrEmail ] )->get();
+			}, [ $idOrLoginOrEmail ] )->get_value();
 		}
 
 	}

@@ -84,7 +84,7 @@
 						return json_decode( $return, true );
 					}
 					return [];
-				}, [ $this ], true )->get();
+				}, [ $this ], true )->get_value();
 				///SET DATA
 				if( $this->is_youtube() ){
 					if( isset( $data['thumbnail_url'] ) ){

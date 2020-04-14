@@ -30,7 +30,7 @@
 		 * @return array
 		 */
 		static function get_timestamp_by_notices(){
-			$R = self::Cache()->get();
+			$R = self::Cache()->get_value();
 			if( !is_array( $R ) ) return [];
 			return $R;
 		}
@@ -46,7 +46,7 @@
 			$notices = self::get_timestamp_by_notices();
 			$notices[ $notice_id ] = $timestamp;
 			self::Cache()->Cache_File()->set( $notices, true );
-			return self::Cache()->get();
+			return self::Cache()->get_value();
 		}
 
 

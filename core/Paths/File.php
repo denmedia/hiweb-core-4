@@ -4,6 +4,7 @@
 
 
 	use hiweb\components\Console\ConsoleFactory;
+	use hiweb\components\Includes\IncludesFactory;
 	use hiweb\core\ArrayObject\ArrayObject;
 	use hiweb\core\Cache\CacheFactory;
 
@@ -154,14 +155,15 @@
 		/**
 		 * @param array  $fileExtension
 		 * @param string $excludeFiles_withPrefix
+		 * @param int    $depth - depth of sub dirs
 		 * @return File[]
 		 */
-		public function include_files( $fileExtension = [ 'php', 'css', 'js' ], $excludeFiles_withPrefix = '-' ){
+		public function include_files( $fileExtension = [ 'php', 'css', 'js' ], $excludeFiles_withPrefix = '-', $depth = 99 ){
 			$R = [];
 			if( !$this->is_readable() || !$this->is_dir() ){
 				ConsoleFactory::add( 'Dir is not readable or not exists', __METHOD__, [], true );
 			} else {
-				$subFiles = $this->get_sub_files( $fileExtension );
+				$subFiles = $this->get_sub_files( $fileExtension, $depth );
 				foreach( $subFiles as $file ){
 					///skip folders and files
 					if( $file->get_next_file( '.notinclude' )->is_exists() ) continue;
@@ -170,18 +172,18 @@
 					///
 					switch( $file->extension() ){
 						case 'php':
-							$path = apply_filters( '\hiweb\paths\path::include_files-php', $file->get_path(), $file );
+							$path = apply_filters( '\hiweb\core\Paths\File::include_files-php', $file->get_path(), $file );
 							include_once $path;
 							$R[ $file->original_path ] = $file;
 							break;
 						case 'css':
-							$path = apply_filters( '\hiweb\paths\path::include_files-css', $file->get_path(), $file );
-							//css::add( $path );
+							$path = apply_filters( '\hiweb\core\Paths\File::include_files-css', $file->get_path(), $file );
+							IncludesFactory::Css( $path );
 							$R[ $file->original_path ] = $file;
 							break;
 						case 'js':
-							$path = apply_filters( '\hiweb\paths\path::include_files-js', $file->Url()->get(), $file );
-							//\hiweb\js( $path ); //TODO!
+							$path = apply_filters( '\hiweb\core\Paths\File::include_files-js', $file->Url()->get(), $file );
+							IncludesFactory::Js( $path );
 							$R[ $file->original_path ] = $file;
 							break;
 					}
@@ -336,7 +338,7 @@
 		public function dirs(){
 			return CacheFactory::get( spl_object_id( $this->Path() ), __METHOD__, function(){
 				return get_array( explode( '/', func_get_arg( 0 )->dirname() ) );
-			}, [ $this ] )->get();
+			}, [ $this ] )->get_value();
 		}
 
 
@@ -410,31 +412,33 @@
 		/**
 		 * Возвращает массив вложенных файлов
 		 * @param array $mask - маска файлов
+		 * @param int   $depth - грлубина просмотра файлов
 		 * @return File[]
 		 * @version 1.2
 		 */
-		public function get_sub_files( $mask = [] ){
-			if( !$this->Path()->is_local() ) return [];
+		public function get_sub_files( $mask = [], $depth = 99 ){
+			if( !$this->Path()->is_local() || $depth < 0 ) return [];
 			///
 			$mask = is_array( $mask ) ? $mask : [ $mask ];
 			$maskKey = json_encode( $mask );
-			if( !array_key_exists( $maskKey, $this->cache_subFiles ) ){
-				$this->cache_subFiles[ $maskKey ] = [];
+			$cache_key = $maskKey.'depth:'.$depth;
+			if( !array_key_exists( $cache_key, $this->cache_subFiles ) ){
+				$this->cache_subFiles[ $cache_key ] = [];
 				if( $this->is_dir() ) foreach( scandir( $this->get_absolute_path() ) as $subFileName ){
 					if( $subFileName == '.' || $subFileName == '..' ) continue;
 					$subFilePath = $this->get_path() . '/' . $subFileName;
 					$subFile = PathsFactory::get( $subFilePath )->File();
 					if( $subFile->is_dir() ){
-						$this->cache_subFiles[ $maskKey ] = array_merge( $this->cache_subFiles[ $maskKey ], $subFile->get_sub_files( $mask ) );
+						$this->cache_subFiles[ $cache_key ] = array_merge( $this->cache_subFiles[ $cache_key ], $subFile->get_sub_files( $mask, $depth - 1 ) );
 					} else {
 						if( is_array( $mask ) && count( $mask ) > 0 ){
 							if( !in_array( PathsFactory::file_extension( $subFileName ), $mask ) ) continue;
 						}
-						$this->cache_subFiles[ $maskKey ][ $subFile->get_original_path() ] = $subFile;
+						$this->cache_subFiles[ $cache_key ][ $subFile->get_original_path() ] = $subFile;
 					}
 				}
 			}
-			return $this->cache_subFiles[ $maskKey ];
+			return $this->cache_subFiles[ $cache_key ];
 		}
 
 

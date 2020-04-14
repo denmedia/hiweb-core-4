@@ -1,0 +1,13 @@
+.hiweb-field-type-repeat {
+  display: block;
+  background-color: lightgrey;
+  border: 1px solid darkgrey;
+  min-height: 50px;
+}
+.hiweb-field-type-repeat .empty-message {
+  min-height: 100px;
+  line-height: 100px;
+  text-align: center;
+}
+
+/*# sourceMappingURL=field-repeat.css.map */

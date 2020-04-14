@@ -1,0 +1,31 @@
+@import "../../assets/css/mixins";
+
+.hiweb-components-form-ajax-wrap {
+	@include transition(opacity);
+	@include opacity(1);
+	min-height: 50px;
+
+	&.form-preload {
+		@include opacity(.2);
+		background: url(../../assets/img/loader-lenta.gif) no-repeat 50% 50%;
+	}
+
+	&.form-loading {
+		@include opacity(.2);
+		background: url(../../assets/img/loader-dots.gif) no-repeat 50% 50%;
+	}
+}
+
+.hiweb-components-form-ajax-wrap, .hiweb-components-form-wrap {
+	fieldset {
+		margin-bottom: 1.2em;
+	}
+}
+
+.postbox {
+	.hiweb-components-form-ajax-wrap, .hiweb-components-form-wrap {
+		fieldset {
+			margin-bottom: .6em;
+		}
+	}
+}

@@ -27,7 +27,7 @@
 				$Taxonomy = new Taxonomy( func_get_arg( 0 ) );
 				$Taxonomy->object_type( func_get_arg( 1 ) );
 				return $Taxonomy;
-			}, [ $taxonomy_name, $object_type ] )->get();
+			}, [ $taxonomy_name, $object_type ] )->get_value();
 		}
 
 

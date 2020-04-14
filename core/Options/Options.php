@@ -5,7 +5,6 @@
 
 	use hiweb\core\ArrayObject\ArrayObject;
 	use hiweb\core\hidden_methods;
-	use hiweb\core\Options\Options_Once;
 
 
 	/**
@@ -168,6 +167,19 @@
 		 */
 		public function __invoke(){
 			return $this->_get_optionsCollect();
+		}
+
+
+		/**
+		 * @return $this
+		 */
+		public function __clone(){
+			foreach( $this->options_ArrayObject()->get() as $key => $value ){
+				if( $value instanceof Options ){
+					$this->_( $key, clone $value );
+				}
+			}
+			return $this;
 		}
 
 	}

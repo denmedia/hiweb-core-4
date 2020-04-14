@@ -1,7 +1,7 @@
 <?php
 	/*
 	Plugin Name: hiWeb Core 4
-	Plugin URI: https://github.com/hiweb-moscow/hiweb-core-4
+	Plugin URI: https://github.com/denmedia/hiweb-core-4
 	Description: Framework Plugin for WordPress min v5, PHP min v5.6
 	Version: 4.0.0.0 develop
 	Author: Den Media
@@ -19,5 +19,11 @@
 	}
 
 	init_adminNotices();
-	$taxonomy = add_taxonomy( 'category', 'post' );
-	$taxonomy->labels()->menu_name('TEST');
+	init_displayErrors();
+
+	add_post_type( 'page' )->show_in_rest( false );
+
+	$repeat = add_field_repeat( 'test-repeat' );
+	$repeat->label( 'ПРоверка повторения' )->Location()->PostType( 'page' );
+	$repeat->add_col_field( add_field_text( 'test-text' ) )->label( 'Это колонка' )->description( 'Это дополнительное описание к колонеке' );
+	$repeat->default_value( [ [ 'test-text' => 'ПРоверка данных' ], [ 'test-text' => 'Еще одно поле' ] ] );

@@ -19,40 +19,69 @@
 		static $already_printed = [];
 
 
+		static function get_srcs_from_handle( string $handle, $scripts = true, $styles = true ){
+			$R = [];
+			$_WP_Dependency = false;
+			if($scripts && array_key_exists( $handle, wp_scripts()->registered ) ){
+				$_WP_Dependency = wp_scripts()->registered[ $handle ];
+			}
+			if($styles && array_key_exists( $handle, wp_styles()->registered ) ) {
+				$_WP_Dependency = wp_styles()->registered[ $handle ];
+			}
+			if( $_WP_Dependency instanceof \_WP_Dependency ){
+				if( is_array( $_WP_Dependency->deps ) && count( $_WP_Dependency->deps ) > 0 ){
+					foreach( $_WP_Dependency->deps as $parent_handle ){
+						$R = array_merge( self::get_srcs_from_handle( $parent_handle ), $R );
+					}
+				}
+				$R[ $handle ] = $_WP_Dependency->src;
+			}
+			return $R;
+		}
+
+
 		/**
-		 * @param null|string   $fileNameOrPath
-		 * @param string $extension - file extension. like css/js
+		 * @param null|string $fileNameOrPath
+		 * @param string      $extension - file extension. like css/js
 		 * @return Path
-		 *@version 1.1
+		 * @version 1.1
 		 */
 		static private function get_Path_bySearch( $fileNameOrPath = null, $extension = 'css' ){
 			return CacheFactory::get( $fileNameOrPath . ':' . $extension, __METHOD__, function(){
 				$fileNameOrPath = func_get_arg( 0 );
-				$extension = func_get_arg( 1 );
-				$test_file_name = $extension == 'css' ? 'style' : 'script';
-				if( is_null( $fileNameOrPath ) ){
-					$fileNameOrPath = dirname( Backtrace::Point( 1 )->get_node( 0 )->get_file() ) . '/' . $test_file_name;
+				if( array_key_exists( $fileNameOrPath, wp_scripts()->registered ) ){
+					$extension = 'js';
+					$Path = PathsFactory::get( wp_scripts()->registered[ $fileNameOrPath ]->src );
+				} elseif( array_key_exists( $fileNameOrPath, wp_styles()->registered ) ) {
+					$extension = 'css';
+					$Path = PathsFactory::get( wp_styles()->registered[ $fileNameOrPath ]->src );
+				} else {
+					$extension = func_get_arg( 1 );
+					$test_file_name = $extension == 'css' ? 'style' : 'script';
+					if( is_null( $fileNameOrPath ) ){
+						$fileNameOrPath = dirname( Backtrace::Point( 1 )->get_node( 0 )->get_file() ) . '/' . $test_file_name;
+					}
+					$search_paths = [
+						$fileNameOrPath,
+						$fileNameOrPath . '.min.' . $extension,
+						$fileNameOrPath . '.' . $extension,
+						HIWEB_DIR_ASSETS . '/' . $fileNameOrPath,
+						HIWEB_DIR_ASSETS . '/' . $fileNameOrPath . '.min.' . $extension,
+						HIWEB_DIR_ASSETS . '/' . $fileNameOrPath . '.' . $extension,
+						HIWEB_DIR_ASSETS . '/' . $fileNameOrPath . 'style.min.' . $extension,
+						HIWEB_DIR_ASSETS . '/' . $fileNameOrPath . 'style.' . $extension,
+						get_stylesheet_directory() . '/' . $fileNameOrPath,
+						get_stylesheet_directory() . '/' . $fileNameOrPath . '.min.' . $extension,
+						get_stylesheet_directory() . '/' . $fileNameOrPath . '.' . $extension,
+						get_template_directory() . '/' . $fileNameOrPath,
+						get_template_directory() . '/' . $fileNameOrPath . '.min.' . $extension,
+						get_template_directory() . '/' . $fileNameOrPath . '.' . $extension,
+						PathsFactory::get_root_path() . '/' . $fileNameOrPath,
+						PathsFactory::get_root_path() . '/' . $fileNameOrPath . '.min.' . $extension,
+						PathsFactory::get_root_path() . '/' . $fileNameOrPath . '.' . $extension,
+					];
+					$Path = PathsFactory::get_bySearch( $search_paths );
 				}
-				$search_paths = [
-					$fileNameOrPath,
-					$fileNameOrPath . '.min.' . $extension,
-					$fileNameOrPath . '.' . $extension,
-					HIWEB_DIR_ASSETS . '/' . $fileNameOrPath,
-					HIWEB_DIR_ASSETS . '/' . $fileNameOrPath . '.min.' . $extension,
-					HIWEB_DIR_ASSETS . '/' . $fileNameOrPath . '.' . $extension,
-					HIWEB_DIR_ASSETS . '/' . $fileNameOrPath . 'style.min.' . $extension,
-					HIWEB_DIR_ASSETS . '/' . $fileNameOrPath . 'style.' . $extension,
-					get_stylesheet_directory() . '/' . $fileNameOrPath,
-					get_stylesheet_directory() . '/' . $fileNameOrPath . '.min.' . $extension,
-					get_stylesheet_directory() . '/' . $fileNameOrPath . '.' . $extension,
-					get_template_directory() . '/' . $fileNameOrPath,
-					get_template_directory() . '/' . $fileNameOrPath . '.min.' . $extension,
-					get_template_directory() . '/' . $fileNameOrPath . '.' . $extension,
-					PathsFactory::get_root_path() . '/' . $fileNameOrPath,
-					PathsFactory::get_root_path() . '/' . $fileNameOrPath . '.min.' . $extension,
-					PathsFactory::get_root_path() . '/' . $fileNameOrPath . '.' . $extension,
-				];
-				$Path = PathsFactory::get_bySearch( $search_paths );
 				if( $Path->File()->extension() != $extension ){
 					ConsoleFactory::add( 'file [' . $fileNameOrPath . '] not found', 'warn', __CLASS__ . ' - the file is not have ' . $extension . ' extension', $Path->get_path_relative(), true );
 				} elseif( !$Path->is_local() ) {
@@ -65,7 +94,7 @@
 					ConsoleFactory::add( 'file [' . $fileNameOrPath . '] not found', 'warn', __CLASS__ . ' - ' . $extension . ' file not readable', $Path->File()->get_relative_path(), true );
 				}
 				return $Path;
-			}, [ $fileNameOrPath, $extension ] )->get();
+			}, [ $fileNameOrPath, $extension ] )->get_value();
 		}
 
 
@@ -97,7 +126,7 @@
 
 		static protected function _add_action_wp_register_script(){
 			foreach( CacheFactory::get_group( __CLASS__ . ':css' ) as $cache_Css ){
-				$Css = $cache_Css->get();
+				$Css = $cache_Css->get_value();
 				if( !$Css instanceof Css ) continue;
 				///Stop repeat include
 				if( in_array( $Css->Path()->handle(), self::$already_printed ) ) continue;
@@ -111,7 +140,7 @@
 				self::$already_printed[] = $Css->Path()->handle();
 			}
 			foreach( CacheFactory::get_group( __CLASS__ . ':js' ) as $cache_Js ){
-				$Js = $cache_Js->get();
+				$Js = $cache_Js->get_value();
 				if( !$Js instanceof Js ) continue;
 				///Stop repeat include
 				if( in_array( $Js->Path()->handle(), self::$already_printed ) ) continue;

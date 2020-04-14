@@ -6,7 +6,7 @@
 	use hiweb\core\ArrayObject\ArrayObject;
 
 
-	class Rows{
+	class ArrayObject_Rows{
 
 		/** @var ArrayObject */
 		private $array;
@@ -14,7 +14,7 @@
 		private $rows = null;
 		/** @var null|mixed */
 		private $current_row = null;
-		/** @var null|Rows */
+		/** @var null|ArrayObject_Rows */
 		private $current_sub_rows = null;
 		/** @var null|string|int */
 		private $current_row_key = null;
@@ -68,7 +68,7 @@
 				$this->current_row_key = key( $this->rows );
 				$this->current_row = $this->rows[ $this->current_row_key ];
 				unset( $this->rows[ $this->current_row_key ] );
-				$this->current_sub_rows = new Rows( $this->current_row );
+				$this->current_sub_rows = new ArrayObject_Rows( $this->current_row );
 				return $this->current_row;
 			}
 			return null;
@@ -129,7 +129,7 @@
 		 * @return bool
 		 */
 		public function is_sub_rows(){
-			return is_array( $this->current_row ) && $this->current_sub_rows instanceof Rows;
+			return is_array( $this->current_row ) && $this->current_sub_rows instanceof ArrayObject_Rows;
 		}
 
 
@@ -145,7 +145,7 @@
 
 
 		/**
-		 * @return Rows|null
+		 * @return ArrayObject_Rows|null
 		 */
 		public function get_sub_rows(){
 			if( !$this->is_sub_rows() ) return null;

@@ -79,7 +79,7 @@
 		 * @param int $depth
 		 * @return array|string
 		 */
-		private function get_variable_data( $data, $depth = 4 ){
+		private function get_variable_data( $data, $depth = 5 ){
 			if( $depth < 0 ){
 				if( is_array( $data ) || is_object( $data ) ){
 					return self::get_variable_type( $data );

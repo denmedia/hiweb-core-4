@@ -1,0 +1,41 @@
+.hiweb-components-form-ajax-wrap {
+  -webkit-transition: opacity 0.2s ease-in-out 0ms;
+  -moz-transition: opacity 0.2s ease-in-out 0ms;
+  -o-transition: opacity 0.2s ease-in-out 0ms;
+  transition: opacity 0.2s ease-in-out 0ms;
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  -ms-opacity: 1;
+  -o-opacity: 1;
+  opacity: 1;
+  filter: alpha(opacity=100);
+  min-height: 50px;
+}
+.hiweb-components-form-ajax-wrap.form-preload {
+  -webkit-opacity: 0.2;
+  -moz-opacity: 0.2;
+  -ms-opacity: 0.2;
+  -o-opacity: 0.2;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+  background: url(../../assets/img/loader-lenta.gif) no-repeat 50% 50%;
+}
+.hiweb-components-form-ajax-wrap.form-loading {
+  -webkit-opacity: 0.2;
+  -moz-opacity: 0.2;
+  -ms-opacity: 0.2;
+  -o-opacity: 0.2;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+  background: url(../../assets/img/loader-dots.gif) no-repeat 50% 50%;
+}
+
+.hiweb-components-form-ajax-wrap fieldset, .hiweb-components-form-wrap fieldset {
+  margin-bottom: 1.2em;
+}
+
+.postbox .hiweb-components-form-ajax-wrap fieldset, .postbox .hiweb-components-form-wrap fieldset {
+  margin-bottom: 0.6em;
+}
+
+/*# sourceMappingURL=FieldsAdmin.css.map */

@@ -1,5 +1,3 @@
-#wpbody-content, #wpbody-content > .wrap, .editor-notices {
-	> .update-nag, > .notice {
-		display: none !important;
-	}
+#wpbody-content > .wrap > .notice, #wpbody-content > .wrap > .manage-menus, #wpbody-content > .update-nag, .editor-notices, .components-notice-list > .components-notice, #post-body-content > .notice {
+	display: none !important;
 }

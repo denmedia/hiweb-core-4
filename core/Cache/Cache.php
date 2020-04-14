@@ -54,7 +54,7 @@
 		 * @return null
 		 */
 		public function __invoke(){
-			return $this->get();
+			return $this->get_value();
 		}
 
 
@@ -86,7 +86,7 @@
 		 * Get cache value from instant, callback or file if same exists
 		 * @return null
 		 */
-		public function get(){
+		public function get_value(){
 			if( $this->Cache_File()->is_enable() ){
 				if($this->Cache_File()->is_alive() ){
 					$this->value = $this->Cache_File()->get();

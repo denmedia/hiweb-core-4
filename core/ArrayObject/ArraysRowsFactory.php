@@ -6,9 +6,9 @@
 	use hiweb\core\ArrayObject\ArrayObject;
 
 
-	class Manager{
+	class ArraysRowsFactory{
 
-		/** @var ArrayObject[] */
+		/** @var ArrayObject[][] */
 		static $ArrayObjects_queue = [];
 		/** @var ArrayObject */
 		static $latestCreated_ArrayObject;
@@ -21,12 +21,13 @@
 		/**
 		 * Setup Array Object to queue
 		 * @param ArrayObject $ArrayObject
+		 * @param string      $key
 		 */
-		static function setup_latest( ArrayObject $ArrayObject ){
+		static function setup_latest( ArrayObject $ArrayObject, $key = '' ){
 			self::$latestCreated_ArrayObject = $ArrayObject;
 			$object_id = spl_object_id( $ArrayObject );
-			if( !array_key_exists( $object_id, self::$ArrayObjects_queue ) ){
-				self::$ArrayObjects_queue[ $object_id ] = $ArrayObject;
+			if( !array_key_exists( $object_id, self::$ArrayObjects_queue[ $key ] ) ){
+				self::$ArrayObjects_queue[ $key ][ $object_id ] = $ArrayObject;
 			}
 		}
 

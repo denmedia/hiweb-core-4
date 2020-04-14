@@ -94,7 +94,7 @@
 				if( !$return_values ) return self::$caches[ $group_name ]; else {
 					$R = [];
 					foreach( self::$caches[ $group_name ] as $key => $val ){
-						$R[ $key ] = $val->get();
+						$R[ $key ] = $val->get_value();
 					}
 					return $R;
 				}
