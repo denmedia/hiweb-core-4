@@ -238,5 +238,10 @@
 				&& preg_match('/bot|crawl|slurp|spider|mediapartners/i', $_SERVER['HTTP_USER_AGENT'])
 			);
 		}
+		
+		
+		public function is_mobile($iPad_is_desctop = true){
+			return wp_is_mobile() && (!$iPad_is_desctop || !stristr($_SERVER['HTTP_USER_AGENT'], 'Mozilla/5.0(iPad;'));
+		}
 
 	}

@@ -1,0 +1,55 @@
+@import "Fields_UI";
+
+
+.hiweb-components-form-ajax-wrap {
+	@include transition((opacity, height));
+	@include opacity(1);
+	min-height: 50px;
+	overflow: hidden;
+	padding-bottom: 1em;
+
+	@include fields_ui_load_wrap();
+}
+
+.hiweb-components-form-ajax-wrap, .hiweb-components-form-wrap {
+	fieldset {
+		margin-bottom: 1.2em;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.postbox {
+	.hiweb-components-form-ajax-wrap, .hiweb-components-form-wrap {
+		fieldset {
+			margin-bottom: .6em;
+		}
+	}
+}
+
+
+.hiweb-fields-dropdown-menu {
+	padding: .4em 1.2em;
+	font-size: 14px;
+	text-align: left;
+	min-width: 100px;
+
+	.dropdown-item {
+		display: block;
+		margin-bottom: .5em;
+		white-space: nowrap;
+
+		svg, i {
+			display: inline-block;
+			max-width: 14px;
+			max-height: 14px;
+			vertical-align: middle;
+		}
+
+		&:last-child {
+			margin-bottom: .2em;
+		}
+	}
+}

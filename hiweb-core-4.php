@@ -7,23 +7,21 @@
 	Author: Den Media
 	Author URI: http://hiweb.moscow
 	*/
-
+	
 	if( version_compare( PHP_VERSION, '7.0' ) >= 0 ){
 		require_once __DIR__ . '/vendor/autoload.php';
 		require_once __DIR__ . '/include/define.php';
 		require_once __DIR__ . '/include/init.php';
-	} else {
+	}
+	else{
 		add_action( 'after_setup_theme', function(){
 			die( __( 'Your version of PHP must be 7.0 or higher.', 'hiweb-core-4' ) );
 		}, 11 );
 	}
-
+	
 	init_adminNotices();
 	init_displayErrors();
-
+	
 	add_post_type( 'page' )->show_in_rest( false );
-
-	$repeat = add_field_repeat( 'test-repeat' );
-	$repeat->label( 'ПРоверка повторения' )->Location()->PostType( 'page' );
-	$repeat->add_col_field( add_field_text( 'test-text' ) )->label( 'Это колонка' )->description( 'Это дополнительное описание к колонеке' );
-	$repeat->default_value( [ [ 'test-text' => 'ПРоверка данных' ], [ 'test-text' => 'Еще одно поле' ] ] );
+	
+	add_field_date('date')->label('Дата пикер')->Location()->PostType('page')->MetaBox('Мета бокс');

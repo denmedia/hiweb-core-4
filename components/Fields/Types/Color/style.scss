@@ -1,7 +1,14 @@
+@import "../../css/Fields_UI";
+
 .hiweb-field-type-color {
+
+	input[type="text"] {
+		@include fields_ui_text-input_oneline;
+	}
 
 	.sp-original-input-container .sp-add-on {
 		position: relative;
+		border-radius: 0 !important;
 
 		.sp-colorize {
 			top: 0;

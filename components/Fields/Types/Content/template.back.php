@@ -1,9 +1,9 @@
 <?php
-
+	
 	use hiweb\core\Paths\PathsFactory;
 	use hiweb\core\Strings;
-
-
+	
+	
 	$rand_id = Strings::rand( 10 );
 
 ?>
@@ -20,6 +20,6 @@
 		</div>
 		<div id="wp-<?= $rand_id ?>-editor-container" class="wp-editor-container">
 			<div id="qt_<?= $rand_id ?>_toolbar" class="quicktags-toolbar"></div>
-			<textarea class="wp-editor-area" data-rand-id="<?= $rand_id ?>" id="<?= $rand_id ?>" style="height: 300px" autocomplete="off" cols="40" data-rand-id="<?= $rand_id ?>"><?= \hiweb\components\Fields\FieldsAdminFactory::get_the_field_value() ?></textarea></div>
+			<textarea class="wp-editor-area" data-rand-id="<?= $rand_id ?>" id="<?= $rand_id ?>" style="height: 300px" autocomplete="off" cols="40" data-rand-id="<?= $rand_id ?>"><?= $value ?></textarea></div>
 	</div>
 </div>

@@ -39,20 +39,30 @@ jQuery(document).ready(function ($) {
 
     let load_form_inputs = function ($form_wrap, response) {
         let new_inputs = $(response.form_html);
-        $form_wrap.find('.hiweb-components-form-ajax-inner').append(new_inputs);
-        new_inputs.find('input[name], select[name],textarea[name],file[name]').trigger('hiweb-form-ajax-input-loaded');
-        $form_wrap.trigger('hiweb-form-ajax-input-loaded');
-        $('body').trigger('hiweb-components-form-ajax-loaded');
+        let $form_inner = $form_wrap.find('.hiweb-components-form-ajax-inner');
+        $form_inner.append(new_inputs);
+        new_inputs.find('input[name], select[name],textarea[name],file[name]').trigger('hiweb-form-ajax-input-loaded').trigger('hiweb-form-updated');
+        setInterval(() => {
+            $form_wrap.height($form_inner.outerHeight());
+        }, 500);
     };
 
-    let $ajax_forms = $('.hiweb-components-form-ajax-wrap[data-fields-query]');
+    let $ajax_forms = $('.hiweb-components-form-ajax-wrap[data-fields-query][data-fields-query-id]');
     let max_input_vars = 0;
     let max_input_vars_excess_triggered = false;
+    let form_loaded_ids = [];
     if ($ajax_forms.length > 0) {
         let load_nex_form = function () {
-            let $form_wrap = $ajax_forms.not('.form-loading, .form-loaded').eq(0);
-            $form_wrap.addClass('form-loading').removeClass('form-preload');
+            let $form_wrap;
+            if (form_loaded_ids.length === 0) {
+                $form_wrap = $ajax_forms.eq(0);
+            } else {
+                $form_wrap = $ajax_forms.not('[data-fields-query-id="' + form_loaded_ids.join('"], [data-fields-query-id="') + '"]').eq(0);
+            }
             if ($form_wrap.length > 0) {
+                form_loaded_ids.push($form_wrap.attr('data-fields-query-id'));
+                $form_wrap.addClass('loading').removeClass('preloaded');
+                $form_wrap.height($form_wrap.height());
                 $.ajax({
                     url: ajaxurl + '?action=hiweb-components-form',
                     type: 'post',
@@ -60,7 +70,7 @@ jQuery(document).ready(function ($) {
                     data: {field_query: $form_wrap.attr('data-fields-query'), scripts_done: hiweb_components_fields_form_scripts_done},
                     async: true,
                     success: function (response) {
-                        $form_wrap.removeClass('form-loading').addClass('form-loaded').removeClass('form-preload');
+                        $form_wrap.removeClass('loading').removeClass('preloaded').addClass('loaded');
                         if (response.hasOwnProperty('success')) {
                             load_form_inputs($form_wrap, response);
                             load_form_scripts(response);

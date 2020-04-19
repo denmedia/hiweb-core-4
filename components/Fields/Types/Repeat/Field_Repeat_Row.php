@@ -1,151 +1,86 @@
 <?php
-
+	
 	namespace hiweb\components\Fields\Types\Repeat;
-
-
+	
+	
 	class Field_Repeat_Row{
-
-		/** @var input */
-		public $parent_input;
-
-		public $index = 0;
-		/** @var col[] */
-		public $cols = [];
-		public $flex_row_id = '';
-
-		public $have_cols = false;
-
-		public $data = [];
-
-
-		public function __construct( input $parent_input, $data = [], $row_index = 0 ){
-			$this->parent_input = $parent_input;
-			$this->flex_row_id = array_key_exists( '_flex_row_id', $data ) ? $data['_flex_row_id'] : '';
-			$this->data = $data;
-			foreach( $parent_input->get_cols( $this->flex_row_id ) as $id => $col ){
-				$this->have_cols = true;
-				$this->cols[ $id ] = clone $col;
-				$this->cols[ $id ]->set_row( $this );
-				$this->cols[ $id ]->input()->name( $this->parent_input->name() . '[' . $row_index . '][' . $id . ']' );
-				if( isset( $data[ $id ] ) ){
-					$this->cols[ $id ]->value()->set( $data[ $id ] );
-				}
-			}
+		
+		private $Field;
+		private $row_index = 0;
+		private $row_cols;
+		private $row_raw;
+		private $flex_row_id = '';
+		private $row_name_prefix;
+		
+		
+		public function __construct( Field_Repeat $Field, $row_index = 0, $cols = [], $row_raw = [] ){
+			$this->Field = $Field;
+			$this->row_index = $row_index;
+			$this->row_cols = $cols;
+			$this->row_raw = $row_raw;
+			$this->row_name_prefix = $Field->get_sanitize_admin_name() . "[{$this->$row_index}]";
+			if( array_key_exists( '_flex_row_id', $row_raw ) ) $this->flex_row_id = $row_raw['_flex_row_id'];
 		}
-
-
+		
+		
 		public function the(){
-			if( !$this->have_cols ){
-				return;
-			}
-			$compacted_cols = [];
-			$index = 0;
-			foreach( $this->cols as $col_id => $col ){
-				$compacted_cols[ $index ][] = $col;
-				if( !$col->compact() ){
-					$index ++;
-				}
-			}
-			?>
-			<tr data-row="<?= $this->index ?>" data-flex-id="<?= $this->flex_row_id ?>" class="ui segment">
-				<td data-drag data-col="_flex_row_id">
-					<i class="sort icon"></i>
-					<input type="hidden" name="<?= $this->parent_input->name() ?>[<?= $this->index ?>][_flex_row_id]"
-					       value="<?= $this->flex_row_id ?>"/>
-				</td>
-				<?php
-
-					if( $this->parent_input->have_flex_rows() ){
-						?>
-						<td class="flex-column">
-							<table class="hiweb-field-repeat-flex">
-								<thead>
-								<?php
-									/**
-									 * @var int   $index
-									 * @var col[] $cols
-									 */
-									foreach( $compacted_cols as $index => $cols ){
-										?>
-										<th class="hiweb-field-repeat-flex-header"><?= $cols[0]->label() ?></th>
-										<?php
-									} ?>
-								</thead>
-								<tbody>
-								<tr>
-									<?php
-										foreach( $compacted_cols as $index => $cols ){
-											?>
-											<td <?= count( $cols ) > 1 ? 'class="compacted"' : 'data-first-col="' . $cols[0]->id() . '"' ?>>
-												<?php
-													foreach( $cols as $subindex => $col ){
-														?>
-														<div class="compacted-col-input" data-col="<?= $col->id() ?>">
-															<?php if( $subindex > 0 ){
-																?><p class="flex-label"><?= $col->label() ?></p><?php
-															} ?>
-															<?php $col->the() ?>
-															<?php if( $col->description() != '' ){
-																?>
-																<p class="description flex-description"><?= $col->description() ?></p><?php
-															} ?>
-														</div>
-														<?php
-													}
-												?>
-											</td>
-											<?php
-										} ?>
-								</tr>
-								</tbody>
-							</table>
-						</td>
-						<?php
-					} else {
-						//							$last_compact = false;
-						//							foreach ( $this->cols as $col ) {
-						//								?>
-						<!--								<td data-col="--><? //= $col->id() ?><!--" class="--><? //= ( $col->compact() || $last_compact ) ? 'compact' : '' ?><!--">--><?php //$col->the(); ?><!--</td>-->
-						<!--								--><?php
-						//								$last_compact = $col->compact();
-						//							}
-						foreach( $compacted_cols as $index => $cols ){
-							?>
-							<td <?= count( $cols ) > 1 ? 'class="compacted"' : 'data-first-col="' . $cols[0]->id() . '"' ?>>
-								<?php
-									foreach( $cols as $subindex => $col ){
-										?>
-										<div class="compacted-col-input" data-col="<?= $col->id() ?>">
-											<?php if( $subindex > 0 ){
-												?><p class="flex-label"><?= $col->label() ?></p><?php
-											} ?>
-											<?php $col->the() ?>
-											<?php if( $col->description() != '' ){
-												?><p class="description flex-description"><?= $col->description() ?></p><?php
-											} ?>
-										</div>
-										<?php
-									}
-								?>
-							</td>
-							<?php
-						}
-					} ?>
-				<td data-ctrl>
-					<div class="ui vertical mini compact icon menu">
-						<a class="item" title="Копировать строку" data-action-duplicate="<?= $this->index ?>">
-							<i class="copy icon"></i>
-						</a>
-						<a class="item" title="Удалить строку" data-action-remove="<?= $this->index ?>">
-							<i class="trash icon"></i>
-						</a>
-					</div>
-					<!--<button title="Duplicate row" class="dashicons dashicons-admin-page" data-action-duplicate="<?= $this->index ?>"></button>
-						<button title="Remove row..." class="dashicons dashicons-trash" data-action-remove="<?= $this->index ?>"></button>-->
-				</td>
-			</tr>
-			<?php
-
+			include __DIR__ . '/templates/row.php';
 		}
-
+		
+		
+		/**
+		 * @return Field_Repeat
+		 */
+		public function Field(){
+			return $this->Field;
+		}
+		
+		
+		/**
+		 * @return mixed|string
+		 */
+		public function get_flex_row_id(){
+			return $this->flex_row_id;
+		}
+		
+		
+		/**
+		 * @return Field_Repeat_Col[]
+		 */
+		public function get_cols(){
+			return $this->row_cols;
+		}
+		
+		
+		/**
+		 * @return int
+		 */
+		public function get_index(){
+			return $this->row_index;
+		}
+		
+		
+		/**
+		 * @param $col_id
+		 * @return string
+		 */
+		public function get_col_input_name( $col_id = '' ){
+			return $this->row_name_prefix . ( $col_id == '' ? '' : "[{$col_id}]" );
+		}
+		
+		
+		/**
+		 * @param string     $col_id
+		 * @param null|mixed $default
+		 * @return mixed|null
+		 */
+		public function get_col_input_value( $col_id, $default = null ){
+			$R = $default;
+			if( array_key_exists( $col_id, $this->row_raw ) ) $R = $this->row_raw[ $col_id ];
+			if( array_key_exists( $col_id, $this->get_cols() ) && !is_null( $this->get_cols()[ $col_id ]->Field()->Options()->default_value() ) ){
+				$R = $this->get_cols()[ $col_id ]->Field()->Options()->default_value();
+			}
+			return $R;
+		}
+		
 	}

@@ -7,7 +7,9 @@
         <item url="file://$PROJECT_DIR$/components/Fields/FieldsAdminFactory/script.min.js" />
         <item url="file://$PROJECT_DIR$/components/Fields/Types/Color/script.min.js" />
         <item url="file://$PROJECT_DIR$/components/Fields/Types/Content/field-content.min.js" />
+        <item url="file://$PROJECT_DIR$/components/Fields/Types/Date/field-date.min.js" />
         <item url="file://$PROJECT_DIR$/components/Fields/Types/Repeat/field-repeat.min.js" />
+        <item url="file://$PROJECT_DIR$/vendor/deepMerge/deepMerge.min.js" />
         <item url="file://$PROJECT_DIR$/vendor/jquery.regex-selector/jquery.regex-selector.min.js" />
       </sourceFilesUrls>
     </properties>
@@ -17,7 +19,9 @@
       <root url="file://$PROJECT_DIR$/components/Fields/FieldsAdminFactory/script.min.js" />
       <root url="file://$PROJECT_DIR$/components/Fields/Types/Color/script.min.js" />
       <root url="file://$PROJECT_DIR$/components/Fields/Types/Content/field-content.min.js" />
+      <root url="file://$PROJECT_DIR$/components/Fields/Types/Date/field-date.min.js" />
       <root url="file://$PROJECT_DIR$/components/Fields/Types/Repeat/field-repeat.min.js" />
+      <root url="file://$PROJECT_DIR$/vendor/deepMerge/deepMerge.min.js" />
       <root url="file://$PROJECT_DIR$/vendor/jquery.regex-selector/jquery.regex-selector.min.js" />
     </CLASSES>
     <SOURCES />

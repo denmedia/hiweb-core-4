@@ -109,10 +109,14 @@
 }
 
 @mixin box-shadow($size: 5px, $opacity: .35, $offset_x: 0px, $offset_y: 0px, $inset: false, $color: #000) {
-	$props: $offset_x $offset_y $size 0 rgba($color, $opacity);
-	@if $inset {
-		$props: inset $offset_x $offset_y $size 0 rgba(0, 0, 0, $opacity);
+	$props: none;
+	@if($size != none){
+		$props: $offset_x $offset_y $size 0 rgba($color, $opacity);
+		@if $inset {
+			$props: inset $offset_x $offset_y $size 0 rgba(0, 0, 0, $opacity);
+		}
 	}
+
 
 	-webkit-box-shadow: $props;
 	-moz-box-shadow: $props;

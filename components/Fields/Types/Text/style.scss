@@ -1,8 +1,9 @@
+@import "../../css/Fields_UI";
+
 .hiweb-field-type-text {
 
-	input {
-		width: 100%;
-		max-width: 800px;
+	input[type="text"] {
+		@include fields_ui_text-input_oneline;
 	}
 
 }

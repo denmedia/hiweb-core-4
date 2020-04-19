@@ -1,4 +1,4 @@
-let deepMerge = {
+const deepMerge = {
 
     isMergeableObject: function (val) {
         let nonNullObject = val && typeof val === 'object';

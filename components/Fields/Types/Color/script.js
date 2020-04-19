@@ -1,19 +1,21 @@
 jQuery(document).ready(function ($) {
 
-    $('form').on('hiweb-form-ajax-input-loaded', function(){
-        //$('.hiweb-field-type-color').not('hiweb-field-type-color')
-        // $('.hiweb-field-type-color input[name]').spectrum({
-        //     type: "component"
-        // });
-    });
-    $('.hiweb-field-type-color input[name]').spectrum({
-        type: "component",
-        allowEmpty:true,
-        togglePaletteOnly: "true",
-        showInput: "true",
-        showInitial: "true"
-    });
+    let make_colorpicker = function () {
+        let $color_inputs = $('.hiweb-field-type-color input[name]').not('.spectrum');
+        if ($color_inputs.length > 0 && typeof $color_inputs.spectrum === 'function') {
+            $color_inputs.spectrum({
+                type: "component",
+                allowEmpty: true,
+                togglePaletteOnly: "true",
+                showInput: "true",
+                showInitial: "true"
+            });
+        }
+    };
 
-
+    $('body').on('hiweb-field-repeat-added-row', '.hiweb-field-type-color input[name]', function () {
+        make_colorpicker();
+    });
+    make_colorpicker();
 
 });

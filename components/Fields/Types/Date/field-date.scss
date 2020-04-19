@@ -1,0 +1,49 @@
+@import "../../css/Fields_UI";
+
+.hiweb-field-type-date {
+
+	[data-datepicker-show] {
+		svg {
+			display: inline-block;
+			min-width: 20px;
+			height: 16px;
+			width: auto;
+		}
+	}
+
+	.ui.popup {
+		padding: 0.233em 0;
+	}
+
+	[data-calendarpicker] {
+		div.zabuto_calendar .table tr.calendar-month-header td {
+			padding: 0;
+		}
+		div.zabuto_calendar .table tr.calendar-month-header td span {
+			padding: 0;
+		}
+
+		div.zabuto_calendar .table th, div.zabuto_calendar .table td {
+			padding: 0;
+		}
+
+		div.zabuto_calendar .table tr td div.day {
+			cursor: pointer;
+			@include transition();
+
+			&:hover {
+				@include transition(all, .2s, ease-out);
+				@include transform(scale(1.1));
+				background-color: #ccc;
+			}
+
+			&:active {
+				@include transition(none);
+				@include transform(scale(.9));
+				background-color: #777;
+				color: #fff;
+			}
+		}
+	}
+
+}

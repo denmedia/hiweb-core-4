@@ -48,8 +48,16 @@
 			///LOAD DATA
 			$this->load_data();
 		}
-
-
+		
+		
+		/**
+		 * @return string
+		 */
+		public function __invoke(){
+			return $this->get_style()->get_raw();
+		}
+		
+		
 		/**
 		 * Return the svg code of the icon, like '<svg><path>...</path></svg>'
 		 * @return string

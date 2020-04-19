@@ -53,12 +53,12 @@
 
 		/**
 		 * Return filed by id or dummy filed
-		 * @param $field_ID
+		 * @param $field_global_ID
 		 * @return Field
 		 */
-		static function get_field( $field_ID ){
-			if( array_key_exists( $field_ID, self::$fields ) ){
-				return self::$fields[ $field_ID ];
+		static function get_field( $field_global_ID ){
+			if( array_key_exists( $field_global_ID, self::$fields ) ){
+				return self::$fields[ $field_global_ID ];
 			} else {
 				return CacheFactory::get( 'dummy_field_instance', __CLASS__, function(){
 					return new Field( '' );

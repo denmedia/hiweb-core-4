@@ -2,14 +2,14 @@
 	/**
 	 * @var \hiweb\fields\field $field
 	 */
-
+	
 	use hiweb\components\Fields\FieldsAdminFactory;
-
-
+	
+	
 	$Field = FieldsAdminFactory::get_the_field();
 
 ?>
-<fieldset>
+<fieldset data-id="<?= $Field->ID() ?>" data-global-id="<?= $Field->global_ID() ?>">
 	<?php
 		if( $Field->Options()->label() != '' ){
 			?>
@@ -17,7 +17,7 @@
 			<?php
 		}
 	?>
-	<!--input-->
+	<?= $Field->get_admin_html( FieldsAdminFactory::get_the_field_value(), FieldsAdminFactory::get_the_field_name() ) ?>
 	<?php
 		if( $Field->Options()->description() != '' ){
 			?>
