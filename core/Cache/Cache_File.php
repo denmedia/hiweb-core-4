@@ -4,7 +4,7 @@
 
 
 	use hiweb\components\Console\ConsoleFactory;
-	use hiweb\core\Paths\File;
+	use hiweb\core\Paths\Path_File;
 	use hiweb\core\Paths\PathsFactory;
 	use hiweb\core\Strings;
 
@@ -70,7 +70,7 @@
 
 
 		/**
-		 * @return File
+		 * @return Path_File
 		 */
 		public function File(){
 			return $this->Path->File();

@@ -15,24 +15,6 @@
 
 
 		/**
-		 * @param null $set
-		 * @return $this
-		 */
-		public function label( $set = null ){
-			return $this->_( __FUNCTION__, $set );
-		}
-
-
-		/**
-		 * @param null $set
-		 * @return $this
-		 */
-		public function description( $set = null ){
-			return $this->_( __FUNCTION__, $set );
-		}
-
-
-		/**
 		 * @param null|string $set
 		 * @return $this
 		 */

@@ -9,7 +9,7 @@
 	use hiweb\core\Paths\PathsFactory;
 
 
-	class Images{
+	class ImagesFactory{
 
 		/** @var Image[] */
 		static private $images = [];

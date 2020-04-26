@@ -13,17 +13,18 @@
 		private $row_name_prefix;
 		
 		
-		public function __construct( Field_Repeat $Field, $row_index = 0, $cols = [], $row_raw = [] ){
+		public function __construct( Field_Repeat $Field, $row_index = 0, $cols = [], $row_raw = [], $prefix_name = null ){
 			$this->Field = $Field;
 			$this->row_index = $row_index;
 			$this->row_cols = $cols;
 			$this->row_raw = $row_raw;
-			$this->row_name_prefix = $Field->get_sanitize_admin_name() . "[{$this->$row_index}]";
+			$this->row_name_prefix = ( !is_string( $prefix_name ) ? $Field->get_sanitize_admin_name() : $prefix_name );
 			if( array_key_exists( '_flex_row_id', $row_raw ) ) $this->flex_row_id = $row_raw['_flex_row_id'];
 		}
 		
 		
-		public function the(){
+		public function the( $name_prefix = null ){
+			if(is_string($name_prefix)) { $this->row_name_prefix = $name_prefix; }
 			include __DIR__ . '/templates/row.php';
 		}
 		
@@ -65,7 +66,7 @@
 		 * @return string
 		 */
 		public function get_col_input_name( $col_id = '' ){
-			return $this->row_name_prefix . ( $col_id == '' ? '' : "[{$col_id}]" );
+			return $this->row_name_prefix  . '[' . (int)$this->row_index . ']' . ( $col_id == '' ? '' : "[{$col_id}]" );
 		}
 		
 		

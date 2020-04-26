@@ -1,0 +1,9 @@
+@import "../../css/Fields_UI";
+
+.hiweb-field-type-textarea {
+	textarea {
+		@include fields_ui_text_input;
+		width: 100%;
+		max-width: 800px;
+	}
+}

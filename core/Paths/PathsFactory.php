@@ -11,12 +11,18 @@
 
 	use hiweb\core\Paths\Path;
 	use hiweb\core\strings;
-
-
+	
+	
+	/**
+	 * Class PathsFactory
+	 * @varsion 1.1
+	 * @package hiweb\core\Paths
+	 */
 	class PathsFactory{
 
 		/** @var Path[] */
 		static private $cache_paths = [];
+		static private $cache_attachment_ids = [];
 		private static $root_path;
 		static private $root;
 		/** @var string[] */
@@ -37,6 +43,18 @@
 			}
 			///
 			return self::$cache_paths[ $path_or_url_handle ];
+		}
+		
+		
+		/**
+		 * @param int $attachment_id
+		 * @return \hiweb\core\Paths\Path
+		 */
+		static function get_by_id($attachment_id = 0){
+			if(!array_key_exists($attachment_id, self::$cache_attachment_ids)) {
+				self::$cache_attachment_ids[$attachment_id] = get_attached_file($attachment_id);
+			}
+			return self::get( self::$cache_attachment_ids[$attachment_id] );
 		}
 
 

@@ -6,9 +6,9 @@
 	 * Time: 01:50
 	 */
 
-	use hiweb\core\Paths\File;
+	use hiweb\core\Paths\Path_File;
 	use hiweb\core\Paths\Path;
-	use hiweb\core\Paths\Url;
+	use hiweb\core\Paths\Path_Url;
 	use hiweb\core\Paths\PathsFactory;
 
 
@@ -25,7 +25,7 @@
 	if( !function_exists( 'get_url' ) ){
 		/**
 		 * @param string $path_or_url
-		 * @return Url
+		 * @return Path_Url
 		 */
 		function get_url( $path_or_url = '' ){
 			return PathsFactory::get( $path_or_url )->Url();
@@ -36,7 +36,7 @@
 		/**
 		 * Return File instance by path or urls
 		 * @param string $path_or_url
-		 * @return File
+		 * @return Path_File
 		 */
 		function get_file( $path_or_url = '' ){
 			return PathsFactory::get( $path_or_url )->File();

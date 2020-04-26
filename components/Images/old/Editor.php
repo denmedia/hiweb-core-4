@@ -9,6 +9,7 @@
 	namespace hiweb\components\Images;
 
 
+	use hiweb\components\Console\ConsoleFactory;
 	use hiweb\core\Paths\File;
 	use hiweb\core\Paths\PathsFactory;
 	use hiweb\core\Strings;
@@ -200,10 +201,10 @@
 						$R = $this->get_dimensions_by_resizeMod( $size_data['width'], $size_data['height'], is_null( $resize_mod ) ? (bool)$size_data['crop'] : $resize_mod );
 						break;
 				}
-			} elseif( $sizeName == Images::$original_size_name ) {
+			} elseif( $sizeName == ImagesFactory::$original_size_name ) {
 				$R = [ $this->width(), $this->height() ];
 			} else {
-				console::debug_warn( 'Intermediate image size not found. The maximum size of the image is established.', $sizeName );
+				ConsoleFactory::add('Intermediate image size not found. The maximum size of the image is established.','warn',__CLASS__,$sizeName, true);
 				$R = [ $this->width(), $this->height() ];
 			}
 
@@ -244,7 +245,7 @@
 		 * @return bool
 		 */
 		public function is_classic_file_type(){
-			return array_key_exists( $this->extension(), array_flip( Images::$classic_file_types ) );
+			return array_key_exists( $this->extension(), array_flip( ImagesFactory::$classic_file_types ) );
 		}
 
 
@@ -252,7 +253,7 @@
 		 * @return bool
 		 */
 		public function is_progressive_file_type(){
-			return array_key_exists( $this->extension(), array_flip( Images::$progressive_types ) );
+			return array_key_exists( $this->extension(), array_flip( ImagesFactory::$progressive_types ) );
 		}
 
 
@@ -267,7 +268,7 @@
 		public function make_file( $destination_file = '', $dest_width = 0, $dest_height = 0, $quality_jpg_png_webp = 75 ){
 			if( !$this->is_readable() ) return - 1;
 			if( is_string( $destination_file ) && trim( $destination_file ) != '' ){
-				$destination_file = Images::get_editor( $destination_file );
+				$destination_file = ImagesFactory::get_editor( $destination_file );
 			} else {
 				$destination_file = $this;
 			}
@@ -302,7 +303,7 @@
 					//GD
 					if( extension_loaded( 'gd' ) ){
 						///
-						console::debug_info( __METHOD__ . ': make new classic file by GD [' . $this->get_path_relative() . ']' );
+						//console::debug_info( __METHOD__ . ': make new classic file by GD [' . $this->get_path_relative() . ']' );
 						///
 						switch( $this->Image()->get_mime_type() ){
 							case 'image/jpg':
@@ -340,7 +341,7 @@
 								$B = imagegif( $image_gd_new, $temp_file->get_path() );
 								break;
 						}
-						Console::debug_info( [ __METHOD__ . ': done [' . $this->get_path_relative() . ']', $this->get_path() ] );
+						//Console::debug_info( [ __METHOD__ . ': done [' . $this->get_path_relative() . ']', $this->get_path() ] );
 						imagedestroy( $src_image );
 						imagedestroy( $image_gd_new );
 						if( $temp_file->is_exists() && $temp_file->get_size() > 0 ){
@@ -353,7 +354,7 @@
 					}
 				} elseif( $destination_file->is_progressive_file_type() ) {
 					if( extension_loaded( 'imagick' ) ){
-						Console::debug_info( __METHOD__ . ': make new progressive file [' . $destination_file->get_path_relative() . ']' );
+						//Console::debug_info( __METHOD__ . ': make new progressive file [' . $destination_file->get_path_relative() . ']' );
 						$temp_file = PathsFactory::get( WP_CONTENT_DIR . '/hiweb-image-temp-' . Strings::rand() . '.' . $destination_file->extension() )->File();
 						///
 						$converter = 'convert';
@@ -385,7 +386,7 @@
 						$R = shell_exec( $shell_command_str );
 						if( $temp_file->is_readable() && $temp_file->get_size() > 0 ){
 							@rename( $temp_file->get_path(), $destination_file->get_path() );
-							console::debug_info( [ __METHOD__ . ': done [' . $this->get_path_relative() . ']', $this->get_path() ] );
+							//console::debug_info( [ __METHOD__ . ': done [' . $this->get_path_relative() . ']', $this->get_path() ] );
 							return $destination_file;
 						}
 						return - 4;

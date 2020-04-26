@@ -14,10 +14,27 @@
 		protected $last_value;
 		/** @var Field_Repeat_Flex[] */
 		private $flexes = [];
+		private $rand_id;
+		
+		
+		public function __construct( $field_ID ){
+			parent::__construct( $field_ID );
+			$this->rand_id = 'hiweb_field_repeat_' . $field_ID . '_' . Strings::rand( 5 );
+		}
+		
+		
+		/**
+		 * @param null $set
+		 * @return string
+		 */
+		public function get_rand_id( $set = null ){
+			if( is_string( $set ) ) $this->rand_id = $set;
+			return $this->rand_id;
+		}
 		
 		
 		public function get_css(){
-			$R = [ HIWEB_DIR_VENDOR . '/jquery.qtip/jquery.qtip.min.css', __DIR__ . '/field-repeat.css' ];
+			$R = [ HIWEB_DIR_VENDOR . '/jquery.qtip/jquery.qtip.min.css', __DIR__ . '/Field_Repeat.css' ];
 			foreach( $this->Options()->get_cols() as $flex_id => $cols ){
 				foreach( $cols as $col_id => $col ){
 					$col_css = $col->Field()->get_css();
@@ -26,6 +43,28 @@
 				}
 			}
 			return $R;
+		}
+		
+		
+		public function get_js(){
+			$R = [ HIWEB_DIR_VENDOR . '/deepMerge/deepMerge.min.js', HIWEB_DIR_VENDOR . '/jquery.qtip/jquery.qtip.min.js', __DIR__ . '/Field_Repeat.min.js' ];
+			foreach( $this->Options()->get_cols() as $flex_id => $cols ){
+				foreach( $cols as $col_id => $col ){
+					$col_js = $col->Field()->get_js();
+					if( is_array( $col_js ) ) $R = array_merge( $R, $col_js );
+					elseif( is_string( $col_js ) ) $R[] = $col_js;
+				}
+			}
+			return $R;
+		}
+		
+		
+		public function admin_init(){
+			foreach( $this->Options()->get_cols() as $flex_id => $cols ){
+				foreach( $cols as $col ){
+					$col->Field()->admin_init();
+				}
+			}
 		}
 		
 		
@@ -48,19 +87,6 @@
 		 */
 		public function get_flexes(){
 			return $this->flexes;
-		}
-		
-		
-		public function get_js(){
-			$R = [ HIWEB_DIR_VENDOR . '/deepMerge/deepMerge.min.js', HIWEB_DIR_VENDOR . '/jquery.qtip/jquery.qtip.min.js', __DIR__ . '/field-repeat.min.js' ];
-			foreach( $this->Options()->get_cols() as $flex_id => $cols ){
-				foreach( $cols as $col_id => $col ){
-					$col_js = $col->Field()->get_js();
-					if( is_array( $col_js ) ) $R = array_merge( $R, $col_js );
-					elseif( is_string( $col_js ) ) $R[] = $col_js;
-				}
-			}
-			return $R;
 		}
 		
 		

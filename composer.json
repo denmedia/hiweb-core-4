@@ -28,6 +28,8 @@
     "ext-fileinfo": "*",
     "ext-curl": "*",
     "ext-mbstring": "*",
-    "ext-iconv": "*"
+    "ext-iconv": "*",
+    "ext-gd": "*",
+    "ext-exif": "*"
   }
 }

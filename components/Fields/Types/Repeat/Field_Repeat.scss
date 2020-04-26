@@ -19,7 +19,7 @@
 		}
 	}
 
-	table {
+	table.hiweb-field-type-repeat-table {
 		@include fields_ui_panel;
 		padding: 0;
 		border-collapse: collapse;
@@ -64,7 +64,9 @@
 		tbody[data-rows-list] {
 
 			tr {
-				background-color: rgba($fields_color_panel_bg, .9);
+
+				@include transition((transform, opacity, box-shadow, filter, background), 500ms);
+				//background-color: rgba($fields_color_panel_bg, .9);
 
 				td {
 					vertical-align: top;
@@ -96,27 +98,24 @@
 						opacity: 1;
 					}
 				}
-			}
-		}
 
-		tr[data-row] {
-			@include transition((transform, opacity, box-shadow, filter, background), 500ms);
 
-			&.ui-sortable-helper {
-				border: 1px solid $fields_color_main;
-				cursor: move;
-				@include transition((transform, opacity, box-shadow, filter), 200ms);
-				transform: scale(1.02);
-				z-index: 10000 !important;
-				@include box-shadow(25px, 0.2, 8px, 14px);
-				background-color: rgba($fields_color_panel_bg, .1);
-				-webkit-backdrop-filter: saturate(180%) brightness(120%) blur(10px);
-				backdrop-filter: saturate(180%) brightness(120%) blur(10px);
+				&.ui-sortable-helper {
+					border: 1px solid $fields_color_main;
+					cursor: move;
+					@include transition((transform, opacity, box-shadow, filter), 200ms);
+					transform: scale(1.02);
+					z-index: 10000 !important;
+					@include box-shadow(25px, 0.2, 8px, 14px);
+					background-color: rgba($fields_color_panel_bg, .1);
+					-webkit-backdrop-filter: saturate(180%) brightness(120%) blur(10px);
+					backdrop-filter: saturate(180%) brightness(120%) blur(10px);
 
-				.hiweb-field-type-repeat-col-inner {
-					@include opacity(.25);
+					.hiweb-field-type-repeat-col-inner {
+						@include opacity(.25);
+					}
+
 				}
-
 			}
 		}
 
@@ -135,7 +134,11 @@
 	}
 
 	.hiweb-field-repeat-flex {
+		@include fields_ui_panel;
 		width: 100%;
+		padding: 0;
+		border-collapse: collapse;
+		background-color: transparent;
 
 		td {
 			vertical-align: top;

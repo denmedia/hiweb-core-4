@@ -155,6 +155,11 @@
 			IncludesFactory::Js( __DIR__ . '/FieldsAdmin.min.js' )->deeps( 'jquery-core' );
 			IncludesFactory::Css( __DIR__ . '/css/FieldsAdmin.css' );
 			if( count( FieldsFactory::get_field_by_location( $query ) ) == 0 ) return false;
+			//Init fields
+			foreach( FieldsFactory::get_field_by_location( $query ) as $Field ){
+				$Field->admin_init();
+			}
+			//Print Fields FORM
 			ob_start();
 			self::get_wp_nonce_field();
 			include __DIR__ . '/FieldsAdminFactory/templates/form-ajax.php';
@@ -205,6 +210,8 @@
 			$js = array_unique( $js );
 			$css_filtered = [];
 			$js_filtered = [];
+			$js_extra = [];
+			$js_not_included = [];
 			foreach( $css as $index => $file ){
 				if( preg_match( '/^[\w\-_]+$/', $file ) > 0 ){
 					foreach( IncludesFactory::get_srcs_from_handle( $file, false, true ) as $handle => $src ){
@@ -218,12 +225,20 @@
 				}
 			}
 			foreach( $js as $index => $file ){
-				if( preg_match( '/^[\w\-_]+$/', $file ) > 0 ){
-					if( in_array( $file, $scripts_done ) ) continue;
+				if( preg_match( '/^[\w\-_]+$/i', $file ) > 0 ){
+					if( in_array( $file, $scripts_done ) ){
+						$js_not_included[ $file.':1' ] = PathsFactory::get($file)->get_path_relative();
+						continue;
+					}
 					foreach( IncludesFactory::get_srcs_from_handle( $file, true, false ) as $handle => $src ){
-						if( in_array( $handle, $scripts_done ) ) break;
+						if( in_array( $handle, $scripts_done ) ){
+							$js_not_included[ $file.':2' ] = $file;
+							continue;
+						}
+						if( in_array( $handle, $scripts_done ) ) continue;
 						$Path = PathsFactory::get( $src );
 						$js_filtered[ $handle ] = $Path->Url()->get();
+						$js_extra[ $handle ] = wp_scripts()->registered[ $handle ]->extra['data'];
 					}
 				}
 				else{
@@ -245,6 +260,8 @@
 				'scripts_done' => $scripts_done,
 				'css' => $css_filtered,
 				'js' => $js_filtered,
+				'js_extra' => $js_extra,
+				'js_not_included' => $js_not_included,
 				'max_input_nesting_level' => ini_get( 'max_input_nesting_level' ),
 				'max_input_vars' => ini_get( 'max_input_vars' ),
 				'max_input_time' => ini_get( 'max_input_time' ),
@@ -256,13 +273,15 @@
 			] );
 		}
 		
+		
 		static function get_wp_nonce_field(){
 			static $nonce_printed = false;
-			if(!Context::is_ajax() && !$nonce_printed ){
+			if( !Context::is_ajax() && !$nonce_printed ){
 				$nonce_printed = true;
 				wp_nonce_field( 'hiweb-core-field-form-save', 'hiweb-core-field-form-nonce', false );
 			}
 		}
+		
 		
 		/**
 		 * @param Field[]    $fields_array

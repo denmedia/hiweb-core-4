@@ -14,14 +14,19 @@ let hiweb_field_repeat = {
     selector_button_duplicate: '[data-action-duplicate]',
 
     init: function (root) {
-        hiweb_field_repeat.make_sortable(root);
+        let $root = jQuery(root);
+        let rand_id = $root.attr('data-rand-id');
+        ///sortable
+        hiweb_field_repeat.make_sortable($root);
         ///Set init names super repeat root
-        if (jQuery(root).parent().closest(hiweb_field_repeat.selector).length === 0) {
-            hiweb_field_repeat.set_input_names(root);
+        if ($root.parent().closest(hiweb_field_repeat.selector).length === 0) {
+            //hiweb_field_repeat.set_input_names(root);
         }
-        jQuery(root).find('[data-action-open-flex-submenu]').each(function () {
-            jQuery(this).qtip({
-                content: jQuery('#' + jQuery(this).attr('data-action-open-flex-submenu')).html(),
+        ///
+        $root.find('[data-action-open-flex-submenu="' + rand_id + '"]').each(function () {
+            let $drop_down = jQuery(this).find('.hiweb-fields-dropdown-menu');
+            let qtip = jQuery(this).qtip({
+                content: $drop_down,
                 show: {
                     event: 'click'
                 },
@@ -39,22 +44,15 @@ let hiweb_field_repeat = {
                     }
                 }
             });
-        }).on('click', function (e) {
-            e.preventDefault();
+            $drop_down.on('click', '[data-action-add]', function (e) {
+                e.preventDefault();
+                if (jQuery(this).is(hiweb_field_repeat.selector_button_add)) {
+                    hiweb_field_repeat.click_add(this);
+                    qtip.qtip('hide');
+                }
+            });
         });
-    },
-
-    init_once: function () {
-        jQuery(hiweb_field_repeat.selector).each(function () {
-            hiweb_field_repeat.init(this);
-        });
-        jQuery('body')
-            .on('click', hiweb_field_repeat.selector + ' ' + hiweb_field_repeat.selector_button_add, hiweb_field_repeat.click_add)
-            .on('click', '.hiweb-fields-dropdown-menu ' + hiweb_field_repeat.selector_button_add, hiweb_field_repeat.click_add)
-            .on('click', hiweb_field_repeat.selector + ' ' + hiweb_field_repeat.selector_button_remove, hiweb_field_repeat.click_remove)
-            .on('click', hiweb_field_repeat.selector + ' ' + hiweb_field_repeat.selector_button_duplicate, hiweb_field_repeat.click_duplicate)
-            .on('click', hiweb_field_repeat.selector + ' ' + hiweb_field_repeat.selector_button_clear, hiweb_field_repeat.click_clear_full);
-
+        $root.on('click','[data-action-remove][data-rand-id="'+rand_id+'"]', hiweb_field_repeat.click_remove);
     },
 
     /**
@@ -224,24 +222,23 @@ let hiweb_field_repeat = {
         return jQuery(e).is('[data-input-name]') ? jQuery(e).data('input-name') : jQuery(e).closest('[data-input-name]').data('input-name');
     },
 
-    click_add: function (e) {
-        e.preventDefault();
-        let $button = jQuery(this);
+    click_add: function (element) {
+        let $button = jQuery(element);
         let prepend = $button.is('[data-action-add="1"]');
         let root;
-        if($button.is('[data-field-global-id]')) {
-            root = jQuery(hiweb_field_repeat.selector + '[data-global-id="'+ $button.attr('data-field-global-id') +'"]');
+        if ($button.is('[data-field-global-id]')) {
+            root = jQuery(hiweb_field_repeat.selector + '[data-global-id="' + $button.attr('data-field-global-id') + '"]');
             let rand_id = $button.closest('.hiweb-fields-dropdown-menu').find('[data-action-open-flex-submenu]').attr('data-action-open-flex-submenu');
-            jQuery( '[data-action-open-flex-submenu="' + rand_id + '"]' ).qtip('hide');
-            console.info( '[data-action-open-flex-submenu="' + rand_id + '"]' );
+            jQuery('[data-action-open-flex-submenu="' + rand_id + '"]').qtip('hide');
         } else {
             root = jQuery(this).closest(hiweb_field_repeat.selector);
         }
-        var flex_row_id = $button.is('[data-flex-id]') ? $button.attr('data-flex-id') : '';
-        hiweb_field_repeat.add_rows(root, prepend, 1, '', flex_row_id);
+        let flex_row_id = $button.is('[data-flex-id]') ? $button.attr('data-flex-id') : '';
+        let rand_id = $button.attr('data-rand-id');
+        hiweb_field_repeat.add_rows(root, prepend, 1, '', flex_row_id, rand_id);
     },
 
-    add_rows: function (root, prepend, rows_count, callback, flex_row_id) {
+    add_rows: function (root, prepend, rows_count, callback, flex_row_id, rand_id) {
         if (typeof rows_count === 'undefined') rows_count = 1;
         if (typeof prepend === 'undefined') prepend = false;
         if (typeof flex_row_id === 'undefined') flex_row_id = '';
@@ -256,7 +253,8 @@ let hiweb_field_repeat = {
                 method: 'ajax_html_row',
                 input_name: hiweb_field_repeat.get_name_id(root),
                 index: index,
-                flex_row_id: flex_row_id
+                flex_row_id: flex_row_id,
+                rand_id: rand_id
             },
             dataType: 'json',
             success: function (response) {
@@ -282,6 +280,7 @@ let hiweb_field_repeat = {
                                 $td.find('input[name], select[name], textarea[name], file[name]').trigger('hiweb-field-repeat-added-row-fadein');
                             });
                         hiweb_field_repeat.set_input_names(root);
+                        newLine.closest('.hiweb-components-form-ajax-wrap').trigger('hiweb-field-repeat-added-row');
                         newLine.find('input[name], select[name], textarea[name], file[name]').trigger('hiweb-field-repeat-added-row');
                     }
                 } else {
@@ -401,10 +400,11 @@ let hiweb_field_repeat = {
     }
 
 };
-
-jQuery(document).ready(hiweb_field_repeat.init_once);
-jQuery('body').on('hiweb-field-repeat-added-new-row', '[data-col]', function (e, col, row, root) {
-    col.find('.hiweb-field-type-repeat').each(function () {
+jQuery('.hiweb-field-type-repeat').each(function () {
+    hiweb_field_repeat.init(this);
+});
+jQuery('body').on('hiweb-form-ajax-loaded', '.hiweb-components-form-ajax-wrap', function () {
+    jQuery(this).find('.hiweb-field-type-repeat').each(function () {
         hiweb_field_repeat.init(this);
     });
 });

@@ -82,7 +82,7 @@
 		 * @return string|array
 		 */
 		public function _get_optimize_data(){
-			return get_post_meta( $this->image->get_attachment_id(), images::$meta_key_optimized . '-' . $this->get_dimension_size_string(), true );
+			return get_post_meta( $this->image->get_attachment_id(), ImagesFactory::$meta_key_optimized . '-' . $this->get_dimension_size_string(), true );
 		}
 
 
@@ -103,7 +103,7 @@
 		 * @return bool|int
 		 */
 		public function _set_optimized( $optimize_data = [] ){
-			return update_post_meta( $this->image->get_attachment_id(), images::$meta_key_optimized . '-' . $this->get_dimension_size_string(), $optimize_data );
+			return update_post_meta( $this->image->get_attachment_id(), ImagesFactory::$meta_key_optimized . '-' . $this->get_dimension_size_string(), $optimize_data );
 		}
 
 
@@ -251,7 +251,7 @@
 			///
 			if( $this->get_image()->get_size_original()->File()->is_readable() && $this->get_image()->aspect() != 0 ){
 				///
-				$editor = images::get_editor( $this->get_image()->get_size_original()->File()->get_path() );
+				$editor = ImagesFactory::get_editor( $this->get_image()->get_size_original()->File()->get_path() );
 				return is_string( $editor->make_file( $this->File()->get_path(), $this->width(), $this->height(), $quality_jpg_png ) );
 			}
 			///
@@ -263,7 +263,7 @@
 		 * @return bool
 		 */
 		public function is_classic_file_type(){
-			return array_key_exists( $this->File()->extension(), array_flip( images::$classic_file_types ) );
+			return array_key_exists( $this->File()->extension(), array_flip( ImagesFactory::$classic_file_types ) );
 		}
 
 
@@ -271,7 +271,7 @@
 		 * @return bool
 		 */
 		public function is_progressive_file_type(){
-			return array_key_exists( $this->File()->extension(), array_flip( images::$progressive_types ) );
+			return array_key_exists( $this->File()->extension(), array_flip( ImagesFactory::$progressive_types ) );
 		}
 
 	}

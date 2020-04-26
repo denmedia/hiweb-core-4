@@ -13,13 +13,15 @@
 		public function get_css(){
 			return [
 				__DIR__ . '/field-date.css',
-				HIWEB_DIR_VENDOR . '/jquery.zabuto_calendar/zabuto_calendar.min.css'
+				HIWEB_DIR_VENDOR . '/jquery.zabuto_calendar/zabuto_calendar.min.css',
+				HIWEB_DIR_VENDOR . '/jquery.qtip/jquery.qtip.min.css'
 			];
 		}
 		
 		
 		public function get_js(){
 			return [
+				HIWEB_DIR_VENDOR . '/jquery.qtip/jquery.qtip.min.js',
 				HIWEB_DIR_VENDOR . '/jquery.zabuto_calendar/zabuto_calendar.min.js',
 				__DIR__ . '/field-date.min.js'
 			];

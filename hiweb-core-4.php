@@ -19,9 +19,12 @@
 		}, 11 );
 	}
 	
-	init_adminNotices();
-	init_displayErrors();
+	//init_adminNotices();
+	//init_displayErrors();
 	
 	add_post_type( 'page' )->show_in_rest( false );
 	
-	add_field_date('date')->label('Дата пикер')->Location()->PostType('page')->MetaBox('Мета бокс');
+	$repeat = add_field_repeat('repeat2');
+	$repeat->Location()->PostType('page');
+	$repeat->add_col_field(add_field_images( 'images' ))->label('Картинки')->compact(1);
+	$repeat->add_col_field(add_field_content( 'content' ));

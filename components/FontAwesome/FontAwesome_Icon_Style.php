@@ -4,14 +4,15 @@
 
 
 	class FontAwesome_Icon_Style{
-
+/** @var FontAwesome_Icon  */
+		private $Icon;
 		private $data;
 		private $style = 'regular';
 		private $exists = false;
 
 
 		public function __construct( FontAwesome_Icon $Icon, $style = 'regular' ){
-
+			$this->Icon = $Icon;
 			$this->data = [];
 			$this->style = $style;
 			if( array_key_exists( $style, $Icon->get_svg() ) ){
@@ -19,8 +20,24 @@
 				$this->exists = true;
 			}
 		}
-
-
+		
+		
+		/**
+		 * @return string
+		 */
+		public function __invoke(){
+			return $this->get_raw();
+		}
+		
+		
+		/**
+		 * @return string
+		 */
+		public function __toString(){
+			return $this->get_raw();
+		}
+		
+		
 		public function is_exists(){
 			return $this->exists;
 		}
@@ -81,6 +98,14 @@
 		 */
 		public function get_path(){
 			return $this->get_data_value( 'path', [] );
+		}
+		
+		
+		/**
+		 * @return string
+		 */
+		public function get_class(){
+			return 'fa'.$this->style[0].' fa-'.$this->Icon->get_name();
 		}
 
 	}

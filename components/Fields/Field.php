@@ -4,6 +4,7 @@
 	
 	
 	use hiweb\components\Console\ConsoleFactory;
+	use hiweb\components\Context;
 	use hiweb\core\Cache\CacheFactory;
 	use hiweb\core\hidden_methods;
 	
@@ -46,6 +47,14 @@
 		 */
 		public function get_js(){
 			return [];
+		}
+		
+		
+		/**
+		 * Init function once by admin page (where field is printed, not ajax)
+		 */
+		public function admin_init(){
+			///
 		}
 		
 		

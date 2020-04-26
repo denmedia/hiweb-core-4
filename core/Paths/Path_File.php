@@ -9,11 +9,11 @@
 	use hiweb\core\Cache\CacheFactory;
 
 
-	class File{
+	class Path_File{
 
 		/** @var Path */
 		private $Path;
-		/** @var Image */
+		/** @var Path_Image */
 		private $cache_Image;
 		private $original_path;
 		private $relative_path;
@@ -38,7 +38,7 @@
 
 
 		/**
-		 * @return Url
+		 * @return Path_Url
 		 */
 		public function Url(){
 			return $this->Path()->Url();
@@ -46,11 +46,11 @@
 
 
 		/**
-		 * @return Image
+		 * @return Path_Image
 		 */
 		public function Image(){
-			if( !$this->cache_Image instanceof Image ){
-				$this->cache_Image = new Image( $this->Path() );
+			if( !$this->cache_Image instanceof Path_Image ){
+				$this->cache_Image = new Path_Image( $this->Path() );
 			}
 			return $this->cache_Image;
 		}
@@ -156,7 +156,7 @@
 		 * @param array  $fileExtension
 		 * @param string $excludeFiles_withPrefix
 		 * @param int    $depth - depth of sub dirs
-		 * @return File[]
+		 * @return Path_File[]
 		 */
 		public function include_files( $fileExtension = [ 'php', 'css', 'js' ], $excludeFiles_withPrefix = '-', $depth = 99 ){
 			$R = [];
@@ -196,7 +196,7 @@
 
 		/**
 		 * @param array $needle_file_names
-		 * @return File[]
+		 * @return Path_File[]
 		 */
 		//		public function include_files_by_name( $needle_file_names = [ 'functions.php' ] ){
 		//			if( !is_array( $needle_file_names ) ) $needle_file_names = [ $needle_file_names ];
@@ -413,7 +413,7 @@
 		 * Возвращает массив вложенных файлов
 		 * @param array $mask - маска файлов
 		 * @param int   $depth - грлубина просмотра файлов
-		 * @return File[]
+		 * @return Path_File[]
 		 * @version 1.2
 		 */
 		public function get_sub_files( $mask = [], $depth = 99 ){
@@ -445,7 +445,7 @@
 		/**
 		 * Return all sub files, include sub-folders
 		 * @param bool $returnOnlyPaths - return only string paths in array
-		 * @return File[]|string[]
+		 * @return Path_File[]|string[]
 		 */
 		public function get_sub_files_by_mtime( $returnOnlyPaths = false ){
 			$R = get_array();
@@ -465,7 +465,7 @@
 		/**
 		 * Get next file
 		 * @param $file_name
-		 * @return File
+		 * @return Path_File
 		 */
 		public function get_next_file( $file_name ){
 			return PathsFactory::get( $this->dirname() . '/' . $file_name )->File();

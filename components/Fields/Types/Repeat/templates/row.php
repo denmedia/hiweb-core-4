@@ -53,15 +53,31 @@
 								<?php
 									if( $this->get_flex_row_id() !== '' ){
 										if( $col->label() != '' ){
-											?><div class="flex-label"><?= $col->label() ?></div><?php
+											?>
+											<div class="flex-label"><?= $col->label() ?></div><?php
 										}
 									}
 									else{
 										if( $col->Field()->Options()->label() != '' ){
-											?><div class="flex-label"><?= $col->Field()->Options()->label() ?></div><?php
+											?>
+											<div class="flex-label"><?= $col->Field()->Options()->label() ?></div><?php
 										}
 									} ?>
-								<?= $col->Field()->get_admin_html( $this->get_col_input_value( $col->ID() ), $this->get_col_input_name( $col->ID() ) ) ?>
+								<?php
+									if( $col->Field() instanceof \hiweb\components\Fields\Field ){
+										ob_start();
+										try{
+											echo $col->Field()->get_admin_html( $this->get_col_input_value( $col->ID() ), $this->get_col_input_name( $col->ID() ) );
+										} catch( Exception $e ){
+											echo 'error...';
+											\hiweb\components\Console\ConsoleFactory::add( 'Error white print admin html for col', 'warn', __FILE__, $col->Field(), true );
+										}
+										echo ob_get_clean();
+									}
+									else{
+										\hiweb\components\Console\ConsoleFactory::add( 'not the Filed instance', 'warn', __FILE__, $col, true );
+									}
+								?>
 								<?php if( $col->Field()->Options()->description() != '' ){
 									?><p class="description flex-description"><?= $col->Field()->Options()->description() ?></p><?php
 								} ?>
@@ -82,7 +98,7 @@
 			<!--<a class="item" title="Копировать строку" data-action-duplicate="<?= $this->get_index() ?>">
 				<?= FontAwesomeFactory::get( 'fad fa-copy' )->get_style()->get_raw() ?>
 			</a>-->
-			<a class="item ctrl-button" title="Удалить строку" data-action-remove="<?= $this->get_index() ?>">
+			<a class="item ctrl-button" title="Удалить строку" data-rand-id="<?= $this->Field()->get_rand_id() ?>" data-action-remove="<?= $this->get_index() ?>">
 				<?= FontAwesomeFactory::get( 'trash' )->get_style()->get_raw() ?>
 			</a>
 		</div>

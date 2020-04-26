@@ -15,7 +15,7 @@ jQuery(document).ready(function ($) {
 
     $('body').on('hiweb-field-repeat-added-row', '.hiweb-field-type-color input[name]', function () {
         make_colorpicker();
-    });
+    }).on('hiweb-form-ajax-loaded', make_colorpicker);
     make_colorpicker();
 
 });

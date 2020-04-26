@@ -1,10 +1,11 @@
 <?php
-
+	
 	namespace hiweb\core\Paths;
-
-
-	class Image{
-
+	
+	
+	
+	class Path_Image{
+		
 		/**
 		 * @var Path
 		 */
@@ -13,44 +14,47 @@
 		private $cache_image_width;
 		/** @var int */
 		private $cache_image_height;
-
-
+		
+		private $Intervention_Image;
+		
+		
 		public function __construct( Path $Path ){
 			$this->Path = $Path;
 		}
-
-
+		
+		
 		/**
 		 * @return Path
 		 */
 		public function Path(){
 			return $this->Path;
 		}
-
-
+		
+		
 		/**
-		 * @return File
+		 * @return Path_File
 		 */
 		public function File(){
 			return $this->Path()->File();
 		}
-
-
+		
+		
 		/**
 		 * @return string
 		 */
 		public function get_path(){
 			return $this->File()->get_absolute_path();
 		}
-
-
+		
+		
 		/**
 		 * @return mixed|void
 		 */
 		public function get_url(){
 			return $this->Path()->Url()->get();
 		}
-
+		
+		
 		/**
 		 * Return image width if file exists
 		 * @return int
@@ -66,8 +70,8 @@
 			}
 			return $this->cache_image_width;
 		}
-
-
+		
+		
 		/**
 		 * Return image height if file exists
 		 * @return int
@@ -83,8 +87,8 @@
 			}
 			return $this->cache_image_height;
 		}
-
-
+		
+		
 		/**
 		 * Return aspect of image if file exists
 		 * @return float|int
@@ -93,8 +97,8 @@
 			if( $this->width() == 0 || $this->height() == 0 ) return 0;
 			return $this->width() / $this->height();
 		}
-
-
+		
+		
 		/**
 		 * Return current image mime type
 		 * @return bool|mixed
@@ -122,12 +126,13 @@
 			];
 			if( ( $this->File()->is_readable() && $image_type = exif_imagetype( $this->File()->get_path() ) ) && ( array_key_exists( $image_type, $mimes ) ) ){
 				return $mimes[ $image_type ];
-			} else {
+			}
+			else{
 				return 'image/' . $this->File()->extension();
 			}
 		}
-
-
+		
+		
 		/**
 		 * Resize/recompress current file
 		 * @param int  $dest_width      - destination file width or leave 0 for current file width
@@ -169,7 +174,8 @@
 						$proportions = $this->width() / $dest_width;
 						$src_height = $dest_height * $proportions;
 						$src_y = ( $this->height() - $src_height ) / 2;
-					} elseif( $this->aspect() > $dest_aspect ) {
+					}
+					elseif( $this->aspect() > $dest_aspect ){
 						$proportions = $this->height() / $dest_height;
 						$src_width = $dest_width * $proportions;
 						$src_x = ( $this->width() - $src_width ) / 2;
@@ -201,5 +207,5 @@
 			}
 			return - 3;
 		}
-
+		
 	}

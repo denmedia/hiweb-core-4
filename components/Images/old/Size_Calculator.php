@@ -164,7 +164,7 @@
 			} elseif( $sizeName == $this->image->get_original_size_name() ) {
 				$R = [ $this->image->width(), $this->image->height() ];
 			} else {
-				Console::debug_warn( 'Intermediate image size not found. The maximum size of the image is established.', $sizeName );
+				//Console::debug_warn( 'Intermediate image size not found. The maximum size of the image is established.', $sizeName );
 				$R = [ $this->image->width(), $this->image->height() ];
 			}
 

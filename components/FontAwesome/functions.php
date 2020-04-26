@@ -21,12 +21,13 @@
 	 */
 	function fontawesome_filter_icon_name( $icon_class = 'fab fa-wordpress' ){
 		return CacheFactory::get( $icon_class, __NAMESPACE__, function(){
-			return preg_replace( '/^(fa(?>b|l|s|r|d) )?(fa-)?/i', '', func_get_arg( 0 ) );
+			return preg_replace( '/^(?>\<i class=\")?(?>fa(?>b|l|s|r|d) )?(?>fa-)?([\w\-_]+)(?>\"\>\<\/i\>)?/i', '$1', func_get_arg( 0 ) );
 		}, $icon_class )();
 	}
 
 	/**
 	 * Check menu_icon for fal|fas|fab|far and return path to svg file form admin menu icon
+	 * @deprecated
 	 * @param $menu_icon
 	 * @return mixed
 	 */
@@ -50,12 +51,12 @@
 						$sprites_path .= 'solid.svg';
 						break;
 					default:
-						console::debug_warn( 'Попытка найти файл спрайтов FontAwesome для post_type->menu_icon [' . $menu_icon . '] не удалась.' );
+						//console::debug_warn( 'Попытка найти файл спрайтов FontAwesome для post_type->menu_icon [' . $menu_icon . '] не удалась.' );
 						return $menu_icon;
 						break;
 				}
 				if( !file_exists( $sprites_path ) || !is_readable( $sprites_path ) ){
-					console::debug_warn( 'Файл спрайтов FontAwesome [' . $sprites_path . '] не найден или не существует.' );
+					//console::debug_warn( 'Файл спрайтов FontAwesome [' . $sprites_path . '] не найден или не существует.' );
 					return $menu_icon;
 				}
 				$svgs_xml = simplexml_load_file( $sprites_path );

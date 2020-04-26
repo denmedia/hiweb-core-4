@@ -2,6 +2,8 @@
 
 
 $fields_color_white: #fff;
+$fields_color_black: #000;
+
 $fields_color_main: #007cba;
 $fields_color_grey_white: #f1f1f1;
 $fields_color_grey_lighten: #ddd;
@@ -13,6 +15,7 @@ $fields_color_red_light: #dc3232;
 
 $fields_color_border: $fields_color_grey_light;
 $fields_color_panel_bg: $fields_color_white;
+$fields_color_bg_grey: $fields_color_grey_white;
 
 @mixin fields_ui_shadow_panel() {
 	@include box-shadow();
@@ -20,16 +23,27 @@ $fields_color_panel_bg: $fields_color_white;
 
 @mixin fields_ui_panel() {
 	width: 100%;
+	max-width: 100%;
 	padding: .8em 1.2em;
 	border: 1px solid $fields_color_border;
 	background-color: $fields_color_panel_bg;
 	@include box-shadow(4px, .1);
 }
 
+@mixin fields_backdrop_blur($pixels: 5px, $brightness: 120%, $saturate: 120%){
+	-webkit-backdrop-filter: saturate($saturate) brightness($brightness) blur($pixels);
+	backdrop-filter: saturate($saturate) brightness($brightness) blur($pixels);
+}
+
+@mixin fields_loader_rotate(){
+	@include rotate();
+	display: block;
+}
+
 
 @mixin fields_ui_load_wrap {
 	min-height: 60px;
-	@include transition(height, .5s, ease-in, 0.2s);
+	//@include transition(height, .5s, ease-in, 0.2s);
 
 	&:before {
 		@include opacity(.2);
@@ -49,6 +63,7 @@ $fields_color_panel_bg: $fields_color_white;
 
 	&.loading {
 		position: relative;
+		overflow: hidden;
 
 		&:before {
 			content: '';
@@ -82,7 +97,7 @@ $fields_color_panel_bg: $fields_color_white;
 	margin-bottom: 1px;
 	@include border_radius(0);
 	background: rgba($fields_color_white, .9);
-	@include box-shadow(none);
+	@include box-shadow(2px, .1);
 
 	&:focus {
 		stroke: none;

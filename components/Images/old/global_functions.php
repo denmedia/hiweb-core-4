@@ -1,7 +1,7 @@
 <?php
 
 	use hiweb\components\Images\Image;
-	use hiweb\components\Images\Images;
+	use hiweb\components\Images\ImagesFactory;
 
 
 	if( !function_exists( 'get_image' ) ){
@@ -11,6 +11,6 @@
 		 * @return Image
 		 */
 		function get_image( $path_or_url = '' ){
-			return Images::get( $path_or_url );
+			return ImagesFactory::get( $path_or_url );
 		}
 	}

@@ -8,7 +8,12 @@
         <item url="file://$PROJECT_DIR$/components/Fields/Types/Color/script.min.js" />
         <item url="file://$PROJECT_DIR$/components/Fields/Types/Content/field-content.min.js" />
         <item url="file://$PROJECT_DIR$/components/Fields/Types/Date/field-date.min.js" />
+        <item url="file://$PROJECT_DIR$/components/Fields/Types/File/field-file.min.js" />
+        <item url="file://$PROJECT_DIR$/components/Fields/Types/Fontawesome/App.min.js" />
+        <item url="file://$PROJECT_DIR$/components/Fields/Types/Image/App.min.js" />
+        <item url="file://$PROJECT_DIR$/components/Fields/Types/Images/App.min.js" />
         <item url="file://$PROJECT_DIR$/components/Fields/Types/Repeat/field-repeat.min.js" />
+        <item url="file://$PROJECT_DIR$/components/Fields/Types/Script/App.min.js" />
         <item url="file://$PROJECT_DIR$/vendor/deepMerge/deepMerge.min.js" />
         <item url="file://$PROJECT_DIR$/vendor/jquery.regex-selector/jquery.regex-selector.min.js" />
       </sourceFilesUrls>
@@ -20,7 +25,12 @@
       <root url="file://$PROJECT_DIR$/components/Fields/Types/Color/script.min.js" />
       <root url="file://$PROJECT_DIR$/components/Fields/Types/Content/field-content.min.js" />
       <root url="file://$PROJECT_DIR$/components/Fields/Types/Date/field-date.min.js" />
-      <root url="file://$PROJECT_DIR$/components/Fields/Types/Repeat/field-repeat.min.js" />
+      <root url="file://$PROJECT_DIR$/components/Fields/Types/File/field-file.min.js" />
+      <root url="file://$PROJECT_DIR$/components/Fields/Types/Fontawesome/App.min.js" />
+      <root url="file://$PROJECT_DIR$/components/Fields/Types/Image/App.min.js" />
+      <root url="file://$PROJECT_DIR$/components/Fields/Types/Images/Field_Images.min.js" />
+      <root url="file://$PROJECT_DIR$/components/Fields/Types/Repeat/Field_Repeat.min.js" />
+      <root url="file://$PROJECT_DIR$/components/Fields/Types/Script/App.min.js" />
       <root url="file://$PROJECT_DIR$/vendor/deepMerge/deepMerge.min.js" />
       <root url="file://$PROJECT_DIR$/vendor/jquery.regex-selector/jquery.regex-selector.min.js" />
     </CLASSES>

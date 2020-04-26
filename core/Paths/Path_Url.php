@@ -9,7 +9,7 @@
 	use hiweb\core\urls\Urls;
 
 
-	class Url{
+	class Path_Url{
 
 		use hidden_methods;
 
@@ -46,7 +46,7 @@
 
 
 		/**
-		 * @return File
+		 * @return Path_File
 		 */
 		public function File(){
 			return $this->Path()->File();
@@ -126,8 +126,12 @@
 		public function domain(){
 			return apply_filters( '\hiweb\urls\url::domain', $this->domain, $this );
 		}
-
-
+		
+		
+		/**
+		 * @param null $return_universalScheme
+		 * @return string
+		 */
 		public function get( $return_universalScheme = null ){
 			if( !is_string( $this->prepare_url ) ){
 				$this->prepare_url = apply_filters( '\hiweb\urls\url::prepare-first', $this->base( $return_universalScheme ) . ( $this->dirs()->is_empty() ? '' : '/' . $this->dirs()->join( '/' ) ) . ( $this->params()->is_empty() ? '' : '?' . $this->params()->join( '&' ) ), $this );

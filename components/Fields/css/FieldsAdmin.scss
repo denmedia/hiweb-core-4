@@ -2,13 +2,12 @@
 
 
 .hiweb-components-form-ajax-wrap {
-	@include transition((opacity, height));
+	//@include transition((opacity, height));
 	@include opacity(1);
 	min-height: 50px;
-	overflow: hidden;
 	padding-bottom: 1em;
-
 	@include fields_ui_load_wrap();
+
 }
 
 .hiweb-components-form-ajax-wrap, .hiweb-components-form-wrap {

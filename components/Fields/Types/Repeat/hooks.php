@@ -19,6 +19,7 @@
 				$R['error'] = 'Поле с id[' . $field_global_id . '] не найден!';
 			}
 			else{
+				if(array_key_exists('rand_id', $_POST)) $Field->get_rand_id($_POST['rand_id']);
 				$cols = $Field->Options()->get_cols();
 				$R['cols'] = $cols;
 				if(!array_key_exists( $_POST['flex_row_id'], $Field->get_flexes() )) {
@@ -28,6 +29,7 @@
 					$R['result'] = true;
 					ob_start();
 					( new Field_Repeat_Row( $Field, 10, $cols[$_POST['flex_row_id']], ['_flex_row_id' => $_POST['flex_row_id']] ) )->the();
+					\hiweb\components\Console\ConsoleFactory::the();
 					$R['data'] = ob_get_clean();
 				}
 				//$Field_Repeat_Value = $Field->Value( $_POST['values'] );

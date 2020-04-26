@@ -19,22 +19,101 @@ jQuery(document).ready(function ($) {
         }
     };
 
-    let load_form_scripts = function (response) {
+    let loadStyleSheet = function (path, fn, scope) {
+        var head = document.getElementsByTagName('head')[0], // reference to document.head for appending/ removing link nodes
+            link = document.createElement('link');           // create the link node
+        link.setAttribute('href', path);
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('type', 'text/css');
+
+        var sheet, cssRules;
+// get the correct properties to check for depending on the browser
+        if ('sheet' in link) {
+            sheet = 'sheet';
+            cssRules = 'cssRules';
+        } else {
+            sheet = 'styleSheet';
+            cssRules = 'rules';
+        }
+
+        var interval_id = setInterval(function () {                     // start checking whether the style sheet has successfully loaded
+                try {
+                    if (link[sheet] && link[sheet][cssRules].length) { // SUCCESS! our style sheet has loaded
+                        clearInterval(interval_id);                      // clear the counters
+                        clearTimeout(timeout_id);
+                        fn.call(scope || window, true, link);           // fire the callback with success == true
+                    }
+                } catch (e) {
+                } finally {
+                }
+            }, 10),                                                   // how often to check if the stylesheet is loaded
+            timeout_id = setTimeout(function () {       // start counting down till fail
+                clearInterval(interval_id);             // clear the counters
+                clearTimeout(timeout_id);
+                head.removeChild(link);                // since the style sheet didn't load, remove the link node from the DOM
+                fn.call(scope || window, false, link); // fire the callback with success == false
+            }, 15000);                                 // how long to wait before failing
+
+        head.appendChild(link);  // insert the link node into the DOM and start loading the style sheet
+
+        return link; // return the link node;
+    };
+
+    let load_form_scripts = function ($form_wrap, response, callback) {
+        let javascripts_load_finish = false;
+        let styles_load_finish = false;
+        let callback_triggered = false;
+        ///LOAD JAVASCRIPTS
+        let javascripts = [];
         for (let handle in response.js) {
-            let src = response.js[handle];
-            if ($("script:regex(src, " + src + ")").length === 0 && $('script[data-handle="' + handle + '"]').length === 0) {
-                $('body').append(
-                    $('<script/>').attr('type', 'text/javascript').attr('defer', '').attr('src', src).attr('data-handle', handle).attr('data-ajax-loader', '')
-                );
-            }
+            javascripts.push([handle, response.js[handle]]);
         }
+        let load_next_javascript = () => {
+            if (javascripts.length > 0) {
+                let script = javascripts.shift();
+                $.getScript(script[1], () => {
+                    hiweb_components_fields_form_scripts_done.push(script[0]);
+                    load_next_javascript();
+                })
+            } else {
+                ///LOAD EXTRAS
+                let $js_extra_container = $('<script/>');
+                for (let i in response.js_extra) {
+                    $js_extra_container.append(response.js_extra[i]);
+                }
+                $('body').append($js_extra_container);
+                javascripts_load_finish = true;
+                if (styles_load_finish && javascripts_load_finish && !callback_triggered) {
+                    callback_triggered = true;
+                    if (typeof callback === 'function') callback();
+                }
+            }
+        };
+        load_next_javascript();
+        ///LOAD STYLES
+        let styles = [];
         for (let handle in response.css) {
-            if ($('link[data-handle="' + handle + '"]').length === 0) {
-                $('head').append(
-                    $('<link/>').attr('rel', 'stylesheet').attr('type', 'text/css').attr('href', response.css[handle]).attr('data-handle', handle).attr('data-ajax-loader', '')
-                );
-            }
+            styles.push([handle, response.css[handle]]);
         }
+        let load_next_style = () => {
+            if (styles.length > 0) {
+                let style = styles.shift();
+                if ($('link[data-handle="' + style[0] + '"]').length === 0) {
+                    loadStyleSheet(style[1], () => {
+                        load_next_style();
+                    });
+                } else {
+                    load_next_style();
+                }
+            } else {
+                styles_load_finish = true;
+                if (styles_load_finish && javascripts_load_finish && !callback_triggered) {
+                    callback_triggered = true;
+                    if (typeof callback === 'function') callback();
+                }
+            }
+        };
+        load_next_style();
     };
 
     let load_form_inputs = function ($form_wrap, response) {
@@ -42,9 +121,14 @@ jQuery(document).ready(function ($) {
         let $form_inner = $form_wrap.find('.hiweb-components-form-ajax-inner');
         $form_inner.append(new_inputs);
         new_inputs.find('input[name], select[name],textarea[name],file[name]').trigger('hiweb-form-ajax-input-loaded').trigger('hiweb-form-updated');
-        setInterval(() => {
-            $form_wrap.height($form_inner.outerHeight());
-        }, 500);
+    };
+
+    let form_auto_height = function ($form_wrap, callback) {
+        let $form_inner = $form_wrap.find('.hiweb-components-form-ajax-inner');
+        $form_wrap.css({'overflow': 'hidden'}).animate({height: $form_inner.outerHeight()}, 500, () => {
+            if (typeof callback === 'function') callback();
+            $form_wrap.css({'overflow': 'inherit', 'height': 'auto'});
+        });
     };
 
     let $ajax_forms = $('.hiweb-components-form-ajax-wrap[data-fields-query][data-fields-query-id]');
@@ -70,10 +154,15 @@ jQuery(document).ready(function ($) {
                     data: {field_query: $form_wrap.attr('data-fields-query'), scripts_done: hiweb_components_fields_form_scripts_done},
                     async: true,
                     success: function (response) {
-                        $form_wrap.removeClass('loading').removeClass('preloaded').addClass('loaded');
                         if (response.hasOwnProperty('success')) {
-                            load_form_inputs($form_wrap, response);
-                            load_form_scripts(response);
+                            load_form_scripts($form_wrap, response, () => {
+                                load_form_inputs($form_wrap, response);
+                                form_auto_height($form_wrap, () => {
+                                    $form_wrap.removeClass('loading').removeClass('loaded');
+                                    $form_wrap.trigger('hiweb-form-ajax-loaded');
+                                });
+                                $form_wrap.removeClass('preloading');
+                            });
                         }
                         if (response.hasOwnProperty('max_input_vars')) {
                             let test_max_input_vars = parseInt(response.max_input_vars);

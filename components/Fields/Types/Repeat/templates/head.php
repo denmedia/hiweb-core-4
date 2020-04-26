@@ -62,11 +62,10 @@
 		<th data-ctrl-wrap>
 			<?php
 				if( $this->have_flex_cols() ){
-					$rand_id = \hiweb\core\Strings::rand();
 					?>
-					<a href="" class="ctrl-button" data-action-open-flex-submenu="<?= $rand_id ?>">
+					<div class="ctrl-button" data-action-open-flex-submenu="<?= $this->get_rand_id() ?>" data-button-repeat-id="<?=$this->get_rand_id()?>">
 						<?= FontAwesomeFactory::get( 'fas fa-ellipsis-v' )->get_style()->get_raw() ?>
-						<div style="display: none" id="<?= $rand_id ?>">
+						<div style="display: none" id="<?= $this->get_rand_id() ?>">
 							<div class="hiweb-fields-dropdown-menu">
 								<?php
 									/**
@@ -75,18 +74,18 @@
 									 */
 									foreach( $this->get_flexes() as $flex_id => $flex ){
 										?>
-										<a href="" class="dropdown-item" data-action-add="<?= $thead ? '1' : '0' ?>" data-flex-id="<?= $flex_id ?>" data-field-global-id="<?=$this->global_ID()?>"><?= FontAwesomeFactory::get( $flex->icon() ) ?> <?= $flex->label() ?></a>
+										<a href="" class="dropdown-item" data-action-add="<?= $thead ? '1' : '0' ?>" data-flex-id="<?= $flex_id ?>" data-field-global-id="<?=$this->global_ID()?>"  data-button-repeat-id="<?=$this->get_rand_id()?>" data-rand-id="<?=$this->get_rand_id()?>"><?= FontAwesomeFactory::get( $flex->icon() ) ?> <?= $flex->label() ?></a>
 										<?php
 									}
 								?>
 							</div>
 						</div>
-					</a>
+					</div>
 					<?php
 				}
 				else{
 					?>
-					<a href="" data-action-add="<?= $thead ? '1' : '0' ?>">
+					<a href="" data-action-add="<?= $thead ? '1' : '0' ?>" data-button-repeat-id="<?=$this->get_rand_id()?>">
 						<?= FontAwesomeFactory::get( 'fas fa-plus-circle' )->get_style()->get_raw() ?>
 					</a>
 					<?php

@@ -13,27 +13,29 @@
 	
 	if( !$Field instanceof Field_Repeat ) return;
 	$name = FieldsAdminFactory::get_the_field_name();
-	$Value = $Field->Value( );
-	
+	$Value = $Field->Value();
+	$rand_field_id = 'hiweb_field_repeat_' . \hiweb\core\Strings::rand( 5 );
+
 ?>
 <div class="hiweb-field-type-repeat" data-input-name="<?= $name ?>"
 	 data-global-id="<?= $Field->global_ID() ?>"
 	 data-id="<?= $Field->ID() ?>"
-	 data-flex="<?= $Field->have_flex_cols() ? '1' : '0' ?>">
+	 data-flex="<?= $Field->have_flex_cols() ? '1' : '0' ?>"
+	 data-rand-id="<?= $this->get_rand_id() ?>">
 	<?php if( !$Field->Options()->have_cols() ){
 		?>
 		<p class="empty-message"><?= sprintf( __( 'For repeat input [%s] not add col fields. For that do this: <code>$field->add_col_field( add_field_text(...) )</code>' ), $Field->ID() ) ?></p><?php
 	}
 	else{
 		?>
-		<table class=""><?php
+		<table class="hiweb-field-type-repeat-table"><?php
 		echo $Field->get_head_html( true );
 		?>
 		<tbody data-rows-list>
 		<?php
 			if( $Value->have_rows() ){
 				foreach( $Value->get_rows() as $row_index => $row ){
-					$row->the();
+					$row->the($name);
 				}
 			}
 		?>
