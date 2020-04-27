@@ -33,7 +33,7 @@
 		/**
 		 * Set field label
 		 * @param null|string $set
-		 * @return $this
+		 * @return $this|string
 		 */
 		public function label( $set = null ){
 			return $this->_( 'label', $set );
@@ -43,7 +43,7 @@
 		/**
 		 * Set field description
 		 * @param null|string $set
-		 * @return $this
+		 * @return $this|string
 		 */
 		public function description( $set = null ){
 			return $this->_( 'description', $set );

@@ -21,6 +21,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/jquery.qtip/basic" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/http-message" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ralouphie/getallheaders" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/selectize.js/css" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/selectize.js/docs" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/selectize.js/js" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

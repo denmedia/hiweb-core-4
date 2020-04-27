@@ -71,10 +71,15 @@ jQuery(document).ready(function ($) {
         let load_next_javascript = () => {
             if (javascripts.length > 0) {
                 let script = javascripts.shift();
+                let timeoutId;
+                timeoutId = window.setTimeout(function() {
+                    load_next_javascript();
+                }, 1000);
                 $.getScript(script[1], () => {
                     hiweb_components_fields_form_scripts_done.push(script[0]);
                     load_next_javascript();
-                })
+                    clearTimeout(timeoutId);
+                });
             } else {
                 ///LOAD EXTRAS
                 let $js_extra_container = $('<script/>');

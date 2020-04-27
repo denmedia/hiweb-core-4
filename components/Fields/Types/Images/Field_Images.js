@@ -3,13 +3,14 @@ let hiweb_feild_type_images = function (root) {
     if ($root.closest('.hiweb-field-type-images').length > 0) {
         $root = $root.closest('.hiweb-field-type-images');
     }
-    if($root.is('.hiweb-field-type-images-init')) return;
+    if ($root.is('.hiweb-field-type-images-init')) return;
     $root.addClass('hiweb-field-type-images-init');
     let $source = $root.find('[data-source-image]');
     let $wrap = $root.find('[data-images-wrap]');
     let count_images = () => {
         let count = $wrap.find('[data-item-image]').length;
         $root.attr('data-images-count', count);
+        $root.find('[data-images-count-wrap]').html(count);
         if (count > 24) {
             $root.attr('data-images-count-id', 'many');
         } else if (count > 12) {
@@ -17,20 +18,20 @@ let hiweb_feild_type_images = function (root) {
         } else {
             $root.attr('data-images-count-id', 'low');
         }
-        if(typeof $wrap.sortable === 'function'){
-            $wrap.sortable({
-                items: '[data-item-image]',
-                distance: 5,
-                cursor: 'move',
-                //handle: '[data-item-image], [data-image-control-wrap], a',
-                helper: 'original',
-                tolerance: "pointer",
-                revert: true
-                //forcePlaceholderSize: true
-            });
-        }
     }
     count_images();
+    if (typeof $wrap.sortable === 'function') {
+        $wrap.sortable({
+            items: '[data-item-image]',
+            distance: 5,
+            cursor: 'move',
+            //handle: '[data-item-image], [data-image-control-wrap], a',
+            helper: 'original',
+            tolerance: "pointer",
+            revert: true
+            //forcePlaceholderSize: true
+        });
+    }
     let shuffleElements = function () {
         let $elements = $wrap.find('[data-item-image]');
         var i, index1, index2, temp_val;
@@ -61,14 +62,26 @@ let hiweb_feild_type_images = function (root) {
             $parent.append($elements.eq(shuffled_array[i]));
         }
     };
-    let open_media_select = (add_index) => {
-        var media_options = {
+    let open_media_select = (add_index, item) => {
+        let gallery_window = wp.media({
             title: 'Выбор файла',
             multiple: true,
             button: {text: 'Выбрать файл'},
             library: {type: 'image'}
-        };
-        let gallery_window = wp.media(media_options);
+        });
+        let replace = false;
+        if(typeof item !== 'undefined') {
+            let $input = jQuery(item).find('input[name]');
+            if($input.length > 0) {
+                replace = jQuery(item);
+                gallery_window.on('open', function () {
+                    var selection = gallery_window.state().get('selection');
+                    attachment = wp.media.attachment($input.val());
+                    attachment.fetch();
+                    selection.add(attachment ? [attachment] : []);
+                });
+            }
+        }
         gallery_window.on('select', function () {
             gallery_window.state().get('selection').forEach(function (item, index) {
                 let selection = item.toJSON();
@@ -97,21 +110,32 @@ let hiweb_feild_type_images = function (root) {
                     if (selection.hasOwnProperty('url')) {
                         original_src = selection.url;
                     }
-                    let $new_item_image = $source.clone(true);
-                    $new_item_image
-                        .removeAttr('data-source-image')
-                        .attr('data-item-image', selection.id)
-                        .attr('data-attachment-id', selection.id)
-                        .css({'background-image': 'url(' + image_src + ')'});
-                    $new_item_image.find('[data-link="edit_link"]').attr('href', edit_link);
-                    $new_item_image.find('[data-link="url"]').attr('href', original_src);
-                    $new_item_image.find('input').val(selection.id);
-                    if (add_index < 0) {
-                        $wrap.find('[data-image-plus="1"]').before($new_item_image);
-                    } else {
-                        $wrap.find('[data-image-plus="0"]').after($new_item_image);
+                    ///
+                    if(replace === false) {
+                        let $new_item_image = $source.clone(true);
+                        $new_item_image
+                            .removeAttr('data-source-image')
+                            .attr('data-item-image', selection.id)
+                            .attr('data-attachment-id', selection.id)
+                            .css({'background-image': 'url(' + image_src + ')'});
+                        $new_item_image.find('[data-link="edit_link"]').attr('href', edit_link);
+                        $new_item_image.find('[data-link="url"]').attr('href', original_src);
+                        $new_item_image.find('input').val(selection.id);
+                        if (add_index < 0) {
+                            $wrap.find('[data-image-plus="1"]').before($new_item_image);
+                        } else {
+                            $wrap.find('[data-image-plus="0"]').after($new_item_image);
+                        }
+                        count_images();
                     }
-                    count_images();
+                    else {
+                        replace.attr('data-item-image', selection.id)
+                            .attr('data-attachment-id', selection.id)
+                            .css({'background-image': 'url(' + image_src + ')'});
+                        replace.find('[data-link="edit_link"]').attr('href', edit_link);
+                        replace.find('[data-link="url"]').attr('href', original_src);
+                        replace.find('input').val(selection.id);
+                    }
                 }
             });
             count_images();
@@ -127,7 +151,7 @@ let hiweb_feild_type_images = function (root) {
             open_media_select(add_index);
         })
         .on('click', '[data-click="revert"]', () => {
-
+            //todo
         })
         .on('click', '[data-click="shuffle"]', () => {
             shuffleElements();
@@ -139,8 +163,8 @@ let hiweb_feild_type_images = function (root) {
                 count_images();
             });
         })
-        .on('click', '[data-click="edit"]', () => {
-
+        .on('click', '[data-click="edit"]', (e) => {
+            open_media_select(0, jQuery(e.target).closest('[data-item-image]'));
         })
         .on('click', '[data-click="remove"]', (e) => {
             let $item_image = jQuery(e.target).closest('[data-item-image]');

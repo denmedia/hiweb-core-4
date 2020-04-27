@@ -156,6 +156,13 @@
 		
 		
 		/**
+		 * @return bool|mixed|string
+		 */
+		public function get_mime_type(){
+			return $this->Path()->Image()->get_mime_type();
+		}
+		
+		/**
 		 * @return string
 		 */
 		public function alt(){

@@ -9,6 +9,15 @@
 	class Field_Images extends Field{
 		
 		private $images;
+		protected $options_class = '\hiweb\components\Fields\Types\Images\Field_Images_Options';
+		
+		
+		/**
+		 * @return Field_Images_Options
+		 */
+		public function Options(){
+			return parent::Options();
+		}
 		
 		
 		public function get_css(){

@@ -23,9 +23,10 @@
 ?>
 <div class="hiweb-field-type-images" data-images-count="<?= count( $value_sanitized ) ?>" data-images-count-id="<?= $count_id ?>">
 	<div class="images-top-panel">
+		<div class="images-top-panel-label"><?= $this->Options()->label_top() ?> : <b data-images-count-wrap><?= count( $value_sanitized ) ?></b></div>
 		<div data-constrol-wrap>
 			<a href="" data-click="add" data-add-index="-1"><?= FontAwesomeFactory::get( '<i class="fad fa-plus-circle"></i>' ) ?></a>
-			<a href="" data-click="revert"><?= FontAwesomeFactory::get( '<i class="fad fa-sync-alt"></i>' ) ?></a>
+			<!--<a href="" data-click="revert"><?= FontAwesomeFactory::get( '<i class="fad fa-sync-alt"></i>' ) ?></a>-->
 			<a href="" data-click="shuffle"><?= FontAwesomeFactory::get( '<i class="fad fa-random"></i>' ) ?></a>
 			<a href="" data-click="clear"><?= FontAwesomeFactory::get( '<i class="fad fa-trash"></i>' ) ?></a>
 		</div>

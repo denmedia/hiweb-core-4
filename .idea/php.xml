@@ -17,6 +17,9 @@
       <path value="$PROJECT_DIR$/vendor/jquery.noty/themes" />
       <path value="$PROJECT_DIR$/vendor/jquery.qtip/basic" />
       <path value="$PROJECT_DIR$/vendor/intervention/image" />
+      <path value="$PROJECT_DIR$/vendor/selectize.js/js" />
+      <path value="$PROJECT_DIR$/vendor/selectize.js/css" />
+      <path value="$PROJECT_DIR$/vendor/selectize.js/docs" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7" />

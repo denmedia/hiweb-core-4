@@ -4,6 +4,8 @@
 	
 	
 	use hiweb\components\Fields\Field;
+	use hiweb\components\Images\Image;
+	use hiweb\components\Images\ImagesFactory;
 	use hiweb\core\Paths\Path_File;
 	use hiweb\core\Paths\Path;
 	use hiweb\core\Paths\PathsFactory;
@@ -13,10 +15,8 @@
 		
 		protected $options_class = '\hiweb\components\Fields\Types\Image\Field_Image_Options';
 		
-		/** @var Path[] */
-		private $Paths = [];
-		/** @var null|Path */
-		private $last_Path;
+		/** @var Image */
+		private $last_Image;
 		
 		
 		/**
@@ -28,12 +28,12 @@
 		
 		
 		public function get_js(){
-			return [ __DIR__ . '/App.min.js' ];
+			return [ __DIR__ . '/Field_Image.min.js' ];
 		}
 		
 		
 		public function get_css(){
-			return [ __DIR__ . '/Style.css' ];
+			return [ __DIR__ . '/Field_Image.css' ];
 		}
 		
 		
@@ -43,27 +43,39 @@
 		
 		
 		/**
-		 * @param $value
-		 * @return Path
+		 * @param mixed|null $value
+		 * @param bool       $update_meta_process
+		 * @return int|mixed|null
 		 */
-		public function Path( $value = null ){
-			if( !array_key_exists( $value, $this->Paths ) ){
-				$this->Paths[ $value ] = PathsFactory::get_by_id( $value );
+		public function get_sanitize_admin_value( $value, $update_meta_process = false ){
+			$value = (int)$value;
+			if( $value > 0 ){
+				$Image = ImagesFactory::get( $value );
+				if( !$Image->is_exists() ) $value = 0;
 			}
-			return $this->Paths[ $value ];
+			return $value;
 		}
 		
 		
 		/**
-		 * @return mixed|Path_File
+		 * @param $value
+		 * @return Image
 		 */
-		public function the_File(){
-			return $this->last_Path instanceof Path ? $this->last_Path->File() : null;
+		public function Image( $value = null ){
+			return ImagesFactory::get( $this->get_sanitize_admin_value( $value ) );
+		}
+		
+		
+		/**
+		 * @return Image
+		 */
+		public function the_Image(){
+			return $this->last_Image;
 		}
 		
 		
 		public function get_admin_html( $value = null, $name = null ){
-			$this->last_Path = $this->Path( $value );
+			$this->last_Image = $this->Image( $value );
 			ob_start();
 			include __DIR__ . '/template.php';
 			return ob_get_clean();

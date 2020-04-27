@@ -11,6 +11,12 @@
 		border-bottom: 1px solid $fields_color_border;
 		height: 28px;
 
+		.images-top-panel-label {
+			line-height: 28px;
+			float: left;
+			padding: 0 .4em;
+		}
+
 		[data-constrol-wrap] {
 			float: right;
 

@@ -21,4 +21,24 @@
 		public function label_button_select( $set = null ){
 			return $this->_( 'label_button_select', $set, __( 'Select file' ) );
 		}
+		
+		
+		/**
+		 * Set 100% or pixel width, default 100%
+		 * @param null $width
+		 * @return array|Field_Image_Options|mixed|null
+		 */
+		public function admin_width($width = null){
+			return $this->_('admin_width', $width, '100%');
+		}
+		
+		
+		/**
+		 * Set pixel height, default 120px
+		 * @param null $height
+		 * @return array|Field_Image_Options|mixed|null
+		 */
+		public function admin_height($height = null){
+			return $this->_('admin_height', $height, '120px');
+		}
 	}

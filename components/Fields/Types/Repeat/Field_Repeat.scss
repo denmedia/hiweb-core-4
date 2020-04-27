@@ -76,6 +76,9 @@
 
 					.hiweb-field-type-repeat-col-inner {
 						overflow: hidden;
+						[data-col] {
+							margin-bottom: .8em;
+						}
 					}
 				}
 

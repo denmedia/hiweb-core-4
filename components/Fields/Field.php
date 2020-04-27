@@ -7,20 +7,28 @@
 	use hiweb\components\Context;
 	use hiweb\core\Cache\CacheFactory;
 	use hiweb\core\hidden_methods;
+	use hiweb\core\Strings;
 	
 	
 	class Field{
 		
 		use hidden_methods;
+		
+		
 		/** @var string */
 		private $ID;
 		/** @var string */
 		protected $global_ID;
 		/** @var */
 		protected $options_class = '\hiweb\components\Fields\Field_Options';
+		protected $is_random_id = false;
 		
 		
-		public function __construct( $field_ID ){
+		public function __construct( $field_ID = null ){
+			if( !is_string( $field_ID ) ) {
+				$field_ID = Strings::rand();
+				$this->is_random_id = true;
+			}
 			$this->ID = $field_ID;
 			if( class_exists( $this->options_class ) ){
 				$this->options_class = new $this->options_class( $this );
@@ -125,8 +133,12 @@
 		}
 		
 		
+		/**
+		 * @param $value
+		 * @return bool
+		 */
 		public function get_allow_save_field( $value ){
-			return true;
+			return true && !$this->is_random_id;
 		}
 		
 		

@@ -9,11 +9,7 @@
 	namespace hiweb\core\ArrayObject;
 
 
-	use hiweb\core\ArrayObject\ArrayObject;
-	use hiweb\core\ArrayObject\ArrayObject;
-
-
-	class Json{
+	class ArrayObject_Json{
 
 		/** @var ArrayObject */
 		private $ArrayObject;
@@ -57,7 +53,7 @@
 
 		/**
 		 * Все < и > кодируются в \u003C и \u003E. Доступно с PHP 5.3.0.
-		 * @return Json
+		 * @return ArrayObject_Json
 		 */
 		public function JSON_HEX_TAG(){
 			$this->option[] = JSON_HEX_TAG;
@@ -67,7 +63,7 @@
 
 		/**
 		 * Все & кодируются в \u0026. Доступно с PHP 5.3.0.
-		 * @return Json
+		 * @return ArrayObject_Json
 		 */
 		public function JSON_HEX_AMP(){
 			$this->option[] = JSON_HEX_AMP;
@@ -77,7 +73,7 @@
 
 		/**
 		 * Все символы ' кодируются в \u0027. Доступно с PHP 5.3.0.
-		 * @return Json
+		 * @return ArrayObject_Json
 		 */
 		public function JSON_HEX_APOS(){
 			$this->option[] = JSON_HEX_APOS;
@@ -87,7 +83,7 @@
 
 		/**
 		 * Все символы " кодируются в \u0022. Доступно с PHP 5.3.0.
-		 * @return Json
+		 * @return ArrayObject_Json
 		 */
 		public function JSON_HEX_QUOT(){
 			$this->option[] = JSON_HEX_QUOT;
@@ -97,7 +93,7 @@
 
 		/**
 		 * Выдавать объект вместо массива при использовании неассоциативного массива. Это полезно, когда принимающая программа или код ожидают объект, а массив пуст. Доступно с PHP 5.3.0.
-		 * @return Json
+		 * @return ArrayObject_Json
 		 */
 		public function JSON_FORCE_OBJECT(){
 			$this->option[] = JSON_FORCE_OBJECT;
@@ -107,7 +103,7 @@
 
 		/**
 		 * Кодирование строк, содержащих числа, как числа. Доступно с PHP 5.3.3.
-		 * @return Json
+		 * @return ArrayObject_Json
 		 */
 		public function JSON_NUMERIC_CHECK(){
 			$this->option[] = JSON_NUMERIC_CHECK;
@@ -117,7 +113,7 @@
 
 		/**
 		 * Использовать пробельные символы в возвращаемых данных для их форматирования. Доступно с PHP 5.4.0.
-		 * @return Json
+		 * @return ArrayObject_Json
 		 */
 		public function JSON_PRETTY_PRINT(){
 			$this->option[] = JSON_PRETTY_PRINT;
@@ -127,7 +123,7 @@
 
 		/**
 		 * Не экранировать /. Доступно с PHP 5.4.0.
-		 * @return Json
+		 * @return ArrayObject_Json
 		 */
 		public function JSON_UNESCAPED_SLASHES(){
 			$this->option[] = JSON_UNESCAPED_SLASHES;
@@ -137,7 +133,7 @@
 
 		/**
 		 * Не кодировать многобайтовые символы Unicode (по умолчанию они кодируются как \uXXXX). Доступно с PHP 5.4.0.
-		 * @return Json
+		 * @return ArrayObject_Json
 		 */
 		public function JSON_UNESCAPED_UNICODE(){
 			$this->option[] = JSON_UNESCAPED_UNICODE;
@@ -147,7 +143,7 @@
 
 		/**
 		 * Позволяет избежать возникновения ошибок при использовании функции json_encode. Осуществляет подстановку значений по умолчанию вместо некодируемых. Доступно с PHP 5.5.0.
-		 * @return Json
+		 * @return ArrayObject_Json
 		 */
 		public function JSON_PARTIAL_OUTPUT_ON_ERROR(){
 			$this->option[] = JSON_PARTIAL_OUTPUT_ON_ERROR;
@@ -157,7 +153,7 @@
 
 		/**
 		 * Гарантирует, что значение типа float будет преобразовано именно в значение типа float в случае, если дробная часть равна 0. Доступно с PHP 5.6.6.
-		 * @return Json
+		 * @return ArrayObject_Json
 		 */
 		public function JSON_PRESERVE_ZERO_FRACTION(){
 			$this->option[] = JSON_PRESERVE_ZERO_FRACTION;
@@ -167,7 +163,7 @@
 
 		/**
 		 * Символы конца строки не будут экранироваться, если задана константа JSON_UNESCAPED_UNICODE. Поведение будет таким же, какое оно было до PHP 7.1 без этой константы. Доступно с PHP 7.1.0.
-		 * @return Json
+		 * @return ArrayObject_Json
 		 */
 		public function JSON_UNESCAPED_LINE_TERMINATORS(){
 			$this->option[] = JSON_UNESCAPED_LINE_TERMINATORS;
@@ -177,7 +173,7 @@
 
 		/**
 		 * Выбрасывается исключение JsonException в случае возникновения ошибок вместо установки глобального состояния ошибки, которое может быть получено с помощью функции json_last_error(). Константа JSON_PARTIAL_OUTPUT_ON_ERROR имеет приоритет над JSON_THROW_ON_ERROR. Доступно с PHP 7.3.0.
-		 * @return Json
+		 * @return ArrayObject_Json
 		 */
 		public function JSON_THROW_ON_ERROR(){
 			$this->option[] = JSON_THROW_ON_ERROR;

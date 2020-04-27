@@ -243,7 +243,10 @@
 				}
 				else{
 					$Path = PathsFactory::get( $file );
-					if( !in_array( $Path->handle(), $scripts_done ) ) $js_filtered[ $Path->handle() ] = $Path->Url()->get();
+					if( !in_array( $Path->handle(), $scripts_done ) ) {
+						if($Path->is_local()) $js_filtered[ $Path->handle() ] = $Path->Url()->get();
+						else $js_filtered[ $Path->handle() ] = $Path->get_original_path();
+					}
 				}
 			}
 			///

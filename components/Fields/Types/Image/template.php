@@ -1,38 +1,39 @@
 <?php
 	
 	/**
-	 * @var Field_File $this
+	 * @var Field_Image $this
 	 */
 	
-	use hiweb\components\Fields\Types\File\Field_File;
+	use hiweb\components\Fields\Types\Image\Field_Image;
 	use hiweb\components\FontAwesome\FontAwesomeFactory;
 	
 	
 	$rand_id = 'hiweb_field_file_' . \hiweb\core\Strings::rand( 5 );
-	$has_file = intval( $value ) > 0 && $this->the_File()->is_exists();
+	$has_file = intval( $value ) > 0 && $this->the_Image()->is_exists();
 	
 	$file_info = 'select file...';
 	if( $has_file ){
-		$file_info = $this->the_File()->basename() . ', size:' . $this->the_File()->get_size_formatted();
+		$file_info = $this->the_Image()->Path()->File()->basename() . ', size:' . $this->the_Image()->Path()->File()->get_size_formatted();
 	}
-
+	$style = new \hiweb\core\ArrayObject\ArrayObject();
+	$image_width = strpos($this->Options()->admin_width(),'%') !== false ? 1024 : intval($this->Options()->admin_width());
+	$image_height = intval($this->Options()->admin_height());
+	if($this->the_Image()->is_exists()) {
+		$style->push('background-image','url('.$this->the_Image()->get_src( [$image_width, $image_height] ).')');
+	}
+	$style->push('width', $this->Options()->admin_width());
+	$style->push('height', $this->Options()->admin_height());
 ?>
-<div class="hiweb-type-field-image" data-rand-id="<?= $rand_id ?>" data-global-id="<?= $this->global_id() ?>" data-has-file="<?= $has_file ? '1' : '0' ?>" data-file-mime="<?= $this->the_File()->mime() ?>" data-file-image="<?= $this->the_File()->is_image() ? 'image' : 'file' ?>">
+<div class="hiweb-field-type-image" data-rand-id="<?= $rand_id ?>" data-global-id="<?= $this->global_id() ?>" data-has-file="<?= $has_file ? '1' : '0' ?>" data-file-mime="<?= $this->the_Image()->get_mime_type() ?>" style="<?=$style->get_param_html_style()?>">
 	<input type="hidden" value="<?= htmlentities( $value ) ?>" name="<?= $name ?>"/>
-	<div data-status="empty">
-		<input type="text" disabled data-message="empty" value="<?= htmlentities( $this->Options()->label_empty() ) ?>"/>
-		<button data-click-wp-media class="button button-primary" title="<?= htmlentities( $this->Options()->label_button_select() ) ?>"><?= FontAwesomeFactory::get( '<i class="fad fa-folder-open"></i>' ) ?></button>
+	<!--CONTROL-->
+	<div data-image-control-wrap="0">
+		<a data-click="select" href="#"><?= FontAwesomeFactory::get( '<i class="fad fa-folder-open"></i>' ) ?></a>
 	</div>
-	<div data-status="selected">
-		<input type="text" disabled data-message="file" value="<?= $file_info ?>"/>
-		<div class="button-group">
-			<button data-click-wp-media class="button" title="<?= __( 'Select other', 'hiweb-core-4' ) ?>"><?= FontAwesomeFactory::get( '<i class="fad fa-folder-open"></i>' ) ?></button>
-			<a href="<?= get_edit_post_link( $value ) ?>" target="_blank" data-click-edit-attachment class="button" title="<?= __( 'Edit attachment', 'hiweb-core-4' ) ?>"><?= FontAwesomeFactory::get( '<i class="fas fa-file-edit"></i>' ) ?></a>
-			<a href="<?= $this->the_File()->Url()->get() ?>" target="_blank" class="button button-secondary" title="<?= __( 'Download the file', 'hiweb-core-4' ) ?>"><?= FontAwesomeFactory::get( 'download' ) ?></a>
-			<button data-click-clear class="button button-link-delete" title="<?= __( 'Unselect file (clear)', 'hiweb-core-4' ) ?>"><?= FontAwesomeFactory::get( '<i class="fad fa-file-times"></i>' ) ?></button>
-		</div>
-	</div>
-	<div data-upload-place>
-		<?= __( 'Drag&Drop uploaded file in that place', 'hiweb-core-4' ) ?>
+	<div data-image-control-wrap="1">
+		<a data-click="edit" href="#"><?= FontAwesomeFactory::get( '<i class="fad fa-file-check"></i>' ) ?></a>
+		<a data-link="edit_link" href="<?= get_edit_post_link( $attachment_id ) ?>" target="_blank"><?= FontAwesomeFactory::get( '<i class="fas fa-file-edit"></i>' ) ?></a>
+		<a data-link="url" href="<?= wp_get_attachment_url( $attachment_id ) ?>" target="_blank"><?= FontAwesomeFactory::get( '<i class="fad fa-file-download"></i>' ) ?></a>
+		<a data-click="remove" href="#"><?= FontAwesomeFactory::get( '<i class="fas fa-file-times"></i>' ) ?></a>
 	</div>
 </div>

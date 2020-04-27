@@ -24,7 +24,10 @@
 	
 	add_post_type( 'page' )->show_in_rest( false );
 	
-	$repeat = add_field_repeat('repeat2');
-	$repeat->Location()->PostType('page');
-	$repeat->add_col_field(add_field_images( 'images' ))->label('Картинки')->compact(1);
-	$repeat->add_col_field(add_field_content( 'content' ));
+	add_field_images('images')->label('Проверка изображения')->Location()->PostType('page');
+	
+	//	$repeat = add_field_repeat('repeat2');
+	//	$repeat->Location()->PostType('page');
+	//	$repeat->add_col_field(add_field_info('Тестовое поле для проверка INFO FIELD'))->compact(1);
+	//	$repeat->add_col_field(add_field_images( 'images' ))->label('Картинки')->compact(1);
+	//	$repeat->add_col_field(add_field_content( 'content' ));

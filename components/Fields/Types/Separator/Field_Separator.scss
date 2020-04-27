@@ -1,0 +1,33 @@
+.hiweb-field-type-separator {
+
+	margin: 12px 0 -8px 0;
+	border-bottom: 1px dashed #ccc;
+
+	.hw-field-separator-title {
+		font-size: 140% !important;
+		margin: 4px 0;
+		padding: 0 !important;
+
+		&.has-description {
+			margin-bottom: 4px;
+			padding-bottom: 0;
+		}
+
+		&.no-description {
+			margin-bottom: 16px;
+			padding-bottom: 0;
+		}
+	}
+
+	.hw-field-separator-description {
+		margin: 0 0 4px 0;
+		font-style: italic;
+	}
+
+}
+
+form {
+	.hiweb-field-type-separator:first-child {
+		margin-top: 0;
+	}
+}
