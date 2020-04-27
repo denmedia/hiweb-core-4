@@ -6,6 +6,7 @@ jQuery(document).ready(function ($) {
             $color_inputs.spectrum({
                 type: "component",
                 allowEmpty: true,
+                hideAfterPaletteSelect:true,
                 togglePaletteOnly: "true",
                 showInput: "true",
                 showInitial: "true"

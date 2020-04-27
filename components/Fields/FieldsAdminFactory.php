@@ -26,7 +26,7 @@
 		 * @return string
 		 */
 		static public function get_field_input_name( Field $field ){
-			return 'hiweb-field-' . $field->ID();
+			return 'hiweb-' . $field->ID();
 		}
 		
 		
@@ -35,9 +35,7 @@
 		 * @return string
 		 */
 		static public function get_field_input_option_name( field $field ){
-			$options_admin_menus = $field->Options()->Location()->_( 'admin_menus' );
-			if( isset( $options_admin_menus['menu_slug'] ) ) return 'hiweb-field-option-' . $options_admin_menus['menu_slug'] . '-' . $field->ID();
-			return 'hiweb-field-option-' . $field->ID();
+			return 'hiweb-option-' . $field->Options()->Location()->_('options') . '-' . $field->ID();
 		}
 		
 		
@@ -136,6 +134,12 @@
 			foreach( $fields as $Field ){
 				if( array_key_exists( 'post_type', $location_query ) && metadata_exists( 'post', $location_query['post_type']['ID'], $Field->ID() ) ){
 					$R[ $Field->ID() ] = get_post_meta( $location_query['post_type']['ID'], $Field->ID(), true );
+				}elseif( array_key_exists( 'options', $location_query ) ){
+					if($Field->get_allow_save_field()) {
+						$R[ $Field->ID() ] = get_option( FieldsAdminFactory::get_field_input_option_name($Field), null );
+					} else {
+						$R[ $Field->ID() ] = null;
+					}
 				}
 				else{
 					$R[ $Field->ID() ] = null;
@@ -317,7 +321,7 @@
 					$value = $Field->Options()->default_value();
 				}
 				self::$the_form_field_value = $Field->get_sanitize_admin_value( $value );
-				self::$the_form_field_name = self::get_field_input_name( $Field );
+				self::$the_form_field_name = array_key_exists('options', $Field->Options()->Location()->_get_optionsCollect()) ? self::get_field_input_option_name($Field) : self::get_field_input_name( $Field );
 				ob_start();
 				@include __DIR__ . '/FieldsAdminFactory/templates/default-field.php';
 				$fields_html[] = ob_get_clean();

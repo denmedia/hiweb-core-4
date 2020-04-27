@@ -15,7 +15,7 @@
 			$this->Icon = $Icon;
 			$this->data = [];
 			$this->style = $style;
-			if( array_key_exists( $style, $Icon->get_svg() ) ){
+			if(is_string($style) && array_key_exists( $style, $Icon->get_svg() ) ){
 				$this->data = $Icon->get_svg()[ $style ];
 				$this->exists = true;
 			}

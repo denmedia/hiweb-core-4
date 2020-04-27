@@ -9,12 +9,12 @@
 	class Field_Color extends Field{
 
 		public function get_css(){
-			return [ HIWEB_DIR_VENDOR . '/spectrum-2.0.0/spectrum.css', __DIR__ . '/style.css' ];
+			return [ HIWEB_DIR_VENDOR . '/spectrum-2.0.0/spectrum.css', __DIR__ . '/Field_Color.css' ];
 		}
 
 
 		public function get_js(){
-			return [ HIWEB_DIR_VENDOR . '/spectrum-2.0.0/spectrum.min.js', __DIR__ . '/script.min.js' ];
+			return [ HIWEB_DIR_VENDOR . '/spectrum-2.0.0/spectrum.min.js', __DIR__ . '/Field_Color.min.js' ];
 		}
 
 

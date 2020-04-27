@@ -26,7 +26,7 @@
       <root url="file://$PROJECT_DIR$/components/AdminNotices/App.min.js" />
       <root url="file://$PROJECT_DIR$/components/Fields/FieldsAdmin.min.js" />
       <root url="file://$PROJECT_DIR$/components/Fields/FieldsAdminFactory/script.min.js" />
-      <root url="file://$PROJECT_DIR$/components/Fields/Types/Color/script.min.js" />
+      <root url="file://$PROJECT_DIR$/components/Fields/Types/Color/Field_Color.min.js" />
       <root url="file://$PROJECT_DIR$/components/Fields/Types/Content/field-content.min.js" />
       <root url="file://$PROJECT_DIR$/components/Fields/Types/Date/field-date.min.js" />
       <root url="file://$PROJECT_DIR$/components/Fields/Types/File/field-file.min.js" />

@@ -32,7 +32,7 @@
 
 
 		/**
-		 * @return Options|null|$this
+		 * @return Options|null|$this|mixed
 		 */
 		protected function getParent_OptionsObject(){
 			if( $this->parent_OptionsObject instanceof Options ){

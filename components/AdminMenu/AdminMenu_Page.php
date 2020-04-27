@@ -1,30 +1,30 @@
 <?php
-
+	
 	namespace hiweb\components\AdminMenu;
-
-
+	
+	
 	use hiweb\components\FontAwesome\FontAwesome_Icon;
 	use hiweb\components\FontAwesome\FontAwesome_Icon_Style;
 	use hiweb\components\FontAwesome\FontAwesomeFactory;
 	use hiweb\core\Options\Options;
 	use hiweb\core\Strings;
 	use function hiweb\components\FontAwesome\is_fontawesome_class_name;
-
-
+	
+	
 	class AdminMenu_Page extends Options{
-
-
+		
+		
 		protected $menu_slug;
 		/** @var FontAwesome_Icon */
 		protected $fontawesome_icon;
-
-
+		
+		
 		public function __construct( $slug ){
 			parent::__construct();
 			$this->menu_slug = Strings::sanitize_id( $slug, '_', 20 );
 		}
-
-
+		
+		
 		/**
 		 * Текст, который будет использован в теге <title> на странице, относящейся к пункту меню.
 		 * @param null $set
@@ -33,22 +33,23 @@
 		public function page_title( $set = null ){
 			return $this->_( 'page_title', $set );
 		}
-
-
+		
+		
 		/**
 		 * Название пункта меню в сайдбаре админ-панели.
 		 * @param string $set
 		 * @return array|AdminMenu_Page|mixed|null
 		 */
 		public function menu_title( $set = null ){
-			if( is_null( $set ) && $this->parent_slug() != '' && $this->fontawesome_icon instanceof FontAwesome_Icon){
-				return '<span style="display: inline-block; width: 1em; margin-right: .4em; vertical-align: middle">'.$this->fontawesome_icon->get_style()->get_raw().'</span>' . $this->_( 'menu_title' );
-			} else {
+			if( is_null( $set ) && $this->parent_slug() != '' && $this->fontawesome_icon instanceof FontAwesome_Icon ){
+				return '<span style="display: inline-block; width: 1em; margin-right: .4em; vertical-align: middle">' . $this->fontawesome_icon->get_style()->get_raw() . '</span>' . $this->_( 'menu_title' );
+			}
+			else{
 				return $this->_( 'menu_title', $set );
 			}
 		}
-
-
+		
+		
 		/**
 		 * Права пользователя (возможности), необходимые чтобы пункт меню появился в списке.
 		 * @param string $set
@@ -57,8 +58,8 @@
 		public function capability( $set = null ){
 			return $this->_( 'capability', $set );
 		}
-
-
+		
+		
 		/**
 		 * Уникальное название (slug), по которому затем можно обращаться к этому меню.
 		 * Если параметр $function не указан, этот параметр должен равняться названию PHP файла относительно каталога плагинов, который отвечает за вывод кода страницы этого пункта меню.
@@ -68,8 +69,8 @@
 		public function menu_slug(){
 			return $this->menu_slug;
 		}
-
-
+		
+		
 		/**
 		 * Название (slug) родительского меню в которое будет добавлен пункт или название файла админ-страницы WordPress.
 		 * Используйте NULL, чтобы создать страницу, которая не будет появляться в пункте меню. Работает и для мультисайта.
@@ -93,8 +94,8 @@
 		public function parent_slug( $set = null ){
 			return $this->_( 'parent_slug', $set );
 		}
-
-
+		
+		
 		/**
 		 * Название функции, которая выводит контент страницы пункта меню.
 		 * Этот необязательный параметр и если он не указан, WordPress ожидает что текущий подключаемый PHP файл генерирует код страницы админ-меню, без вызова функции. Большинство авторов плагинов предпочитают указывать этот параметр.
@@ -110,8 +111,8 @@
 		public function function_( $callback = null ){
 			return $this->_( 'function', $callback );
 		}
-
-
+		
+		
 		/**
 		 * Иконка для пункта меню.
 		 * @param null $urlOrFontawesome
@@ -124,8 +125,8 @@
 			}
 			return $this->_( 'icon_url', $urlOrFontawesome );
 		}
-
-
+		
+		
 		/**
 		 * Число определяющее позицию меню. Чем больше цифра, тем ниже будет расположен пункт меню.
 		 * Внимание! Если два пункта используют одинаковую цифру-позицию, один из пунктов меню может быть перезаписан и будет показан только один пункт из двух. Чтобы избежать конфликта, можно использовать десятичные значения, вместо целых чисел: 63.3 вместо 63. Используйте кавычки: "63.3".
@@ -151,5 +152,32 @@
 		public function position( $set = null ){
 			return $this->_( 'position', $set );
 		}
-
+		
+		
+		public function the_page(){
+			if( isset( $_GET['settings-updated'] ) ){
+				if( $_GET['settings-updated'] ){
+					if( get_current_screen()->parent_file != 'options-general.php' ){
+//						$notice = add_admin_notice( 'Для страницы "' . $this->page_title() . '" все данные успешно сохранены' );
+//						$notice->CLASS_()->success();
+//						$notice->the();
+					}
+				} else {
+//					$notice = add_admin_notice( 'Ошибка в момент сохранения опций' );
+//					$notice->CLASS_()->error();
+//					$notice->the();
+				}
+			}
+			include __DIR__ . '/template-default.php';
+		}
+		
+		
+		public function submit_button_label( $set = null ){
+			return $this->_( 'submit_button_label', $set, __( 'Update' ) );
+		}
+		
+		public function submit_button_icon($fontAwesome_icon = null){
+			return $this->_('submit_button_icon', $fontAwesome_icon);
+		}
+		
 	}
