@@ -1,6 +1,5 @@
 <?php
 
-	use hiweb\components\Fields\FieldsAdminFactory;
 	use hiweb\components\Fields\Types\Checkbox\Field_Checkbox;
 	
 	
@@ -9,9 +8,8 @@
 	$value = $this->get_sanitize_admin_value($value);
 	
 ?>
-<div class="hiweb-field-checkbox">
-	<div class="ui toggle checkbox">
-		<input class="checkbox" type="checkbox" id="<?= $rand_id ?>" name="<?= $this->get_sanitize_admin_name( FieldsAdminFactory::get_the_field_name() ) ?>" <?= $value ? 'checked="checked"' : '' ?>>
+<div class="hiweb-field-type-checkbox">
+		<input class="checkbox" type="checkbox" id="<?= $rand_id ?>" name="<?= $this->get_sanitize_admin_name( $name ) ?>" <?= $value ? 'checked="checked"' : '' ?>>
 		<?php
 			if( $this->Options()->label_checkbox() != '' ){
 				?>
@@ -19,5 +17,4 @@
 				<?php
 			}
 		?>
-	</div>
 </div>

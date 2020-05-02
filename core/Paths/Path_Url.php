@@ -3,6 +3,7 @@
 	namespace hiweb\core\Paths;
 
 
+	use hiweb\components\Dump;
 	use hiweb\core\ArrayObject\ArrayObject;
 	use hiweb\core\hidden_methods;
 	use hiweb\core\Paths\PathsFactory;
@@ -25,7 +26,7 @@
 		private $params_str;
 		private $schema;
 		private $domain;
-		private $base;
+		private $base = [];
 		private $prepare_data;
 		private $root;
 
@@ -99,12 +100,13 @@
 
 
 		/**
+		 * @version 1.1
 		 * @param null|bool $use_noscheme
 		 * @return string
 		 */
 		public function base( $use_noscheme = null ){
 			$key = json_encode( $use_noscheme );
-			if( !is_string( $this->base[ $key ] ) ){
+			if(!isset($this->base[$key]) || !is_string( $this->base[ $key ] ) ){
 				if( !is_bool( $use_noscheme ) ) $use_noscheme = PathsFactory::$use_universal_schema_urls;
 				$this->base[ $key ] = ( $use_noscheme ? '//' : $this->schema() . '://' ) . $this->domain();
 			}
@@ -172,12 +174,23 @@
 				if( !is_string( $this->params_str ) ) $this->params_str = '';
 				if( strlen( $this->params_str ) > 0 ){
 					foreach( explode( '&', $this->params_str ) as $pair ){
-						list( $key, $val ) = explode( '=', $pair );
+						[ $key, $val ] = explode( '=', $pair );
 						$this->params->push( $key, $val );
 					}
 				}
 			}
 			return $this->params;
+		}
+		
+		/**
+		 * @param $params
+		 * @return $this
+		 */
+		public function set_params($params){
+			if(is_array($params)) foreach($params as $key => $val) {
+				$this->params()->push($key, $val);
+			}
+			return $this;
 		}
 
 

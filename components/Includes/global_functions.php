@@ -1,8 +1,8 @@
 <?php
 
-	use hiweb\components\Includes\AdminPage;
+	use hiweb\components\Includes\IncludesFactory_AdminPage;
 	use hiweb\components\Includes\Css;
-	use hiweb\components\Includes\FrontendPage;
+	use hiweb\components\Includes\IncludesFactory_FrontendPage;
 	use hiweb\components\Includes\IncludesFactory;
 	use hiweb\components\Includes\Js;
 
@@ -16,7 +16,7 @@
 		 * @return Js
 		 */
 		function include_js( $fileNameOrPathOrURL, $deeps = [], $set_toFooter = true ){
-			$Js = IncludesFactory::Js( $fileNameOrPathOrURL );
+			$Js = IncludesFactory::js( $fileNameOrPathOrURL );
 			$Js->deeps( $deeps );
 			$Js->to_footer( $set_toFooter );
 			$Js->defer();
@@ -32,7 +32,7 @@
 		 * @return Js
 		 */
 		function include_frontend_js( $fileNameOrPathOrURL, $deeps = [], $set_toFooter = true ){
-			$Js = FrontendPage::Js( $fileNameOrPathOrURL );
+			$Js = IncludesFactory_FrontendPage::js( $fileNameOrPathOrURL );
 			$Js->deeps( $deeps );
 			$Js->to_footer( $set_toFooter );
 			$Js->defer();
@@ -43,7 +43,7 @@
 	if( !function_exists( 'include_admin_js' ) ){
 
 		function include_admin_js( $fileNameOrPathOrURL, $deeps = [], $set_toFooter = true ){
-			$Js = AdminPage::Js( $fileNameOrPathOrURL );
+			$Js = IncludesFactory_AdminPage::js( $fileNameOrPathOrURL );
 			$Js->deeps( $deeps );
 			$Js->to_footer( $set_toFooter );
 			$Js->defer();
@@ -59,7 +59,7 @@
 		 * @return Css
 		 */
 		function include_css( $fileNameOrPathOrURL, $deeps = [], $set_toFooter = false ){
-			$Css = IncludesFactory::Css( $fileNameOrPathOrURL );
+			$Css = IncludesFactory::css( $fileNameOrPathOrURL );
 			$Css->deeps( $deeps );
 			$Css->to_footer( $set_toFooter );
 			return $Css;
@@ -74,7 +74,7 @@
 		 * @return Css
 		 */
 		function include_frontend_css( $fileNameOrPathOrURL, $deeps = [], $set_toFooter = false ){
-			$Css = FrontendPage::Css( $fileNameOrPathOrURL );
+			$Css = IncludesFactory_FrontendPage::css( $fileNameOrPathOrURL );
 			$Css->deeps( $deeps );
 			$Css->to_footer( $set_toFooter );
 			return $Css;
@@ -89,7 +89,7 @@
 		 * @return Css
 		 */
 		function include_admin_css( $fileNameOrPathOrURL, $deeps = [], $set_toFooter = false ){
-			$Css = AdminPage::Css( $fileNameOrPathOrURL );
+			$Css = IncludesFactory_AdminPage::css( $fileNameOrPathOrURL );
 			$Css->deeps( $deeps );
 			$Css->to_footer( $set_toFooter );
 			return $Css;

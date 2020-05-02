@@ -108,5 +108,6 @@ $fields_color_bg_grey: $fields_color_grey_white;
 
 @mixin fields_ui_text-input_oneline(){
 	padding: .4em;
+	line-height: 1;
 	@include fields_ui_text_input;
 }

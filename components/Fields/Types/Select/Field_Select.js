@@ -7,13 +7,13 @@ let hiweb_field_type_select = {
 
     init: function (element) {
         let $root = jQuery(element);
-        if(!$root.is('.hiweb-field-type-select')){
+        if (!$root.is('.hiweb-field-type-select')) {
             $root = $root.closest('.hiweb-field-type-select');
         }
-        if($root.length === 0) {
+        if ($root.length === 0) {
             $root = jQuery(this);
         }
-        if($root.length > 0 && !$root.is('.hiweb-field-type-select-init')) {
+        if ($root.length > 0 && !$root.is('.hiweb-field-type-select-init')) {
             $root.addClass('hiweb-field-type-select-init');
             hiweb_field_type_select.make_selectize($root);
         }
@@ -30,7 +30,7 @@ let hiweb_field_type_select = {
             searchField: 'title',
             placeholder: $select.attr('placeholder'),
             options: [],
-            plugins: ['remove_button','drag_drop']
+            plugins: ['remove_button', 'drag_drop']
         });
     }
 

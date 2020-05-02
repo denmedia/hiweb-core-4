@@ -250,11 +250,12 @@
 		
 		
 		/**
+		 * Return original URL or Absolute PATH
 		 * @param bool $return_path
 		 * @return string
 		 */
 		public function get_original_src( $return_path = false ){
-			return $return_path ? $this->Path()->get_url() : $this->Path()->get_absolute_path();
+			return $return_path ? $this->Path()->get_absolute_path() : $this->Path()->get_url();
 		}
 		
 		

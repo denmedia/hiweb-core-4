@@ -15,5 +15,14 @@
 		public function rows($set = null){
 			return $this->_('rows', $set, 5);
 		}
+		
+		
+		/**
+		 * @param null $set
+		 * @return array|Field_Textarea_Options|mixed|null
+		 */
+		public function placeholder($set = null){
+			return $this->_('placeholder', $set);
+		}
 	
 	}

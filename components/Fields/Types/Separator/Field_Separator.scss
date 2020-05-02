@@ -1,6 +1,14 @@
+.hiweb-fields-form {
+	fieldset:not(:first-child) {
+		.hiweb-field-type-separator {
+			margin-top: 2.4em;
+		}
+	}
+}
+
 .hiweb-field-type-separator {
 
-	margin: 12px 0 -8px 0;
+	margin-bottom: 1em;
 	border-bottom: 1px dashed #ccc;
 
 	.hw-field-separator-title {
@@ -14,7 +22,7 @@
 		}
 
 		&.no-description {
-			margin-bottom: 16px;
+			margin-bottom: 10px;
 			padding-bottom: 0;
 		}
 	}

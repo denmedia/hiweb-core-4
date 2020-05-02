@@ -20,4 +20,10 @@ jQuery(document).ready(function ($) {
         hiweb_field_type_script(this);
     });
 
+    jQuery('body').on('hiweb-form-ajax-loaded','.hiweb-components-form-ajax-wrap', function () {
+        $(this).find('.hiweb-field-type-script').each(function () {
+            hiweb_field_type_script(this);
+        });
+    });
+
 });

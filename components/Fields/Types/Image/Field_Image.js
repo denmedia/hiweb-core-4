@@ -6,6 +6,8 @@ let hiweb_field_type_image = {
             $root = $root.closest('.hiweb-field-type-image');
         }
         if ($root.length === 0) return;
+        if ($root.is('.hiweb-field-type-image-init')) return;
+        $root.addClass('hiweb-field-type-image-init');
         $root.on('click', '[data-click]', function (e) {
             e.preventDefault();
             let $button = jQuery(this);
@@ -14,8 +16,8 @@ let hiweb_field_type_image = {
                     hiweb_field_type_image.click_wp_media($root);
                     break;
                 case 'remove':
+                    $root.find('[data-image-place]').css({'background-image': ''});
                     $root
-                        .css({'background-image': ''})
                         .attr('data-has-file', '0')
                         .find('input[name]').val('');
                     break;
@@ -34,7 +36,7 @@ let hiweb_field_type_image = {
             library: {type: 'image'}
         });
         let $input = $root.find('input[name]');
-        if($input.val() != '') {
+        if ($input.val() != '') {
             gallery_window.on('open', function () {
                 var selection = gallery_window.state().get('selection');
                 attachment = wp.media.attachment($input.val());
@@ -65,17 +67,23 @@ let hiweb_field_type_image = {
                             }
                         }
                     }
+                    if (selection.icon === image_src) {
+                        for (let size_name in selection.sizes) {
+                            image_src = selection.sizes[size_name]['url'];
+                            break;
+                        }
+                    }
                     if (selection.hasOwnProperty('editLink')) {
                         edit_link = selection.editLink;
                     }
                     if (selection.hasOwnProperty('url')) {
                         original_src = selection.url;
                     }
+                    $root.find('[data-image-place]').css({'background-image': 'url(' + image_src + ')'});
                     $root
                         .attr('data-file-mime', selection.mime)
                         .attr('data-has-file', '1')
-                        .attr('data-attachment-id', selection.id)
-                        .css({'background-image': 'url(' + image_src + ')'});
+                        .attr('data-attachment-id', selection.id);
                     $root.find('[data-link="edit_link"]').attr('href', edit_link);
                     $root.find('[data-link="url"]').attr('href', original_src);
                     $root.find('input').val(selection.id);

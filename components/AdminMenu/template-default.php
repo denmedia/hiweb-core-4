@@ -1,13 +1,19 @@
 <?php
-	$Page = \hiweb\components\AdminMenu\AdminMenuFactory::the_Page();
-	\hiweb\components\Includes\IncludesFactory::Css( __DIR__ . '/AdmiMenu_Page.css' );
+	
+	use hiweb\components\AdminMenu\AdminMenuFactory;
+	use hiweb\components\Fields\FieldsFactory_Admin;
+	use hiweb\components\Includes\IncludesFactory;
+	
+	
+	$Page = AdminMenuFactory::the_Page();
+	IncludesFactory::css( __DIR__ . '/AdmiMenu_Page.css' );
+	
 ?>
 <div class="wrap hiweb-adminmenu-page-wrap">
 	<h1><?= $Page->page_title() ?></h1>
 	<form method="post" enctype="multipart/form-data" action="options.php">
 		<?php
-			settings_fields( $Page->menu_slug() );
-			echo \hiweb\components\Fields\FieldsAdminFactory::get_ajax_form_html( [
+			echo FieldsFactory_Admin::get_ajax_form_html( [
 				'options' => $Page->menu_slug()
 			] );
 		?>

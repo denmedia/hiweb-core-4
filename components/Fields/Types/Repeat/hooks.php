@@ -19,7 +19,7 @@
 				$R['error'] = 'Поле с id[' . $field_global_id . '] не найден!';
 			}
 			else{
-				if(array_key_exists('rand_id', $_POST)) $Field->get_rand_id($_POST['rand_id']);
+				if(array_key_exists('rand_id', $_POST)) $Field->get_unique_id($_POST['unique_id']);
 				$cols = $Field->Options()->get_cols();
 				$R['cols'] = $cols;
 				if(!array_key_exists( $_POST['flex_row_id'], $Field->get_flexes() )) {

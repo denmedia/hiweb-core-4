@@ -3,7 +3,7 @@
 	namespace hiweb\core\ArrayObject;
 	
 	
-	class ArrayObject{
+	class ArrayObject extends \ArrayObject{
 		
 		/**
 		 * @var array
@@ -15,14 +15,28 @@
 		private $Rows;
 		
 		
-		public function __construct( $array_or_firstItem = [] ){
-			if( $array_or_firstItem instanceof ArrayObject ){
-				$this->array = $array_or_firstItem->get();
+		public function __construct( $input = [], $flags = 0, $iterator_class = "ArrayIterator" ){
+			if( $input instanceof ArrayObject ){
+				$this->array = $input->get();
 			}
 			else{
-				$this->array = (array)$array_or_firstItem;
+				$this->array = (array)$input;
 			}
+			parent::__construct( $this->array, $flags, $iterator_class );
 			ArraysRowsFactory::$latestCreated_ArrayObject = $this;
+		}
+		
+		
+		public function __construct2( $array_or_firstItem = [] ){
+		}
+		
+		
+		/**
+		 * @param null $array
+		 * @return ArrayObject
+		 */
+		static function get_instance( $array = null ){
+			return new ArrayObject( $array );
 		}
 		
 		
@@ -621,6 +635,48 @@
 				if( !$this->key_exists( $input_name_id ) ) return $input_name_id;
 			}
 			return false;
+		}
+		
+		
+		
+		///DEPRECATED
+		
+		
+		/**
+		 * @return bool
+		 * @deprecated
+		 */
+		public function have_rows(){
+			return $this->Rows()->have();
+		}
+		
+		
+		/**
+		 * @return mixed|null
+		 * @deprecated
+		 */
+		public function the_row(){
+			return $this->Rows()->the();
+		}
+		
+		
+		/**
+		 * @return ArrayObject|null
+		 * @deprecated
+		 */
+		public function get_current_row(){
+			return $this->Rows()->get_current();
+		}
+		
+		
+		/**
+		 * @param      $key
+		 * @param null $default
+		 * @return ArrayObject|null
+		 * @deprecated
+		 */
+		public function get_sub_field( $key, $default = null ){
+			return $this->Rows()->get_sub_field($key, $default);
 		}
 		
 		

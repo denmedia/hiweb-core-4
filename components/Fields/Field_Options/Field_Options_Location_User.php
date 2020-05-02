@@ -3,6 +3,9 @@
 	namespace hiweb\components\Fields\Field_Options;
 
 
-	class Field_Options_Location_User{
+	use hiweb\core\Options\Options;
+	
+	
+	class Field_Options_Location_User extends Options{
 
 	}

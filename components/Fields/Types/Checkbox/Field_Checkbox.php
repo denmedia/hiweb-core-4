@@ -13,7 +13,7 @@
 		
 		
 		public function get_css(){
-			return __DIR__ . '/style.css';
+			return __DIR__ . '/Field_Checkbox.css';
 		}
 		
 		

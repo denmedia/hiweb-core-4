@@ -1,0 +1,41 @@
+.hiweb-tools-taxonomy_main_select li [data-taxonomy-selector] {
+  border: none;
+  display: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  line-height: 1.3em;
+  font-size: 1em;
+  cursor: pointer;
+  -webkit-transition: all 0.2s ease-in-out 0ms;
+  -moz-transition: all 0.2s ease-in-out 0ms;
+  -o-transition: all 0.2s ease-in-out 0ms;
+  transition: all 0.2s ease-in-out 0ms;
+  color: #cccccc;
+}
+.hiweb-tools-taxonomy_main_select li [data-taxonomy-selector] [data-icon="1"] {
+  color: #0d71bb;
+}
+.hiweb-tools-taxonomy_main_select li [data-taxonomy-selector]:hover {
+  color: #3ac0ff;
+}
+.hiweb-tools-taxonomy_main_select li [data-taxonomy-selector]:focus {
+  outline: none;
+}
+.hiweb-tools-taxonomy_main_select li[data-checked="1"] > [data-taxonomy-selector] {
+  display: inline-block;
+}
+.hiweb-tools-taxonomy_main_select li[data-main-term-select="0"] > button [data-icon="0"] {
+  display: inline-block;
+}
+.hiweb-tools-taxonomy_main_select li[data-main-term-select="0"] > button [data-icon="1"] {
+  display: none;
+}
+.hiweb-tools-taxonomy_main_select li[data-main-term-select="1"] > button [data-icon="0"] {
+  display: none;
+}
+.hiweb-tools-taxonomy_main_select li[data-main-term-select="1"] > button [data-icon="1"] {
+  display: inline-block;
+}
+
+/*# sourceMappingURL=tools-taxonomy_main_select.css.map */

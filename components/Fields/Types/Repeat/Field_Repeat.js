@@ -15,23 +15,47 @@ let hiweb_field_repeat = {
 
     init: function (root) {
         let $root = jQuery(root);
-        let rand_id = $root.attr('data-rand-id');
+        if ($root.length === 0) return;
+        if (!$root.is('[data-unique_id]')) return;
+        if ($root.is('.hiweb-field-type-repeat-init')) return;
+        $root.addClass('hiweb-field-type-repeat-init');
+        //button events
+        hiweb_field_repeat.init_buttons($root);
         ///sortable
-        hiweb_field_repeat.make_sortable($root);
-        ///Set init names super repeat root
-        if ($root.parent().closest(hiweb_field_repeat.selector).length === 0) {
-            //hiweb_field_repeat.set_input_names(root);
-        }
-        ///
-        $root.find('[data-action-open-flex-submenu="' + rand_id + '"]').each(function () {
+        hiweb_field_repeat.init_sortable($root);
+        ///dropdown
+        hiweb_field_repeat.init_dropdown($root);
+        ///set input names
+        hiweb_field_repeat.set_input_names($root);
+    },
+
+
+    init_buttons: function ($rootOrRow) {
+        let unique_id = $rootOrRow.attr('data-unique_id');
+        $rootOrRow.find('[data-action_add][data-unique_id="' + unique_id + '"]').on('click', hiweb_field_repeat.click_add);
+        $rootOrRow.on('click', '[data-action-remove][data-unique_id="' + unique_id + '"]', hiweb_field_repeat.click_remove);
+        $rootOrRow.find('[data-action_clear][data-unique_id="' + unique_id + '"]').on('click', hiweb_field_repeat.click_clear_full);
+    },
+
+    init_dropdown: function ($root) {
+        let unique_id = $root.attr('data-unique_id');
+        //TODO!
+        $root.find('[data-dropdown="' + unique_id + '"]').each(function () {
             let $drop_down = jQuery(this).find('.hiweb-fields-dropdown-menu');
             let qtip = jQuery(this).qtip({
                 content: $drop_down,
                 show: {
-                    event: 'click'
+                    event: 'click',
+                    effect: function(offset) {
+                        jQuery(this).fadeIn(400); // "this" refers to the tooltip
+                    }
                 },
                 hide: {
-                    event: 'unfocus click mouseclick'
+                    event: 'unfocus click mouseclick',
+                    delay: 100,
+                    effect: function(offset) {
+                        jQuery(this).fadeOut(400); // "this" refers to the tooltip
+                    }
                 },
                 style: {
                     classes: 'qtip-light qtip-shadow'
@@ -39,69 +63,20 @@ let hiweb_field_repeat = {
                 position: {
                     my: 'top center',
                     at: 'bottom center',
+                    viewport: true,
                     adjust: {
-                        method: 'shift none'
+                        method: 'shift flip'
                     }
                 }
             });
-            $drop_down.on('click', '[data-action-add]', function (e) {
-                e.preventDefault();
-                if (jQuery(this).is(hiweb_field_repeat.selector_button_add)) {
-                    hiweb_field_repeat.click_add(this);
-                    qtip.qtip('hide');
-                }
-            });
+            $drop_down.on('click', 'a', () => {
+                qtip.qtip('hide');
+            })
         });
-        $root.on('click','[data-action-remove][data-rand-id="'+rand_id+'"]', hiweb_field_repeat.click_remove);
     },
 
-    /**
-     *
-     * @param root
-     * @returns {*|{}}
-     */
-    get_row_source: function (root) {
-        return jQuery(root).find('> table > tbody[data-rows-source] > tr[data-row]');
-    },
-
-    /**
-     *
-     * @param root
-     * @returns {*|{}}
-     */
-    get_rows_list: function (root) {
-        return jQuery(root).find('> table > tbody[data-rows-list]');
-    },
-
-    /**
-     *
-     * @param root
-     * @returns {*|{}}
-     */
-    get_rows: function (root) {
-        return jQuery(root).find('> table > tbody[data-rows-list] > tr[data-row]');
-    },
-
-    /**
-     *
-     * @param root
-     * @returns {*|{}}
-     */
-    get_cols: function (root) {
-        return jQuery(root).find('> table > thead [data-col]');
-    },
-
-    /**
-     *
-     * @param row
-     * @returns {*}
-     */
-    get_cols_by_row: function (row) {
-        return jQuery(row).find('> [data-col], > td > [data-col], > td > table > tbody > tr > [data-col]');
-    },
-
-    make_sortable: function (root) {
-        var rows = hiweb_field_repeat.get_rows_list(root);
+    init_sortable: function (root) {
+        let rows = hiweb_field_repeat.get_rows_list(root);
         if (typeof rows.sortable == 'undefined') {
             alert('Плагин jquery.ui.sortable.js не подключен!');
             return;
@@ -116,9 +91,11 @@ let hiweb_field_repeat = {
                     jQuery(this).trigger('hiweb-field-repeat-drag-update', [jQuery(this), jQuery(this).closest('[data-row]'), root]);
                 });
             },
+            tolerance: "pointer",
             forcePlaceholderSize: true,
             distance: 3,
             handle: '> [data-drag-handle], > [data-drag-handle] button, > [data-drag-handle] i, > [data-drag-handle] svg',
+            connectWith: '[data-rows_list="' + rows.attr('data-rows_list') + '"]',
             helper: function (e, ui) {
                 ui.find('th, td').each(function () {
                     jQuery(this).width(jQuery(this).width());
@@ -146,6 +123,63 @@ let hiweb_field_repeat = {
         });
     },
 
+
+    click_add: function (e) {
+        e.preventDefault();
+        let $button = jQuery(this);
+        let prepend = $button.is('[data-action_add="1"]');
+        let unique_id = $button.attr('data-unique_id');
+        let flex_row_id = $button.is('[data-flex_id]') ? $button.attr('data-flex_id') : '';
+        let $root = jQuery('.hiweb-field-type-repeat[data-unique_id="' + unique_id + '"]');
+        hiweb_field_repeat.add_rows($root, prepend, 1, '', flex_row_id, unique_id);
+    },
+
+
+    /**
+     *
+     * @param root
+     * @returns {*|{}}
+     */
+    get_row_source: function (root) {
+        return jQuery(root).find('> table > tbody[data-rows-source] > tr[data-row]');
+    },
+
+    /**
+     *
+     * @param root
+     * @returns {*|{}}
+     */
+    get_rows_list: function (root) {
+        return jQuery(root).find('> table > tbody[data-rows_list]');
+    },
+
+    /**
+     *
+     * @param root
+     * @returns {*|{}}
+     */
+    get_rows: function (root) {
+        return jQuery(root).find('> table > tbody[data-rows_list] > tr[data-row]');
+    },
+
+    /**
+     *
+     * @param root
+     * @returns {*|{}}
+     */
+    get_cols: function (root) {
+        return jQuery(root).find('> table > thead [data-col]');
+    },
+
+    /**
+     *
+     * @param row
+     * @returns {*}
+     */
+    get_cols_by_row: function (row) {
+        return jQuery(row).find('> [data-col], > td > [data-col], > td > table > tbody > tr > [data-col]');
+    },
+
     getRandomColor: function () {
         var letters = '0123456789ABCDEF';
         var color = '#';
@@ -159,28 +193,31 @@ let hiweb_field_repeat = {
         root = jQuery(root);
         //set rows index
         root.find('[data-row]').each(function () {
-            jQuery(this).attr('data-row', jQuery(this).index());
+            let $row = jQuery(this);
+            let $root = $row.closest('.hiweb-field-type-repeat');
+            jQuery(this).attr('data-row', $root.find('> table > tbody > tr[data-row]').index($row));
         });
         //set sub-input names
-        var $sub_inputs = root.find('[name]');
+        var $sub_inputs = root.find(':input[name]');
         $sub_inputs.each(function () {
             jQuery(this).attr('name', hiweb_field_repeat.get_input_name(jQuery(this)));
         });
         //
-        root.find('> table > tbody[data-rows-message] [data-row-empty]').attr('data-row-empty', hiweb_field_repeat.get_rows(root).length > 0 ? '1' : '0');
+        root.find('> table > tbody[data-rows_message] [data-row_empty]').attr('data-row_empty', hiweb_field_repeat.get_rows(root).length > 0 ? '1' : '0');
     },
 
     get_input_name: function ($input) {
         $input = jQuery($input);
-        var name_items = [];
-        var limit = 10;
-        while (limit > 0) {
+        let name_items = [];
+        let depth = 10;
+        while (depth > 0) {
             var $col = $input.closest('[data-col]');
             if ($col.length !== 1) {
-                return $input.closest('.hiweb-field-type-repeat[data-input-name]').attr('data-input-name');
+                return $input.closest('.hiweb-field-type-repeat[data-global_id]').attr('data-global_id');
             }
             //name sufix extract
-            let name_segments = $input.attr('name').split('[' + $col.attr('data-col') + ']');
+            let parent_name = $input.is('.hiweb-field-type-repeat') ? $input.attr('data-id') : $input.attr('name');
+            let name_segments = parent_name.split('[' + $col.attr('data-col') + ']');
             if (name_segments.length > 1) {
                 let name_sufix = name_segments.pop();
                 if (name_sufix !== '') {
@@ -196,80 +233,64 @@ let hiweb_field_repeat = {
             }
             name_items.push('[' + $row.attr('data-row') + ']');
             //repeat or super col
-            var $repeat = $row.closest('.hiweb-field-type-repeat[data-id]');
+            var $repeat = $row.closest('.hiweb-field-type-repeat[data-global_id]');
             if ($repeat.length !== 1) {
                 console.warn('3: repeat not found');
             }
             var $super_col = $repeat.closest('[data-col]');
             if ($super_col.length !== 1) {
                 //name_items.push($repeat.attr('data-id'));
-                name_items.push($repeat.attr('data-input-name'));
+                name_items.push($repeat.attr('data-input_name'));
                 break;
             } else {
                 $input = $repeat;
             }
-            limit--;
+            depth--;
         }
         return name_items.reverse().join('');
     },
 
 
     get_global_id: function (e) {
-        return jQuery(e).is('[data-global-id]') ? jQuery(e).attr('data-global-id') : jQuery(e).closest('[data-global-id]').attr('data-global-id');
+        return jQuery(e).is('[data-global_id]') ? jQuery(e).attr('data-global-_d') : jQuery(e).closest('[data-global_id]').attr('data-global_id');
     },
 
     get_name_id: function (e) {
         return jQuery(e).is('[data-input-name]') ? jQuery(e).data('input-name') : jQuery(e).closest('[data-input-name]').data('input-name');
     },
 
-    click_add: function (element) {
-        let $button = jQuery(element);
-        let prepend = $button.is('[data-action-add="1"]');
-        let root;
-        if ($button.is('[data-field-global-id]')) {
-            root = jQuery(hiweb_field_repeat.selector + '[data-global-id="' + $button.attr('data-field-global-id') + '"]');
-            let rand_id = $button.closest('.hiweb-fields-dropdown-menu').find('[data-action-open-flex-submenu]').attr('data-action-open-flex-submenu');
-            jQuery('[data-action-open-flex-submenu="' + rand_id + '"]').qtip('hide');
-        } else {
-            root = jQuery(this).closest(hiweb_field_repeat.selector);
-        }
-        let flex_row_id = $button.is('[data-flex-id]') ? $button.attr('data-flex-id') : '';
-        let rand_id = $button.attr('data-rand-id');
-        hiweb_field_repeat.add_rows(root, prepend, 1, '', flex_row_id, rand_id);
-    },
-
-    add_rows: function (root, prepend, rows_count, callback, flex_row_id, rand_id) {
+    add_rows: function ($root, prepend, rows_count, callback, flex_row_id, unique_id) {
+        if (!$root.is('.hiweb-field-type-repeat')) return;
+        ///
         if (typeof rows_count === 'undefined') rows_count = 1;
         if (typeof prepend === 'undefined') prepend = false;
         if (typeof flex_row_id === 'undefined') flex_row_id = '';
         ///
-        var row_list = hiweb_field_repeat.get_rows_list(root);
-        var index = prepend ? 0 : hiweb_field_repeat.get_rows(root).length;
+        var row_list = hiweb_field_repeat.get_rows_list($root);
+        var index = prepend ? 0 : hiweb_field_repeat.get_rows($root).length;
         jQuery.ajax({
             url: ajaxurl + '?action=hiweb-field-repeat-get-row',
             type: 'post',
             data: {
-                id: hiweb_field_repeat.get_global_id(root),
+                id: $root.attr('data-global_id'),
                 method: 'ajax_html_row',
-                input_name: hiweb_field_repeat.get_name_id(root),
+                input_name: hiweb_field_repeat.get_name_id($root),
                 index: index,
                 flex_row_id: flex_row_id,
-                rand_id: rand_id
+                unique_id: unique_id
             },
             dataType: 'json',
             success: function (response) {
                 if (response.hasOwnProperty('result') && response.result === true) {
-                    var newLine = jQuery(response.data).hide().fadeIn();
-                    for (n = 0; n < rows_count; n++) {
+                    let $newLine = jQuery(response.data).hide().fadeIn();
+                    for (let n = 0; n < rows_count; n++) {
                         if (prepend) {
-                            row_list.prepend(newLine);
+                            row_list.prepend($newLine);
                         } else {
-                            row_list.append(newLine);
+                            row_list.append($newLine);
                         }
-                        newLine.find('[data-col]').each(function () {
-                            //jQuery(this).trigger('hiweb-field-repeat-add-new-row', [jQuery(this), newLine, root]);
-                        });
-                        newLine.find('> td')
+                        ///animate / trigger
+                        $newLine.find('> td')
                             .wrapInner('<div style="display: none;" />')
                             .parent()
                             .find('> td > div')
@@ -279,9 +300,10 @@ let hiweb_field_repeat = {
                                 $set.replaceWith($set.contents());
                                 $td.find('input[name], select[name], textarea[name], file[name]').trigger('hiweb-field-repeat-added-row-fadein');
                             });
-                        hiweb_field_repeat.set_input_names(root);
-                        newLine.closest('.hiweb-components-form-ajax-wrap').trigger('hiweb-field-repeat-added-row');
-                        newLine.find('input[name], select[name], textarea[name], file[name]').trigger('hiweb-field-repeat-added-row');
+                        hiweb_field_repeat.set_input_names($root);
+                        hiweb_field_repeat.init_buttons($newLine);
+                        $newLine.closest('.hiweb-components-form-ajax-wrap').trigger('hiweb-field-repeat-added-row');
+                        $newLine.find('input[name], select[name], textarea[name], file[name]').trigger('hiweb-field-repeat-added-row');
                     }
                 } else {
                     console.warn(response);
@@ -309,62 +331,62 @@ let hiweb_field_repeat = {
 
 
     click_duplicate: function (e) {
-        e.preventDefault();
-        var root = jQuery(this).closest(hiweb_field_repeat.selector);
-        var row_list = hiweb_field_repeat.get_rows_list(root);
-        var currentRow = jQuery(this).closest(hiweb_field_repeat.selector_row);
-        var values = [];
-        var base_name = hiweb_field_repeat.get_input_name(this) + '[' + currentRow.attr('data-row') + ']';
-        currentRow.find('input[name], select[name], textarea[name], file[name]').each(function () {
-            var input_name = jQuery(this).attr('name');
-            if (input_name.indexOf(base_name) === 0) {
-                input_name = input_name.substr(base_name.toString().length).replace(/^\[([\w\d\-_]+)\]/g, '$1');
-                values.push(hiweb_field_repeat.paramsToArray(input_name, jQuery(this).val()));
-            }
-        });
-
-        jQuery.ajax({
-            url: ajaxurl + '?action=hiweb-field-repeat-get-row',
-            type: 'post',
-            data: {
-                id: hiweb_field_repeat.get_global_id(this),
-                method: 'ajax_html_row',
-                row_index: currentRow.attr('data-row'),
-                values: deepMerge.all(values)
-            },
-            dataType: 'json',
-            success: function (response) {
-                if (response.hasOwnProperty('result') && response.result === true) {
-                    var newLine = jQuery(response.data).hide().fadeIn();
-                    currentRow.after(newLine);
-                    newLine.find('[data-col]').each(function () {
-                        jQuery(this).trigger('hiweb-field-repeat-add-new-row', [jQuery(this), newLine, root]);
-                    });
-                    newLine.css('opacity', 0).animate({opacity: 1}).find('> td')
-                        .wrapInner('<div style="display: none;" />')
-                        .parent()
-                        .find('> td > div')
-                        .slideDown(700, function () {
-                            var $set = jQuery(this);
-                            $set.replaceWith($set.contents());
-                            // newLine.find('[data-col]').each(function () {
-                            // jQuery(this).trigger('hiweb-field-repeat-cloned-row-fadein', [jQuery(this), newLine, root]);
-                            // jQuery(this).trigger('hiweb-field-repeat-added-new-row-fadein', [jQuery(this), newLine, root]);
-                            // });
-                        });
-                    hiweb_field_repeat.set_input_names(root);
-                    // newLine.find('[data-col]').each(function () {
-                    // jQuery(this).trigger('hiweb-field-repeat-cloned-row', [jQuery(this), newLine, root]);
-                    // jQuery(this).trigger('hiweb-field-repeat-added-new-row', [jQuery(this), newLine, root]);
-                    // });
-                } else {
-                    console.warn(response);
-                }
-            },
-            error: function (data) {
-                console.warn(data);
-            }
-        });
+        // e.preventDefault();
+        // var root = jQuery(this).closest(hiweb_field_repeat.selector);
+        // var row_list = hiweb_field_repeat.get_rows_list(root);
+        // var currentRow = jQuery(this).closest(hiweb_field_repeat.selector_row);
+        // var values = [];
+        // var base_name = hiweb_field_repeat.get_input_name(this) + '[' + currentRow.attr('data-row') + ']';
+        // currentRow.find('input[name], select[name], textarea[name], file[name]').each(function () {
+        //     var input_name = jQuery(this).attr('name');
+        //     if (input_name.indexOf(base_name) === 0) {
+        //         input_name = input_name.substr(base_name.toString().length).replace(/^\[([\w\d\-_]+)\]/g, '$1');
+        //         values.push(hiweb_field_repeat.paramsToArray(input_name, jQuery(this).val()));
+        //     }
+        // });
+        //
+        // jQuery.ajax({
+        //     url: ajaxurl + '?action=hiweb-field-repeat-get-row',
+        //     type: 'post',
+        //     data: {
+        //         id: hiweb_field_repeat.get_global_id(this),
+        //         method: 'ajax_html_row',
+        //         row_index: currentRow.attr('data-row'),
+        //         values: deepMerge.all(values)
+        //     },
+        //     dataType: 'json',
+        //     success: function (response) {
+        //         if (response.hasOwnProperty('result') && response.result === true) {
+        //             var newLine = jQuery(response.data).hide().fadeIn();
+        //             currentRow.after(newLine);
+        //             newLine.find('[data-col]').each(function () {
+        //                 jQuery(this).trigger('hiweb-field-repeat-add-new-row', [jQuery(this), newLine, root]);
+        //             });
+        //             newLine.css('opacity', 0).animate({opacity: 1}).find('> td')
+        //                 .wrapInner('<div style="display: none;" />')
+        //                 .parent()
+        //                 .find('> td > div')
+        //                 .slideDown(700, function () {
+        //                     var $set = jQuery(this);
+        //                     $set.replaceWith($set.contents());
+        //                     // newLine.find('[data-col]').each(function () {
+        //                     // jQuery(this).trigger('hiweb-field-repeat-cloned-row-fadein', [jQuery(this), newLine, root]);
+        //                     // jQuery(this).trigger('hiweb-field-repeat-added-new-row-fadein', [jQuery(this), newLine, root]);
+        //                     // });
+        //                 });
+        //             hiweb_field_repeat.set_input_names(root);
+        //             // newLine.find('[data-col]').each(function () {
+        //             // jQuery(this).trigger('hiweb-field-repeat-cloned-row', [jQuery(this), newLine, root]);
+        //             // jQuery(this).trigger('hiweb-field-repeat-added-new-row', [jQuery(this), newLine, root]);
+        //             // });
+        //         } else {
+        //             console.warn(response);
+        //         }
+        //     },
+        //     error: function (data) {
+        //         console.warn(data);
+        //     }
+        // });
     },
 
     click_remove: function (e) {
@@ -379,31 +401,34 @@ let hiweb_field_repeat = {
             .parent()
             .find('> td > div')
             .slideUp(700, function () {
-                var root = row.closest(hiweb_field_repeat.selector);
+                let $root = row.closest('.hiweb-field-type-repeat');
                 jQuery(this).parent().parent().remove();
                 row.remove();
-                hiweb_field_repeat.set_input_names(root);
-                if (hiweb_field_repeat.get_rows(root).length === 0) {
-                    jQuery(root).find('.message').fadeIn();
+                hiweb_field_repeat.set_input_names($root);
+                if (hiweb_field_repeat.get_rows($root).length === 0) {
+                    jQuery($root).find('[data-row_empty]').attr('data-row_empty','0');
                 }
             });
     },
 
     click_clear_full: function (e) {
         e.preventDefault();
-        if (confirm('Remove all table rows?')) {
-            var root = jQuery(this).closest(hiweb_field_repeat.selector);
-            hiweb_field_repeat.get_rows(root).each(function () {
-                hiweb_field_repeat.do_remove_row(this)
+        let unique_id = jQuery(this).attr('data-unique_id');
+        let $root = jQuery('.hiweb-field-type-repeat[data-unique_id="' + unique_id + '"]');
+        if ($root.length === 0) return;
+        if (confirm($root.attr('data-text_confirm_clear_all'))) {
+            hiweb_field_repeat.get_rows($root).each(function () {
+                hiweb_field_repeat.do_remove_row(jQuery(this));
             });
         }
     }
 
 };
+
 jQuery('.hiweb-field-type-repeat').each(function () {
     hiweb_field_repeat.init(this);
 });
-jQuery('body').on('hiweb-form-ajax-loaded', '.hiweb-components-form-ajax-wrap', function () {
+jQuery('body').on('hiweb-form-ajax-loaded hiweb-field-repeat-added-row', '.hiweb-components-form-ajax-wrap', function () {
     jQuery(this).find('.hiweb-field-type-repeat').each(function () {
         hiweb_field_repeat.init(this);
     });

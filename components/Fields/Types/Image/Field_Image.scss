@@ -10,6 +10,12 @@
 	background: $fields_color_white url(../../../../assets/img/pattern-4.png) 50% 50%;
 	@include fields_ui_shadow_panel;
 
+	[data-image-place] {
+		background: 50% 50% no-repeat;
+		@include image_stretch();
+		z-index: 1;
+	}
+
 	[data-click]:focus {
 		outline: none;
 		box-shadow: none;
@@ -21,6 +27,7 @@
 		@include position_stretch_2(3px);
 		@include fields_backdrop_blur(0, 100%, 100%);
 		display: none;
+		z-index: 5;
 	}
 
 	&[data-has-file="0"] {
@@ -30,7 +37,7 @@
 	}
 
 	&[data-has-file="1"] {
-		background-size: cover;
+
 		[data-image-control-wrap="0"] {
 			display: none;
 		}
@@ -52,6 +59,7 @@
 		left: 0;
 		right: 0;
 		margin: 0 auto;
+		z-index: 10;
 
 		a {
 			display: inline-block;

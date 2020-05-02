@@ -25,11 +25,10 @@ let hiweb_feild_type_images = function (root) {
             items: '[data-item-image]',
             distance: 5,
             cursor: 'move',
-            //handle: '[data-item-image], [data-image-control-wrap], a',
             helper: 'original',
             tolerance: "pointer",
-            revert: true
-            //forcePlaceholderSize: true
+            revert: true,
+            forcePlaceholderSize: true
         });
     }
     let shuffleElements = function () {

@@ -5,11 +5,10 @@
 	 * Date: 04/12/2018
 	 * Time: 01:44
 	 */
-
+	
 	namespace hiweb\core\Paths;
-
-
-	use hiweb\core\Paths\Path;
+	
+	
 	use hiweb\core\strings;
 	
 	
@@ -19,7 +18,7 @@
 	 * @package hiweb\core\Paths
 	 */
 	class PathsFactory{
-
+		
 		/** @var Path[] */
 		static private $cache_paths = [];
 		static private $cache_attachment_ids = [];
@@ -28,8 +27,8 @@
 		/** @var string[] */
 		private static $current_url = [];
 		static $use_universal_schema_urls = true;
-
-
+		
+		
 		/**
 		 * @param string $path_or_url_handle
 		 * @return Path
@@ -50,14 +49,32 @@
 		 * @param int $attachment_id
 		 * @return \hiweb\core\Paths\Path
 		 */
-		static function get_by_id($attachment_id = 0){
-			if(!array_key_exists($attachment_id, self::$cache_attachment_ids)) {
-				self::$cache_attachment_ids[$attachment_id] = get_attached_file($attachment_id);
+		static function get_by_id( $attachment_id = 0 ){
+			if( !array_key_exists( $attachment_id, self::$cache_attachment_ids ) ){
+				self::$cache_attachment_ids[ $attachment_id ] = get_attached_file( $attachment_id );
 			}
-			return self::get( self::$cache_attachment_ids[$attachment_id] );
+			return self::get( self::$cache_attachment_ids[ $attachment_id ] );
 		}
-
-
+		
+		
+		/**
+		 * @param string $path_or_url_or_handle
+		 * @return Path_File
+		 */
+		static function get_file( $path_or_url_or_handle = '' ){
+			return self::get( $path_or_url_or_handle )->File();
+		}
+		
+		
+		/**
+		 * @param string $path_or_url_or_handle
+		 * @return Path_Url
+		 */
+		static function get_url( $path_or_url_or_handle = '' ){
+			return self::get( $path_or_url_or_handle )->Url();
+		}
+		
+		
 		/**
 		 * @return mixed|string
 		 */
@@ -85,8 +102,8 @@
 			}
 			return self::$root_path;
 		}
-
-
+		
+		
 		/**
 		 * Returns the root folder of the site. This function automatically determines the root folder of the site, based on the search for folders with the wp-config.php file
 		 * Возвращает корневую папку сайта. Данная функция автоматически определяет корневую папку сайта, основанная на поиске папок с файлом wp-config.php
@@ -99,8 +116,8 @@
 			}
 			return self::$root;
 		}
-
-
+		
+		
 		/**
 		 * Get current URl string
 		 * @param bool $trimSlashes
@@ -115,8 +132,8 @@
 			}
 			return self::$current_url[ $key ];
 		}
-
-
+		
+		
 		/**
 		 * Возвращает запрошенный GET или POST параметр
 		 * @param       $key
@@ -131,11 +148,11 @@
 			if( array_key_exists( $key, $_POST ) ){
 				$R = is_string( $_POST[ $key ] ) ? stripslashes( $_POST[ $key ] ) : $_POST[ $key ];
 			}
-
+			
 			return $R;
 		}
-
-
+		
+		
 		/**
 		 * @param int|string $size
 		 * @return string
@@ -144,26 +161,34 @@
 			$size = intval( $size );
 			if( $size < 1024 ){
 				return $size . ' ' . __( 'B' );
-			} elseif( $size < 1048576 ) {
+			}
+			elseif( $size < 1048576 ){
 				return round( $size / 1024, 2 ) . ' ' . __( 'KB' );
-			} elseif( $size < 1073741824 ) {
+			}
+			elseif( $size < 1073741824 ){
 				return round( $size / 1048576, 2 ) . ' ' . __( 'MB' );
-			} elseif( $size < 1099511627776 ) {
+			}
+			elseif( $size < 1099511627776 ){
 				return round( $size / 1073741824, 2 ) . ' ' . __( 'GB' );
-			} elseif( $size < 1125899906842624 ) {
+			}
+			elseif( $size < 1125899906842624 ){
 				return round( $size / 1099511627776, 2 ) . ' ' . __( 'TB' );
-			} elseif( $size < 1152921504606846976 ) {
+			}
+			elseif( $size < 1152921504606846976 ){
 				return round( $size / 1125899906842624, 2 ) . ' ' . __( 'PB' );
-			} elseif( $size < 1180591620717411303424 ) {
+			}
+			elseif( $size < 1180591620717411303424 ){
 				return round( $size / 1152921504606846976, 2 ) . ' ' . __( 'EB' );
-			} elseif( $size < 1208925819614629174706176 ) {
+			}
+			elseif( $size < 1208925819614629174706176 ){
 				return round( $size / 1180591620717411303424, 2 ) . ' ' . __( 'ZB' );
-			} else {
+			}
+			else{
 				return round( $size / 1208925819614629174706176, 2 ) . ' ' . __( 'YiB' );
 			}
 		}
-
-
+		
+		
 		/**
 		 * @param $file_name
 		 * @return mixed|string
@@ -172,8 +197,8 @@
 			$pathinfo = pathinfo( $file_name );
 			return isset( $pathinfo['extension'] ) ? $pathinfo['extension'] : '';
 		}
-
-
+		
+		
 		/**
 		 * Возвращает свободное имя файла в папке
 		 * @param      $filePath - желаемый путь
@@ -192,8 +217,8 @@
 			}
 			return $File->dirname() . '/' . $File->filename() . '-' . strings::rand( 5 ) . '.' . $File->extension();
 		}
-
-
+		
+		
 		/**
 		 * Upload file or files in to wo-content/uploads and create WP_Post attachment with image meta in DB
 		 * @param      $fileOrUrl - $_FILES[file_id]
@@ -216,13 +241,16 @@
 				if( !is_readable( $tmp_name ) ){
 					return - 1;
 				}
-			} elseif( is_string( $fileOrUrl ) && self::get( $fileOrUrl )->is_url() ) {
+			}
+			elseif( is_string( $fileOrUrl ) && self::get( $fileOrUrl )->is_url() ){
 				$fileName = trim( $force_file_name ) == '' ? self::get( $fileOrUrl )->File()->basename() : $force_file_name;
 				$tmp_name = $fileOrUrl;
-			} elseif( is_string( $fileOrUrl ) && file_exists( $fileOrUrl ) && is_file( $fileOrUrl ) && is_readable( $fileOrUrl ) ) {
+			}
+			elseif( is_string( $fileOrUrl ) && file_exists( $fileOrUrl ) && is_file( $fileOrUrl ) && is_readable( $fileOrUrl ) ){
 				$fileName = trim( $force_file_name ) == '' ? self::get( $fileOrUrl )->File()->basename() : $force_file_name;
 				$tmp_name = $fileOrUrl;
-			} else {
+			}
+			else{
 				return - 2;
 			}
 			///File Upload
@@ -240,8 +268,8 @@
 			wp_update_attachment_metadata( $attachment_id, $attachment_data );
 			return $attachment_id;
 		}
-
-
+		
+		
 		/**
 		 * Get an attachment ID given a URL.
 		 * @param string $url
@@ -279,8 +307,8 @@
 			}
 			return $attachment_id;
 		}
-
-
+		
+		
 		/**
 		 * @param array $pathsArray
 		 * @return Path
@@ -294,5 +322,5 @@
 			}
 			return self::get( reset( $pathsArray ) );
 		}
-
+		
 	}

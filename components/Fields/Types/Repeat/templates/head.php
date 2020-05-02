@@ -11,9 +11,9 @@
 	/** @var string $handle_title */
 	/** @var Field_Repeat $this */
 	
-	echo $thead ? '<thead class="ui segment">' : '<tfoot class="ui segment">' ?>
+	echo $thead ? '<thead>' : '<tfoot>' ?>
 	<tr>
-		<th class="collapsing">
+		<th>
 			<!--<a href="#" title="<?= __( 'collapse / expand all rows', 'hiweb-core-4' ) ?>"><?= FontAwesomeFactory::get( 'far fa-compress-alt' ) ?></a>-->
 		</th>
 		<?php
@@ -59,39 +59,28 @@
 				
 				<?php
 			} ?>
-		<th data-ctrl-wrap>
-			<?php
-				if( $this->have_flex_cols() ){
-					?>
-					<div class="ctrl-button" data-action-open-flex-submenu="<?= $this->get_rand_id() ?>" data-button-repeat-id="<?=$this->get_rand_id()?>">
-						<?= FontAwesomeFactory::get( 'fas fa-ellipsis-v' )->get_style()->get_raw() ?>
-						<div style="display: none" id="<?= $this->get_rand_id() ?>">
-							<div class="hiweb-fields-dropdown-menu">
-								<?php
-									/**
-									 * @var string            $flex_id
-									 * @var Field_Repeat_Flex $flex
-									 */
-									foreach( $this->get_flexes() as $flex_id => $flex ){
-										?>
-										<a href="" class="dropdown-item" data-action-add="<?= $thead ? '1' : '0' ?>" data-flex-id="<?= $flex_id ?>" data-field-global-id="<?=$this->global_ID()?>"  data-button-repeat-id="<?=$this->get_rand_id()?>" data-rand-id="<?=$this->get_rand_id()?>"><?= FontAwesomeFactory::get( $flex->icon() ) ?> <?= $flex->label() ?></a>
-										<?php
-									}
+		<th data-ctrl_wrap="<?= $this->get_unique_id() ?>">
+			<div class="ctrl-button" data-dropdown="<?= $this->get_unique_id() ?>">
+				<?= FontAwesomeFactory::get( 'fas fa-ellipsis-v' )->get_style()->get_raw() ?>
+				<div style="display: none" data-unique_id="<?= $this->get_unique_id() ?>">
+					<div class="hiweb-fields-dropdown-menu" data-unique_id="<?= $this->get_unique_id() ?>">
+						<?php
+							/**
+							 * @var string            $flex_id
+							 * @var Field_Repeat_Flex $flex
+							 */
+							foreach( $this->get_flexes() as $flex_id => $flex ){
 								?>
-							</div>
-						</div>
+								<a href="#" class="dropdown-item" data-action_add="<?= $thead ? '1' : '0' ?>" data-flex_id="<?= $flex_id ?>" data-unique_id="<?= $this->get_unique_id() ?>" data-globa_id="<?= $this->global_ID() ?>"><?= FontAwesomeFactory::get( $flex->icon() ) ?> <?= $flex->label() ?></a>
+								<?php
+							}
+						?>
+						<div class="separator"></div>
+						<!--<a href="#" class="dropdown-item" data-action_copy data-unique_id="<?= $this->get_unique_id() ?>"><?= FontAwesomeFactory::get( '<i class="fad fa-copy"></i>' ) ?> <?= $this->Options()->label_button_copy_all() ?></a>-->
+						<a href="#" class="dropdown-item" data-action_clear data-unique_id="<?= $this->get_unique_id() ?>"><?= FontAwesomeFactory::get( '<i class="fad fa-trash-alt"></i>' ) ?> <?= $this->Options()->label_button_clear_all() ?></a>
 					</div>
-					<?php
-				}
-				else{
-					?>
-					<a href="" data-action-add="<?= $thead ? '1' : '0' ?>" data-button-repeat-id="<?=$this->get_rand_id()?>">
-						<?= FontAwesomeFactory::get( 'fas fa-plus-circle' )->get_style()->get_raw() ?>
-					</a>
-					<?php
-				}
-			?>
-			<!--<button title="Clear all table rows..." class="dashicons dashicons-marker" data-action-clear=""></button>-->
+				</div>
+			</div>
 		</th>
 	</tr>
 <?= $thead ? '</thead>' : '</tfoot>';

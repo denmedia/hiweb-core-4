@@ -166,7 +166,9 @@
 		 * @return ArrayObject_Json
 		 */
 		public function JSON_UNESCAPED_LINE_TERMINATORS(){
-			$this->option[] = JSON_UNESCAPED_LINE_TERMINATORS;
+			if(version_compare( PHP_VERSION, '7.1' ) >= 0){
+				$this->option[] = JSON_UNESCAPED_LINE_TERMINATORS;
+			}
 			return $this;
 		}
 
@@ -176,7 +178,9 @@
 		 * @return ArrayObject_Json
 		 */
 		public function JSON_THROW_ON_ERROR(){
-			$this->option[] = JSON_THROW_ON_ERROR;
+			if(version_compare( PHP_VERSION, '7.3' ) >= 0){
+				$this->option[] = JSON_THROW_ON_ERROR;
+			}
 			return $this;
 		}
 

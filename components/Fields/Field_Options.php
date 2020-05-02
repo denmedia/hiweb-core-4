@@ -90,5 +90,36 @@
 			self::$the_last_location = $this->_( 'location' );
 			return $this->_( 'location' );
 		}
+		
+		
+		///DEPRECATED
+		
+		
+		/**
+		 * @alias $this->default_value()
+		 * @deprecated
+		 * @param null $set
+		 * @return array|Field_Options|mixed|null
+		 */
+		protected function value($set = null){
+			return $this->default_value($set);
+		}
+		
+		
+		/**
+		 * @deprecated
+		 */
+		protected function get_parent_field(){
+			return $this;
+		}
+		
+		
+		/**
+		 * @deprecated
+		 * @return Field_Options\Field_Options_Location_Form
+		 */
+		protected function Form(){
+			return $this->Location()->Form();
+		}
 
 	}

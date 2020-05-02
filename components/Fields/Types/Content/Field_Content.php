@@ -94,7 +94,7 @@
 			$rand_id = stripslashes( $_POST['rand_id'] );
 			$name = stripslashes( $_POST['name'] );
 			$value = html_entity_decode( stripslashes( $_POST['value'] ) );
-			$Field = FieldsFactory::get_field($global_id);
+			$Field = FieldsFactory::get_field( $global_id );
 			ob_start();
 			include __DIR__ . '/template-editor.php';
 			return wp_send_json( [ 'success' => true, 'html' => ob_get_clean() ] );
@@ -106,13 +106,18 @@
 			static $footer_printed = false;
 			if( !$footer_printed ){
 				$footer_printed = true;
-				$css = [HIWEB_URL_ASSETS . '/css/wp-default.min.css',PathsFactory::get( WPINC . '/js/tinymce/skins/wordpress/wp-content.css' )->Url()->get(), PathsFactory::get(__DIR__.'/content.css')->Url()->get()];
-				self::$default_settings['content_css'] = join(',',$css) ;
-				add_action( 'admin_init', 'wp_enqueue_media' );
+				$css = [ HIWEB_URL_ASSETS . '/css/wp-default.min.css', PathsFactory::get( WPINC . '/js/tinymce/skins/wordpress/wp-content.css' )->Url()->get(), PathsFactory::get( __DIR__ . '/content.css' )->Url()->get() ];
+				self::$default_settings['content_css'] = join( ',', $css );
 				add_action( 'in_admin_footer', function(){
 					include __DIR__ . '/template-footer-script.php';
 				}, 999999 );
 			}
+		}
+		
+		
+		public function admin_init(){
+			parent::admin_init();
+			wp_enqueue_media();
 		}
 		
 		
@@ -125,12 +130,12 @@
 		
 		
 		public function get_js(){
-			return [ 'wp-tinymce', __DIR__ . '/tinymce-language-ru.min.js', __DIR__ . '/field-content.min.js' ];
+			return [ __DIR__ . '/tinymce-language-ru.min.js', __DIR__ . '/Field_Content.min.js' ];
 		}
 		
 		
 		public function get_css(){
-			return [ 'media-views', 'imgareaselect', WPINC . '/css/editor.min.css', __DIR__ . '/field-content.css' ];
+			return [ WPINC . '/css/editor.min.css', __DIR__ . '/Field_Content.css' ];
 		}
 		
 		

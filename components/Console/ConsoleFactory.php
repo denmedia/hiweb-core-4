@@ -26,7 +26,10 @@
 		static function add( $content = '', $type = 'info', $groupTitle = '', $additionData = [], $debugStatus = false ){
 			$console = new Console( $content, $type, $additionData );
 			$console->set_groupTitle( $groupTitle );
-			if( $debugStatus ) $console->set_debugStatus( true );
+			if( $debugStatus ) {
+				$console->set_debugStatus( true );
+				$console->addition_data = array_merge( $console->addition_data, ['debug_backtrace' => debug_backtrace()] );
+			}
 			$global_id = spl_object_hash( $console );
 			self::$messages[ $groupTitle ][ $global_id ] = $console;
 			return $console;

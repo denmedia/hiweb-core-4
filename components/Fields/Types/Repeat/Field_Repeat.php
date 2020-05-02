@@ -4,6 +4,7 @@
 	
 	
 	use hiweb\components\Fields\Field;
+	use hiweb\components\Fields\FieldsFactory_Admin;
 	use hiweb\core\Cache\CacheFactory;
 	use hiweb\core\Strings;
 	
@@ -14,12 +15,12 @@
 		protected $last_value;
 		/** @var Field_Repeat_Flex[] */
 		private $flexes = [];
-		private $rand_id;
+		private $unique_id;
+		private $the_name;
 		
 		
 		public function __construct( $field_ID ){
 			parent::__construct( $field_ID );
-			$this->rand_id = 'hiweb_field_repeat_' . $field_ID . '_' . Strings::rand( 5 );
 		}
 		
 		
@@ -27,9 +28,9 @@
 		 * @param null $set
 		 * @return string
 		 */
-		public function get_rand_id( $set = null ){
-			if( is_string( $set ) ) $this->rand_id = $set;
-			return $this->rand_id;
+		public function get_unique_id( $set = null ){
+			if( is_string( $set ) ) $this->unique_id = $set;
+			return $this->unique_id;
 		}
 		
 		
@@ -99,11 +100,6 @@
 			if( !is_array( $value ) ){
 				return [];
 			}
-			else foreach( $value as $index => $row ){
-				if( !is_array( $row ) ) $row = [];
-				$row = array_merge( [ '_flex_row_id' => '' ], $row );
-				$value[ $index ] = $row;
-			}
 			return $value;
 		}
 		
@@ -120,18 +116,25 @@
 		 * @param $value_array
 		 * @return Field_Repeat_Value
 		 */
-		public function Value( $value_array = null ){
+		protected function Value( $value_array = null ){
 			if( is_array( $value_array ) ){
 				$key = md5( json_encode( $value_array ) );
 				$this->last_value = CacheFactory::get( $key, __METHOD__, function(){
-					return new Field_Repeat_Value( $this, func_get_arg( 0 ) );
+					return new Field_Repeat_Value( $this, func_get_arg( 0 ), $this->the_name );
 				}, [ $value_array ] )->get_value();
 			}
 			if( !$this->last_value instanceof Field_Repeat_Value ){
-				console_warn( 'not value set' );
 				$this->last_value = new Field_Repeat_Value( $this );
 			}
 			return $this->last_value;
+		}
+		
+		
+		/**
+		 * @return string
+		 */
+		protected function the_name(){
+			return $this->the_name;
 		}
 		
 		
@@ -144,6 +147,7 @@
 		
 		public function get_admin_html( $value = null, $name = null ){
 			$this->Value( $value );
+			$this->the_name = $name;
 			ob_start();
 			include __DIR__ . '/templates/template.php';
 			return ob_get_clean();
@@ -154,7 +158,7 @@
 		 * @return bool
 		 */
 		public function have_flex_cols(){
-			return count( $this->Options()->get_flex_ids() );
+			return count( $this->Options()->get_flex_ids() ) > 1 || !in_array( '', array_keys( $this->get_flexes() ) );
 		}
 		
 	}

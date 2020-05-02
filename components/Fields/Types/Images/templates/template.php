@@ -1,6 +1,7 @@
 <?php
 	/**
 	 * @var Field_Images $this
+	 * @var string       $name
 	 */
 	
 	use hiweb\components\Fields\Types\Images\Field_Images;
@@ -19,9 +20,15 @@
 	}
 	
 	$rand_id = \hiweb\core\Strings::rand( 5 );
+	
+	$attributes = new \hiweb\core\ArrayObject\ArrayObject( [
+		'data-images-count' => count( $value_sanitized ),
+		'data-images-count-id' => $count_id,
+		'data-name' => $name
+	] );
 
 ?>
-<div class="hiweb-field-type-images" data-images-count="<?= count( $value_sanitized ) ?>" data-images-count-id="<?= $count_id ?>">
+<div class="hiweb-field-type-images" <?= $attributes->get_param_html_tags() ?>>
 	<div class="images-top-panel">
 		<div class="images-top-panel-label"><?= $this->Options()->label_top() ?> : <b data-images-count-wrap><?= count( $value_sanitized ) ?></b></div>
 		<div data-constrol-wrap>

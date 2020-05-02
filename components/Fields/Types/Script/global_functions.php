@@ -1,6 +1,7 @@
 <?php
 	
 	use hiweb\components\Fields\FieldsFactory;
+	use hiweb\components\Fields\Types\Script\Field_Script;
 	use hiweb\components\Fields\Types\Script\Field_Script_Options;
 	
 	
@@ -11,6 +12,6 @@
 		 * @return Field_Script_Options
 		 */
 		function add_field_script( $field_ID ){
-			return FieldsFactory::add_field( new \hiweb\components\Fields\Types\Script\Field_Script( $field_ID ) );
+			return FieldsFactory::add_field( new Field_Script( $field_ID ) );
 		}
 	}

@@ -19,6 +19,7 @@
 		
 		public function get_js(){
 			return [
+				'jquery-ui-sortable',
 				HIWEB_DIR_VENDOR . '/selectize.js/js/standalone/selectize.min.js',
 				__DIR__ . '/Field_Select.min.js'
 			];

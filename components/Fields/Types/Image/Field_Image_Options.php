@@ -24,12 +24,12 @@
 		
 		
 		/**
-		 * Set 100% or pixel width, default 100%
+		 * Set 100% or pixel width, default 150px
 		 * @param null $width
 		 * @return array|Field_Image_Options|mixed|null
 		 */
 		public function admin_width($width = null){
-			return $this->_('admin_width', $width, '100%');
+			return $this->_('admin_width', $width, '150px');
 		}
 		
 		

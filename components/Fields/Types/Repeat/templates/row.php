@@ -17,8 +17,13 @@
 		}
 	}
 	$Flex = $this->Field()->get_flex( $this->get_flex_row_id() );
+	$row_attributes = new \hiweb\core\ArrayObject\ArrayObject( [
+		'data-row' => $this->get_index(),
+		'data-flex_id' => $this->get_flex_row_id(),
+		'data-unique_id' => $this->Field->get_unique_id()
+	] );
 ?>
-<tr data-row="<?= $this->get_index() ?>" data-flex-id="<?= $this->get_flex_row_id() ?>">
+<tr <?= $row_attributes->get_param_html_tags() ?>>
 	<td data-drag-handle data-col="_flex_row_id" title="<?= __( 'click - collapse / expand; drag - sorting this row', 'hiweb-core-4' ) ?>">
 		<?= FontAwesomeFactory::get( 'fas fa-sort' )->get_style()->get_raw() ?>
 		<input type="hidden" name="<?= $this->get_col_input_name( '_flex_row_id' ) ?>"
@@ -93,12 +98,12 @@
 			echo '</tr></tbody></table></td>';
 		}
 	?>
-	<td data-ctrl-wrap>
+	<td data-ctrl_wrap>
 		<div>
 			<!--<a class="item" title="Копировать строку" data-action-duplicate="<?= $this->get_index() ?>">
 				<?= FontAwesomeFactory::get( 'fad fa-copy' )->get_style()->get_raw() ?>
 			</a>-->
-			<a class="item ctrl-button" title="Удалить строку" data-rand-id="<?= $this->Field()->get_rand_id() ?>" data-action-remove="<?= $this->get_index() ?>">
+			<a class="item ctrl-button" title="Удалить строку" data-unique_id="<?= $this->Field()->get_unique_id() ?>" data-action-remove="<?= $this->get_index() ?>">
 				<?= FontAwesomeFactory::get( 'trash' )->get_style()->get_raw() ?>
 			</a>
 		</div>

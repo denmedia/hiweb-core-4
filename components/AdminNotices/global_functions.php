@@ -6,3 +6,12 @@
 			\hiweb\components\AdminNotices\AdminNotices::init();
 		}
 	}
+	
+	
+	if(!function_exists('add_admin_notice')) {
+		
+		function add_admin_notice($notice){
+			//TODO!
+		}
+		
+	}

@@ -13,7 +13,10 @@
 		 * @version 1.6
 		 */
 		static function is_frontend_page(){
-			return ( preg_match( '/^\/index(-hiweb-cache)?\.php(\/.*)?$/i', $_SERVER['PHP_SELF'] ) > 0 && !self::is_rest_api() && !self::is_ajax() && preg_match( '~(?>[\w-_\.]+\.(xml|txt))~i', $_SERVER['REQUEST_URI'] ) == 0 && !self::is_feed() );
+			return ( preg_match( '/^\/index(-hiweb-cache)?\.php(\/.*)?$/i', $_SERVER['PHP_SELF'] ) > 0
+			         && !self::is_rest_api() && !self::is_ajax()
+			         && preg_match( '/(?>[\w\-_\.]+\.(xml|txt))/i', $_SERVER['REQUEST_URI'] ) == 0
+			         && !self::is_feed() );
 		}
 
 

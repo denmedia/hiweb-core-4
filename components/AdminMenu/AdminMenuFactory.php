@@ -60,7 +60,7 @@
 		 * @return AdminMenu_Page
 		 */
 		static function the_Page(){
-			return self::get($_GET['page']);
+			return self::get( $_GET['page'] );
 		}
 		
 		

@@ -11,7 +11,7 @@
 }
 
 .hiweb-components-form-ajax-wrap, .hiweb-components-form-wrap {
-	fieldset {
+	.hiweb-fieldset {
 		margin-bottom: 1.2em;
 
 		&:last-child {
@@ -22,7 +22,7 @@
 
 .postbox {
 	.hiweb-components-form-ajax-wrap, .hiweb-components-form-wrap {
-		fieldset {
+		.hiweb-fieldset {
 			margin-bottom: .6em;
 		}
 	}
@@ -50,5 +50,11 @@
 		&:last-child {
 			margin-bottom: .2em;
 		}
+	}
+
+	.separator {
+		border-bottom: 1px solid $fields_color_grey_lighten;
+		width: 100%;
+		margin: .4em auto;
 	}
 }

@@ -26,7 +26,7 @@
 		
 		
 		public function get_js(){
-			return [ 'jquery-ui-sortable', __DIR__ . '/Field_Images.min.js' ];
+			return [ __DIR__ . '/Field_Images.min.js' ];
 		}
 		
 		

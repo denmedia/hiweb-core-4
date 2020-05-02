@@ -39,8 +39,32 @@
 		}
 		
 		
+		public function label_button_new_row( $set = null ){
+			return $this->_( 'label_button_new_row', $set, __( 'Add new row', 'hiweb-core-4' ) );
+		}
+		
+		
+		/**
+		 * @param null $set
+		 * @return array|Field_Repeat_Options|mixed|null
+		 */
+		public function label_button_clear_all( $set = null ){
+			return $this->_( 'label_button_clear_all', $set, __( 'Clear repeat', 'hiweb-core-4' ) );
+		}
+		
+		
+		public function label_button_copy_all( $set = null ){
+			return $this->_( 'label_button_copy_all', $set, __( 'Copy all rows', 'hiweb-core-4' ) );
+		}
+		
+		public function text_confirm_clear_all($set = null){
+			return $this->_('text_confirm_clear_all', $set, __('Remove all table rows?','hiweb-core-4'));
+		}
+		
+		
 		/**
 		 * @return array
+		 * @deprecated
 		 */
 		public function get_cols_simple( $prefix_name = '' ){
 			$R = [];

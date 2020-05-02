@@ -1,8 +1,8 @@
 <?php
-
+	
 	namespace hiweb\components\Includes;
-
-
+	
+	
 	use hiweb\components\Console\ConsoleFactory;
 	use hiweb\components\Context;
 	use hiweb\core\Backtrace\Backtrace;
@@ -10,22 +10,23 @@
 	use hiweb\core\hidden_methods;
 	use hiweb\core\Paths\Path;
 	use hiweb\core\Paths\PathsFactory;
-
-
+	
+	
 	class IncludesFactory{
-
+		
 		use hidden_methods;
-
+		
+		
 		static $already_printed = [];
-
-
+		
+		
 		static function get_srcs_from_handle( string $handle, $scripts = true, $styles = true ){
 			$R = [];
 			$_WP_Dependency = false;
-			if($scripts && array_key_exists( $handle, wp_scripts()->registered ) ){
+			if( $scripts && array_key_exists( $handle, wp_scripts()->registered ) ){
 				$_WP_Dependency = wp_scripts()->registered[ $handle ];
 			}
-			if($styles && array_key_exists( $handle, wp_styles()->registered ) ) {
+			if( $styles && array_key_exists( $handle, wp_styles()->registered ) ){
 				$_WP_Dependency = wp_styles()->registered[ $handle ];
 			}
 			if( $_WP_Dependency instanceof \_WP_Dependency ){
@@ -38,8 +39,8 @@
 			}
 			return $R;
 		}
-
-
+		
+		
 		/**
 		 * @param null|string $fileNameOrPath
 		 * @param string      $extension - file extension. like css/js
@@ -48,14 +49,25 @@
 		 */
 		static private function get_Path_bySearch( $fileNameOrPath = null, $extension = 'css' ){
 			return CacheFactory::get( $fileNameOrPath . ':' . $extension, __METHOD__, function(){
+				$search_paths = [];
 				$fileNameOrPath = func_get_arg( 0 );
 				if( array_key_exists( $fileNameOrPath, wp_scripts()->registered ) ){
 					$extension = 'js';
-					$Path = PathsFactory::get( wp_scripts()->registered[ $fileNameOrPath ]->src );
-				} elseif( array_key_exists( $fileNameOrPath, wp_styles()->registered ) ) {
+					$src = wp_scripts()->registered[ $fileNameOrPath ]->src;
+					if( preg_match( '~^\/[\w\-_]+~i', wp_scripts()->registered[ $fileNameOrPath ]->src ) > 0 ){
+						$src = ltrim( $src, '/' );
+					}
+					$Path = PathsFactory::get( $src );
+				}
+				elseif( array_key_exists( $fileNameOrPath, wp_styles()->registered ) ){
 					$extension = 'css';
-					$Path = PathsFactory::get( wp_styles()->registered[ $fileNameOrPath ]->src );
-				} else {
+					$src = wp_styles()->registered[ $fileNameOrPath ]->src;
+					if( preg_match( '~^\/[\w\-_]+~i', wp_scripts()->registered[ $fileNameOrPath ]->src ) > 0 ){
+						$src = ltrim( $src, '/' );
+					}
+					$Path = PathsFactory::get( $src );
+				}
+				else{
 					$extension = func_get_arg( 1 );
 					$test_file_name = $extension == 'css' ? 'style' : 'script';
 					if( is_null( $fileNameOrPath ) ){
@@ -84,46 +96,50 @@
 				}
 				if( $Path->File()->extension() != $extension ){
 					ConsoleFactory::add( 'file [' . $fileNameOrPath . '] not found', 'warn', __CLASS__ . ' - the file is not have ' . $extension . ' extension', $Path->get_path_relative(), true );
-				} elseif( !$Path->is_local() ) {
+				}
+				elseif( !$Path->is_local() ){
 					return $Path;
-				} elseif( !$Path->File()->is_file() ) {
+				}
+				elseif( !$Path->File()->is_file() ){
 					ConsoleFactory::add( 'file [' . $fileNameOrPath . '] not file', 'warn', __CLASS__ . ' - ' . $extension . ' file not found', $search_paths, true );
-				} elseif( !$Path->File()->is_exists() ) {
+				}
+				elseif( !$Path->File()->is_exists() ){
 					ConsoleFactory::add( 'file [' . $fileNameOrPath . '] not found', 'warn', __CLASS__ . ' - ' . $extension . ' file not found', $search_paths, true );
-				} elseif( !$Path->File()->is_readable() ) {
+				}
+				elseif( !$Path->File()->is_readable() ){
 					ConsoleFactory::add( 'file [' . $fileNameOrPath . '] not found', 'warn', __CLASS__ . ' - ' . $extension . ' file not readable', $Path->File()->get_relative_path(), true );
 				}
 				return $Path;
 			}, [ $fileNameOrPath, $extension ] )->get_value();
 		}
-
-
+		
+		
 		/**
 		 * @param null $fileNameOrPathOrURL
 		 * @return Css
 		 */
-		static function Css( $fileNameOrPathOrURL = null ){
+		static function css( $fileNameOrPathOrURL = null ){
 			$Path = self::get_Path_bySearch( $fileNameOrPathOrURL, 'css' );
 			return CacheFactory::get( $Path->handle(), __CLASS__ . ':css', function(){
 				$Path = func_get_arg( 0 );
 				return new Css( $Path );
 			}, $Path )();
 		}
-
-
+		
+		
 		/**
 		 * @param null $fileNameOrPathOrURL
 		 * @return Js
 		 */
-		static function Js( $fileNameOrPathOrURL = null ){
+		static function js( $fileNameOrPathOrURL = null ){
 			$Path = self::get_Path_bySearch( $fileNameOrPathOrURL, 'js' );
 			return CacheFactory::get( $Path->handle(), __CLASS__ . ':js', function(){
 				$Path = func_get_arg( 0 );
 				return new Js( $Path );
 			}, $Path )();
 		}
-
-
+		
+		
 		static protected function _add_action_wp_register_script(){
 			foreach( CacheFactory::get_group( __CLASS__ . ':css' ) as $cache_Css ){
 				$Css = $cache_Css->get_value();
@@ -154,8 +170,8 @@
 				self::$already_printed[] = $Js->Path()->handle();
 			}
 		}
-
-
+		
+		
 		/**
 		 * @param $html
 		 * @param $handle
@@ -172,8 +188,8 @@
 			}
 			return $html;
 		}
-
-
+		
+		
 		static protected function _add_filter_script_loader_tag( $tag, $handle, $src ){
 			if( CacheFactory::is_exists( $handle, __CLASS__ . ':js' ) ){
 				$Js = CacheFactory::get( $handle, __CLASS__ . ':js' )();
@@ -183,5 +199,5 @@
 			}
 			return $tag;
 		}
-
+		
 	}

@@ -6,6 +6,8 @@
 	class AdminNotices{
 
 		static private $init = false;
+		
+		static private $notices = [];
 
 		static function init(){
 			if(!self::$init) {
@@ -27,6 +29,15 @@
 		 */
 		static function is_init(){
 			return self::$init;
+		}
+		
+		
+		static public function _hook_admin_notices(){
+			if( is_array( self::$notices ) ) foreach( self::$notices as $notice ){
+				if( $notice instanceof notice ){
+					$notice->the();
+				}
+			}
 		}
 
 	}

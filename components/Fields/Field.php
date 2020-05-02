@@ -5,6 +5,7 @@
 	
 	use hiweb\components\Console\ConsoleFactory;
 	use hiweb\components\Context;
+	use hiweb\components\Dump\Dump;
 	use hiweb\core\Cache\CacheFactory;
 	use hiweb\core\hidden_methods;
 	use hiweb\core\Strings;
@@ -21,13 +22,13 @@
 		protected $global_ID;
 		/** @var */
 		protected $options_class = '\hiweb\components\Fields\Field_Options';
-		protected $is_random_id = false;
+		protected $id_empty = false;
 		
 		
 		public function __construct( $field_ID = null ){
-			if( !is_string( $field_ID ) ) {
-				$field_ID = Strings::rand();
-				$this->is_random_id = true;
+			if( !is_string( $field_ID ) ){
+				$field_ID = strtolower( basename( str_replace( '\\', '/', get_called_class() ) ) );
+				$this->id_empty = true;
 			}
 			$this->ID = $field_ID;
 			if( class_exists( $this->options_class ) ){
@@ -138,13 +139,35 @@
 		 * @return bool
 		 */
 		public function get_allow_save_field( $value = null ){
-			return true && !$this->is_random_id;
+			return true && !$this->id_empty;
 		}
 		
 		
 		public function get_admin_html( $value = null, $name = null ){
 			$input_name = $this->get_sanitize_admin_name( $name );
 			return '<div class="hiweb-field-type-default"><input type="text" name="' . htmlentities( $input_name ) . '" value="' . htmlentities( $this->get_sanitize_admin_value( $value ) ) . '" /></div>';
+		}
+		
+		
+		/**
+		 * @param null $wp_object
+		 * @param null $object_id
+		 * @param null $columns_name
+		 * @return false|string
+		 */
+		public function get_admin_columns_html( $wp_object = null, $object_id = null, $columns_name = null ){
+			ob_start();
+			if($wp_object instanceof \WP_Post) {
+				$value = get_post_meta( $wp_object->ID, $this->ID(), true );
+			} elseif($wp_object instanceof \WP_Term) {
+				$value = get_term_meta( $wp_object->term_id, $this->ID(), true );
+			} elseif($wp_object instanceof \WP_User){
+				$value = get_user_meta( $wp_object->ID, $this->ID(), true );
+			} elseif($wp_object instanceof \WP_Comment){
+				$value = get_comment_meta( $wp_object->comment_ID, $this->ID(), true );
+			}
+			echo '<div class="hiweb-'.Strings::sanitize_id(basename(str_replace('\\','/',get_called_class())) ).'-column-'.$this->ID().'">'.$value.'</div>';
+			return ob_get_clean();
 		}
 		
 		
