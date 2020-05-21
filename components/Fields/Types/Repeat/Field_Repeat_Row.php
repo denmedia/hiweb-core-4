@@ -78,8 +78,8 @@
 		public function get_col_input_value( $col_id, $default = null ){
 			$R = $default;
 			if( array_key_exists( $col_id, $this->row_raw ) ) $R = $this->row_raw[ $col_id ];
-			if( array_key_exists( $col_id, $this->get_cols() ) && !is_null( $this->get_cols()[ $col_id ]->Field()->Options()->default_value() ) ){
-				$R = $this->get_cols()[ $col_id ]->Field()->Options()->default_value();
+			elseif( array_key_exists( $col_id, $this->get_cols() ) && !is_null( $this->get_cols()[ $col_id ]->Field()->options()->default_value() ) ){
+				$R = $this->get_cols()[ $col_id ]->Field()->options()->default_value();
 			}
 			return $R;
 		}

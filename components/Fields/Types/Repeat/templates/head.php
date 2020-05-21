@@ -22,11 +22,11 @@
 				<th class="flex-column"><?= $handle_title ?></th><?php
 			}
 			else{
-				if( $this->Options()->have_cols() ){
+				if( $this->options()->have_cols() ){
 					///COMPACT GROUP
 					$compacted_cols = [];
 					$index = 0;
-					foreach( $this->Options()->get_cols()[''] as $col_id => $col ){
+					foreach( $this->options()->get_cols()[''] as $col_id => $col ){
 						$compacted_cols[ $index ][] = $col;
 						if( !$col->compact() ){
 							$index ++;
@@ -76,8 +76,8 @@
 							}
 						?>
 						<div class="separator"></div>
-						<!--<a href="#" class="dropdown-item" data-action_copy data-unique_id="<?= $this->get_unique_id() ?>"><?= FontAwesomeFactory::get( '<i class="fad fa-copy"></i>' ) ?> <?= $this->Options()->label_button_copy_all() ?></a>-->
-						<a href="#" class="dropdown-item" data-action_clear data-unique_id="<?= $this->get_unique_id() ?>"><?= FontAwesomeFactory::get( '<i class="fad fa-trash-alt"></i>' ) ?> <?= $this->Options()->label_button_clear_all() ?></a>
+						<!--<a href="#" class="dropdown-item" data-action_copy data-unique_id="<?= $this->get_unique_id() ?>"><?= FontAwesomeFactory::get( '<i class="fad fa-copy"></i>' ) ?> <?= $this->options()->label_button_copy_all() ?></a>-->
+						<a href="#" class="dropdown-item" data-action_clear data-unique_id="<?= $this->get_unique_id() ?>"><?= FontAwesomeFactory::get( '<i class="fad fa-trash-alt"></i>' ) ?> <?= $this->options()->label_button_clear_all() ?></a>
 					</div>
 				</div>
 			</div>

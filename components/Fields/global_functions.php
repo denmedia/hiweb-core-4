@@ -19,9 +19,9 @@
 	if( !function_exists( '_get_field' ) ){
 		
 		/**
-		 * @param      $field_ID
+		 * @param                                                    $field_ID
 		 * @param null|string|int|WP_Post|WP_Term|WP_Comment|WP_User $contextObject
-		 * @param null $default
+		 * @param null                                               $default
 		 * @return mixed|null
 		 */
 		function _get_field( $field_ID, $contextObject = null, $default = null ){
@@ -32,9 +32,9 @@
 	if( !function_exists( 'get_field_content' ) ){
 		
 		/**
-		 * @param      $field_ID
+		 * @param                                                    $field_ID
 		 * @param null|string|int|WP_Post|WP_Term|WP_Comment|WP_User $contextObject
-		 * @param null $default
+		 * @param null                                               $default
 		 * @return mixed|null
 		 */
 		function get_field_content( $field_ID, $contextObject = null, $default = null ){
@@ -45,9 +45,9 @@
 	if( !function_exists( '_get_field_content' ) ){
 		
 		/**
-		 * @param      $field_ID
+		 * @param                                                    $field_ID
 		 * @param null|string|int|WP_Post|WP_Term|WP_Comment|WP_User $contextObject
-		 * @param null $default
+		 * @param null                                               $default
 		 * @return mixed|null
 		 */
 		function _get_field_content( $field_ID, $contextObject = null, $default = null ){
@@ -58,9 +58,9 @@
 	if( !function_exists( 'the_field_content' ) ){
 		
 		/**
-		 * @param      $field_ID
+		 * @param                                                    $field_ID
 		 * @param null|string|int|WP_Post|WP_Term|WP_Comment|WP_User $contextObject
-		 * @param null $default
+		 * @param null                                               $default
 		 */
 		function the_field_content( $field_ID, $contextObject = null, $default = null ){
 			echo FieldsFactory_FrontEnd::get_value( $field_ID, $contextObject, $default );
@@ -70,9 +70,9 @@
 	if( !function_exists( '_the_field_content' ) ){
 		
 		/**
-		 * @param      $field_ID
+		 * @param                                                    $field_ID
 		 * @param null|string|int|WP_Post|WP_Term|WP_Comment|WP_User $contextObject
-		 * @param null $default
+		 * @param null                                               $default
 		 */
 		function _the_field_content( $field_ID, $contextObject = null, $default = null ){
 			echo FieldsFactory_FrontEnd::get_value( $field_ID, $contextObject, $default );
@@ -82,11 +82,11 @@
 	if( !function_exists( 'the_field' ) ){
 		
 		/**
-		 * @param      $field_ID
+		 * @param                                                    $field_ID
 		 * @param null|string|int|WP_Post|WP_Term|WP_Comment|WP_User $contextObject
-		 * @param null $default
+		 * @param null                                               $default
 		 */
-		function the_field( $field_ID, $contextObject = null, $default = null){
+		function the_field( $field_ID, $contextObject = null, $default = null ){
 			echo FieldsFactory_FrontEnd::get_value( $field_ID, $contextObject, $default );
 		}
 	}
@@ -94,9 +94,9 @@
 	if( !function_exists( '_the_field' ) ){
 		
 		/**
-		 * @param      $field_ID
+		 * @param                                                    $field_ID
 		 * @param null|string|int|WP_Post|WP_Term|WP_Comment|WP_User $contextObject
-		 * @param null $default
+		 * @param null                                               $default
 		 */
 		function _the_field( $field_ID, $contextObject = null, $default = null ){
 			echo FieldsFactory_FrontEnd::get_value( $field_ID, $contextObject, $default );
@@ -106,50 +106,50 @@
 	if( !function_exists( 'get_field_default' ) ){
 		
 		/**
-		 * @param      $field_ID
+		 * @param                                                    $field_ID
 		 * @param null|string|int|WP_Post|WP_Term|WP_Comment|WP_User $contextObject
-		 * @param null $default
+		 * @param null                                               $default
 		 * @return mixed|null
 		 */
 		function get_field_default( $field_ID, $contextObject = null, $default = null ){
-			return FieldsFactory_FrontEnd::get_Field( $field_ID, $contextObject )->Options()->default_value();
+			return FieldsFactory_FrontEnd::get_Field( $field_ID, $contextObject )->options()->default_value();
 		}
 	}
 	
 	if( !function_exists( '_get_field_default' ) ){
 		
 		/**
-		 * @param      $field_ID
+		 * @param                                                    $field_ID
 		 * @param null|string|int|WP_Post|WP_Term|WP_Comment|WP_User $contextObject
-		 * @param null $default
+		 * @param null                                               $default
 		 * @return mixed|null
 		 */
 		function _get_field_default( $field_ID, $contextObject = null, $default = null ){
-			return FieldsFactory_FrontEnd::get_Field( $field_ID, $contextObject )->Options()->default_value();
+			return FieldsFactory_FrontEnd::get_Field( $field_ID, $contextObject )->options()->default_value();
 		}
 	}
 	
 	if( !function_exists( 'the_field_default' ) ){
 		
 		/**
-		 * @param      $field_ID
+		 * @param                                                    $field_ID
 		 * @param null|string|int|WP_Post|WP_Term|WP_Comment|WP_User $contextObject
-		 * @param null $default
+		 * @param null                                               $default
 		 */
 		function the_field_default( $field_ID, $contextObject = null, $default = null ){
-			echo FieldsFactory_FrontEnd::get_Field( $field_ID, $contextObject )->Options()->default_value();
+			echo FieldsFactory_FrontEnd::get_Field( $field_ID, $contextObject )->options()->default_value();
 		}
 	}
 	
 	if( !function_exists( '_the_field_default' ) ){
 		
 		/**
-		 * @param      $field_ID
+		 * @param                                                    $field_ID
 		 * @param null|string|int|WP_Post|WP_Term|WP_Comment|WP_User $contextObject
-		 * @param null $default
+		 * @param null                                               $default
 		 */
 		function _the_field_default( $field_ID, $contextObject = null, $default = null ){
-			echo FieldsFactory_FrontEnd::get_Field( $field_ID, $contextObject )->Options()->default_value();
+			echo FieldsFactory_FrontEnd::get_Field( $field_ID, $contextObject )->options()->default_value();
 		}
 	}
 	
@@ -181,7 +181,7 @@
 		 * @return array|mixed|null
 		 */
 		function the_row(){
-			return FieldsFactory_FrontEnd::get_current_rows()->the();
+			return FieldsFactory_FrontEnd::get_current_row()->the();
 		}
 	}
 	
@@ -190,7 +190,7 @@
 		 * @return array|mixed|null
 		 */
 		function _the_row(){
-			return FieldsFactory_FrontEnd::get_current_rows()->the();
+			return FieldsFactory_FrontEnd::get_current_row()->the();
 		}
 	}
 	
@@ -201,7 +201,7 @@
 		 * @return bool|mixed
 		 */
 		function reset_rows( $fieldId, $contextObject = null ){
-			return FieldsFactory_FrontEnd::get_current_rows()->reset();
+			return FieldsFactory_FrontEnd::get_current_row()->reset();
 		}
 	}
 	
@@ -212,7 +212,7 @@
 		 * @return bool|mixed
 		 */
 		function _reset_rows( $fieldId, $contextObject = null ){
-			return FieldsFactory_FrontEnd::get_current_rows()->reset();
+			return FieldsFactory_FrontEnd::get_current_row()->reset();
 		}
 	}
 	
@@ -221,7 +221,7 @@
 		 * @return string
 		 */
 		function get_row_layout(){
-			return FieldsFactory_FrontEnd::get_current_rows()->get_sub_field( '_flex_row_id' );
+			return FieldsFactory_FrontEnd::get_current_row()->get_sub_field( '_flex_row_id' );
 		}
 	}
 	
@@ -230,7 +230,7 @@
 		 * @return string
 		 */
 		function _get_row_layout(){
-			return FieldsFactory_FrontEnd::get_current_rows()->get_sub_field( '_flex_row_id', '' );
+			return FieldsFactory_FrontEnd::get_current_row()->get_sub_field( '_flex_row_id', '' );
 		}
 	}
 	
@@ -239,7 +239,7 @@
 		 * @return mixed|null
 		 */
 		function get_current_row(){
-			return FieldsFactory_FrontEnd::get_current_rows()->get_current();
+			return FieldsFactory_FrontEnd::get_current_row()->get_current()->get();
 		}
 	}
 	if( !function_exists( '_get_current_row' ) ){
@@ -247,7 +247,7 @@
 		 * @return mixed|null
 		 */
 		function _get_current_row(){
-			return FieldsFactory_FrontEnd::get_current_rows()->get_current();
+			return FieldsFactory_FrontEnd::get_current_row()->get_current()->get();
 		}
 	}
 	
@@ -256,8 +256,19 @@
 		 * @param $subField
 		 * @return mixed|null
 		 */
-		function get_sub_field( $subField ){
-			return FieldsFactory_FrontEnd::get_current_rows()->get_sub_field( $subField );
+		function get_sub_field( $subField, $default = null ){
+			if( FieldsFactory_FrontEnd::get_current_row()->have_sub_field( $subField ) ){
+				return FieldsFactory_FrontEnd::get_current_row()->get_sub_field( $subField, $default );
+			}
+			else{
+				$rows = array_reverse( FieldsFactory_FrontEnd::get_rows() );
+				foreach( $rows as $row_id => $row ){
+					if( $row->have_sub_field( $subField ) ){
+						return $row->get_sub_field( $subField, $default );
+					}
+				}
+			}
+			return $default;
 		}
 	}
 	if( !function_exists( '_get_sub_field' ) ){
@@ -266,60 +277,82 @@
 		 * @return mixed|null
 		 */
 		function _get_sub_field( $subField ){
-			return FieldsFactory_FrontEnd::get_current_rows()->get_sub_field( $subField );
+			return FieldsFactory_FrontEnd::get_current_row()->get_sub_field( $subField );
 		}
 	}
 	
-	if( !function_exists( 'get_sub_field_content' ) ){
+	if( !function_exists( 'have_sub_rows' ) ){
 		/**
-		 * @param $subField
-		 * @return mixed|null
-		 */
-		function get_sub_field_content( $subField ){
-			return rows::get_sub_field_content( $subField );
-		}
-	}
-	
-	if( !function_exists( 'each_rows' ) ){
-		
-		function each_rows( $fieldId, $contextObject, $callable ){
-			$R = [];
-			if( rows::have_rows( $fieldId, $contextObject ) ){
-				while( rows::have_rows( $fieldId, $contextObject ) ){
-					$row = rows::the_row();
-					if( is_callable( $callable ) ) $R[] = call_user_func( $callable, $row );
-					else $R[] = '<!--no callback [' . $callable . '] -->';
-				}
-			}
-			
-			return $R;
-		}
-	}
-	
-	if( !function_exists( 'the_row_is_first' ) ){
-		/**
+		 * @param string $sub_id
 		 * @return bool
 		 */
-		function the_row_is_first(){
-			return rows::the_row_is_first();
+		function have_sub_rows( $sub_id ){
+			return FieldsFactory_FrontEnd::get_sub_field_rows( $sub_id )->have();
 		}
 	}
 	
-	if( !function_exists( 'the_row_is_last' ) ){
+	if( !function_exists( '_have_sub_rows' ) ){
 		/**
+		 * @param string $sub_id
 		 * @return bool
 		 */
-		function the_row_is_last(){
-			return rows::the_row_is_last();
+		function _have_sub_rows( $sub_id ){
+			return FieldsFactory_FrontEnd::get_sub_field_rows( $sub_id )->have();
 		}
 	}
 	
-	if( !function_exists( 'get_rows_count' ) ){
-		/**
-		 * Возвращает количество строк в текущем лупе полей
-		 * @return int
-		 */
-		function get_rows_count(){
-			return rows::get_rows_count();
-		}
-	}
+	///TODO:...
+	
+	//	if( !function_exists( 'get_sub_field_content' ) ){
+	//		/**
+	//		 * @param $subField
+	//		 * @return mixed|null
+	//		 */
+	//		function get_sub_field_content( $subField ){
+	//			return rows::get_sub_field_content( $subField );
+	//		}
+	//	}
+	//
+	//	if( !function_exists( 'each_rows' ) ){
+	//
+	//		function each_rows( $fieldId, $contextObject, $callable ){
+	//			$R = [];
+	//			if( rows::have_rows( $fieldId, $contextObject ) ){
+	//				while( rows::have_rows( $fieldId, $contextObject ) ){
+	//					$row = rows::the_row();
+	//					if( is_callable( $callable ) ) $R[] = call_user_func( $callable, $row );
+	//					else $R[] = '<!--no callback [' . $callable . '] -->';
+	//				}
+	//			}
+	//
+	//			return $R;
+	//		}
+	//	}
+	//
+	//	if( !function_exists( 'the_row_is_first' ) ){
+	//		/**
+	//		 * @return bool
+	//		 */
+	//		function the_row_is_first(){
+	//			return rows::the_row_is_first();
+	//		}
+	//	}
+	//
+	//	if( !function_exists( 'the_row_is_last' ) ){
+	//		/**
+	//		 * @return bool
+	//		 */
+	//		function the_row_is_last(){
+	//			return rows::the_row_is_last();
+	//		}
+	//	}
+	//
+	//	if( !function_exists( 'get_rows_count' ) ){
+	//		/**
+	//		 * Возвращает количество строк в текущем лупе полей
+	//		 * @return int
+	//		 */
+	//		function get_rows_count(){
+	//			return rows::get_rows_count();
+	//		}
+	//	}

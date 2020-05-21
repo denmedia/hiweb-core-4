@@ -13,6 +13,8 @@
 	<h1><?= $Page->page_title() ?></h1>
 	<form method="post" enctype="multipart/form-data" action="options.php">
 		<?php
+			settings_fields( $Page->menu_slug() );
+			
 			echo FieldsFactory_Admin::get_ajax_form_html( [
 				'options' => $Page->menu_slug()
 			] );

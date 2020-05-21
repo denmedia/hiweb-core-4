@@ -16,6 +16,7 @@ $fields_color_red_light: #dc3232;
 $fields_color_border: $fields_color_grey_light;
 $fields_color_panel_bg: $fields_color_white;
 $fields_color_bg_grey: $fields_color_grey_white;
+$fields_color_bg_grey_white: #f8f8f8;
 
 @mixin fields_ui_shadow_panel() {
 	@include box-shadow();

@@ -317,7 +317,7 @@
 		
 		
 		/**
-		 * Return file name which extension, like 'filename.ext'
+		 * Return file name which extension, like 'filename.jpg'
 		 * @return string
 		 */
 		public function basename(){

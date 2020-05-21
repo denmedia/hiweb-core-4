@@ -63,9 +63,9 @@
 										}
 									}
 									else{
-										if( $col->Field()->Options()->label() != '' ){
+										if( $col->Field()->options()->label() != '' ){
 											?>
-											<div class="flex-label"><?= $col->Field()->Options()->label() ?></div><?php
+											<div class="flex-label"><?= $col->Field()->options()->label() ?></div><?php
 										}
 									} ?>
 								<?php
@@ -83,8 +83,8 @@
 										\hiweb\components\Console\ConsoleFactory::add( 'not the Filed instance', 'warn', __FILE__, $col, true );
 									}
 								?>
-								<?php if( $col->Field()->Options()->description() != '' ){
-									?><p class="description flex-description"><?= $col->Field()->Options()->description() ?></p><?php
+								<?php if( $col->Field()->options()->description() != '' ){
+									?><p class="description flex-description"><?= $col->Field()->options()->description() ?></p><?php
 								} ?>
 							</div>
 							<?php

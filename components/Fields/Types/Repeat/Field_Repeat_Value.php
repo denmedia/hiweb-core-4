@@ -66,7 +66,7 @@
 		public function get_rows(){
 			if( !is_array( $this->rows ) ){
 				$this->rows = [];
-				$cols_by_flex = $this->Field_Repeat->Options()->get_cols();
+				$cols_by_flex = $this->Field_Repeat->options()->get_cols();
 				foreach( $this->value_filtered as $row_index => $row_raw ){
 					$flex_row_id = array_key_exists( '_flex_row_id', $row_raw ) ? Strings::sanitize_id( $row_raw['_flex_row_id'] ) : '';
 					if( array_key_exists( $flex_row_id, $cols_by_flex ) ){

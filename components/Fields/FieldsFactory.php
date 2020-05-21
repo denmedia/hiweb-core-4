@@ -3,7 +3,7 @@
 	namespace hiweb\components\Fields;
 	
 	
-	use hiweb\components\Structures\Structure;
+	use hiweb\components\Fields\Field_Options\Field_Options_Location;
 	use hiweb\components\Structures\StructuresFactory;
 	use hiweb\core\Cache\CacheFactory;
 	use hiweb\core\hidden_methods;
@@ -16,7 +16,10 @@
 		
 		
 		private static $fields = [];
-		private static $locations = [];
+		static $fieldIds_by_locations = [];
+		
+		/** @var Field_Options_Location */
+		static $last_location_instance;
 		
 		
 		/**
@@ -43,8 +46,8 @@
 			$global_ID = self::get_free_global_id( $Field->ID() );
 			$Field->global_ID = $global_ID;
 			self::$fields[ $global_ID ] = $Field;
-			CacheFactory::remove_group('\hiweb\components\Fields\FieldsFactory::get_field_by_query');
-			return $Field->Options();
+			CacheFactory::remove_group( '\hiweb\components\Fields\FieldsFactory::get_field_by_query' );
+			return $Field->options();
 		}
 		
 		
@@ -130,23 +133,21 @@
 		 * @return Field[]
 		 */
 		static function get_field_by_query( $locationQuery ){
-			return CacheFactory::get(json_encode($locationQuery), '\hiweb\components\Fields\FieldsFactory::get_field_by_query', function(){
-				$locationQuery = func_get_arg(0);
+			return CacheFactory::get( json_encode( $locationQuery ), '\hiweb\components\Fields\FieldsFactory::get_field_by_query', function(){
+				$locationQuery = func_get_arg( 0 );
 				if( is_string( $locationQuery ) ) $locationQuery = json_decode( $locationQuery, true );
 				$Fields = [];
 				foreach( FieldsFactory::get_fields() as $global_id => $Field ){
-					$field_location_options = $Field->Options()->Location()->_get_optionsCollect();
+					$field_location_options = $Field->options()->location()->_get_optionsCollect();
 					if( count( $field_location_options ) == 0 ) continue;
 					$diff = self::diff( $locationQuery, $field_location_options );
 					if( count( $diff ) == 0 ){
-						$Fields[ $Field->global_ID() ] = $Field;
+						$Fields[ $Field->ID() ] = $Field;
 					}
 				}
 				return $Fields;
-			}, [$locationQuery])->get_value();
+			}, [ $locationQuery ] )->get_value();
 		}
-		
-		
 		
 		
 		/**

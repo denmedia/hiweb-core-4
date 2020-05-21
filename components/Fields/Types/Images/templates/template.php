@@ -30,7 +30,7 @@
 ?>
 <div class="hiweb-field-type-images" <?= $attributes->get_param_html_tags() ?>>
 	<div class="images-top-panel">
-		<div class="images-top-panel-label"><?= $this->Options()->label_top() ?> : <b data-images-count-wrap><?= count( $value_sanitized ) ?></b></div>
+		<div class="images-top-panel-label"><?= $this->options()->label_top() ?> : <b data-images-count-wrap><?= count( $value_sanitized ) ?></b></div>
 		<div data-constrol-wrap>
 			<a href="" data-click="add" data-add-index="-1"><?= FontAwesomeFactory::get( '<i class="fad fa-plus-circle"></i>' ) ?></a>
 			<!--<a href="" data-click="revert"><?= FontAwesomeFactory::get( '<i class="fad fa-sync-alt"></i>' ) ?></a>-->

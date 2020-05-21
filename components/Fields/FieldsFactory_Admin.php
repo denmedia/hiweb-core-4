@@ -30,27 +30,44 @@
 		
 		
 		/**
-		 * @param field $field
+		 * Return field name(id) form options page and options field register
+		 * @param Field|string $field_or_id
+		 * @param null|string  $options_slug
 		 * @return string
 		 */
-		static public function get_field_input_option_name( field $field ){
-			return 'hiweb-option-' . $field->Options()->Location()->_( 'options' ) . '-' . $field->ID();
+		static public function get_field_input_option_name( $field_or_id, $options_slug = null ){
+			$field_id = '';
+			if( $field_or_id instanceof Field ){
+				$field_id = $field_or_id->ID();
+				if( is_null( $options_slug ) ){
+					$options_slug = $field_or_id->options()->location()->_( 'options' ) . '-';
+				}
+			}
+			elseif( is_string( $field_or_id ) && $field_or_id != '' ){
+				$field_id = $field_or_id;
+				if( is_string( $options_slug ) ){
+					$options_slug .= '-';
+				}
+			}
+			if( is_null( $options_slug ) ){
+				$options_slug = '';
+			}
+			return 'hiweb-option-' . $options_slug . $field_id;
 		}
 		
 		
-		/**
-		 * @param $page_slug
-		 * @return string
-		 */
-		static public function get_section_id( $page_slug ){
-			return 'hiweb-options-section-' . $page_slug;
-		}
-		
-		
-		static public function get_option_group_id( $menu_slug ){
-			return 'hiweb-option-group-' . $menu_slug;
-		}
-		
+		//		/**
+		//		 * @param $page_slug
+		//		 * @return string
+		//		 */
+		//		static public function get_section_id( $page_slug ){
+		//			return 'hiweb-options-section-' . $page_slug;
+		//		}
+		//
+		//
+		//		static public function get_option_group_id( $menu_slug ){
+		//			return 'hiweb-option-group-' . $menu_slug;
+		//		}
 		
 		/**
 		 * @param $field_id
@@ -69,7 +86,7 @@
 			$classes = [ 'hiweb-fieldset' ];
 			//$classes[] = 'hiweb-fieldset-width-' . $field->FORM()->WIDTH()->get();
 			$classes[] = 'hiweb-field-' . $field->ID();
-			$classes[] = 'hiweb-field-' . $field->Options()->_( 'global_id' );
+			$classes[] = 'hiweb-field-' . $field->options()->_( 'global_id' );
 			return implode( ' ', $classes );
 		}
 		
@@ -162,7 +179,7 @@
 				}
 				elseif( array_key_exists( 'options', $location_query ) ){
 					if( $Field->get_allow_save_field() ){
-						$R[ $Field->ID() ] = get_option( FieldsFactory_Admin::get_field_input_option_name( $Field ), null );
+						$R[ $Field->ID() ] = get_option( FieldsFactory_Admin::get_field_input_option_name( $Field->ID(), $location_query['options'] ), null );
 					}
 					else{
 						$R[ $Field->ID() ] = null;
@@ -181,7 +198,7 @@
 		 * @return false|string
 		 */
 		static function get_ajax_form_html( $query ){
-			if( !is_array( $query ) ) return 'no form fields query';
+			if( !is_array( $query ) ) return '';
 			IncludesFactory::js( HIWEB_DIR_VENDOR . '/jquery.regex-selector/jquery.regex-selector.min.js' )->deeps( 'jquery-core' );
 			IncludesFactory::js( __DIR__ . '/FieldsAdmin.min.js' )->deeps( 'jquery-core' );
 			IncludesFactory::css( __DIR__ . '/css/FieldsAdmin.css' );
@@ -318,20 +335,17 @@
 		
 		
 		/**
-		 * @param Field[]    $fields_array
-		 * @param null|array $field_values - set fields value, or get values from screen context
-		 * @return string|string[]|void
+		 * @param array $fields_by_order_array
+		 * @param array $field_values
+		 * @return string
 		 */
-		static function get_form_html( $fields_array, $field_values = null ){
-			if( !is_array( $fields_array ) || count( $fields_array ) == 0 ) return;
-			///
-			IncludesFactory::css( __DIR__ . '/FieldsFactory_Admin/style.css' );
-			IncludesFactory::js( __DIR__ . '/FieldsFactory_Admin/script.min.js' );
-			ob_start();
-			self::get_wp_nonce_field();
-			@include __DIR__ . '/FieldsFactory_Admin/templates/default-form.php';
-			$form_html = ob_get_clean();
-			///
+		static function get_form_section_fields_html( $fields_by_order_array = [], $field_values = [] ){
+			$fields_array = [];
+			ksort( $fields_by_order_array );
+			foreach( $fields_by_order_array as $order => $fields ){
+				if( !is_array( $fields ) ) continue;
+				$fields_array = array_merge( $fields_array, $fields );
+			}
 			$fields_html = [];
 			foreach( $fields_array as $Field ){
 				if( !$Field instanceof Field ){
@@ -355,19 +369,73 @@
 				$value = null;
 				if( is_array( $field_values ) ){
 					if( array_key_exists( $Field->ID(), $field_values ) && !is_null( $field_values[ $Field->ID() ] ) ) $value = $field_values[ $Field->ID() ];
-					elseif( !is_null( $Field->Options()->default_value() ) ) $value = $Field->Options()->default_value();
+					elseif( !is_null( $Field->options()->default_value() ) ) $value = $Field->options()->default_value();
 				}
-				if( is_null( $value ) && !is_null( $Field->Options()->default_value() ) ){
-					$value = $Field->Options()->default_value();
+				if( is_null( $value ) && !is_null( $Field->options()->default_value() ) ){
+					$value = $Field->options()->default_value();
 				}
 				self::$the_form_field_value = $Field->get_sanitize_admin_value( $value );
-				self::$the_form_field_name = array_key_exists( 'options', $Field->Options()->Location()->_get_optionsCollect() ) ? self::get_field_input_option_name( $Field ) : self::get_field_input_name( $Field );
+				self::$the_form_field_name = array_key_exists( 'options', $Field->options()->location()->_get_optionsCollect() ) ? self::get_field_input_option_name( $Field ) : self::get_field_input_name( $Field );
 				ob_start();
 				@include __DIR__ . '/FieldsFactory_Admin/templates/default-field.php';
 				$fields_html[] = ob_get_clean();
 			}
+			return implode( '', $fields_html );
+		}
+		
+		
+		/**
+		 * @param Field[]    $fields_array
+		 * @param null|array $field_values - set fields value, or get values from screen context
+		 * @return string|string[]|void
+		 * @version 1.1
+		 */
+		static function get_form_html( $fields_array, $field_values = null ){
+			if( !is_array( $fields_array ) || count( $fields_array ) == 0 ) return;
 			///
-			return str_replace( '<!--fields-->', implode( chr( 13 ) . chr( 10 ), $fields_html ), $form_html );
+			IncludesFactory::css( __DIR__ . '/FieldsFactory_Admin/style.css' );
+			IncludesFactory::js( __DIR__ . '/FieldsFactory_Admin/script.min.js' );
+			ob_start();
+			self::get_wp_nonce_field();
+			@include __DIR__ . '/FieldsFactory_Admin/templates/default-form.php';
+			$form_html = ob_get_clean();
+			///TABS COLLECTION
+			$last_Field_Tab = null;
+			$sections = [];
+			$sections_index = 0;
+			foreach( $fields_array as $key => $Field ){
+				if( !$Field instanceof Field ) continue;
+				if( $Field instanceof \Field_Tab ){
+					if( $Field->options()->label() == '' && $Field->options()->description() == '' ){
+						$sections_index ++;
+						$last_Field_Tab = null;
+					}
+					else{
+						$sections[ $sections_index ]['tabs'][ $Field->global_ID() ] = $Field;
+						$last_Field_Tab = $Field;
+					}
+				}
+				elseif( $last_Field_Tab instanceof \Field_Tab ){
+					$sections[ $sections_index ]['fields_by_tabs'][ $last_Field_Tab->global_ID() ][ $Field->options()->form()->order() ][ $Field->ID() ] = $Field;
+				}
+				else{
+					$sections[ $sections_index ]['fields'][ $Field->options()->form()->order() ][ $Field->ID() ] = $Field;
+				}
+			}
+			///
+			$fields_html = '';
+			foreach( $sections as $section_index => $section_data ){
+				if( array_key_exists( 'tabs', $section_data ) ){
+					ob_start();
+					include __DIR__ . '/FieldsFactory_Admin/templates/tabs.php';
+					$fields_html .= ob_get_clean();
+				}
+				else{
+					$fields_html .= self::get_form_section_fields_html( $section_data['fields'], $field_values );
+				}
+			}
+			///
+			return str_replace( '<!--fields-->', $fields_html, $form_html );
 		}
 		
 		

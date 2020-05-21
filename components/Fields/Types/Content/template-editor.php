@@ -12,7 +12,7 @@
 		'_content_editor_dfw' => true,
 		'drag_drop_upload' => true,
 		'tabfocus_elements' => 'content-html,save-post',
-		'editor_height' => $Field->Options()->editor_height(),
+		'editor_height' => $Field->options()->editor_height(),
 		'tinymce' => [
 			'resize' => false,
 			'wp_autoresize_on' => true,

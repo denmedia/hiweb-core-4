@@ -8,8 +8,8 @@
 	 */
 	
 	$attributes = \hiweb\core\ArrayObject\ArrayObject::get_instance(['type' => 'text']);
-	if( $this->Options()->placeholder() != '' ){
-		$attributes->push( 'placeholder', $this->Options()->placeholder() );
+	if( $this->options()->placeholder() != '' ){
+		$attributes->push( 'placeholder', $this->options()->placeholder() );
 	}
 	if( $this->get_sanitize_admin_value( $value ) != '' ){
 		$attributes->push( 'value', $this->get_sanitize_admin_value( $value ) );

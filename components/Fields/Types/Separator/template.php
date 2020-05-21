@@ -9,15 +9,15 @@
 ?>
 <div class="hiweb-field-type-separator">
 	<?php
-		if( $this->Options()->separator_label() != '' ) {
+		if( $this->options()->separator_label() != '' ) {
 	?>
-	<<?= $this->Options()->tag_label() ?> class="hw-field-separator-title<?= $this->Options()->description() != '' ? ' has-description' : ' no-description' ?>"><?= $this->Options()->separator_label() ?></<?= $this->Options()->tag_label() ?>>
+	<<?= $this->options()->tag_label() ?> class="hw-field-separator-title<?= $this->options()->description() != '' ? ' has-description' : ' no-description' ?>"><?= $this->options()->separator_label() ?></<?= $this->options()->tag_label() ?>>
 <?php
 	}
 ?>
-<?php if( $this->Options()->separator_description() != '' ){
+<?php if( $this->options()->separator_description() != '' ){
 	?>
-	<<?= $this->Options()->tag_description() ?>  class="hw-field-separator-description"><?= $this->Options()->separator_description() ?></<?= $this->Options()->tag_description() ?>>
+	<<?= $this->options()->tag_description() ?>  class="hw-field-separator-description"><?= $this->options()->separator_description() ?></<?= $this->options()->tag_description() ?>>
 	<?php
 } ?>
 </div>

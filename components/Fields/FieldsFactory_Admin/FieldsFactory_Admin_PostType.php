@@ -85,9 +85,9 @@
 			$query_by_box = [];
 			$fields = FieldsFactory::get_field_by_query( $query );
 			if( !is_array( $fields ) || count( $fields ) == 0 ) return;
-			$first_field_location = reset( $fields )->Options()->Location()->PostType();
+			$first_field_location = reset( $fields )->options()->location()->posts();
 			foreach( $fields as $Field ){
-				$box_title = $Field->Options()->Location()->PostType()->MetaBox()->title();
+				$box_title = $Field->options()->location()->posts()->MetaBox()->title();
 				$query_by_box[ $box_title ] = $query;
 				$query_by_box[ $box_title ]['post_type']['metabox']['title'] = $box_title;
 			}
@@ -106,7 +106,7 @@
 		 * @param bool    $update
 		 */
 		static function _save_post( $post_ID, $post, $update ){
-			if( !$update || !wp_verify_nonce( $_POST['hiweb-core-field-form-nonce'], 'hiweb-core-field-form-save' ) ) return;
+			if( !$update || !array_key_exists( 'hiweb-core-field-form-nonce', $_POST ) || !wp_verify_nonce( $_POST['hiweb-core-field-form-nonce'], 'hiweb-core-field-form-save' ) ) return;
 			$query = [
 				'post_type' => [
 					'post_type' => $post->post_type
@@ -137,7 +137,7 @@
 			if( count( $fields ) > 0 ){
 				$posts_columns = ArrayObject::get_instance( $posts_columns );
 				foreach( $fields as $field_ID => $Field ){
-					$ColumnsManager = $Field->Options()->Location()->PostType()->ColumnsManager();
+					$ColumnsManager = $Field->options()->location()->posts()->ColumnsManager();
 					$posts_columns->push( $ColumnsManager->id(), $ColumnsManager->name() );
 				}
 				$posts_columns = $posts_columns->get();
@@ -155,7 +155,7 @@
 					]
 				];
 				$Field = FieldsFactory_Admin::get_Field( $field_id, $query );
-				$callback = $Field->Options()->Location()->PostType()->ColumnsManager()->callback();
+				$callback = $Field->options()->location()->posts()->ColumnsManager()->callback();
 				if( !is_null( $callback ) && is_callable( $callback ) ){
 					call_user_func_array( $callback, [ $post_id, $Field, $columns_name ] );
 				}
@@ -177,7 +177,7 @@
 				]
 			] );
 			foreach( $fields as $Field ){
-				if( $Field->Options()->Location()->PostType()->ColumnsManager()->sortable() ){
+				if( $Field->options()->location()->posts()->ColumnsManager()->sortable() ){
 					$sortable_columns[ 'hiweb-field-' . $Field->ID() ] = 'hiweb-field-' . $Field->ID();
 				}
 			}

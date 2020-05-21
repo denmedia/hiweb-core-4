@@ -17,13 +17,13 @@
 	}
 	$style = new \hiweb\core\ArrayObject\ArrayObject();
 	$style2 = new \hiweb\core\ArrayObject\ArrayObject();
-	$image_width = strpos($this->Options()->admin_width(),'%') !== false ? 1024 : intval($this->Options()->admin_width());
-	$image_height = intval($this->Options()->admin_height());
+	$image_width = strpos($this->options()->admin_width(),'%') !== false ? 1024 : intval($this->options()->admin_width());
+	$image_height = intval($this->options()->admin_height());
 	if($this->the_Image()->is_exists()) {
 		$style2->push('background-image','url('.$this->the_Image()->get_src( [$image_width, $image_height] ).')');
 	}
-	$style->push('width', $this->Options()->admin_width());
-	$style->push('height', $this->Options()->admin_height());
+	$style->push('width', $this->options()->admin_width());
+	$style->push('height', $this->options()->admin_height());
 ?>
 <div class="hiweb-field-type-image" data-rand-id="<?= $rand_id ?>" data-global-id="<?= $this->global_id() ?>" data-has-file="<?= $has_file ? '1' : '0' ?>" data-file-mime="<?= $this->the_Image()->get_mime_type() ?>" style="<?=$style->get_param_html_style()?>">
 	<div data-image-place style="<?=$style2->get_param_html_style()?>"></div>

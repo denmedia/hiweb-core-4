@@ -209,7 +209,7 @@
 			$meta['sizes'] = [];
 			foreach( $this->Sizes()->get_sizes() as $size_name => $Image_Size ){
 				$meta['sizes'][ $size_name ] = [
-					'file' => $Image_Size->Path()->File()->filename(),
+					'file' => $Image_Size->Path()->File()->basename(),
 					'width' => $Image_Size->width(),
 					'height' => $Image_Size->height(),
 					'mime' => $Image_Size->Path()->Image()->get_mime_type()

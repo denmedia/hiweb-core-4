@@ -44,7 +44,7 @@
 		
 		
 		static function taxonomy_edited_term( $term_id, $tt_id, $taxonomy ){
-			if( !wp_verify_nonce( $_POST['hiweb-core-field-form-nonce'], 'hiweb-core-field-form-save' ) ) return;
+			if(!array_key_exists('hiweb-core-field-form-nonce', $_POST) || !wp_verify_nonce( $_POST['hiweb-core-field-form-nonce'], 'hiweb-core-field-form-save' ) ) return;
 			$term = get_term_by( 'id', $term_id, $taxonomy );
 			if( $term instanceof \WP_Term ){
 				$query = FieldsFactory::get_query_from_contextObject( get_term( $term_id ) );

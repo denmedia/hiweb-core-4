@@ -26,8 +26,13 @@
 			ArraysRowsFactory::$latestCreated_ArrayObject = $this;
 		}
 		
-		
-		public function __construct2( $array_or_firstItem = [] ){
+		public function __clone(){
+			if($this->Json instanceof ArrayObject_Json) {
+				$this->Json = new ArrayObject_Json($this);
+			}
+			if($this->Rows instanceof ArrayObject_Rows) {
+				$this->Rows = new ArrayObject_Rows($this);
+			}
 		}
 		
 		

@@ -21,12 +21,12 @@
 		'data-global_id' => $this->global_ID(),
 		'data-have_flex' => $this->have_flex_cols(),
 		'data-unique_id' => $this->get_unique_id(),
-		'data-text_confirm_clear_all' => $this->Options()->text_confirm_clear_all()
+		'data-text_confirm_clear_all' => $this->options()->text_confirm_clear_all()
 	] );
 
 ?>
 <div <?= $root_attributes->get_param_html_tags() ?>>
-	<?php if( !$this->Options()->have_cols() ){
+	<?php if( !$this->options()->have_cols() ){
 		?>
 		<p class="empty-message"><?= sprintf( __( 'For repeat input [%s] not add col fields. For that do this: <code>$this->add_col_field( add_field_text(...) )</code>' ), $this->ID() ) ?></p><?php
 	}
@@ -46,7 +46,7 @@
 		</tbody>
 		<tbody data-rows_message>
 		<tr data-row_empty="<?= $Value->have_rows() ? '1' : '0' ?>">
-			<td colspan="<?= $this->have_flex_cols() ? 3 : ( count( $this->Options()->get_cols() ) + 2 ) ?>"><p class="message"><?= __( 'The table is empty. To add at least one field, click on the "+" button', 'hiweb-core-4' ) ?></p>
+			<td colspan="<?= $this->have_flex_cols() ? 3 : ( count( $this->options()->get_cols() ) + 2 ) ?>"><p class="message"><?= __( 'The table is empty. To add at least one field, click on the "+" button', 'hiweb-core-4' ) ?></p>
 			</td>
 		</tr>
 		</tbody>

@@ -44,6 +44,10 @@
 		public function _( $value = null, $default = null, $null = null ){
 			return parent::_( '', $value, $default );
 		}
-
-
+		
+		public function _get_optionsCollect(){
+			return $this->_();
+		}
+		
+		
 	}

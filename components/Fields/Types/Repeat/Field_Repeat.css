@@ -122,6 +122,9 @@
   opacity: 0.25;
   filter: alpha(opacity=25);
 }
+.hiweb-field-type-repeat table.hiweb-field-type-repeat-table table.hiweb-field-type-repeat-table tfoot [data-col] {
+  text-indent: -9999px;
+}
 .hiweb-field-type-repeat .ui-sortable-placeholder td {
   visibility: visible !important;
   background: #ddd url(../../../../assets/img/pattern-2.png);

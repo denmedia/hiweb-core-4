@@ -15,21 +15,26 @@
 		private $Field;
 		/** @var Field */
 		private $repeat_Field;
+		/** @var Field_Repeat_Flex */
+		private $Flex;
 		
 		
 		/**
-		 * @param Field|Field_Options $Field_or_FieldOptions
 		 * @param Field               $repeat_Field
+		 * @param Field|Field_Options $Field_or_FieldOptions
+		 * @param null                $Flex
 		 */
-		public function __construct( Field $repeat_Field, $Field_or_FieldOptions ){
+		public function __construct( Field $repeat_Field, $Field_or_FieldOptions, $Flex = null ){
 			$this->repeat_Field = $repeat_Field;
+			if( $Flex instanceof Field_Repeat_Flex ) $this->Flex = $Flex;
+			else $this->Flex = new Field_Repeat_Flex( $this->Flex, '' );
 			if( $Field_or_FieldOptions instanceof Field ){
 				$this->Field = $Field_or_FieldOptions;
 			}
 			elseif( $Field_or_FieldOptions instanceof Field_Options ){
 				$this->Field = $Field_or_FieldOptions->Field();
 			}
-			parent::__construct( $this->Field->Options() );
+			parent::__construct( $this->Field->options() );
 		}
 		
 		
@@ -58,8 +63,19 @@
 		}
 		
 		
+		/**
+		 * @return Field|Field_Options
+		 */
 		public function Field(){
 			return $this->is_exist() ? $this->Field : FieldsFactory::get_field( '' );
+		}
+		
+		
+		/**
+		 * @return Field_Repeat_Flex
+		 */
+		public function flex(){
+			return $this->Flex;
 		}
 		
 		
@@ -86,7 +102,7 @@
 		 * @return array|Field_Repeat_Col|mixed|null
 		 */
 		public function width( $set = null ){
-			return $this->_( 'width', $set );
+			return $this->_( 'width', $set, 1 );
 		}
 		
 		

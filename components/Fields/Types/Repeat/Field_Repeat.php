@@ -36,7 +36,7 @@
 		
 		public function get_css(){
 			$R = [ HIWEB_DIR_VENDOR . '/jquery.qtip/jquery.qtip.min.css', __DIR__ . '/Field_Repeat.css' ];
-			foreach( $this->Options()->get_cols() as $flex_id => $cols ){
+			foreach( $this->options()->get_cols() as $flex_id => $cols ){
 				foreach( $cols as $col_id => $col ){
 					$col_css = $col->Field()->get_css();
 					if( is_array( $col_css ) ) $R = array_merge( $R, $col_css );
@@ -49,7 +49,7 @@
 		
 		public function get_js(){
 			$R = [ HIWEB_DIR_VENDOR . '/deepMerge/deepMerge.min.js', HIWEB_DIR_VENDOR . '/jquery.qtip/jquery.qtip.min.js', __DIR__ . '/Field_Repeat.min.js' ];
-			foreach( $this->Options()->get_cols() as $flex_id => $cols ){
+			foreach( $this->options()->get_cols() as $flex_id => $cols ){
 				foreach( $cols as $col_id => $col ){
 					$col_js = $col->Field()->get_js();
 					if( is_array( $col_js ) ) $R = array_merge( $R, $col_js );
@@ -61,7 +61,7 @@
 		
 		
 		public function admin_init(){
-			foreach( $this->Options()->get_cols() as $flex_id => $cols ){
+			foreach( $this->options()->get_cols() as $flex_id => $cols ){
 				foreach( $cols as $col ){
 					$col->Field()->admin_init();
 				}
@@ -107,8 +107,8 @@
 		/**
 		 * @return Field_Repeat_Options
 		 */
-		public function Options(){
-			return parent::Options();
+		public function options(){
+			return parent::options();
 		}
 		
 		
@@ -158,7 +158,7 @@
 		 * @return bool
 		 */
 		public function have_flex_cols(){
-			return count( $this->Options()->get_flex_ids() ) > 1 || !in_array( '', array_keys( $this->get_flexes() ) );
+			return count( $this->options()->get_flex_ids() ) > 1 || !in_array( '', array_keys( $this->get_flexes() ) );
 		}
 		
 	}

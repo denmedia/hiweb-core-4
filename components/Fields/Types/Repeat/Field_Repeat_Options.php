@@ -95,8 +95,8 @@
 		 */
 		public function add_col_flex_field( $flex_id, $Field_or_FieldOptions ){
 			$cols = $this->get_cols();
-			$col = new Field_Repeat_Col( $this->Field(), $Field_or_FieldOptions );
 			$Flex = $this->Field()->get_flex( $flex_id );
+			$col = new Field_Repeat_Col( $this->Field(), $Field_or_FieldOptions, $Flex );
 			$cols[ $Flex->ID() ][ $col->Field()->ID() ] = $col;
 			$this->_( 'cols', $cols );
 			return $col;

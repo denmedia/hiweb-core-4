@@ -11,17 +11,17 @@
 ?>
 <div class="hiweb-fieldset" data-id="<?= $Field->ID() ?>" data-global-id="<?= $Field->global_ID() ?>">
 	<?php
-		if( $Field->Options()->label() != '' ){
+		if( $Field->options()->label() != '' ){
 			?>
-			<div class="post-attributes-label-wrapper"><label class="post-attributes-label" for="<?= FieldsFactory_Admin::get_field_input_name( $Field ) ?>"><?= $Field->Options()->label() ?></label></div>
+			<div class="post-attributes-label-wrapper"><label class="post-attributes-label" for="<?= FieldsFactory_Admin::get_field_input_name( $Field ) ?>"><?= $Field->options()->label() ?></label></div>
 			<?php
 		}
 	?>
 	<?= $Field->get_admin_html( FieldsFactory_Admin::get_the_field_value(), FieldsFactory_Admin::get_the_field_name() ) ?>
 	<?php
-		if( $Field->Options()->description() != '' ){
+		if( $Field->options()->description() != '' ){
 			?>
-			<p class="description"><?= $Field->Options()->description() ?></p>
+			<p class="description"><?= $Field->options()->description() ?></p>
 			<?php
 		}
 	?>

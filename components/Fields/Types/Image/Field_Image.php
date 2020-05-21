@@ -22,8 +22,8 @@
 		/**
 		 * @return Field_Image_Options
 		 */
-		public function Options(){
-			return parent::Options();
+		public function options(){
+			return parent::options();
 		}
 		
 		

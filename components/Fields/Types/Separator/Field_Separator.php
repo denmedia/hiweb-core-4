@@ -24,8 +24,8 @@
 		/**
 		 * @return Field_Separator_Options
 		 */
-		public function Options(){
-			return parent::Options();
+		public function options(){
+			return parent::options();
 		}
 		
 		

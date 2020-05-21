@@ -41,7 +41,7 @@
 		 * Для древовидных типов записей - названия "постоянных страниц".
 		 * @return PostType_Labels
 		 */
-		public function Labels(){
+		public function labels(){
 			if( !$this->_( 'labels' ) instanceof PostType_Labels ){
 				$this->_( 'labels', new PostType_Labels( $this ) );
 			}
@@ -52,7 +52,7 @@
 		/**
 		 * @return Rewrite
 		 */
-		public function Rewrite(){
+		public function rewrite(){
 			if( !$this->_( 'rewrite' ) instanceof Rewrite ){
 				$this->_( 'rewrite', new Rewrite( $this ) );
 			}
@@ -63,7 +63,7 @@
 		/**
 		 * @return Supports
 		 */
-		public function Supports(){
+		public function supports(){
 			if( !$this->_( 'supports' ) instanceof Supports ){
 				$this->_( 'supports', new Supports( $this ) );
 			}

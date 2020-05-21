@@ -11,9 +11,9 @@
 <div class="hiweb-field-type-checkbox">
 		<input class="checkbox" type="checkbox" id="<?= $rand_id ?>" name="<?= $this->get_sanitize_admin_name( $name ) ?>" <?= $value ? 'checked="checked"' : '' ?>>
 		<?php
-			if( $this->Options()->label_checkbox() != '' ){
+			if( $this->options()->label_checkbox() != '' ){
 				?>
-				<label for="<?= $rand_id ?>"><?= $this->Options()->label_checkbox() ?></label>
+				<label for="<?= $rand_id ?>"><?= $this->options()->label_checkbox() ?></label>
 				<?php
 			}
 		?>

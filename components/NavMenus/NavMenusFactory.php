@@ -1,18 +1,18 @@
 <?php
-
+	
 	namespace hiweb\components\NavMenus;
-
-
+	
+	
 	use hiweb\components\Structures\StructuresFactory;
 	use hiweb\core\Cache\CacheFactory;
 	use WP_Error;
 	use WP_Post;
 	use WP_Post_Type;
 	use WP_Term;
-
-
+	
+	
 	class NavMenusFactory{
-
+		
 		/**
 		 * @param $nav_menu_id
 		 * @return NavMenu
@@ -23,8 +23,8 @@
 				return new NavMenu( func_get_arg( 0 ) );
 			}, [ $nav_menu_id ] )->get_value();
 		}
-
-
+		
+		
 		/**
 		 * @param string $location
 		 * @return NavMenu
@@ -34,13 +34,14 @@
 				if( is_array( get_theme_mod( 'nav_menu_locations' ) ) && array_key_exists( func_get_arg( 0 ), get_theme_mod( 'nav_menu_locations' ) ) ){
 					$term_id = get_theme_mod( 'nav_menu_locations' )[ func_get_arg( 0 ) ];
 					return NavMenusFactory::get( $term_id );
-				} else {
+				}
+				else{
 					return NavMenusFactory::get( 0 );
 				}
 			}, $location )->get_value();
 		}
-
-
+		
+		
 		/**
 		 * @param string $menu_name
 		 * @return NavMenu
@@ -55,8 +56,8 @@
 			}, [ $menu_name ] )->get_value();
 			return self::get( reset( $terms ) );
 		}
-
-
+		
+		
 		/**
 		 * Convert nav_menu_item to wp object id
 		 * @param WP_Post $nav_menu_item
@@ -68,8 +69,8 @@
 			}
 			return null;
 		}
-
-
+		
+		
 		/**
 		 * Convert nav_menu_item to wp object
 		 * @param WP_Post $nav_menu_item
@@ -78,5 +79,16 @@
 		static function get_wp_object_from_nav_menu_post( $nav_menu_item ){
 			return StructuresFactory::get_object_from_id( self::get_id_from_object( $nav_menu_item ) );
 		}
-
+		
+		
+		/**
+		 * @param bool $hide_empty
+		 * @return WP_Term[]
+		 */
+		static function get_menu_nav_terms($hide_empty = true){
+			$R = get_terms(['taxonomy' => 'nav_menu','hide_empty' => $hide_empty]);
+			if(!is_array($R)) $R = [];
+			return $R;
+		}
+		
 	}

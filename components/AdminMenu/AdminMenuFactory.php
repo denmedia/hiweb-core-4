@@ -2,8 +2,6 @@
 	
 	namespace hiweb\components\AdminMenu;
 	
-	
-	use hiweb\components\Console\ConsoleFactory;
 	use hiweb\core\Cache\CacheFactory;
 	use hiweb\core\hidden_methods;
 	

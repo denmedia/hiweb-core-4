@@ -10,7 +10,7 @@
 	
 	?>
 <div class="hiweb-field-type-date">
-	<input type="text" placeholder="<?= $this->Options()->placeholder() ?>" name="<?= htmlentities($name) ?>" value="<?= htmlentities($value) ?>" data-field-rand-id="<?=$rand_id?>">
+	<input type="text" placeholder="<?= $this->options()->placeholder() ?>" name="<?= htmlentities($name) ?>" value="<?= htmlentities($value) ?>" data-field-rand-id="<?=$rand_id?>">
 	<button class="button" data-datepicker-show>
 		<?= FontAwesomeFactory::get('far fa-calendar-alt')?>
 	</button>

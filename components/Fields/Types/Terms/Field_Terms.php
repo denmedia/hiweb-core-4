@@ -31,8 +31,8 @@
 		/**
 		 * @return Field_Terms_Options
 		 */
-		public function Options(){
-			return parent::Options();
+		public function options(){
+			return parent::options();
 		}
 		
 		
@@ -41,13 +41,13 @@
 		 */
 		private function get_terms_by_taxonomy(){
 			$terms_by_taxonomy = [];
-			$taxonomies = $this->Options()->taxonomy();
+			$taxonomies = $this->options()->taxonomy();
 			if( is_array( $taxonomies ) ){
 				foreach( $taxonomies as $taxonomy ){
 					if( !taxonomy_exists( $taxonomy ) ) continue;
 					$args = [
 						'taxonomy' => $taxonomy,
-						'hide_empty' => $this->Options()->hide_empty()
+						'hide_empty' => $this->options()->hide_empty()
 					];
 					$terms = get_terms( $args );
 					foreach( $terms as $wp_term ){

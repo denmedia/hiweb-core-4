@@ -240,8 +240,8 @@
 		}
 		
 		
-		public function is_mobile($iPad_is_desctop = true){
-			return wp_is_mobile() && (!$iPad_is_desctop || !stristr($_SERVER['HTTP_USER_AGENT'], 'Mozilla/5.0(iPad;'));
+		public function is_mobile($iPad_is_desktop = true){
+			return wp_is_mobile() && ( !$iPad_is_desktop || preg_match('~Mozilla/5\.0\s?\(iPad;~i', $_SERVER['HTTP_USER_AGENT']) == 0);
 		}
 
 	}

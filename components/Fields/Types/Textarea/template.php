@@ -9,11 +9,11 @@
 	
 	$attributes = \hiweb\core\ArrayObject\ArrayObject::get_instance( [] );
 	$attributes->push( 'name', $name );
-	if( intval( $this->Options()->rows() ) > 0 ){
-		$attributes->push( 'rows', $this->Options()->rows() );
+	if( intval( $this->options()->rows() ) > 0 ){
+		$attributes->push( 'rows', $this->options()->rows() );
 	}
-	if( $this->Options()->placeholder() != '' ){
-		$attributes->push( 'placeholder', $this->Options()->placeholder() );
+	if( $this->options()->placeholder() != '' ){
+		$attributes->push( 'placeholder', $this->options()->placeholder() );
 	}
 ?>
 <div class="hiweb-field-type-textarea">

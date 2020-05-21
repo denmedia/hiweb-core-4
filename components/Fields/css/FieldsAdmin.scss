@@ -58,3 +58,72 @@
 		margin: .4em auto;
 	}
 }
+
+
+.hiweb-fields-form-tabs-wrap {
+	margin-bottom: 3em;
+
+	.hiweb-fields-form-tabs-handles {
+		@include display-flex;
+		position: relative;
+		z-index: 5;
+		margin-bottom: -1px;
+		align-items: stretch;
+
+		[data-tab-handle] {
+			border: 1px solid $fields_color_border;
+			padding: 1em;
+			text-align: center;
+			max-width: 200px;
+			min-width: 80px;
+			background-color: $fields_color_bg_grey_white;
+			margin-right: -1px;
+			position: relative;
+			cursor: pointer;
+			@include transition();
+
+			&[data-tab-active="1"] {
+				border-bottom-color: transparent;
+				color: $fields_color_main;
+
+				&:before {
+					content: '';
+					position: absolute;
+					left: 0;
+					right: 0;
+					top: 0;
+					height: 3px;
+					background-color: $fields_color_main;
+				}
+			}
+
+			&[data-tab-active="0"] {
+				background-color: transparent;
+			}
+
+			&:hover {
+				@include box-shadow(6px, .05, 0, -4px);
+				z-index: 5;
+				margin-top: -3px;
+			}
+
+
+			.label {
+				font-weight: 500;
+			}
+
+			.description {
+				font-style: italic;
+				color: $fields_color_grey;
+				font-size: .9em;
+			}
+		}
+	}
+
+	.hiweb-fields-form-tabs-content {
+		padding: 1.8em 1.4em 2.8em;
+		border: 1px solid $fields_color_border;
+		background-color: $fields_color_bg_grey_white;
+		@include box-shadow(8px, .05, 0, 6px);
+	}
+}

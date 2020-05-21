@@ -6,10 +6,10 @@
 	
 	$terms = $this->get_terms_by_taxonomy();
 	$attributes = new \hiweb\core\ArrayObject\ArrayObject();
-	if($this->Options()->placeholder() != '') {
-		$attributes->push( 'placeholder', $this->Options()->placeholder() );
+	if( $this->options()->placeholder() != '') {
+		$attributes->push( 'placeholder', $this->options()->placeholder() );
 	}
-	if( $this->Options()->multiple() ){
+	if( $this->options()->multiple() ){
 		$attributes->push( 'multiple', '' );
 		$attributes->push( 'size', 1 );
 		if( $name != '' ) $name .= '[]';

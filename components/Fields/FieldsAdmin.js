@@ -72,7 +72,7 @@ jQuery(document).ready(function ($) {
             if (javascripts.length > 0) {
                 let script = javascripts.shift();
                 let timeoutId;
-                timeoutId = window.setTimeout(function() {
+                timeoutId = window.setTimeout(function () {
                     load_next_javascript();
                 }, 1000);
                 $.getScript(script[1], () => {
@@ -136,6 +136,7 @@ jQuery(document).ready(function ($) {
         });
     };
 
+    ///AJAX FORM
     let $ajax_forms = $('.hiweb-components-form-ajax-wrap[data-fields-query][data-fields-query-id]');
     let max_input_vars = 0;
     let max_input_vars_excess_triggered = false;
@@ -185,6 +186,19 @@ jQuery(document).ready(function ($) {
         };
         load_nex_form();
     }
+
+
+    ///TABS
+    $('.hiweb-components-form-ajax-wrap, .hiweb-components-form-wrap').on('click', '.hiweb-fields-form-tabs-handles [data-tab-handle]', function (e) {
+        e.preventDefault();
+        let $this = $(this);
+        if ($this.is('[data-tab-active="0"]')) {
+            $this.siblings().attr('data-tab-active', '0');
+            $this.attr('data-tab-active', '1');
+            $this.closest('.hiweb-fields-form-tabs-wrap').find('[data-tab-content]').slideUp();
+            $this.closest('.hiweb-fields-form-tabs-wrap').find('[data-tab-content="'+$this.attr('data-tab-handle')+'"]').slideDown();
+        }
+    });
 
 
 });

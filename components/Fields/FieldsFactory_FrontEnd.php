@@ -4,7 +4,6 @@
 	
 	
 	use hiweb\components\Console\ConsoleFactory;
-	use hiweb\components\Structures\StructuresFactory;
 	use hiweb\core\ArrayObject\ArrayObject;
 	use hiweb\core\ArrayObject\ArrayObject_Rows;
 	use WP_Comment;
@@ -15,10 +14,18 @@
 	
 	class FieldsFactory_FrontEnd{
 		
-		/** @var ArrayObject[] */
+		/** @var ArrayObject_Rows[] */
 		static private $rows = [];
+		/** @var ArrayObject_Rows[] */
+		static private $sub_rows = [];
+		/** @var ArrayObject_Rows */
+		static private $rows_current_id = '';
+		/** @var ArrayObject_Rows */
+		static private $sub_rows_current_id = '';
 		/** @var ArrayObject_Rows */
 		static private $rows_current = [];
+		/** @var ArrayObject_Rows */
+		static private $sub_rows_current = [];
 		
 		
 		/**
@@ -33,7 +40,7 @@
 			$fields = FieldsFactory::get_field_by_query( $fields_query );
 			if( array_key_exists( $field_ID, $fields ) ){
 				$Field = $fields[ $field_ID ];
-				$default = is_null( $default ) ? $Field->Options()->default_value() : $default;
+				$default = is_null( $default ) ? $Field->options()->default_value() : $default;
 				$value = $default;
 				$contextObject_sanitize = FieldsFactory::sanitize_objectContext( $objectContext );
 				if( $contextObject_sanitize instanceof WP_Post ){
@@ -95,23 +102,45 @@
 		static function get_row( $field_ID, $objectContext = null ){
 			$Field = self::get_Field( $field_ID, $objectContext );
 			$objectContext = FieldsFactory::sanitize_objectContext( $objectContext );
-			$field_context_id = $Field->ID() . '-' . (is_object($objectContext) ? spl_object_id( $objectContext ) : 'options-'.(string)$objectContext);
+			$field_context_id = $Field->ID() . '-' . ( is_object( $objectContext ) ? spl_object_id( $objectContext ) : 'options-' . (string)$objectContext );
 			if( !array_key_exists( $field_context_id, self::$rows ) ){
-				self::$rows[ $field_context_id ] = new ArrayObject();
+				$new_array = new ArrayObject();
 				$value = self::get_value( $field_ID, $objectContext );
-				if( is_array( $value ) ) self::$rows[ $field_context_id ]->set( $value );
+				if( is_array( $value ) ) $new_array->set( $value );
+				self::$rows[ $field_context_id ] = $new_array->Rows();
 			}
-			self::$rows_current = self::$rows[ $field_context_id ]->Rows();
+			self::$rows_current_id = $field_context_id;
+			self::$rows_current = self::$rows[ $field_context_id ];
 			return self::$rows_current;
+		}
+		
+		
+		/**
+		 * @return ArrayObject_Rows[]
+		 */
+		static function get_rows(){
+			return self::$rows;
 		}
 		
 		
 		/**
 		 * @return ArrayObject_Rows
 		 */
-		static function get_current_rows(){
+		static function get_current_row(){
 			if( !self::$rows_current instanceof ArrayObject_Rows ){
 				self::$rows_current = ( new ArrayObject() )->Rows();
+			}
+			return self::$rows_current;
+		}
+		
+		
+		/**
+		 * @param $col_id
+		 * @return array|ArrayObject_Rows|null
+		 */
+		static function get_sub_field_rows( $col_id ){
+			if(self::get_current_row()->get_sub_field_rows($col_id)->have()) {
+				self::$rows_current = self::get_current_row()->get_sub_field_rows($col_id);
 			}
 			return self::$rows_current;
 		}

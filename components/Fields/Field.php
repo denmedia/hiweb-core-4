@@ -4,9 +4,6 @@
 	
 	
 	use hiweb\components\Console\ConsoleFactory;
-	use hiweb\components\Context;
-	use hiweb\components\Dump\Dump;
-	use hiweb\core\Cache\CacheFactory;
 	use hiweb\core\hidden_methods;
 	use hiweb\core\Strings;
 	
@@ -23,11 +20,13 @@
 		/** @var */
 		protected $options_class = '\hiweb\components\Fields\Field_Options';
 		protected $id_empty = false;
+		protected $debug_backtrace;
 		
 		
 		public function __construct( $field_ID = null ){
+			$this->debug_backtrace = debug_backtrace();
 			if( !is_string( $field_ID ) ){
-				$field_ID = strtolower( basename( str_replace( '\\', '/', get_called_class() ) ) );
+				$field_ID = strtolower( basename( str_replace( '\\', '/', get_called_class() ) ) ) . '_' . Strings::rand( 5 );
 				$this->id_empty = true;
 			}
 			$this->ID = $field_ID;
@@ -70,19 +69,17 @@
 		/**
 		 * @return Field_Options|mixed
 		 */
-		public function Options(){
-			return CacheFactory::get( spl_object_id( $this ), __METHOD__, function(){
-				if( $this->options_class instanceof Field_Options ){
-					return $this->options_class;
-				}
-				elseif( class_exists( $this->options_class ) ){
-					return new $this->options_class( $this );
-				}
-				else{
-					ConsoleFactory::add( 'Error load options class for field', 'warn', __CLASS__, $this->options_class, true );
-					return new Field_Options( $this );
-				}
-			} )->get_value();
+		public function options(){
+			if( $this->options_class instanceof Field_Options ){
+				return $this->options_class;
+			}
+			elseif( class_exists( $this->options_class ) ){
+				return new $this->options_class( $this );
+			}
+			else{
+				ConsoleFactory::add( 'Error load options class for field', 'warn', __CLASS__, $this->options_class, true );
+				return new Field_Options( $this );
+			}
 		}
 		
 		
@@ -157,16 +154,19 @@
 		 */
 		public function get_admin_columns_html( $wp_object = null, $object_id = null, $columns_name = null ){
 			ob_start();
-			if($wp_object instanceof \WP_Post) {
+			if( $wp_object instanceof \WP_Post ){
 				$value = get_post_meta( $wp_object->ID, $this->ID(), true );
-			} elseif($wp_object instanceof \WP_Term) {
+			}
+			elseif( $wp_object instanceof \WP_Term ){
 				$value = get_term_meta( $wp_object->term_id, $this->ID(), true );
-			} elseif($wp_object instanceof \WP_User){
+			}
+			elseif( $wp_object instanceof \WP_User ){
 				$value = get_user_meta( $wp_object->ID, $this->ID(), true );
-			} elseif($wp_object instanceof \WP_Comment){
+			}
+			elseif( $wp_object instanceof \WP_Comment ){
 				$value = get_comment_meta( $wp_object->comment_ID, $this->ID(), true );
 			}
-			echo '<div class="hiweb-'.Strings::sanitize_id(basename(str_replace('\\','/',get_called_class())) ).'-column-'.$this->ID().'">'.$value.'</div>';
+			echo '<div class="hiweb-' . Strings::sanitize_id( basename( str_replace( '\\', '/', get_called_class() ) ) ) . '-column-' . $this->ID() . '">' . $value . '</div>';
 			return ob_get_clean();
 		}
 		

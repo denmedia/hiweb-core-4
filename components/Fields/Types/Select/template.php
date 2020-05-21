@@ -4,7 +4,7 @@
 	 * @var \hiweb\components\Fields\Types\Select\Field_Select $this
 	 */
 	
-	$options = $this->Options()->options();
+	$options = $this->options()->options();
 	$value = $this->get_sanitize_admin_value( $value );
 	if( !is_array( $options ) ) $options = [];
 	$options_html = '';
@@ -17,11 +17,11 @@
 	}
 	$attributes = new \hiweb\core\ArrayObject\ArrayObject();
 	$attributes->push( 'name', $name );
-	if( $this->Options()->multiple() ){
+	if( $this->options()->multiple() ){
 		$attributes->push( 'multiple', '' );
 	}
-	if( $this->Options()->placeholder() != '' ){
-		$attributes->push( 'placeholder', $this->Options()->placeholder() );
+	if( $this->options()->placeholder() != '' ){
+		$attributes->push( 'placeholder', $this->options()->placeholder() );
 	}
 ?>
 <div class="hiweb-field-type-select">

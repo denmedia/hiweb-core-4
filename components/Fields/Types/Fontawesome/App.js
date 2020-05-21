@@ -4,6 +4,8 @@ let hiweb_field_fontawesome_make = function (element) {
     if (jQuery(element).is('input[name]')) element = jQuery(element).closest('.hiweb-field-type-fontawesome');
     jQuery(element).each(function () {
         let $root = jQuery(this);
+        if($root.is('.hiweb-type-field-fontawesome-init')) return;
+        $root.addClass('hiweb-type-field-fontawesome-init');
         let $input = $root.find('input[name]');
         let $result = $root.find('[data-fontawesome-result-place]');
         let $styles = $root.find('[data-fontawesome-styles-place]');

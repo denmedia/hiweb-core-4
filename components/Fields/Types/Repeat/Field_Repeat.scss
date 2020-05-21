@@ -133,6 +133,12 @@
 			}
 		}
 
+		table.hiweb-field-type-repeat-table {
+			tfoot [data-col] {
+				text-indent: -9999px;
+			}
+		}
+
 	}
 
 	.ui-sortable-placeholder td {

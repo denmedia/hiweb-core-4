@@ -29,7 +29,7 @@
 		 * @return array|Field_Repeat_Flex|mixed|null
 		 */
 		public function label( $set = null ){
-			return $this->_( 'label', $set, $this->Field_Repeat->Options()->label_button_new_row() );
+			return $this->_( 'label', $set, $this->Field_Repeat->options()->label_button_new_row() );
 		}
 		
 		

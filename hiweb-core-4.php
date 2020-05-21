@@ -20,4 +20,4 @@
 	}
 	
 	
-	add_field_checkbox( 'test' )->label_checkbox( 'Тестовое поле' )->Location()->Taxonomy('category');
+	add_field_checkbox( 'test' )->label_checkbox( 'Тестовое поле' )->location()->taxonomies('category');

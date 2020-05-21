@@ -1,42 +1,58 @@
 <?php
-
+	
 	namespace hiweb\core\ArrayObject;
-
-
+	
+	
 	use hiweb\core\ArrayObject\ArrayObject;
-
-
+	use hiweb\core\Cache\CacheFactory;
+	
+	
 	class ArrayObject_Rows{
-
+		
 		/** @var ArrayObject */
 		private $array;
-
+		
 		private $rows = null;
 		/** @var null|mixed */
 		private $current_row = null;
-		/** @var null|ArrayObject_Rows */
-		private $current_sub_rows = null;
 		/** @var null|string|int */
 		private $current_row_key = null;
-
-
+		/** @var null|ArrayObject_Rows */
+		private $current_sub_rows = null;
+		///
+		/** @var null|ArrayObject_Rows */
+		private $current_sub_field_rows = null;
+		
+		
+		/**
+		 * Return dummy array rows
+		 * @return ArrayObject_Rows
+		 */
+		private static function get_dummy_rows(){
+			return CacheFactory::get( __FUNCTION__, __CLASS__, function(){
+				return new ArrayObject_Rows( [] );
+			} )->get_value();
+		}
+		
+		
 		public function __construct( $array ){
 			if( $array instanceof ArrayObject ){
 				$this->array = $array;
-			} else {
+			}
+			else{
 				$this->array = new ArrayObject( $array );
 			}
 		}
-
-
+		
+		
 		/**
 		 * @return ArrayObject
 		 */
 		public function ArrayObject(){
 			return $this->array;
 		}
-
-
+		
+		
 		/**
 		 * Reset rows of ArrayObject to first
 		 * @return int
@@ -47,18 +63,20 @@
 			$this->current_row = null;
 			$this->current_sub_rows = null;
 			$this->current_row_key = null;
+			$this->current_sub_field_rows = null;
 			return count( $this->rows );
 		}
-
-
+		
+		
 		public function have(){
 			if( $this->array->is_empty() ) return false;
 			if( !is_array( $this->rows ) ) $this->reset();
 			if( count( $this->rows ) == 0 ) return false;
+			$this->current_sub_field_rows = null;
 			return true;
 		}
-
-
+		
+		
 		/**
 		 * @return mixed|null
 		 */
@@ -73,8 +91,8 @@
 			}
 			return null;
 		}
-
-
+		
+		
 		/**
 		 * @param $callable - user function, call event array item
 		 * @return array - return array of result call user function
@@ -92,21 +110,21 @@
 			}
 			return $R;
 		}
-
-
+		
+		
 		/**
 		 * @return null
 		 */
 		public function get_current(){
 			return is_array( $this->current_row ) ? new ArrayObject( $this->current_row ) : $this->current_row;
 		}
-
-
+		
+		
 		public function get_current_key(){
 			return $this->current_row_key;
 		}
-
-
+		
+		
 		/**
 		 * @return bool
 		 */
@@ -114,8 +132,8 @@
 			if( !is_array( $this->rows ) || $this->array->is_empty() ) return false;
 			return ( count( $this->rows ) + 1 ) == $this->array->count();
 		}
-
-
+		
+		
 		/**
 		 * @return bool
 		 */
@@ -123,33 +141,48 @@
 			if( !is_array( $this->rows ) || $this->array->is_empty() ) return false;
 			return count( $this->rows ) == 0;
 		}
-
-
+		
+		
 		/**
 		 * @return bool
 		 */
 		public function is_sub_rows(){
 			return is_array( $this->current_row ) && $this->current_sub_rows instanceof ArrayObject_Rows;
 		}
-
-
+		
+		
+		/**
+		 * @param string $col_id
+		 * @return bool
+		 */
+		public function have_sub_field($col_id) {
+			if( $this->is_sub_rows() ) return $this->current_sub_rows->ArrayObject()->key_exists( $col_id );
+			else return false;
+		}
+		
 		/**
 		 * Return sub field value
-		 * @param null $key
+		 * @param null $col_id
 		 * @param null $default
 		 * @return array|mixed|null
 		 */
-		public function get_sub_field( $key = null, $default = null ){
-			if( $this->is_sub_rows() ) return $this->current_sub_rows->ArrayObject()->_( $key, $default ); else return $default;
+		public function get_sub_field( $col_id = null, $default = null ){
+			if( $this->is_sub_rows() ) return $this->current_sub_rows->ArrayObject()->_( $col_id, $default );
+			else return $default;
 		}
-
-
+		
+		
 		/**
-		 * @return ArrayObject_Rows|null
+		 * @param $col_id
+		 * @return ArrayObject_Rows
 		 */
-		public function get_sub_rows(){
-			if( !$this->is_sub_rows() ) return null;
-			return $this->current_sub_rows;
+		public function get_sub_field_rows( $col_id ){
+			if( !is_array( $this->get_sub_field( $col_id ) ) ) return self::get_dummy_rows();
+			if( !$this->current_sub_field_rows instanceof ArrayObject_Rows ){
+				$this->current_sub_field_rows = new ArrayObject_Rows( $this->get_sub_field( $col_id ) );
+			}
+			return $this->current_sub_field_rows;
 		}
-
+		
+		
 	}
