@@ -196,8 +196,36 @@ jQuery(document).ready(function ($) {
             $this.siblings().attr('data-tab-active', '0');
             $this.attr('data-tab-active', '1');
             $this.closest('.hiweb-fields-form-tabs-wrap').find('[data-tab-content]').slideUp();
-            $this.closest('.hiweb-fields-form-tabs-wrap').find('[data-tab-content="'+$this.attr('data-tab-handle')+'"]').slideDown();
+            $this.closest('.hiweb-fields-form-tabs-wrap').find('[data-tab-content="' + $this.attr('data-tab-handle') + '"]').slideDown();
         }
+    });
+
+
+    ///HELP TOOLTIP
+    $('.hiweb-components-form-ajax-wrap, .hiweb-components-form-wrap').on('hiweb-form-ajax-loaded', function () {
+        let $tooltip_help = $('[data-hiweb-fields-tooltip-help]');
+        if ($tooltip_help.length > 0 && typeof $tooltip_help.qtip === 'function') {
+            $tooltip_help.each(function () {
+                let $source = $(this);
+                $source.qtip({
+                    content: {
+                        text: $source.attr('data-hiweb-fields-tooltip-help')
+                    },
+                    style: {
+                        classes: 'qtip-light qtip-shadow'
+                    },
+                    position: {
+                        target: $source,
+                        my: 'bottom center',
+                        at: 'top center',
+                        adjust: {
+                            method: 'shift none'
+                        }
+                    }
+                });
+            })
+        }
+        $.fn.qtip.zindex = 100000;
     });
 
 

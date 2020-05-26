@@ -94,20 +94,20 @@
 					];
 					$Path = PathsFactory::get_bySearch( $search_paths );
 				}
-				if( $Path->File()->extension() != $extension ){
+				if( $Path->file()->extension() != $extension ){
 					ConsoleFactory::add( 'file [' . $fileNameOrPath . '] not found', 'warn', __CLASS__ . ' - the file is not have ' . $extension . ' extension', $Path->get_path_relative(), true );
 				}
 				elseif( !$Path->is_local() ){
 					return $Path;
 				}
-				elseif( !$Path->File()->is_file() ){
+				elseif( !$Path->file()->is_file() ){
 					ConsoleFactory::add( 'file [' . $fileNameOrPath . '] not file', 'warn', __CLASS__ . ' - ' . $extension . ' file not found', $search_paths, true );
 				}
-				elseif( !$Path->File()->is_exists() ){
+				elseif( !$Path->file()->is_exists() ){
 					ConsoleFactory::add( 'file [' . $fileNameOrPath . '] not found', 'warn', __CLASS__ . ' - ' . $extension . ' file not found', $search_paths, true );
 				}
-				elseif( !$Path->File()->is_readable() ){
-					ConsoleFactory::add( 'file [' . $fileNameOrPath . '] not found', 'warn', __CLASS__ . ' - ' . $extension . ' file not readable', $Path->File()->get_relative_path(), true );
+				elseif( !$Path->file()->is_readable() ){
+					ConsoleFactory::add( 'file [' . $fileNameOrPath . '] not found', 'warn', __CLASS__ . ' - ' . $extension . ' file not readable', $Path->file()->get_relative_path(), true );
 				}
 				return $Path;
 			}, [ $fileNameOrPath, $extension ] )->get_value();
@@ -151,7 +151,7 @@
 				///Footer check
 				if( !( did_action( 'wp_footer' ) || did_action( 'admin_footer' ) ) && $Css->to_footer() ) continue;
 				///REGISTER STYLE
-				wp_register_style( $Css->Path()->handle(), $Css->Path()->Url()->get_clear(), $Css->deeps(), $Css->Path()->is_local() ? filemtime( $Css->Path()->File()->get_path() ) : false, $Css->Media()() );
+				wp_register_style( $Css->Path()->handle(), $Css->Path()->url()->get_clear(), $Css->deeps(), $Css->Path()->is_local() ? filemtime( $Css->Path()->file()->get_path() ) : false, $Css->Media()() );
 				wp_enqueue_style( $Css->Path()->handle() );
 				self::$already_printed[] = $Css->Path()->handle();
 			}
@@ -159,15 +159,15 @@
 				$Js = $cache_Js->get_value();
 				if( !$Js instanceof Js ) continue;
 				///Stop repeat include
-				if( in_array( $Js->Path()->handle(), self::$already_printed ) ) continue;
+				if( in_array( $Js->path()->handle(), self::$already_printed ) ) continue;
 				///Context check
 				if( !( ( Context::is_frontend_page() && $Js->on_frontend() ) || ( Context::is_admin_page() && $Js->on_admin() ) || ( Context::is_login_page() && $Js->on_login() ) ) && !( is_null( $Js->on_frontend() ) && is_null( $Js->on_admin() ) && is_null( $Js->on_login() ) ) ) continue;
 				///Footer check
 				if( !( did_action( 'wp_footer' ) || did_action( 'admin_footer' ) ) && $Js->to_footer() ) continue;
 				///REGISTER SCRIPT
-				wp_register_script( $Js->Path()->handle(), $Js->Path()->Url()->get(), $Js->deeps(), $Js->Path()->is_local() ? filemtime( $Js->Path()->File()->get_path() ) : false, $Js->to_footer() );
-				wp_enqueue_script( $Js->Path()->handle() );
-				self::$already_printed[] = $Js->Path()->handle();
+				wp_register_script( $Js->path()->handle(), $Js->path()->url()->get(), $Js->deeps(), $Js->path()->is_local() ? filemtime( $Js->path()->file()->get_path() ) : false, $Js->to_footer() );
+				wp_enqueue_script( $Js->path()->handle() );
+				self::$already_printed[] = $Js->path()->handle();
 			}
 		}
 		
@@ -198,6 +198,30 @@
 				}
 			}
 			return $tag;
+		}
+		
+		
+//		/**
+//		 * @param bool $include_migrate_js
+//		 * @return bool
+//		 */
+//		static function jquery( $include_migrate_js = false ){
+//			$R = static::js( HIWEB_THEME_VENDORS_DIR . '/jquery3/jquery-3.3.1.min.js' );
+//			if( $include_migrate_js ){
+//				static::js( HIWEB_THEME_VENDORS_DIR . '/jquery3/jquery-migrate-1.4.1.min.js' );
+//			}
+//			return $R->path()->handle();
+//		}
+		
+		
+		/**
+		 * @return bool|int|string
+		 */
+		static function jquery_qtip(){
+			static::css(HIWEB_DIR_VENDOR.'/jquery.qtip/jquery.qtip.min.css');
+			$js = static::js(HIWEB_DIR_VENDOR.'/jquery.qtip/jquery.qtip.min.js');
+			//$js->deeps(['jquery-core']);
+			return $js->path()->handle();
 		}
 		
 	}

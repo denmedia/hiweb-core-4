@@ -55,5 +55,8 @@
 .hiweb-field-type-content .wp-editor-tools:after {
   display: none;
 }
+.hiweb-field-type-content iframe {
+  min-height: 100px;
+}
 
 /*# sourceMappingURL=Field_Content.css.map */

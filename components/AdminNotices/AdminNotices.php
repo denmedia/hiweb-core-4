@@ -18,7 +18,7 @@
 				include_admin_css( __DIR__ . '/style.css' );
 				$js = include_admin_js( HIWEB_DIR_VENDOR . '/jquery.noty/noty.min.js', [ 'jquery-core' ] );
 				$js_2 = include_admin_js( HIWEB_DIR_VENDOR . '/javascript-md5/md5.min.js' );
-				include_admin_js( __DIR__ . '/App.min.js', [ $js->Path()->handle(), $js_2->Path()->handle() ] );
+				include_admin_js( __DIR__ . '/App.min.js', [ $js->path()->handle(), $js_2->path()->handle() ] );
 				require_once __DIR__.'/hooks_2.php';
 			}
 		}

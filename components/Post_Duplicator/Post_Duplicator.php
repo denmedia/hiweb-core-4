@@ -25,7 +25,7 @@
 					if( get_current_screen()->base == 'edit' && get_current_screen()->post_type != '' && isset( $_GET['hiweb-post-duplicate'] ) ){
 						if( wp_verify_nonce( $_GET['_wpnonce'], 'hiweb-post-duplicate' ) ){
 							self::do_duplicate( $_GET['hiweb-post-duplicate'] );
-							wp_redirect( PathsFactory::get()->Url()->set_params( [ 'hiweb-post-duplicate' => null, '_wpnonce' => null, 'post_status' => 'draft' ] )->get( false ) );
+							wp_redirect( PathsFactory::get()->url()->set_params( [ 'hiweb-post-duplicate' => null, '_wpnonce' => null, 'post_status' => 'draft' ] )->get( false ) );
 						} else {
 							//add_admin_notice( 'Не удалось создать дубликат записи, так как ключ проверки не совпадает', 'notice notice-error' );
 						}

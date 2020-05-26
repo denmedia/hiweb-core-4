@@ -33,7 +33,7 @@
 		 */
 		static public function set_default_src( $urlOrPathOrAttachID ){
 			$file = PathsFactory::get( $urlOrPathOrAttachID );
-			if( $file->File()->is_readable() ){
+			if( $file->file()->is_readable() ){
 				self::$default_image_file = $file;
 				return true;
 			}

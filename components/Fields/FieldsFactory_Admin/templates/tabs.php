@@ -4,6 +4,9 @@
 	 * @var array $section_data
 	 * @var array $field_values
 	 */
+	
+	use hiweb\components\Fields\Types\Tab\Field_Tab;
+
 
 ?>
 <div class="hiweb-fields-form-tabs-wrap">
@@ -17,12 +20,24 @@
 			foreach( $section_data['tabs'] as $tab_global_id => $field_tab ){
 				?>
 				<div data-tab-handle="<?= $tab_global_id ?>" data-tab-active="<?= $index == 0 ? '1' : '0' ?>">
-					<div class="label"><?= $field_tab->options()->label() ?></div>
-					<?php if( $field_tab->options()->description() != '' ){
-						?>
-						<div class="description"><?= $field_tab->options()->description() ?></div>
+					<div class="label-wrap">
 						<?php
-					} ?>
+							if( $field_tab->options()->icon() != '' ){
+								$font_awesome = \hiweb\components\FontAwesome\FontAwesomeFactory::get( $field_tab->options()->icon() );
+								if( $font_awesome->is_exists() ){
+									?>
+									<div class="icon"><?= $font_awesome ?></div>
+									<?php
+								}
+							}
+						?>
+						<div class="label"><?= $field_tab->options()->label() ?></div>
+						<?php if( $field_tab->options()->description() != '' ){
+							?>
+							<div class="description"><?= $field_tab->options()->description() ?></div>
+							<?php
+						} ?>
+					</div>
 				</div>
 				<?php
 				$index ++;

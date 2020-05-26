@@ -62,7 +62,7 @@
 		 * @return Path_File
 		 */
 		static function get_file( $path_or_url_or_handle = '' ){
-			return self::get( $path_or_url_or_handle )->File();
+			return self::get( $path_or_url_or_handle )->file();
 		}
 		
 		
@@ -71,7 +71,7 @@
 		 * @return Path_Url
 		 */
 		static function get_url( $path_or_url_or_handle = '' ){
-			return self::get( $path_or_url_or_handle )->Url();
+			return self::get( $path_or_url_or_handle )->url();
 		}
 		
 		
@@ -208,7 +208,7 @@
 			if( !file_exists( $filePath ) ){
 				return $filePath;
 			}
-			$File = self::get( $filePath )->File();
+			$File = self::get( $filePath )->file();
 			for( $n = 1; $n < 9999; $n ++ ){
 				$test_path = $File->dirname() . '/' . $File->filename() . '-' . sprintf( "%04d", $n ) . '.' . $File->extension();
 				if( !file_exists( $test_path ) ){
@@ -243,11 +243,11 @@
 				}
 			}
 			elseif( is_string( $fileOrUrl ) && self::get( $fileOrUrl )->is_url() ){
-				$fileName = trim( $force_file_name ) == '' ? self::get( $fileOrUrl )->File()->basename() : $force_file_name;
+				$fileName = trim( $force_file_name ) == '' ? self::get( $fileOrUrl )->file()->basename() : $force_file_name;
 				$tmp_name = $fileOrUrl;
 			}
 			elseif( is_string( $fileOrUrl ) && file_exists( $fileOrUrl ) && is_file( $fileOrUrl ) && is_readable( $fileOrUrl ) ){
-				$fileName = trim( $force_file_name ) == '' ? self::get( $fileOrUrl )->File()->basename() : $force_file_name;
+				$fileName = trim( $force_file_name ) == '' ? self::get( $fileOrUrl )->file()->basename() : $force_file_name;
 				$tmp_name = $fileOrUrl;
 			}
 			else{

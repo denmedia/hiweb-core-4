@@ -14,6 +14,6 @@
 		foreach( scandir( $types_path ) as $type_dir ){
 			if( preg_match( '/^(\.){1,2}$/i', $type_dir ) > 0 ) continue;
 			$type_dir = $types_path . '/' . $type_dir;
-			PathsFactory::get( $type_dir )->File()->include_files( 'php', 'template', 0 );
+			PathsFactory::get( $type_dir )->file()->include_files( 'php', 'template', 0 );
 		}
 	}

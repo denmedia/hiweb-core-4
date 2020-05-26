@@ -60,6 +60,21 @@
 .hiweb-components-form-ajax-wrap .hiweb-fieldset:last-child, .hiweb-components-form-wrap .hiweb-fieldset:last-child {
   margin-bottom: 0;
 }
+.hiweb-components-form-ajax-wrap .hiweb-fieldset .hiweb-fieldset-help, .hiweb-components-form-wrap .hiweb-fieldset .hiweb-fieldset-help {
+  display: inline-block;
+  width: 1.4em;
+  height: 1em;
+  line-height: 1;
+  color: #007cba;
+  cursor: pointer;
+}
+.hiweb-components-form-ajax-wrap .hiweb-fieldset .hiweb-fieldset-help svg, .hiweb-components-form-wrap .hiweb-fieldset .hiweb-fieldset-help svg {
+  max-width: 100%;
+  max-height: 100%;
+}
+.hiweb-components-form-ajax-wrap .hiweb-fieldset .hiweb-fieldset-help:hover, .hiweb-components-form-wrap .hiweb-fieldset .hiweb-fieldset-help:hover {
+  color: #0071a1;
+}
 
 .postbox .hiweb-components-form-ajax-wrap .hiweb-fieldset, .postbox .hiweb-components-form-wrap .hiweb-fieldset {
   margin-bottom: 0.6em;
@@ -104,25 +119,40 @@
   z-index: 5;
   margin-bottom: -1px;
   align-items: stretch;
+  overflow: hidden;
 }
 .hiweb-fields-form-tabs-wrap .hiweb-fields-form-tabs-handles [data-tab-handle] {
   border: 1px solid #ccd0d4;
+  border-bottom: none;
   padding: 1em;
   text-align: center;
-  max-width: 200px;
+  max-width: 340px;
   min-width: 80px;
-  background-color: #f8f8f8;
+  background-color: #f1f1f1;
   margin-right: -1px;
   position: relative;
   cursor: pointer;
+  top: 3px;
+  z-index: -1;
+  color: #72777c;
   -webkit-transition: all 0.2s ease-in-out 0ms;
   -moz-transition: all 0.2s ease-in-out 0ms;
   -o-transition: all 0.2s ease-in-out 0ms;
   transition: all 0.2s ease-in-out 0ms;
 }
+.hiweb-fields-form-tabs-wrap .hiweb-fields-form-tabs-handles [data-tab-handle] .label-wrap {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
 .hiweb-fields-form-tabs-wrap .hiweb-fields-form-tabs-handles [data-tab-handle][data-tab-active="1"] {
   border-bottom-color: transparent;
   color: #007cba;
+  background-color: #f8f8f8;
+  z-index: 5;
 }
 .hiweb-fields-form-tabs-wrap .hiweb-fields-form-tabs-handles [data-tab-handle][data-tab-active="1"]:before {
   content: "";
@@ -133,16 +163,18 @@
   height: 3px;
   background-color: #007cba;
 }
-.hiweb-fields-form-tabs-wrap .hiweb-fields-form-tabs-handles [data-tab-handle][data-tab-active="0"] {
-  background-color: transparent;
-}
 .hiweb-fields-form-tabs-wrap .hiweb-fields-form-tabs-handles [data-tab-handle]:hover {
   -webkit-box-shadow: 0 -4px 6px 0 rgba(0, 0, 0, 0.05);
   -moz-box-shadow: 0 -4px 6px 0 rgba(0, 0, 0, 0.05);
   -o-box-shadow: 0 -4px 6px 0 rgba(0, 0, 0, 0.05);
   box-shadow: 0 -4px 6px 0 rgba(0, 0, 0, 0.05);
   z-index: 5;
-  margin-top: -3px;
+  top: 0;
+}
+.hiweb-fields-form-tabs-wrap .hiweb-fields-form-tabs-handles [data-tab-handle] .icon svg {
+  max-width: 100%;
+  max-height: 32px;
+  margin-bottom: 0.4em;
 }
 .hiweb-fields-form-tabs-wrap .hiweb-fields-form-tabs-handles [data-tab-handle] .label {
   font-weight: 500;
@@ -160,6 +192,28 @@
   -moz-box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.05);
   -o-box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.05);
   box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.05);
+}
+
+.hiweb-fields-tooltip-help {
+  padding: 0.4em 0.8em;
+  line-height: 1.7;
+  min-width: 200px;
+  max-width: 480px;
+}
+.hiweb-fields-tooltip-help .help-image-wrap {
+  text-align: center;
+  margin-bottom: 0.6em;
+}
+.hiweb-fields-tooltip-help .help-only-image-wrap {
+  margin-bottom: 0;
+}
+.hiweb-fields-tooltip-help .help-only-image-wrap img, .hiweb-fields-tooltip-help .help-only-image-wrap picture {
+  max-height: 280px;
+}
+.hiweb-fields-tooltip-help img, .hiweb-fields-tooltip-help picture {
+  max-width: 100%;
+  max-height: 120px;
+  width: auto;
 }
 
 /*# sourceMappingURL=FieldsAdmin.css.map */

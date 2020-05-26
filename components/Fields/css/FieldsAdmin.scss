@@ -17,6 +17,24 @@
 		&:last-child {
 			margin-bottom: 0;
 		}
+
+		.hiweb-fieldset-help {
+			display: inline-block;
+			width: 1.4em;
+			height: 1em;
+			line-height: 1;
+			color: $fields_color_main;
+			cursor: pointer;
+
+			svg {
+				max-width: 100%;
+				max-height: 100%;
+			}
+
+			&:hover {
+				color: $fields_color_main_dark;
+			}
+		}
 	}
 }
 
@@ -69,22 +87,35 @@
 		z-index: 5;
 		margin-bottom: -1px;
 		align-items: stretch;
+		overflow: hidden;
 
 		[data-tab-handle] {
 			border: 1px solid $fields_color_border;
+			border-bottom: none;
 			padding: 1em;
 			text-align: center;
-			max-width: 200px;
+			max-width: 340px;
 			min-width: 80px;
-			background-color: $fields_color_bg_grey_white;
+			background-color: $fields_color_bg_grey;
 			margin-right: -1px;
 			position: relative;
 			cursor: pointer;
+			top: 3px;
+			z-index: -1;
+			color: $fields_color_grey;
 			@include transition();
+
+			.label-wrap {
+				position: relative;
+				top: 50%;
+				@include transform(translateY(-50%));
+			}
 
 			&[data-tab-active="1"] {
 				border-bottom-color: transparent;
 				color: $fields_color_main;
+				background-color: $fields_color_bg_grey_white;
+				z-index: 5;
 
 				&:before {
 					content: '';
@@ -97,16 +128,20 @@
 				}
 			}
 
-			&[data-tab-active="0"] {
-				background-color: transparent;
-			}
-
 			&:hover {
 				@include box-shadow(6px, .05, 0, -4px);
 				z-index: 5;
-				margin-top: -3px;
+				top: 0;
 			}
 
+
+			.icon {
+				svg {
+					max-width: 100%;
+					max-height: 32px;
+					margin-bottom: .4em;
+				}
+			}
 
 			.label {
 				font-weight: 500;
@@ -125,5 +160,32 @@
 		border: 1px solid $fields_color_border;
 		background-color: $fields_color_bg_grey_white;
 		@include box-shadow(8px, .05, 0, 6px);
+	}
+}
+
+.hiweb-fields-tooltip-help {
+	padding: .4em .8em;
+	line-height: 1.7;
+	min-width: 200px;
+	max-width: 480px;
+
+
+	.help-image-wrap {
+		text-align: center;
+		margin-bottom: .6em;
+	}
+
+	.help-only-image-wrap {
+		margin-bottom: 0;
+
+		img, picture {
+			max-height: 280px;
+		}
+	}
+
+	img, picture {
+		max-width: 100%;
+		max-height: 120px;
+		width: auto;
 	}
 }

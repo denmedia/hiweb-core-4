@@ -28,7 +28,7 @@
 		 * @return Path_Url
 		 */
 		function get_url( $path_or_url = '' ){
-			return PathsFactory::get( $path_or_url )->Url();
+			return PathsFactory::get( $path_or_url )->url();
 		}
 	}
 
@@ -39,6 +39,6 @@
 		 * @return Path_File
 		 */
 		function get_file( $path_or_url = '' ){
-			return PathsFactory::get( $path_or_url )->File();
+			return PathsFactory::get( $path_or_url )->file();
 		}
 	}

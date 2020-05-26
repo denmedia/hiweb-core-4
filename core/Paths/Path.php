@@ -58,7 +58,7 @@
 		/**
 		 * @return Path_Url
 		 */
-		public function Url(){
+		public function url(){
 			if( !$this->cache_Url instanceof Path_Url ) $this->cache_Url = new Path_Url( $this );
 			return $this->cache_Url;
 		}
@@ -67,7 +67,7 @@
 		/**
 		 * @return Path_File
 		 */
-		public function File(){
+		public function file(){
 			if( !$this->cache_File instanceof Path_File ) $this->cache_File = new Path_File( $this );
 			return $this->cache_File;
 		}
@@ -76,8 +76,8 @@
 		/**
 		 * @return Path_Image
 		 */
-		public function Image(){
-			return $this->File()->Image();
+		public function image(){
+			return $this->file()->Image();
 		}
 		
 		
@@ -96,7 +96,7 @@
 		 */
 		public function handle(){
 			if( !is_string( $this->handle ) || trim( $this->handle ) == '' ){
-				$path_to_handler = $this->is_local() ? join( '-', array_slice( $this->File()->dirs()->get(), - 3, 3 ) ) . '-' . $this->File()->basename() : $this->Url()->dirs()->join( '-' );
+				$path_to_handler = $this->is_local() ? join( '-', array_slice( $this->file()->dirs()->get(), - 3, 3 ) ) . '-' . $this->file()->basename() : $this->url()->dirs()->join( '-' );
 				$this->handle = trim( Strings::sanitize_id( $path_to_handler, '-' ), '_-' );
 			}
 			return $this->handle;
@@ -127,7 +127,7 @@
 		 */
 		public function is_local(){
 			if( is_string( $this->get_original_path() ) && $this->is_url() ){
-				return $this->Url()->domain() == $_SERVER['HTTP_HOST'];
+				return $this->url()->domain() == $_SERVER['HTTP_HOST'];
 			}
 			else{
 				return $this->is_absolute() || $this->is_relative();
@@ -151,7 +151,7 @@
 		 */
 		public function get_path_relative( $return_params = false ){
 			if( $this->is_url() ){
-				return '/' . $this->Url()->dirs()->join( '/' );
+				return '/' . $this->url()->dirs()->join( '/' );
 			}
 			else{
 				return str_replace( PathsFactory::root()->get_original_path(), '', $this->get_original_path() );
@@ -163,7 +163,7 @@
 		 * @return string
 		 */
 		public function get_absolute_path(){
-			return $this->File()->get_path();
+			return $this->file()->get_path();
 		}
 		
 		
@@ -172,7 +172,7 @@
 		 * @return string
 		 */
 		public function get_url( $return_universalScheme = null ){
-			return $this->Url()->get( $return_universalScheme );
+			return $this->url()->get( $return_universalScheme );
 		}
 		
 	}

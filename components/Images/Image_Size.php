@@ -33,10 +33,10 @@
 			if( !property_exists( $this->get_size_raw(), 'file' ) || $this->get_size_raw()->file == '' ){
 				if( property_exists( $this->size_raw, 'width' ) && $this->size_raw->width > 0 ) $this->width = $this->size_raw->width;
 				if( property_exists( $this->size_raw, 'height' ) && $this->size_raw->height > 0 ) $this->height = $this->size_raw->height;
-				$this->file_path = $this->Image->Path()->File()->dirname() . '/' . $this->Image->Path()->File()->filename() . '-' . $this->width . 'x' . $this->height . '.' . $this->Image->Path()->File()->extension();
+				$this->file_path = $this->Image->Path()->file()->dirname() . '/' . $this->Image->Path()->file()->filename() . '-' . $this->width . 'x' . $this->height . '.' . $this->Image->Path()->file()->extension();
 			}
 			else{
-				$this->file_path = $this->Image->Path()->File()->dirname() . '/' . $this->get_size_raw()->file;
+				$this->file_path = $this->Image->Path()->file()->dirname() . '/' . $this->get_size_raw()->file;
 			}
 			///
 			if( array_key_exists( $this->size_name, wp_get_registered_image_subsizes() ) ){
@@ -145,7 +145,7 @@
 		 * @return bool
 		 */
 		public function is_exists(){
-			return $this->file_path != '' && $this->Path()->File()->is_file() && $this->Path()->File()->is_exists();
+			return $this->file_path != '' && $this->Path()->file()->is_file() && $this->Path()->file()->is_exists();
 		}
 		
 		
@@ -156,8 +156,8 @@
 		 */
 		public function make_file( $force_renew = false, $quality_jpg_png = 75 ){
 			if( !$this->Image->is_exists() ) return 0;
-			if( !$force_renew && $this->Path()->File()->is_exists() ) return 0;
-			$R = $this->Image->Path()->Image()->resize( $this->width(), $this->height(), $this->get_file_path(), $quality_jpg_png );
+			if( !$force_renew && $this->Path()->file()->is_exists() ) return 0;
+			$R = $this->Image->Path()->image()->resize( $this->width(), $this->height(), $this->get_file_path(), $quality_jpg_png );
 			if( $R == true ){
 				ConsoleFactory::add( 'New image file created', 'info', __METHOD__, $this->get_file_path(), true );
 				$this->Image->_update_image_sizes_meta();

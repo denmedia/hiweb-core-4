@@ -5,6 +5,7 @@
 	
 	use hiweb\components\Console\ConsoleFactory;
 	use hiweb\components\Context;
+	use hiweb\components\Fields\Types\Tab\Field_Tab;
 	use hiweb\components\Includes\IncludesFactory;
 	use hiweb\core\hidden_methods;
 	use hiweb\core\Paths\PathsFactory;
@@ -199,6 +200,7 @@
 		 */
 		static function get_ajax_form_html( $query ){
 			if( !is_array( $query ) ) return '';
+			IncludesFactory::jquery_qtip();
 			IncludesFactory::js( HIWEB_DIR_VENDOR . '/jquery.regex-selector/jquery.regex-selector.min.js' )->deeps( 'jquery-core' );
 			IncludesFactory::js( __DIR__ . '/FieldsAdmin.min.js' )->deeps( 'jquery-core' );
 			IncludesFactory::css( __DIR__ . '/css/FieldsAdmin.css' );
@@ -264,12 +266,12 @@
 				if( preg_match( '/^[\w\-_]+$/', $file ) > 0 ){
 					foreach( IncludesFactory::get_srcs_from_handle( $file, false, true ) as $handle => $src ){
 						$Path = PathsFactory::get( $src );
-						$css_filtered[ $handle ] = $Path->Url()->get();
+						$css_filtered[ $handle ] = $Path->url()->get();
 					}
 				}
 				else{
 					$Path = PathsFactory::get( $file );
-					$css_filtered[ $Path->handle() ] = $Path->Url()->get();
+					$css_filtered[ $Path->handle() ] = $Path->url()->get();
 				}
 			}
 			foreach( $js as $index => $file ){
@@ -285,14 +287,14 @@
 						}
 						if( in_array( $handle, $scripts_done ) ) continue;
 						$Path = PathsFactory::get( $src );
-						$js_filtered[ $handle ] = $Path->Url()->get();
+						$js_filtered[ $handle ] = $Path->url()->get();
 						$js_extra[ $handle ] = wp_scripts()->registered[ $handle ]->extra['data'];
 					}
 				}
 				else{
 					$Path = PathsFactory::get( $file );
 					if( !in_array( $Path->handle(), $scripts_done ) ){
-						if( $Path->is_local() ) $js_filtered[ $Path->handle() ] = $Path->Url()->get();
+						if( $Path->is_local() ) $js_filtered[ $Path->handle() ] = $Path->url()->get();
 						else $js_filtered[ $Path->handle() ] = $Path->get_original_path();
 					}
 				}
@@ -393,8 +395,6 @@
 		static function get_form_html( $fields_array, $field_values = null ){
 			if( !is_array( $fields_array ) || count( $fields_array ) == 0 ) return;
 			///
-			IncludesFactory::css( __DIR__ . '/FieldsFactory_Admin/style.css' );
-			IncludesFactory::js( __DIR__ . '/FieldsFactory_Admin/script.min.js' );
 			ob_start();
 			self::get_wp_nonce_field();
 			@include __DIR__ . '/FieldsFactory_Admin/templates/default-form.php';
@@ -405,17 +405,18 @@
 			$sections_index = 0;
 			foreach( $fields_array as $key => $Field ){
 				if( !$Field instanceof Field ) continue;
-				if( $Field instanceof \Field_Tab ){
+				if( $Field instanceof Field_Tab ){
 					if( $Field->options()->label() == '' && $Field->options()->description() == '' ){
 						$sections_index ++;
 						$last_Field_Tab = null;
 					}
 					else{
+						if( !$last_Field_Tab instanceof Field_Tab ) $sections_index ++;
 						$sections[ $sections_index ]['tabs'][ $Field->global_ID() ] = $Field;
 						$last_Field_Tab = $Field;
 					}
 				}
-				elseif( $last_Field_Tab instanceof \Field_Tab ){
+				elseif( $last_Field_Tab instanceof Field_Tab ){
 					$sections[ $sections_index ]['fields_by_tabs'][ $last_Field_Tab->global_ID() ][ $Field->options()->form()->order() ][ $Field->ID() ] = $Field;
 				}
 				else{

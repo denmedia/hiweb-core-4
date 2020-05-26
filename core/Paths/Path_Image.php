@@ -35,7 +35,7 @@
 		 * @return Path_File
 		 */
 		public function File(){
-			return $this->Path()->File();
+			return $this->Path()->file();
 		}
 		
 		
@@ -51,7 +51,7 @@
 		 * @return mixed|void
 		 */
 		public function get_url(){
-			return $this->Path()->Url()->get();
+			return $this->Path()->url()->get();
 		}
 		
 		

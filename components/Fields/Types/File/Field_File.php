@@ -62,7 +62,7 @@
 		 * @return mixed|Path_File
 		 */
 		public function the_File(){
-			return $this->last_Path instanceof Path ? $this->last_Path->File() : null;
+			return $this->last_Path instanceof Path ? $this->last_Path->file() : null;
 		}
 		
 		

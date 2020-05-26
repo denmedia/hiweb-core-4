@@ -118,7 +118,7 @@
 		 * @return bool
 		 */
 		public function is_exists(){
-			return $this->is_attachment_exists() && $this->Path()->File()->is_exists();
+			return $this->is_attachment_exists() && $this->Path()->file()->is_exists();
 		}
 		
 		
@@ -159,7 +159,7 @@
 		 * @return bool|mixed|string
 		 */
 		public function get_mime_type(){
-			return $this->Path()->Image()->get_mime_type();
+			return $this->Path()->image()->get_mime_type();
 		}
 		
 		/**
@@ -209,10 +209,10 @@
 			$meta['sizes'] = [];
 			foreach( $this->Sizes()->get_sizes() as $size_name => $Image_Size ){
 				$meta['sizes'][ $size_name ] = [
-					'file' => $Image_Size->Path()->File()->basename(),
+					'file' => $Image_Size->Path()->file()->basename(),
 					'width' => $Image_Size->width(),
 					'height' => $Image_Size->height(),
-					'mime' => $Image_Size->Path()->Image()->get_mime_type()
+					'mime' => $Image_Size->Path()->image()->get_mime_type()
 				];
 			}
 			return wp_update_attachment_metadata( $this->get_attachment_id(), $meta );
@@ -358,7 +358,7 @@
 				$srcset = [];
 				foreach( $this->Sizes()->get_search( $dimensionsOrSizeName, 1, 0 ) as $image_Size ){
 					if( $limit < 1 ) break;
-					if(!$image_Size->Path()->File()->is_exists()) continue;
+					if(!$image_Size->Path()->file()->is_exists()) continue;
 					$limit --;
 					$srcset[] = $image_Size->Path()->get_url() . ' ' . $image_Size->width() . "w\n";
 				}

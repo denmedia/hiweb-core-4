@@ -106,7 +106,7 @@
 			static $footer_printed = false;
 			if( !$footer_printed ){
 				$footer_printed = true;
-				$css = [ HIWEB_URL_ASSETS . '/css/wp-default.min.css', PathsFactory::get( WPINC . '/js/tinymce/skins/wordpress/wp-content.css' )->Url()->get(), PathsFactory::get( __DIR__ . '/content.css' )->Url()->get() ];
+				$css = [ HIWEB_URL_ASSETS . '/css/wp-default.min.css', PathsFactory::get( WPINC . '/js/tinymce/skins/wordpress/wp-content.css' )->url()->get(), PathsFactory::get( __DIR__ . '/content.css' )->url()->get() ];
 				self::$default_settings['content_css'] = join( ',', $css );
 				add_action( 'in_admin_footer', function(){
 					include __DIR__ . '/template-footer-script.php';

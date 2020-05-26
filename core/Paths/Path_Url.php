@@ -50,7 +50,7 @@
 		 * @return Path_File
 		 */
 		public function File(){
-			return $this->Path()->File();
+			return $this->Path()->file();
 		}
 
 
@@ -218,7 +218,7 @@
 		 */
 		public function is_dirs_intersect( $haystackUrl ){
 			$haystackUrl = trim( $haystackUrl, '/' );
-			return ( count( $this->get_dirs_intersect( $haystackUrl ) ) >= PathsFactory::get( $haystackUrl )->Url()->dirs()->count() );
+			return ( count( $this->get_dirs_intersect( $haystackUrl ) ) >= PathsFactory::get( $haystackUrl )->url()->dirs()->count() );
 		}
 
 	}

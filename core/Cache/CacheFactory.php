@@ -139,7 +139,7 @@
 		 *
 		 */
 		static function clear_old_files(){
-			$subFiles = PathsFactory::get( self::$cache_dir )->File()->get_sub_files_by_mtime( true );
+			$subFiles = PathsFactory::get( self::$cache_dir )->file()->get_sub_files_by_mtime( true );
 			if( count( $subFiles ) > self::$cache_dir_files_limit ){
 				ksort( $subFiles );
 				$delta = count( $subFiles ) - self::$cache_dir_files_limit;

@@ -12,7 +12,7 @@
 	 */
 	function get_attachment_id_from_url( $attachIdPathOrUrl ){
 		if( is_string( $attachIdPathOrUrl ) && !is_numeric( $attachIdPathOrUrl ) && trim($attachIdPathOrUrl) != '' ){
-			$attachIdPathOrUrl = PathsFactory::get( $attachIdPathOrUrl )->Url()->get( false );
+			$attachIdPathOrUrl = PathsFactory::get( $attachIdPathOrUrl )->url()->get( false );
 			global $wpdb;
 			$attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid='%s';", $attachIdPathOrUrl ) );
 			$attachIdPathOrUrl = $attachment[0];

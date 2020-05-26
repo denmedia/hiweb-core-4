@@ -22,7 +22,7 @@
 		/**
 		 * @return Path
 		 */
-		public function Path(){
+		public function path(){
 			return $this->Path;
 		}
 
@@ -94,7 +94,7 @@
 
 
 		public function get_html(){
-			return '<script type="text/javascript" src="' . $this->Path()->Url()->get() . '" ' . $this->_( 'async' ) . ' data-handle="' . $this->Path()->handle() . '"></script>';
+			return '<script type="text/javascript" src="' . $this->path()->url()->get() . '" ' . $this->_( 'async' ) . ' data-handle="' . $this->path()->handle() . '"></script>';
 		}
 
 

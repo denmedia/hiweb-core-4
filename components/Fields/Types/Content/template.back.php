@@ -7,7 +7,7 @@
 	$rand_id = Strings::rand( 10 );
 
 ?>
-<div class="hiweb-field-type-content" data-rand-id="<?= $rand_id ?>" data-baseurl="<?= PathsFactory::root()->Url()->get() ?>">
+<div class="hiweb-field-type-content" data-rand-id="<?= $rand_id ?>" data-baseurl="<?= PathsFactory::root()->url()->get() ?>">
 	<div id="wp-<?= $rand_id ?>-wrap" class="wp-core-ui wp-editor-wrap tmce-active has-dfw">
 		<div id="wp-<?= $rand_id ?>-editor-tools" class="wp-editor-tools hide-if-no-js">
 			<div id="wp-<?= $rand_id ?>-media-buttons" class="wp-media-buttons">

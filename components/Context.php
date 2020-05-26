@@ -86,7 +86,7 @@
 		 * @version 1.1
 		 */
 		static function is_rest_api(){
-			return PathsFactory::get()->Url()->dirs()->get_value_by_index( 0 ) == 'wp-json' || ( isset( $_GET['rest_route'] ) );
+			return PathsFactory::get()->url()->dirs()->get_value_by_index( 0 ) == 'wp-json' || ( isset( $_GET['rest_route'] ) );
 		}
 
 

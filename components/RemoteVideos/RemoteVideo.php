@@ -32,7 +32,7 @@
 		public function get_id(){
 			if( is_null( $this->id ) ){
 				if( $this->is_youtube() ){
-					$this->id = PathsFactory::get( $this->url )->Url()->params()->get_value( 'v' );
+					$this->id = PathsFactory::get( $this->url )->url()->params()->get_value( 'v' );
 				} elseif( $this->is_vimeo() ) {
 					$this->id = trim( parse_url( $this->url )['path'], '/' );
 				} else {

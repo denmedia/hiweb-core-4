@@ -40,7 +40,7 @@
 		 * @return Path_Url
 		 */
 		public function Url(){
-			return $this->Path()->Url();
+			return $this->Path()->url();
 		}
 		
 		
@@ -444,7 +444,7 @@
 				if( $this->is_dir() ) foreach( scandir( $this->get_absolute_path() ) as $subFileName ){
 					if( $subFileName == '.' || $subFileName == '..' ) continue;
 					$subFilePath = $this->get_path() . '/' . $subFileName;
-					$subFile = PathsFactory::get( $subFilePath )->File();
+					$subFile = PathsFactory::get( $subFilePath )->file();
 					if( $subFile->is_dir() ){
 						$this->cache_subFiles[ $cache_key ] = array_merge( $this->cache_subFiles[ $cache_key ], $subFile->get_sub_files( $mask, $depth - 1 ) );
 					}
@@ -471,10 +471,10 @@
 				if( $subFileName == '.' || $subFileName == '..' ) continue;
 				$subFilePath = $this->get_path() . '/' . $subFileName;
 				if( is_dir( $subFilePath ) && is_readable( $subFilePath ) ){
-					$R->push( PathsFactory::get( $subFilePath )->File()->get_sub_files_by_mtime() );
+					$R->push( PathsFactory::get( $subFilePath )->file()->get_sub_files_by_mtime() );
 				}
 				else{
-					$R->push( $R->free_key( filemtime( $subFilePath ) ), $returnOnlyPaths ? $subFilePath : PathsFactory::get( $subFilePath )->File() );
+					$R->push( $R->free_key( filemtime( $subFilePath ) ), $returnOnlyPaths ? $subFilePath : PathsFactory::get( $subFilePath )->file() );
 				}
 			}
 			return $R->get();
@@ -487,7 +487,7 @@
 		 * @return Path_File
 		 */
 		public function get_next_file( $file_name ){
-			return PathsFactory::get( $this->dirname() . '/' . $file_name )->File();
+			return PathsFactory::get( $this->dirname() . '/' . $file_name )->file();
 		}
 		
 		

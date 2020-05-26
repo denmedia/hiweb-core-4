@@ -82,7 +82,7 @@
 		 */
 		public function get_url(){
 			if( $this->is_search() ){
-				return get_home_url() . '?s=' . PathsFactory::get()->Url()->params()->_( 's' );
+				return get_home_url() . '?s=' . PathsFactory::get()->url()->params()->_( 's' );
 			} elseif( $this->wp_object instanceof WP_Post ) {
 				return get_permalink( $this->wp_object );
 			} elseif( $this->wp_object instanceof WP_Term ) {

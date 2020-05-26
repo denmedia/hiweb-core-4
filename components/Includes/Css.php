@@ -113,8 +113,8 @@
 		 */
 		public function get_html(){
 			$version = '';
-			if( $this->Path()->is_local() ) $version = '?ver=' . filemtime( $this->Path()->File()->get_path() );
-			return '<link ' . $this->Rel()() . ' id="' . $this->Path()->handle() . '" href="' . $this->Path()->Url()->get_clear() . $version . '" type="text/css" ' . $this->Media()() . ' />';
+			if( $this->Path()->is_local() ) $version = '?ver=' . filemtime( $this->Path()->file()->get_path() );
+			return '<link ' . $this->Rel()() . ' id="' . $this->Path()->handle() . '" href="' . $this->Path()->url()->get_clear() . $version . '" type="text/css" ' . $this->Media()() . ' />';
 		}
 
 

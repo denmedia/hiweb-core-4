@@ -40,7 +40,7 @@
 			if( $path->is_local() ){
 				$file_key = $path->get_path_relative();
 			} else {
-				$file_key = $path->Url()->get();
+				$file_key = $path->url()->get();
 			}
 			if( !isset( self::$files[ $file_key ] ) ){
 				self::$files[ $file_key ] = new CSS_Parser( $path );
@@ -113,11 +113,11 @@
 				$strtr = [];
 				foreach( $matches['url'] as $url ){
 					$result = preg_match( '/^(\.\.\/)+/i', trim( $url, '"\'' ) );
-					$url_dest = $this->path_object->File()->dirname();
+					$url_dest = $this->path_object->file()->dirname();
 					for( $n = 0; $n < $result; $n ++ ){
 						$url_dest = dirname( $url_dest );
 					}
-					$url_dest = 'url(' . PathsFactory::get( $url_dest )->Url()->get() . '/' . preg_replace( '/^(\.\.\/)+/i', '', $url ) . ')';
+					$url_dest = 'url(' . PathsFactory::get( $url_dest )->url()->get() . '/' . preg_replace( '/^(\.\.\/)+/i', '', $url ) . ')';
 					$url = "url({$url})";
 					$strtr[ $url ] = $url_dest;
 				}

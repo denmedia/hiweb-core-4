@@ -86,6 +86,21 @@
 		}
 		
 		
+		/**
+		 * @param null   $help_text
+		 * @param string $image_src
+		 * @param string $fontawesome_icon
+		 * @return array|Field_Options|mixed|null
+		 */
+		public function tooltip_help( $help_text = null, $image_src = '', $fontawesome_icon = '<i class="fad fa-question-circle"></i>' ){
+			$data = null;
+			if( is_string( $help_text ) ){
+				$data = [ 'text' => $help_text, 'image' => $image_src, 'icon' => $fontawesome_icon ];
+			}
+			return $this->_( 'help', $data, [ 'text' => '', 'image' => '', 'icon' => $fontawesome_icon ] );
+		}
+		
+		
 		///DEPRECATED
 		
 		

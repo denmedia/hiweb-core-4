@@ -73,7 +73,7 @@
 		 * @return Path_File
 		 */
 		public function File(){
-			return $this->Path->File();
+			return $this->Path->file();
 		}
 
 
