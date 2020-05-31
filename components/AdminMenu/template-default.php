@@ -6,7 +6,7 @@
 	
 	
 	$Page = AdminMenuFactory::the_Page();
-	IncludesFactory::css( __DIR__ . '/AdmiMenu_Page.css' );
+	IncludesFactory::css( __DIR__ . '/AdminMenu_Page.css' );
 	
 ?>
 <div class="wrap hiweb-adminmenu-page-wrap">

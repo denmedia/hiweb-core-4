@@ -15,6 +15,8 @@
 		static $file_default_alive = 2.628e+6;
 		static $cache_dir_files_limit = 999;
 		static $cache_file_alive_max_limit = 2.628e+6;
+		/** @var bool Set true form disable read cache files */
+		static $disable_cache_file_read = false;
 
 
 		/**

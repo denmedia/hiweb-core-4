@@ -1,11 +1,11 @@
 <?php
-
+	
 	namespace hiweb\components\FontAwesome;
-
-
+	
+	
 	use hiweb\core\Cache\CacheFactory;
-
-
+	
+	
 	/**
 	 * Return true if is fontawesome class
 	 * @param string $haystack_class
@@ -14,25 +14,44 @@
 	function is_fontawesome_class_name( $haystack_class = 'fab fa-wordpress' ){
 		return ( preg_match( '/^fa(?>b|l|s|r|d) fa[\-\w\d]+$/i', $haystack_class ) > 0 );
 	}
-
+	
 	/**
+	 * Return icon name
 	 * @param string $icon_class
 	 * @return string
 	 */
 	function fontawesome_filter_icon_name( $icon_class = 'fab fa-wordpress' ){
-		return CacheFactory::get( $icon_class, __NAMESPACE__, function(){
-			return preg_replace( '/^(?>\<i class=\")?(?>fa(?>b|l|s|r|d) )?(?>fa-)?([\w\-_]+)(?>\"\>\<\/i\>)?/i', '$1', func_get_arg( 0 ) );
-		}, $icon_class )();
+		return CacheFactory::get( $icon_class, __NAMESPACE__ . '\\' . __FUNCTION__, function(){
+			$icon_class = func_get_arg( 0 );
+			$result = preg_match( '/^(?>\<i class=\")?(?>fa(?>b|l|s|r|d) )?(?>fa-)?([\w\-_]+)(?>\"\>\<\/i\>)?/i', $icon_class, $matches );
+			if( $result > 0 ){
+				return $matches[1];
+			}
+			else{
+				return '';
+			}
+		}, $icon_class )->get_value();
 	}
-
+	
+	/**
+	 * Return icon class like "fal fa-send"
+	 * @param string $icon_class
+	 * @return string
+	 */
+	function fontawesome_filter_icon_class( $icon_class = '<i class="fab fa-wordpress"></i>' ){
+		return CacheFactory::get( $icon_class, __NAMESPACE__ . '\\' . __FUNCTION__, function(){
+			return preg_replace( '/^(?>\<i class=["\'])?(fa(?>b|l|s|r|d) fa-[\w\-_]+)(?>["\']\>\<\/i\>)?/i', '$1', func_get_arg( 0 ) );
+		}, $icon_class )->get_value();
+	}
+	
 	/**
 	 * Check menu_icon for fal|fas|fab|far and return path to svg file form admin menu icon
-	 * @deprecated
 	 * @param $menu_icon
 	 * @return mixed
+	 * @deprecated
 	 */
 	function filter_fontawesome_menu_icon( $menu_icon ){
-		if( is_fontawesome_class_name($menu_icon) ){
+		if( is_fontawesome_class_name( $menu_icon ) ){
 			$cache_key = 'hiweb-core-post-type-menu-icon-fontawesome-' . $menu_icon;
 			CacheFactory::get( $cache_key, null, function(){
 				$menu_icon = func_get_arg( 0 );
@@ -70,7 +89,8 @@
 				}
 				return $menu_icon;
 			}, [ $menu_icon ], true )->Cache_File()->set_lifetime( 31535965 );
-		} else {
+		}
+		else{
 			return $menu_icon;
 		}
 	}

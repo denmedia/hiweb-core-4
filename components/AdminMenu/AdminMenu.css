@@ -1,0 +1,8 @@
+#adminmenu .wp-submenu.wp-submenu-wrap svg {
+  display: inline-block;
+  max-width: 1em;
+  max-height: 1em;
+  vertical-align: middle;
+}
+
+/*# sourceMappingURL=AdminMenu.css.map */

@@ -2,8 +2,12 @@
 	
 	namespace hiweb\components\AdminMenu;
 	
+	
+	use hiweb\components\FontAwesome\FontAwesomeFactory;
 	use hiweb\core\Cache\CacheFactory;
 	use hiweb\core\hidden_methods;
+	use function hiweb\components\FontAwesome\fontawesome_filter_icon_name;
+	use function hiweb\components\FontAwesome\is_fontawesome_class_name;
 	
 	
 	class AdminMenuFactory{
@@ -69,7 +73,15 @@
 					add_menu_page( $AdminMenu_Page->page_title(), $AdminMenu_Page->menu_title(), $AdminMenu_Page->capability(), $AdminMenu_Page->menu_slug(), [ $AdminMenu_Page, 'the_page' ], $AdminMenu_Page->icon_url(), $AdminMenu_Page->position() );
 				}
 				else{
+					global $submenu;
 					add_submenu_page( $AdminMenu_Page->parent_slug(), $AdminMenu_Page->page_title(), $AdminMenu_Page->menu_title(), $AdminMenu_Page->capability(), $AdminMenu_Page->menu_slug(), [ $AdminMenu_Page, 'the_page' ], $AdminMenu_Page->position() );
+					if( array_key_exists( $AdminMenu_Page->parent_slug(), $submenu ) && $AdminMenu_Page->icon_url() != '' && fontawesome_filter_icon_name( $AdminMenu_Page->icon_url() ) != '' ){
+						foreach( $submenu[ $AdminMenu_Page->parent_slug() ] as $index => $submenu_item ){
+							if( $submenu_item[2] == $AdminMenu_Page->menu_slug() ){
+								$submenu[$AdminMenu_Page->parent_slug()][$index][0] = FontAwesomeFactory::get($AdminMenu_Page->icon_url()).' '.$AdminMenu_Page->menu_title();
+							}
+						}
+					}
 				}
 			}
 		}

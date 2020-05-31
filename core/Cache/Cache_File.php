@@ -57,7 +57,7 @@
 		 * @return bool
 		 */
 		public function is_enable(){
-			return $this->enable;
+			return !CacheFactory::$disable_cache_file_read && $this->enable;
 		}
 
 

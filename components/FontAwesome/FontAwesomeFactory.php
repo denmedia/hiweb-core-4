@@ -16,7 +16,7 @@
 		 * @return FontAwesome_Icon
 		 */
 		static function get( $icon_class = 'fab fa-wordpress' ){
-			$icon_name = fontawesome_filter_icon_name( (string)$icon_class );
+			$icon_class = fontawesome_filter_icon_class( (string)$icon_class );
 			return CacheFactory::get( $icon_class, __CLASS__, function(){
 				return new FontAwesome_Icon( func_get_arg( 0 ) );
 			}, [ $icon_class ] )();
