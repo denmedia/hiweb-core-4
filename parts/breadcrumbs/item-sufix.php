@@ -1,1 +1,0 @@
-<meta itemprop="position" content="{position}" /></li>

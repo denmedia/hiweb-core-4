@@ -1,1 +1,0 @@
-<!DOCTYPE html><html <?= \theme\html_layout\tags\html::get_tags() ?>>

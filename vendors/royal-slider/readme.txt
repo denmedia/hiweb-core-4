@@ -1,1 +1,0 @@
-http://dimsemenov.com/plugins/royal-slider/

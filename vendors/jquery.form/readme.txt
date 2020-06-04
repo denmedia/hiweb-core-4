@@ -1,1 +1,0 @@
-https://github.com/jquery-form/form

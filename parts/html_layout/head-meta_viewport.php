@@ -1,1 +1,0 @@
-<meta name="viewport" content="<?= \theme\html_layout\tags\head::$meta_viewport ?>">
