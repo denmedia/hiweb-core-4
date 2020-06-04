@@ -1,0 +1,1 @@
+<a href="{link}" itemprop="item"><span itemprop="name">{title}</span></a>

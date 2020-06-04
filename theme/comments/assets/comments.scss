@@ -1,0 +1,250 @@
+@import "../hiweb-core-3/assets/css/mixins";
+
+$font-size-h2: 22px;
+$font-size-h4: 18px;
+$font-family-title: "BebasNeueRegular";
+$color_grey: #aaa;
+$color_grey_light: #ccc;
+$color_black: #000;
+$font-size-mini: .8em;
+$color_orange: #c70;
+$color_grey_dark: #555;
+$color_orange_hover: lighten($color_orange, 20%);
+
+.single-comments {
+
+	margin-bottom: 3em;
+
+	.title {
+		font-size: $font-size-h2;
+		font-family: $font-family-title;
+		margin-bottom: 32px;
+		font-weight: 700;
+	}
+
+	.comments-page {
+		display: none;
+		&[data-page="1"] {
+			display: block;
+		}
+	}
+
+	.comment, .comment-answer {
+		font-size: $font-size-mini;
+		padding-bottom: 8px;
+		margin-bottom: 10px;
+		border-bottom: 1px solid $color_grey_light;
+		min-height: 74px;
+
+		.comment-avatar {
+			float: left;
+			width: 100px;
+			height: 100px;
+			@include border_radius(64px);
+			overflow: hidden;
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+		}
+
+		.content {
+			margin-left: 108px;
+
+			.meta-prefix {
+				color: $color_grey;
+				vertical-align: middle;
+				.name {
+					text-decoration: underline;
+				}
+			}
+
+			.text {
+				color: $color_black;
+				margin-bottom: 16px;
+			}
+
+			.meta-sufix {
+				color: $color_grey;
+				.comment-reply {
+					color: $color_grey;
+				}
+			}
+			.like {
+				position: relative;
+				.loading {
+					background-color: rgba(255, 255, 255, .8);
+					@include position_stretch_2();
+					text-align: center;
+					z-index: 5;
+					@include opacity(0);
+					visibility: hidden;
+
+					@keyframes pulse_animation {
+						0% { transform: scale(1); }
+						30% { transform: scale(1); }
+						40% { transform: scale(1.12); }
+						50% { transform: scale(1); }
+						60% { transform: scale(1); }
+						70% { transform: scale(1.1); }
+						80% { transform: scale(1); }
+						100% { transform: scale(1); }
+					}
+					.pulse {
+						animation-name: pulse_animation;
+						animation-duration: 1000ms;
+						transform-origin: 70% 70%;
+						animation-iteration-count: infinite;
+						animation-timing-function: linear;
+					}
+					i, svg {
+						color: $color_orange;
+						font-size: 180%;
+					}
+				}
+				[data-click] {
+					display: inline-block;
+					color: $color_grey;
+					&:hover {
+						color: $color_grey_dark;
+					}
+				}
+				[data-click="dislike"] {
+					@include transform(rotate(180deg));
+				}
+				.count {
+					color: $color_grey_dark;
+					background: $color_grey_light;
+					display: inline-block;
+					padding: 2px 8px;
+					margin: auto 0.5em;
+				}
+			}
+		}
+	}
+
+	.comment-answer {
+		position: relative;
+		margin-left: 40px;
+		&:before {
+			content: '';
+			display: block;
+			position: absolute;
+			width: 35px;
+			height: 30px;
+			left: -35px;
+			top: 0;
+			border-left: 1px solid $color_grey_light;
+			border-bottom: 1px solid $color_grey_light;
+		}
+	}
+
+	.paginate-wrap {
+		margin-top: 0;
+		.comments-pagination {
+			ul {
+				margin: 0;
+				padding: 0;
+				vertical-align: baseline;
+			}
+			li {
+				display: inline-block;
+				list-style: none;
+				span, a {
+					padding: 0;
+					margin-right: 10px;
+				}
+			}
+		}
+	}
+}
+
+.single-comments-form {
+	.comment-form-title {
+		font-size: $font-size-h2;
+		font-family: $font-family-title;
+		font-weight: 700;
+		margin-bottom: 16px;
+	}
+	.form-avatar {
+		width: 64px;
+		height: 64px;
+		@include border_radius(64px);
+		overflow: hidden;
+	}
+	.input-comment-reply {
+		overflow: hidden;
+		height: 32px;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		@include transition(opacity height);
+		&[data-reply-id="0"] {
+			@include opacity(0);
+			height: 0;
+			margin-bottom: 0;
+		}
+		a {
+			color: $color_orange;
+			&:hover {
+				color: $color_orange_hover;
+			}
+		}
+	}
+	.form-wrap {
+		position: relative;
+		form {
+			@include filter(blur(2px));
+			@include transition(filter);
+		}
+		.messages {
+			visibility: hidden;
+			@include opacity(0);
+			@include transition(opacity);
+			background-color: rgba(255, 255, 255, .85);
+			@include position_stretch_2();
+			div {
+				display: none;
+				font-size: 80px;
+				color: $color_orange;
+				text-align: center;
+				@include vertical_middle();
+				left: 0;
+				right: 0;
+			}
+		}
+		&[data-status=""] form {
+			@include filter(blur(0));
+		}
+		&[data-status="wait"] .messages {
+			visibility: visible;
+			@include opacity(1);
+			.wait {
+				display: block;
+			}
+		}
+		&[data-status="success"] .messages {
+			visibility: visible;
+			@include opacity(1);
+			.success {
+				display: block;
+			}
+		}
+		&[data-status="error"] .messages {
+			visibility: visible;
+			@include opacity(1);
+			.error {
+				display: block;
+			}
+		}
+
+		input, textarea {
+			width: 100%;
+			max-width: 480px;
+			margin-bottom: .4em;
+			padding: .2em 1em;
+		}
+
+	}
+
+}

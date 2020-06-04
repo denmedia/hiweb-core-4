@@ -1,0 +1,25 @@
+.mm-menu {
+	.nav {
+		display: block;
+
+		&.nav-fill .nav-item {
+			text-align: left;
+		}
+	}
+
+	.mm-panels {
+		&:after {
+			content: '';
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			height: 3.8em;
+			/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&0+0,0.85+79 */
+			background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 79%, rgba(255, 255, 255, 0.85) 100%); /* FF3.6-15 */
+			background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 79%, rgba(255, 255, 255, 0.85) 100%); /* Chrome10-25,Safari5.1-6 */
+			background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 79%, rgba(255, 255, 255, 0.85) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#d9ffffff', GradientType=0); /* IE6-9 */
+		}
+	}
+}

@@ -1,0 +1,1 @@
+https://github.com/mattbryson/TouchSwipe-Jquery-Plugin

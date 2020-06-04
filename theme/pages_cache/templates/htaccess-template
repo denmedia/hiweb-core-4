@@ -1,0 +1,11 @@
+#hiweb-theme-pages-cache-inject start
+DirectoryIndex {index-file} index.php
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{DOCUMENT_ROOT}/{index-file} -f
+    RewriteRule ^(.+)$ {index-file}/$1 [QSA,L]
+</IfModule>
+#hiweb-theme-pages-cache-inject end
+

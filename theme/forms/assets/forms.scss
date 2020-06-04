@@ -1,0 +1,311 @@
+@import "../../../hiweb-core-4/assets/css/mixins";
+
+@mixin hiweb-theme-widgets-forms-placeholder {
+	color: grey;
+	font-weight: 100;
+}
+
+.hiweb-theme-widget-form {
+	position: relative;
+
+	.hiweb-theme-widget-form-inside {
+		@include transition(filter opacity transform, 1s, ease-out);
+		min-height: 50px;
+		@include opacity(1);
+		@include transform(scale(1));
+
+		.input-wrap {
+			//margin-bottom: .5em;
+			vertical-align: top;
+		}
+
+		.label {
+			//font-size: .9em;
+			@include transition(color, 2s, ease-in-out, 2s);
+
+			.required {
+				color: red;
+				//font-weight: 900;
+			}
+		}
+
+		.required-empty-label {
+			position: relative;
+
+			[name] {
+				padding-right: 2em;
+			}
+
+			&:after {
+				content: '*';
+				color: red;
+				position: absolute;
+				right: .5em;
+				top: 50%;
+				@include vertical_middle;
+			}
+		}
+
+		[name] {
+			//width: 100%;
+			//padding: .2em .4em;
+			//background-color: rgba(200, 200, 200, .1);
+			@include transition(color background-color border-color, 1s, ease-in-out, .5s);
+			//border: solid 1px grey;
+
+			&:focus {
+				outline: none;
+			}
+
+			&::-webkit-input-placeholder {
+				@include hiweb-theme-widgets-forms-placeholder()
+			}
+
+			&::-moz-placeholder {
+				@include hiweb-theme-widgets-forms-placeholder()
+			}
+
+			&:-moz-placeholder {
+				@include hiweb-theme-widgets-forms-placeholder()
+			}
+
+			&:-ms-input-placeholder {
+				@include hiweb-theme-widgets-forms-placeholder()
+			}
+
+			&[placeholder] {
+				text-overflow: ellipsis;
+			}
+
+			&::-moz-placeholder {
+				text-overflow: ellipsis;
+			}
+
+			&:-moz-placeholder {
+				text-overflow: ellipsis;
+			}
+
+			&:-ms-input-placeholder {
+				text-overflow: ellipsis;
+			}
+
+			&::-webkit-input-placeholder {
+				opacity: 1;
+				transition: opacity 0.3s ease;
+			}
+
+			&::-moz-placeholder {
+				opacity: 1;
+				transition: opacity 0.3s ease;
+			}
+
+			&:-moz-placeholder {
+				opacity: 1;
+				transition: opacity 0.3s ease;
+			}
+
+			&:-ms-input-placeholder {
+				opacity: 1;
+				transition: opacity 0.3s ease;
+			}
+
+			&:focus::-webkit-input-placeholder {
+				opacity: .3;
+				transition: opacity 0.3s ease;
+			}
+
+			&:focus::-moz-placeholder {
+				opacity: .3;
+				transition: opacity 0.3s ease;
+			}
+
+			&:focus:-moz-placeholder {
+				opacity: .3;
+				transition: opacity 0.3s ease;
+			}
+
+			&:focus:-ms-input-placeholder {
+				opacity: .3;
+				transition: opacity 0.3s ease;
+			}
+		}
+
+		[type="checkbox"] {
+			width: unset;
+		}
+
+		.require-error {
+			.label, & {
+				color: darkred;
+			}
+
+			[name] {
+				color: darkred;
+				background-color: rgba(225, 200, 200, .9);
+				border-color: rgba(255, 0, 0, .8);
+				@include transition(color background-color border-color, 1s, ease-in-out, .5s);
+			}
+
+
+			.require-error-message {
+				display: inherit;
+			}
+		}
+
+		.require-error-message {
+			color: red;
+			display: none;
+			margin-top: -.2em;
+			font-size: .9em;
+			margin-bottom: .2em;
+			&:before {
+				font-family: "Font Awesome 5 Pro";
+				content: "\f071";
+				display: inline-block;
+				margin-right: .2em;
+			}
+		}
+
+		[type="submit"] {
+			cursor: pointer;
+		}
+
+	}
+
+	.hiweb-theme-widget-form-status-wrap {
+		@include position_stretch_2();
+		@include opacity(0);
+		@include transform(scale(.5));
+		visibility: hidden;
+		@include transition(opacity visibility, .3s, ease-out);
+
+		.hiweb-theme-widget-form-status {
+			text-align: center;
+			@include vertical_middle;
+			left: 15px;
+			right: 15px;
+
+			.icon {
+				text-align: center;
+				font-size: 48pt;
+				line-height: 48pt;
+				display: none;
+				margin: 0 auto .6em auto;
+				max-width: 48px;
+				max-height: 48px;
+
+				svg {
+					max-width: 100%;
+					max-height: 100%;
+				}
+
+				&.wait {
+					//color: dodgerblue;
+				}
+
+				&.success {
+					//color: darkgreen;
+				}
+
+				&.warn {
+					//color: darkorange;
+				}
+
+				&.error {
+					//color: darkred;
+				}
+			}
+		}
+
+		.message {
+			text-align: center;
+			padding: 1em 0;
+		}
+
+		.status-close {
+			display: none;
+			text-align: center;
+
+			[data-form-status-close] {
+				cursor: pointer;
+			}
+		}
+	}
+
+	&[data-status="wait"], &[data-status="success"], &[data-status="warn"], &[data-status="error"] {
+		.hiweb-theme-widget-form-inside {
+			@include transition(filter opacity transform, .3s, ease-out);
+			@include filter(blur(4px));
+			@include opacity(0.35);
+			@include transform(scale(.9));
+		}
+
+		.hiweb-theme-widget-form-status-wrap {
+			@include transition(opacity visibility transform, .3s, ease);
+			@include opacity(1);
+			@include transform(scale(1));
+			visibility: visible;
+		}
+	}
+
+	&[data-status="wait"] {
+		.icon.wait {
+			display: block;
+		}
+	}
+
+	&[data-status="success"] {
+		.icon.success {
+			display: block;
+		}
+
+		.status-close {
+			display: block;
+		}
+	}
+
+	&[data-status="warn"] {
+		.icon.warn {
+			display: block;
+		}
+
+		.status-close {
+			display: block;
+		}
+	}
+
+	&[data-status="error"] {
+		.icon.error {
+			display: block;
+		}
+
+		.status-close {
+			display: block;
+		}
+	}
+
+}
+
+.hiweb-theme-widget-form-modal {
+	//padding: .6em .2em;
+	.hiweb-theme-widget-form-inside {
+		//padding: 1em;
+	}
+
+	.form-title {
+		overflow: hidden;
+		//font-size: 1.3em;
+		//font-weight: 700;
+		//padding: .05em 1.5em .05em 1em;
+	}
+}
+
+.hiweb-theme-widget-form-modal-wrap {
+	display: none;
+}
+
+.grecaptcha-badge {
+	display: none;
+	visibility: hidden;
+	@include opacity(0);
+}

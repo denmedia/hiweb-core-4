@@ -1,0 +1,1 @@
+.mh-head.mh-sticky{position:-webkit-sticky;position:sticky;top:0;left:0;right:0;z-index:10;transition:transform .2s ease;transform:translate3d(0,0,0)}.mh-head.mh-sticky.mh-scrolledout{transform:translate3d(0,-100%,0)}

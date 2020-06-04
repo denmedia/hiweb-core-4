@@ -1,0 +1,368 @@
+@import "../../hiweb-core-3/assets/css/mixins";
+
+//colors
+$color_tapa_approx: #777;
+$color_alto_approx: #ddd;
+$white_100: rgba(255, 255, 255, 1);
+$black: #000;
+$black_100: rgba(0, 0, 0, 1);
+$white: #fff;
+$white_15: rgba(255, 255, 255, .15);
+$black_15: rgba(0, 0, 0, .15);
+$white_10: rgba(255, 255, 255, .1);
+$white_8: rgba(255, 255, 255, .08);
+$black_10: rgba(0, 0, 0, .1);
+
+//fonts
+$font_0: 'Font Awesome 5 Pro';
+
+//@extend-elements
+//original selectors
+//.stellarnav .close-menu, .stellarnav .menu-toggle
+%extend_1 {
+	display: none;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+
+.stellarnav {
+	position: relative;
+	line-height: normal;
+	width: 100%;
+	z-index: 9900;
+	li {
+		position: relative;
+		line-height: normal;
+		list-style: none;
+		display: block;
+		margin: 0;
+		padding: 0;
+		vertical-align: middle;
+		a {
+			padding: 15px;
+			display: block;
+			text-decoration: none;
+			//color: $color_tapa_approx;
+			font-size: inherit;
+			font-family: inherit;
+			//Instead of the line below you could use @include box-sizing($bs)
+			box-sizing: border-box;
+		}
+		li {
+			display: block;
+			&.has-sub > a:after {
+				content: '\f105';
+				font-family: $font_0;
+				margin-left: 10px;
+			}
+		}
+		&.call-btn-location {
+			display: none;
+		}
+		&.call-btn-mobile {
+			display: none;
+		}
+		&.drop-left {
+			ul ul {
+				left: auto;
+				right: 220px;
+			}
+			li.has-sub > a:after {
+				float: left;
+				content: '\f105';
+				font-family: $font_0;
+				margin-right: 10px;
+			}
+		}
+		&.has-sub {
+			ul {
+				//display: none;
+				visibility: hidden;
+				@include opacity(0);
+				@include transition(opacity visibility, .2s, ease-out, .2s);
+			}
+			&.hover > ul {
+				display: block;
+				visibility: visible !important;
+				@include opacity(1);
+				@include transition(opacity, .3s, ease-out);
+			}
+			& > a:after {
+				content: '\f107';
+				font-family: $font_0;
+				margin-left: 10px;
+			}
+		}
+		&.open > a.dd-toggle i {
+			//Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+			transform: rotate(135deg);
+		}
+	}
+	ul {
+		margin: 0;
+		padding: 0;
+		text-align: center;
+		ul {
+			top: auto;
+			width: 220px;
+			position: absolute;
+			z-index: 9900;
+			text-align: left;
+			//display: none;
+			background: $color_alto_approx;
+			ul {
+				top: 0;
+				left: 220px;
+				display: block;
+			}
+		}
+	}
+	.call-btn-mobile {
+		display: none;
+	}
+	.dd-toggle {
+		display: none;
+		position: absolute;
+		top: 0;
+		right: 0;
+		padding: 0;
+		width: 48px;
+		height: 48px;
+		text-align: center;
+		z-index: 9999;
+		border: 0;
+		i {
+			position: absolute;
+			margin: auto;
+			top: 33%;
+			left: 0;
+			right: 0;
+			//Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+			transition: transform .3s ease-out;
+		}
+	}
+	&.light {
+		background: $white_100;
+		.menu-toggle {
+			color: $black_100;
+		}
+		ul ul {
+			background: $white_100;
+		}
+		li a {
+			//color: $black;
+		}
+	}
+	&.dark {
+		background: $black_100;
+		.menu-toggle {
+			color: $white_100;
+		}
+		ul ul {
+			background: $black_100;
+		}
+		li a {
+			//color: $white;
+		}
+	}
+	&.fixed {
+		position: fixed;
+		width: 100%;
+		top: 0;
+		left: 0;
+		z-index: 9999;
+	}
+	.close-menu {
+		@extend %extend_1;
+	}
+	.menu-toggle {
+		@extend %extend_1;
+		color: $color_tapa_approx;
+		padding: 15px;
+	}
+	&.mobile {
+		position: static;
+		nav {
+			position: relative;
+			display: none;
+			ul {
+				text-align: left;
+			}
+			> ul > li {
+				display: block;
+				> a {
+					padding: 15px;
+					&.dd-toggle {
+						padding: 0;
+					}
+				}
+			}
+		}
+		&.fixed {
+			position: static;
+		}
+		&.active {
+			padding-bottom: 0;
+			nav {
+				display: block;
+			}
+		}
+		ul {
+			background: $color_alto_approx;
+			ul {
+				position: relative;
+				opacity: 1;
+				visibility: visible;
+				width: auto;
+				display: none;
+				//Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+				transition: none;
+				ul {
+					left: auto;
+					top: auto;
+				}
+			}
+		}
+		li {
+			&.drop-left {
+				ul ul {
+					right: auto;
+				}
+				li.has-sub > a:after {
+					display: none;
+				}
+			}
+			a {
+				border-bottom: 1px solid $white_15;
+				&.dd-toggle {
+					border: 0;
+				}
+			}
+			&.has-sub {
+				a {
+					padding-right: 50px;
+				}
+				> a:after {
+					display: none;
+				}
+			}
+			&.call-btn-mobile {
+				border-right: 1px solid $white_10;
+				//Instead of the line below you could use @include box-sizing($bs)
+				box-sizing: border-box;
+				display: inline-block;
+				width: 50%;
+				text-transform: uppercase;
+				text-align: center;
+				&.full {
+					display: block;
+					width: 100%;
+					text-transform: uppercase;
+					border-right: 0;
+					text-align: left;
+				}
+				i {
+					margin-right: 5px;
+				}
+			}
+			&.call-btn-location {
+				display: inline-block;
+				width: 50%;
+				text-transform: uppercase;
+				text-align: center;
+				&.full {
+					display: block;
+					width: 100%;
+					text-transform: uppercase;
+					border-right: 0;
+					text-align: left;
+				}
+				i {
+					margin-right: 5px;
+				}
+			}
+			li.has-sub > a:after {
+				display: none;
+			}
+		}
+		&.light {
+			li {
+				a {
+					border-bottom: 1px solid $black_15;
+					&.dd-toggle {
+						border: 0;
+					}
+				}
+				&.call-btn-mobile {
+					border-right: 1px solid $black_10;
+				}
+			}
+			ul {
+				background: $white_100;
+			}
+		}
+		.close-menu {
+			display: block;
+		}
+		.dd-toggle {
+			display: block;
+		}
+		.menu-toggle {
+			display: block;
+		}
+		&.top {
+			position: absolute;
+			width: 100%;
+			top: 0;
+			left: 0;
+			z-index: 9999;
+		}
+		&.dark ul {
+			background: $black_100;
+			ul {
+				background: $white_8;
+			}
+		}
+	}
+	nav > ul > li {
+		display: inline-block;
+		> a {
+			//padding: 20px 40px;
+		}
+		&:hover > ul > li:hover > ul {
+			opacity: 1;
+			visibility: visible;
+			top: 0;
+		}
+		&.drop-left:hover > ul {
+			right: 0;
+		}
+	}
+	&.hide-arrows li {
+		li.has-sub > a:after {
+			display: none;
+		}
+		&.drop-left li.has-sub > a:after {
+			display: none;
+		}
+		&.has-sub > a:after {
+			display: none;
+		}
+	}
+}
+
+//@media only screen and(max-width :768px) {
+@media all and(max-width: 768px) {
+	.stellarnav {
+		overflow: hidden;
+		display: block;
+		nav {
+			position: relative;
+			display: none;
+		}
+	}
+}
+
+body.stellarnav-noscroll-x {
+	overflow-x: hidden;
+}

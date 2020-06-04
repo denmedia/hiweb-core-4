@@ -1,0 +1,18 @@
+@import "../../includes/hiweb-core-3/assets/css/mixins";
+
+.hiweb-theme-imagesDefer-wrap {
+	position: relative;
+	.hiweb-theme-imagesDefer-loader {
+		@include position_stretch_2();
+		//background-color: white;
+		background: url(../../includes/hiweb-core-3/assets/img/image-loading.svg) 50% 50% no-repeat #fff;
+		background-size: cover;
+	}
+
+}
+.hiweb-theme-imagesDefer-image {
+	position: relative;
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: cover;
+}

@@ -1,0 +1,23 @@
+<IfModule mod_expires.c>
+    # Fonts
+    # Add correct content-type for fonts
+    AddType application/vnd.ms-fontobject .eot
+    AddType application/x-font-ttf .ttf
+    AddType application/x-font-opentype .otf
+    AddType application/x-font-woff .woff
+    AddType image/svg+xml .svg
+
+    ExpiresActive On
+    ExpiresByType application/javascript "access plus {mod_expires_time}"
+    ExpiresByType text/javascript "access plus {mod_expires_time}"
+    ExpiresByType text/css "access plus {mod_expires_time}"
+    ExpiresByType image/gif "access plus {mod_expires_time}"
+    ExpiresByType image/jpeg "access plus {mod_expires_time}"
+    ExpiresByType image/png "access plus {mod_expires_time}"
+    ExpiresByType image/svg+xml "access plus {mod_expires_time}"
+    ExpiresByType font/opentype "access plus {mod_expires_time}"
+    ExpiresByType application/vnd.ms-fontobject "access plus {mod_expires_time}"
+    ExpiresByType font/truetype "access plus {mod_expires_time}"
+    ExpiresByType font/font-woff "access plus {mod_expires_time}"
+    ExpiresDefault "access {mod_expires_time_default}"
+</IfModule>
