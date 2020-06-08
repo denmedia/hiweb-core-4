@@ -1,22 +1,23 @@
 <?php
-
+	
 	namespace hiweb\core\Paths;
-
-
+	
+	
 	use hiweb\components\Dump;
 	use hiweb\core\ArrayObject\ArrayObject;
 	use hiweb\core\hidden_methods;
 	use hiweb\core\Paths\PathsFactory;
 	use hiweb\core\urls\Urls;
-
-
+	
+	
 	class Path_Url{
-
+		
 		use hidden_methods;
-
+		
+		
 		/** @var Path */
 		private $Path;
-
+		
 		private $url;
 		private $prepare_url;
 		/** @var ArrayObject */
@@ -29,31 +30,31 @@
 		private $base = [];
 		private $prepare_data;
 		private $root;
-
-
+		
+		
 		public function __construct( Path $Path ){
 			$this->Path = $Path;
 			$this->url = trim( $Path->get_original_path() );
 			$this->prepare();
 		}
-
-
+		
+		
 		/**
 		 * @return Path
 		 */
 		public function Path(){
 			return $this->Path;
 		}
-
-
+		
+		
 		/**
 		 * @return Path_File
 		 */
 		public function File(){
 			return $this->Path()->file();
 		}
-
-
+		
+		
 		/**
 		 * Do prepare and base parse URL
 		 */
@@ -67,13 +68,15 @@
 				///SCHEMA
 				if( array_key_exists( 'schema', $this->prepare_data ) && $this->prepare_data['schema'] != '' ){
 					$this->schema = $this->prepare_data['schema'];
-				} else {
+				}
+				else{
 					$this->schema = ( ( !empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] !== 'off' ) || $_SERVER['SERVER_PORT'] == 443 ) ? 'https' : 'http';
 				}
 				///DOMAIN
 				if( array_key_exists( 'domain', $this->prepare_data ) && $this->prepare_data['domain'] != '' ){
 					$this->domain = $this->prepare_data['domain'];
-				} else {
+				}
+				else{
 					$this->domain = $_SERVER['HTTP_HOST'];
 				}
 				///DIRS
@@ -86,8 +89,8 @@
 				}
 			}
 		}
-
-
+		
+		
 		/**
 		 * @return string
 		 */
@@ -97,31 +100,31 @@
 			}
 			return apply_filters( '\hiweb\urls\url::schema', $this->schema, $this );
 		}
-
-
+		
+		
 		/**
-		 * @version 1.1
 		 * @param null|bool $use_noscheme
 		 * @return string
+		 * @version 1.1
 		 */
 		public function base( $use_noscheme = null ){
 			$key = json_encode( $use_noscheme );
-			if(!isset($this->base[$key]) || !is_string( $this->base[ $key ] ) ){
+			if( !isset( $this->base[ $key ] ) || !is_string( $this->base[ $key ] ) ){
 				if( !is_bool( $use_noscheme ) ) $use_noscheme = PathsFactory::$use_universal_schema_urls;
 				$this->base[ $key ] = ( $use_noscheme ? '//' : $this->schema() . '://' ) . $this->domain();
 			}
 			return apply_filters( '\hiweb\urls\url::base', $this->base[ $key ], $use_noscheme, $this );
 		}
-
-
+		
+		
 		/**
 		 * @return bool
 		 */
 		public function is_ssl(){
 			return apply_filters( '\hiweb\urls\url::is_ssl', $this->schema() === 'https' );
 		}
-
-
+		
+		
 		/**
 		 * @return string
 		 */
@@ -136,12 +139,12 @@
 		 */
 		public function get( $return_universalScheme = null ){
 			if( !is_string( $this->prepare_url ) ){
-				$this->prepare_url = apply_filters( '\hiweb\urls\url::prepare-first', $this->base( $return_universalScheme ) . ( $this->dirs()->is_empty() ? '' : '/' . $this->dirs()->join( '/' ) ) . ( $this->params()->is_empty() ? '' : '?' . $this->params()->join( '&' ) ), $this );
+				$this->prepare_url = apply_filters( '\hiweb\urls\url::prepare-first', $this->base( $return_universalScheme ) . ( $this->dirs()->is_empty() ? '' : '/' . $this->dirs()->join( '/' ) ) . ( $this->params()->is_empty() ? '' : '?' . $this->params()->get_params_url() ), $this );
 			}
 			return apply_filters( '\hiweb\urls\url::prepare', $this->prepare_url, $this );
 		}
-
-
+		
+		
 		/**
 		 * Return only URL, without params
 		 * @param null|bool $use_universalScheme
@@ -150,8 +153,8 @@
 		public function get_clear( $use_universalScheme = null ){
 			return $this->base( $use_universalScheme ) . ( !$this->dirs()->is_empty() ? '/' . $this->dirs()->join( '/' ) : '' );
 		}
-
-
+		
+		
 		/**
 		 * Return url dirs ArrayObject
 		 * @return ArrayObject
@@ -162,8 +165,8 @@
 			}
 			return $this->dirs;
 		}
-
-
+		
+		
 		/**
 		 * Return params ArrayObject
 		 * @return ArrayObject
@@ -182,18 +185,24 @@
 			return $this->params;
 		}
 		
+		
 		/**
 		 * @param $params
 		 * @return $this
 		 */
-		public function set_params($params){
-			if(is_array($params)) foreach($params as $key => $val) {
-				$this->params()->push($key, $val);
+		public function set_params( $params ){
+			if( is_array( $params ) ) foreach( $params as $key => $val ){
+				if( is_null( $val ) ){
+					$this->params()->unset_key( $key );
+				}
+				else{
+					$this->params()->push( $key, $val );
+				}
 			}
 			return $this;
 		}
-
-
+		
+		
 		/**
 		 * Возвращает массив пересекающихся папок в URL, с учетом их порядка
 		 * @param $haystackUrl
@@ -209,8 +218,8 @@
 			} );
 			return $R;
 		}
-
-
+		
+		
 		/**
 		 * Return TRUE, if $haystackUrl
 		 * @param $haystackUrl
@@ -220,5 +229,5 @@
 			$haystackUrl = trim( $haystackUrl, '/' );
 			return ( count( $this->get_dirs_intersect( $haystackUrl ) ) >= PathsFactory::get( $haystackUrl )->url()->dirs()->count() );
 		}
-
+		
 	}

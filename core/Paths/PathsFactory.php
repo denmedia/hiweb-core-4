@@ -35,7 +35,7 @@
 		 */
 		static function get( $path_or_url_handle = '' ){
 			$path_or_url_handle = str_replace( '\\', '/', (string)$path_or_url_handle );
-			if( trim( $path_or_url_handle, '/' ) == '' ) $path_or_url_handle = self::root()->get_original_path();
+			if( trim( $path_or_url_handle, '/' ) == '' ) $path_or_url_handle = self::get_current_url();
 			///
 			if( !array_key_exists( $path_or_url_handle, self::$cache_paths ) ){
 				self::$cache_paths[ $path_or_url_handle ] = new Path( $path_or_url_handle );

@@ -7,7 +7,7 @@
 	use hiweb\core\Cache\CacheFactory;
 
 
-	class AdminNotices_Options{
+	class AdminNotices_Popup_Options{
 
 		private static $options_key = 'hiweb-components-adminnotices-closed';
 		private static $Cache;

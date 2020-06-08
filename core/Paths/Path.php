@@ -25,6 +25,11 @@
 		protected $handle;
 		
 		
+		/**
+		 * Path constructor.
+		 * @varsion 1.1
+		 * @param bool $path_or_url_or_handle
+		 */
 		public function __construct( $path_or_url_or_handle = false ){
 			$find_script = array_key_exists( $path_or_url_or_handle, wp_scripts()->registered );
 			$find_style = array_key_exists( $path_or_url_or_handle, wp_styles()->registered );
@@ -35,6 +40,9 @@
 			elseif( $find_style && wp_styles()->registered[ $path_or_url_or_handle ] instanceof \stdClass ){
 				$path_or_url_or_handle = wp_styles()->registered[ $path_or_url_or_handle ]->src;
 				$this->handle = wp_styles()->registered[ $path_or_url_or_handle ]->handle;
+			}
+			elseif(trim((string)$path_or_url_or_handle) == '') {
+				$path_or_url_or_handle = PathsFactory::get_current_url();
 			}
 			if( is_string( $path_or_url_or_handle ) ){
 				$this->original_path = $path_or_url_or_handle;

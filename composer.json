@@ -24,7 +24,6 @@
   "require": {
     "php": "^7.0",
     "ext-json": "*",
-    "intervention/image": "^2.5",
     "ext-fileinfo": "*",
     "ext-curl": "*",
     "ext-mbstring": "*",

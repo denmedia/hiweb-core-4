@@ -60,11 +60,11 @@
 		
 		/**
 		 * Set field location
-		 * @param bool $repeat_last_location - put this
+		 * @param bool $use_last_location - put this
 		 * @return Field_Options_Location
 		 */
-		public function location( $repeat_last_location = false ){
-			if( $repeat_last_location && FieldsFactory::$last_location_instance instanceof Field_Options_Location ){
+		public function location( $use_last_location = false ){
+			if( $use_last_location && FieldsFactory::$last_location_instance instanceof Field_Options_Location ){
 				$this->_( 'location', FieldsFactory::$last_location_instance->clone_location( $this ) );
 			}
 			if( !$this->_( 'location' ) instanceof Field_Options_Location ){

@@ -1,19 +1,19 @@
 <?php
-
+	
 	namespace hiweb\components\Post_Duplicator;
-
-
+	
+	
 	use hiweb\core\hidden_methods;
 	use hiweb\core\Paths\PathsFactory;
 	
 	
 	class Post_Duplicator{
-
+		
 		static $new_title_append = ' (копия)';
-
+		
 		use hidden_methods;
-
-
+		
+		
 		static function init(){
 			static $is_init = false;
 			if( !$is_init ){
@@ -26,15 +26,16 @@
 						if( wp_verify_nonce( $_GET['_wpnonce'], 'hiweb-post-duplicate' ) ){
 							self::do_duplicate( $_GET['hiweb-post-duplicate'] );
 							wp_redirect( PathsFactory::get()->url()->set_params( [ 'hiweb-post-duplicate' => null, '_wpnonce' => null, 'post_status' => 'draft' ] )->get( false ) );
-						} else {
-							//add_admin_notice( 'Не удалось создать дубликат записи, так как ключ проверки не совпадает', 'notice notice-error' );
+						}
+						else{
+							add_admin_notice( 'Не удалось создать дубликат записи, так как ключ проверки не совпадает' )->options()->error();
 						}
 					}
 				} );
 			}
 		}
-
-
+		
+		
 		static function _post_row_actions( $actions, $post ){
 			if( $post instanceof \WP_Post ){
 				$wp_post_type = get_post_type_object( $post->post_type );
@@ -46,8 +47,8 @@
 			}
 			return $actions;
 		}
-
-
+		
+		
 		static function do_duplicate( $post_id, $force_parent_post_id = null, $_main_proccess = true ){
 			$source_post = get_post( $post_id );
 			if( !$source_post instanceof \WP_Post ) return;
@@ -99,10 +100,11 @@
 				///WOOCOMMERCE RECALCULATE PRICES
 				if( $_main_proccess && function_exists( 'wc_update_product_lookup_tables' ) ) wc_update_product_lookup_tables();
 				///
-				if( $_main_proccess ) add_admin_notice( 'Дубликат записи создан. <a href="' . get_edit_post_link( $destination_post_id ) . '">Редактировать запись "' . htmlentities( $destination_post->post_title ) . '"</a>' )->CLASS_()->success();
-			} else {
-				if( $_main_proccess ) add_admin_notice( 'Не удалось создать дубликат записи', 'notice notice-error' );
+				if( $_main_proccess ) add_admin_notice( 'Дубликат записи создан. <a href="' . get_edit_post_link( $destination_post_id ) . '">Редактировать запись "' . htmlentities( $destination_post->post_title ) . '"</a>' )->options()->success();
+			}
+			else{
+				if( $_main_proccess ) add_admin_notice( 'Не удалось создать дубликат записи')->options()->error();
 			}
 		}
-
+		
 	}

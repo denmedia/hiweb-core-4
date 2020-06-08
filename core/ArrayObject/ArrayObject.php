@@ -26,12 +26,13 @@
 			ArraysRowsFactory::$latestCreated_ArrayObject = $this;
 		}
 		
+		
 		public function __clone(){
-			if($this->Json instanceof ArrayObject_Json) {
-				$this->Json = new ArrayObject_Json($this);
+			if( $this->Json instanceof ArrayObject_Json ){
+				$this->Json = new ArrayObject_Json( $this );
 			}
-			if($this->Rows instanceof ArrayObject_Rows) {
-				$this->Rows = new ArrayObject_Rows($this);
+			if( $this->Rows instanceof ArrayObject_Rows ){
+				$this->Rows = new ArrayObject_Rows( $this );
 			}
 		}
 		
@@ -594,6 +595,18 @@
 		
 		
 		/**
+		 * @return string
+		 */
+		public function get_params_url(){
+			$R = [];
+			foreach( $this->get() as $key => $val ){
+				$R[] = urlencode( $key ) . '=' . urlencode( $val );
+			}
+			return join( '&', $R );
+		}
+		
+		
+		/**
 		 * @param $key
 		 * @return bool
 		 */
@@ -681,7 +694,7 @@
 		 * @deprecated
 		 */
 		public function get_sub_field( $key, $default = null ){
-			return $this->Rows()->get_sub_field($key, $default);
+			return $this->Rows()->get_sub_field( $key, $default );
 		}
 		
 		
