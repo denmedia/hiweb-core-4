@@ -50,7 +50,7 @@
 			foreach( $section_data['tabs'] as $tab_global_id => $field_tab ){
 				if( array_key_exists( $tab_global_id, $section_data['fields_by_tabs'] ) ){
 					?>
-					<div data-tab-content="<?= $tab_global_id ?>" <?= $index > 0 ? 'style="display: none"' : '' ?>><?= \hiweb\components\Fields\FieldsFactory_Admin::get_form_section_fields_html( $section_data['fields_by_tabs'][ $tab_global_id ], $field_values ) ?></div>
+					<div data-tab-content="<?= $tab_global_id ?>" <?= $index > 0 ? 'style="display: none"' : '' ?>><?= \hiweb\components\Fields\FieldsFactory_Admin::get_form_section_fields_html( $section_data['fields_by_tabs'][ $tab_global_id ], $field_values, $form_options ) ?></div>
 					<?php
 				}
 				else{

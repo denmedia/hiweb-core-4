@@ -16,6 +16,15 @@
 	}
 	
 	/**
+	 * Return true if is fontawesome class
+	 * @param string $haystack_class
+	 * @return bool
+	 */
+	function is_fontawesome_icon_tag( $haystack_class = '<i class="fab fa-wordpress"></i>' ){
+		return ( preg_match( '/^(?>\<i class=\")?(?>fa(?>b|l|s|r|d) )?(?>fa-)?([\w\-_]+)(?>\"\>\<\/i\>)?/i', $haystack_class ) > 0 );
+	}
+	
+	/**
 	 * Return icon name
 	 * @param string $icon_class
 	 * @return string

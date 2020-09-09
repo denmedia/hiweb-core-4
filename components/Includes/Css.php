@@ -7,8 +7,13 @@
 	use hiweb\components\Includes\Css\Rel;
 	use hiweb\core\Options\Options;
 	use hiweb\core\Paths\Path;
-
-
+	
+	
+	/**
+	 * Class Css
+	 * @package hiweb\components\Includes
+	 * @version 1.1
+	 */
 	class Css extends Options{
 
 		/** @var Path */
@@ -81,6 +86,9 @@
 		 * @return Css
 		 */
 		public function deeps( $deeps = null ){
+			if( is_string( $deeps ) && $deeps != '' ){
+				$deeps = [ $deeps ];
+			}
 			return $this->_( 'deeps', $deeps );
 		}
 
@@ -104,6 +112,16 @@
 				$this->_( 'media', new Media( $this ) );
 			}
 			return $this->_( 'media' );
+		}
+		
+		
+		/**
+		 * Hide that script for web bots, like Google, Yandex, Insights
+		 * @param null $set
+		 * @return array|Js|mixed|null
+		 */
+		public function hide_forWebBots( $set = null ){
+			return $this->_( 'hide_forWebBots', $set );
 		}
 
 

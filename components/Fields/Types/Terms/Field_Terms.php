@@ -63,14 +63,23 @@
 		/**
 		 * @param $wp_term
 		 * @return string|null
+		 * @version 1.1
 		 */
-		private function get_term_title( $wp_term ){
+		private function get_term_title( $wp_term, $wp_terms = [] ){
 			$title = null;
 			if( $wp_term instanceof WP_Term ){
 				$title = '';
 				$taxonomy = get_taxonomy( $wp_term->taxonomy );
+				$hierarchy = false;
+				$title = '';
 				if( $taxonomy instanceof WP_Taxonomy ){
-					$title = $taxonomy->label . '→ ';
+					if( is_array( $this->options()->taxonomy() ) && count( $this->options()->taxonomy() ) > 1 ){
+						$title = $taxonomy->label . '→ ';
+					}
+					$hierarchy = $taxonomy->hierarchical;
+				}
+				if( $hierarchy && $wp_term->parent != 0 && is_array( $wp_terms ) && count( $wp_terms ) > 0 && array_key_exists( $wp_term->parent, $wp_terms ) ){
+					$title .= $wp_terms[ $wp_term->parent ]->name . '→ ';
 				}
 				$title .= $wp_term->name . ' (' . $wp_term->count . ')';
 			}
@@ -82,21 +91,24 @@
 		 * @param            $value
 		 * @param WP_Term[]  $wp_terms
 		 * @param null       $terms_level
+		 * @version 1.1
 		 */
 		private function get_html_options_from_terms( $value, $wp_terms, $terms_level = null ){
 			$selected_ids = [];
+			if( is_numeric( $value ) && $value != '' ) $value = [ $value ];
 			if( is_array( $value ) ) foreach( $value as $term_taxonomy_id ){
 				if( isset( $wp_terms[ $term_taxonomy_id ] ) ){
 					$wp_term = $wp_terms[ $term_taxonomy_id ];
 					?>
-					<option selected value="<?= $term_taxonomy_id ?>"><?= $this->get_term_title( $wp_term ) ?></option><?php
+					<option selected value="<?= $term_taxonomy_id ?>"><?= $this->get_term_title( $wp_term, $wp_terms ) ?></option><?php
 					$selected_ids[ $term_taxonomy_id ] = $term_taxonomy_id;
 				}
 			}
+			///
 			foreach( $wp_terms as $wp_term ){
 				if( isset( $selected_ids[ $wp_term->term_taxonomy_id ] ) ) continue;
 				?>
-				<option value="<?= $wp_term->term_taxonomy_id ?>"><?= $this->get_term_title( $wp_term ) ?></option>
+				<option value="<?= $wp_term->term_taxonomy_id ?>"><?= $this->get_term_title( $wp_term, $wp_terms ) ?></option>
 				<?php
 			}
 		}

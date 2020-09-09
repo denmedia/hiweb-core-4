@@ -19,7 +19,7 @@
 			$Js = IncludesFactory::js( $fileNameOrPathOrURL );
 			$Js->deeps( $deeps );
 			$Js->to_footer( $set_toFooter );
-			$Js->defer();
+			$Js->defer(true);
 			return $Js;
 		}
 	}
@@ -35,7 +35,7 @@
 			$Js = IncludesFactory_FrontendPage::js( $fileNameOrPathOrURL );
 			$Js->deeps( $deeps );
 			$Js->to_footer( $set_toFooter );
-			$Js->defer();
+			$Js->defer(true);
 			return $Js;
 		}
 	}
@@ -46,7 +46,7 @@
 			$Js = IncludesFactory_AdminPage::js( $fileNameOrPathOrURL );
 			$Js->deeps( $deeps );
 			$Js->to_footer( $set_toFooter );
-			$Js->defer();
+			$Js->defer(true);
 			return $Js;
 		}
 	}

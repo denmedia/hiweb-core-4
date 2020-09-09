@@ -33,6 +33,15 @@
 		
 		
 		/**
+		 * @return string
+		 */
+		public function __toString(){
+			//return $this->html('large');
+			return $this->is_attachment_exists() ? $this->get_original_src() : ImagesFactory::get_default_src();
+		}
+		
+		
+		/**
 		 * @return WP_Post
 		 */
 		public function wp_post(){
@@ -161,6 +170,7 @@
 		public function get_mime_type(){
 			return $this->path()->image()->get_mime_type();
 		}
+		
 		
 		/**
 		 * @return string
@@ -354,11 +364,13 @@
 			}
 			else{
 				$attributes->push( 'src', $size_current->path()->get_url() );
+				if( $this->alt() != '' ) $attributes->push( 'alt', htmlentities( $this->alt() ) );
+				if( $this->title() != '' ) $attributes->push( 'title', htmlentities( $this->title() ) );
 				$limit = 3;
 				$srcset = [];
 				foreach( $this->sizes()->get_search( $dimensionsOrSizeName, 1, 0 ) as $image_Size ){
 					if( $limit < 1 ) break;
-					if(!$image_Size->path()->file()->is_exists()) continue;
+					if( !$image_Size->path()->file()->is_exists() ) continue;
 					$limit --;
 					$srcset[] = $image_Size->path()->get_url() . ' ' . $image_Size->width() . "w\n";
 				}
@@ -375,7 +387,7 @@
 		 * @return string
 		 */
 		public function html( $dimensionsOrSizeName = 'thumbnail', $attributes = [], $make_new_file = true ){
-			return $this->html_img( $dimensionsOrSizeName,$attributes,$make_new_file );
+			return $this->html_img( $dimensionsOrSizeName, $attributes, $make_new_file );
 		}
 		
 		

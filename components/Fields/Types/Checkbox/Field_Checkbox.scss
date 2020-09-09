@@ -1,19 +1,7 @@
 @import "../../css/Fields_UI";
 
 .hiweb-field-type-checkbox {
-	position: relative;
-
-	.name, .description {
-		padding-left: 60px;
-	}
-
-	.hw-input-checkbox {
-		position: absolute;
-		top: 0;
-	}
-}
-
-.hiweb-field-type-checkbox {
+	margin-bottom: .8em;
 
 	@keyframes motionblur {
 		from {
@@ -47,8 +35,9 @@
 		margin: 0 3px 0 0;
 
 		+ label {
+			//font-size: .8em;
 			cursor: pointer;
-			line-height: 2.5em;
+			line-height: 1.5em;
 		}
 
 		&:not(checked) {

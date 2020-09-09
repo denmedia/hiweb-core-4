@@ -93,8 +93,11 @@
 				if( isset( $icon_data['svg'] ) ) $this->svg = $icon_data['svg'];
 				if( isset( $icon_data['free'] ) ) $this->free = $icon_data['free'];
 				if( is_array( $this->styles ) && count( $this->styles ) > 0 ){
+					if((string)$this->default_style != '') {
+						//do nothing
+					}
 					///Priority duotone
-					if( in_array( 'duotone', $this->styles ) ){
+					elseif( in_array( 'duotone', $this->styles ) ){
 						$this->default_style = 'duotone';
 					}
 					elseif( isset( $this->styles[0] ) ){
@@ -303,8 +306,10 @@
 				if( $this->is_style_exists( $this->default_style ) ){
 					$style = $this->default_style;
 				}
-				else{
+				elseif(count($this->get_styles()) > 0){
 					$style = current( $this->get_styles() );
+				} else {
+					$style = $this->default_style;
 				}
 			}
 			return CacheFactory::get( (string)$style . '-' . $this->icon_name, __METHOD__, function(){

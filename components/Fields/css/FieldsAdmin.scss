@@ -7,10 +7,10 @@
 	min-height: 50px;
 	padding-bottom: 1em;
 	@include fields_ui_load_wrap();
-
 }
 
 .hiweb-components-form-ajax-wrap, .hiweb-components-form-wrap {
+
 	.hiweb-fieldset {
 		margin-bottom: 1.2em;
 
@@ -35,6 +35,13 @@
 				color: $fields_color_main_dark;
 			}
 		}
+	}
+}
+
+.nav-menus-php {
+	.hiweb-components-form-ajax-wrap, .hiweb-components-form-wrap {
+		padding: 1em 1em 0 0;
+		clear: both;
 	}
 }
 
@@ -106,9 +113,9 @@
 			@include transition();
 
 			.label-wrap {
-				position: relative;
-				top: 50%;
-				@include transform(translateY(-50%));
+				//position: relative;
+				//top: 50%;
+				//@include transform(translateY(-50%));
 			}
 
 			&[data-tab-active="1"] {

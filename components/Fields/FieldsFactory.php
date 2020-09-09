@@ -158,11 +158,16 @@
 			///prepare object
 			if( is_null( $objectContext ) ){
 				if( function_exists( 'get_queried_object' ) ){
-					$objectContext = get_queried_object();
+					if( get_queried_object() instanceof \WP_Post_Type && get_queried_object()->name == 'product' && function_exists( 'WC' ) ){
+						return get_post( get_option( 'woocommerce_shop_page_id' ) );
+					}
+					else{
+						return get_queried_object();
+					}
 				}
 			}
 			elseif( is_numeric( $objectContext ) ){
-				$objectContext = get_post( $objectContext );
+				return get_post( $objectContext );
 			}
 			return $objectContext;
 		}
@@ -173,16 +178,39 @@
 			$objectContext = self::sanitize_objectContext( $objectContext );
 			///
 			if( $objectContext instanceof WP_Post ){
+				if( $objectContext->post_type == 'nav_menu_item' ){
+					$R = [
+						'nav_menu' => [
+							'ID' => $objectContext->ID
+						]
+					];
+				}
+				else{
+					$R = [
+						'post_type' => [
+							'ID' => $objectContext->ID,
+							'post_type' => $objectContext->post_type,
+							'post_name' => $objectContext->post_name,
+							'post_status' => $objectContext->post_status,
+							'comment_status' => $objectContext->comment_status,
+							'post_parent' => $objectContext->post_parent,
+							'has_taxonomy' => $objectContext->has_taxonomy,
+							'front_page' => StructuresFactory::get_front_page_id() == $objectContext->ID
+						]
+					];
+				}
+			}
+			elseif( $objectContext instanceof \WP_Term ){
 				$R = [
-					'post_type' => [
-						'ID' => $objectContext->ID,
-						'post_type' => $objectContext->post_type,
-						'post_name' => $objectContext->post_name,
-						'post_status' => $objectContext->post_status,
-						'comment_status' => $objectContext->comment_status,
-						'post_parent' => $objectContext->post_parent,
-						'has_taxonomy' => $objectContext->has_taxonomy,
-						'front_page' => StructuresFactory::get_front_page_id() == $objectContext->ID
+					'taxonomy' => [
+						'term_id' => $objectContext->term_id,
+						'term_taxonomy_id' => $objectContext->term_taxonomy_id,
+						'name' => $objectContext->name,
+						'taxonomy' => $objectContext->taxonomy,
+						'slug' => $objectContext->slug,
+						'count' => $objectContext->count,
+						'parent' => $objectContext->parent,
+						'term_group' => $objectContext->term_group
 					]
 				];
 			}

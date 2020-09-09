@@ -106,6 +106,108 @@
 		
 		
 		/**
+		 * @param null $set
+		 * @return array|Field_Options_Location_PostType|mixed|null
+		 */
+		public function woocommerce_shop_page( $set = null ){
+			return $this->_( 'woocommerce_shop_page', $set );
+		}
+		
+		
+		/**
+		 * @param null $set
+		 * @return array|Field_Options_Location_PostType|mixed|null
+		 */
+		public function woocommerce_cart_page( $set = null ){
+			return $this->_( 'woocommerce_cart_page', $set );
+		}
+		
+		
+		/**
+		 * @param null $set
+		 * @return array|Field_Options_Location_PostType|mixed|null
+		 */
+		public function woocommerce_checkout_page( $set = null ){
+			return $this->_( 'woocommerce_checkout_page', $set );
+		}
+		
+		
+		/**
+		 * @param null $set
+		 * @return array|Field_Options_Location_PostType|mixed|null
+		 */
+		public function woocommerce_pay_page( $set = null ){
+			return $this->_( 'woocommerce_pay_page', $set );
+		}
+		
+		
+		/**
+		 * @param null $set
+		 * @return array|Field_Options_Location_PostType|mixed|null
+		 */
+		public function woocommerce_thanks_page( $set = null ){
+			return $this->_( 'woocommerce_thanks_page', $set );
+		}
+		
+		
+		/**
+		 * @param null $set
+		 * @return array|Field_Options_Location_PostType|mixed|null
+		 */
+		public function woocommerce_myaccount_page( $set = null ){
+			return $this->_( 'woocommerce_myaccount_page', $set );
+		}
+		
+		
+		/**
+		 * @param null $set
+		 * @return array|Field_Options_Location_PostType|mixed|null
+		 */
+		public function woocommerce_edit_address_page( $set = null ){
+			return $this->_( 'woocommerce_edit_address_page', $set );
+		}
+		
+		
+		/**
+		 * @param null $set
+		 * @return array|Field_Options_Location_PostType|mixed|null
+		 */
+		public function woocommerce_view_order_page( $set = null ){
+			return $this->_( 'woocommerce_view_order_page', $set );
+		}
+		
+		
+		/**
+		 * @param null $set
+		 * @return array|Field_Options_Location_PostType|mixed|null
+		 */
+		public function woocommerce_terms_page( $set = null ){
+			return $this->_( 'woocommerce_terms_page', $set );
+		}
+		
+		
+		/**
+		 * Disable Gutenberg editor on this post edit page
+		 * @param $set
+		 * @return array|Field_Options_Location_PostType|mixed|null
+		 */
+		public function disable_gutenberg( $set = null ){
+			return $this->_( 'disable_gutenberg', $set );
+		}
+		
+		
+		/**
+		 * Disable gutenberg and default editor
+		 * @param null $set
+		 * @return array|Field_Options_Location_PostType|mixed|null
+		 */
+		public function disable_editor( $set = null ){
+			if($set == true) $this->disable_gutenberg( true );
+			return $this->_( 'disable_editor', $set );
+		}
+		
+		
+		/**
 		 * @return Field_Options_Location_PostType_Position
 		 */
 		public function position(){
@@ -142,8 +244,8 @@
 		
 		
 		/**
-		 * @deprecated
 		 * @return Field_Options_Location_PostType_ColumnsManager
+		 * @deprecated
 		 */
 		public function Columns_Manager(){
 			return $this->columnsManager();
@@ -154,8 +256,8 @@
 		 * @param null $title
 		 * @return Field_Options_Location_PostType_MetaBox
 		 */
-		public function Meta_Box($title = null){
-			return $this->metaBox($title);
+		public function Meta_Box( $title = null ){
+			return $this->metaBox( $title );
 		}
 		
 	}

@@ -324,6 +324,16 @@
 }
 
 
+@mixin text_truncate($lines: 5, $line_height: 1.4em){
+	line-height: $line-height;
+	height: $line_height * $lines - .1;
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-line-clamp: $lines;
+	-webkit-box-orient: vertical;
+}
+
+
 @mixin loader_dots_1() {
 	position: absolute;
 	top: 50%;

@@ -10,8 +10,9 @@
 	use hiweb\core\Options\Options;
 	use hiweb\core\Strings;
 	use function hiweb\components\FontAwesome\is_fontawesome_class_name;
-
-
+	use function hiweb\components\FontAwesome\is_fontawesome_icon_tag;
+	
+	
 	class PostType extends Options{
 
 		/** @var string */
@@ -246,7 +247,7 @@
 		 * @return array|PostType|mixed|null
 		 */
 		public function menu_icon( $set = null ){
-			if(!is_null($set) && is_fontawesome_class_name( $set ) ){
+			if(!is_null($set) && (is_fontawesome_class_name( $set ) || is_fontawesome_icon_tag($set)) ){
 				$icon = FontAwesomeFactory::get( $set );
 				$set = 'data:image/svg+xml;base64,' . base64_encode( '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="' . join( ',', $icon->get_style()->get_viewBox() ) . '" style="fill: none;" height="24px" width="24px">' . $icon->get_style()->get_raw() . '</svg>' );
 			}

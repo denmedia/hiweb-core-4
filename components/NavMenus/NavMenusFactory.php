@@ -43,6 +43,24 @@
 		
 		
 		/**
+		 * Return NavMenu by menu item id
+		 * @param WP_Post|int|number $menuPostOrId
+		 * @return NavMenu
+		 */
+		static function get_by_menu_item( $menuPostOrId ){
+			$R = 0;
+			$terms = get_the_terms( $menuPostOrId, 'nav_menu' );
+			if( is_array( $terms ) && count( $terms ) > 0 ){
+				$tmp_term = reset( $terms );
+				if( $tmp_term instanceof WP_Term ){
+					$R = $tmp_term->term_id;
+				}
+			}
+			return self::get( $R );
+		}
+		
+		
+		/**
 		 * @param string $menu_name
 		 * @return NavMenu
 		 */
@@ -85,9 +103,9 @@
 		 * @param bool $hide_empty
 		 * @return WP_Term[]
 		 */
-		static function get_menu_nav_terms($hide_empty = true){
-			$R = get_terms(['taxonomy' => 'nav_menu','hide_empty' => $hide_empty]);
-			if(!is_array($R)) $R = [];
+		static function get_menu_nav_terms( $hide_empty = true ){
+			$R = get_terms( [ 'taxonomy' => 'nav_menu', 'hide_empty' => $hide_empty ] );
+			if( !is_array( $R ) ) $R = [];
 			return $R;
 		}
 		

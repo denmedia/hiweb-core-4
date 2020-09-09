@@ -47,7 +47,7 @@
 		 * @return int
 		 */
 		function the_array_reset_rows(){
-			return ArraysRowsFactory::get_current()->Rows()->reset();
+			return ArraysRowsFactory::get_current()->rows()->reset();
 		}
 	}
 
@@ -56,7 +56,7 @@
 		 * @return bool
 		 */
 		function the_array_have_rows(){
-			return ArraysRowsFactory::get_current()->Rows()->have();
+			return ArraysRowsFactory::get_current()->rows()->have();
 		}
 	}
 
@@ -65,7 +65,7 @@
 		 * @return bool
 		 */
 		function the_array_row(){
-			return ArraysRowsFactory::get_current()->Rows()->the();
+			return ArraysRowsFactory::get_current()->rows()->the();
 		}
 	}
 
@@ -76,7 +76,7 @@
 		 * @return array
 		 */
 		function the_array_each( $callable ){
-			return ArraysRowsFactory::get_current()->Rows()->each( $callable );
+			return ArraysRowsFactory::get_current()->rows()->each( $callable );
 		}
 	}
 
@@ -85,7 +85,7 @@
 		 * @return bool
 		 */
 		function the_array_current(){
-			return ArraysRowsFactory::get_current()->Rows()->get_current();
+			return ArraysRowsFactory::get_current()->rows()->get_current();
 		}
 	}
 
@@ -94,7 +94,7 @@
 		 * @return bool
 		 */
 		function the_array_current_key(){
-			return ArraysRowsFactory::get_current()->Rows()->get_current_key();
+			return ArraysRowsFactory::get_current()->rows()->get_current_key();
 		}
 	}
 
@@ -103,7 +103,7 @@
 		 * @return bool
 		 */
 		function the_array_is_first(){
-			return ArraysRowsFactory::get_current()->Rows()->is_first();
+			return ArraysRowsFactory::get_current()->rows()->is_first();
 		}
 	}
 
@@ -112,7 +112,7 @@
 		 * @return bool
 		 */
 		function the_array_is_last(){
-			return ArraysRowsFactory::get_current()->Rows()->is_last();
+			return ArraysRowsFactory::get_current()->rows()->is_last();
 		}
 	}
 
@@ -124,6 +124,6 @@
 		 * @return array|mixed|null
 		 */
 		function the_array_get_sub_field( $key = null, $default = null ){
-			return ArraysRowsFactory::get_current()->Rows()->get_sub_field( $key, $default );
+			return ArraysRowsFactory::get_current()->rows()->get_sub_field( $key, $default );
 		}
 	}

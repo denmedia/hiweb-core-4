@@ -48,7 +48,7 @@
 		
 		
 		public function get_js(){
-			$R = [ HIWEB_DIR_VENDOR . '/deepMerge/deepMerge.min.js', HIWEB_DIR_VENDOR . '/jquery.qtip/jquery.qtip.min.js', __DIR__ . '/Field_Repeat.min.js' ];
+			$R = ['jquery-ui-sortable', HIWEB_DIR_VENDOR . '/deepMerge/deepMerge.min.js', HIWEB_DIR_VENDOR . '/jquery.qtip/jquery.qtip.min.js', __DIR__ . '/Field_Repeat.min.js' ];
 			foreach( $this->options()->get_cols() as $flex_id => $cols ){
 				foreach( $cols as $col_id => $col ){
 					$col_js = $col->field()->get_js();

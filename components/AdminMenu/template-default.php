@@ -7,7 +7,7 @@
 	
 	$Page = AdminMenuFactory::the_Page();
 	IncludesFactory::css( __DIR__ . '/AdminMenu_Page.css' );
-	
+
 ?>
 <div class="wrap hiweb-adminmenu-page-wrap">
 	<h1><?= $Page->page_title() ?></h1>
@@ -17,7 +17,7 @@
 			
 			echo FieldsFactory_Admin::get_ajax_form_html( [
 				'options' => $Page->menu_slug()
-			] );
+			], [ 'name_before' => 'hiweb-option-' . $Page->menu_slug() . '-' ] );
 		?>
 		<p class="submit">
 			<button type="submit" name="submit" id="submit" class="button button-primary"><?= $Page->submit_button_icon() != '' ? \hiweb\components\FontAwesome\FontAwesomeFactory::get( $Page->submit_button_icon() ) . ' ' : '' ?><?= $Page->submit_button_label() ?></button>

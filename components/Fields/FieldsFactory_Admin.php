@@ -17,18 +17,27 @@
 		
 		
 		private static $the_form_field;
+		private static $the_form_fields_query;
 		private static $the_form_field_value;
 		private static $the_form_field_name;
+		private static $the_form_options;
 		
 		
 		/**
 		 * @param Field $field
 		 * @return string
 		 */
-		static public function get_field_input_name( Field $field ){
-			return 'hiweb-' . $field->id();
-		}
+		//		static public function get_field_input_name( Field $field ){
+		//			return 'hiweb-' . $field->id();
+		//		}
 		
+		/**
+		 * @param Field $field
+		 * @return string
+		 */
+		//		static public function get_field_nav_menu_name( Field $field ){
+		//			return 'hiweb-menu_item-' . $field->id();
+		//		}
 		
 		/**
 		 * Return field name(id) form options page and options field register
@@ -119,8 +128,9 @@
 		/**
 		 * Get current admin fields query
 		 * @return array
+		 * @deprecated
 		 */
-		static function get_current_fields_query(){
+		static function get_current_fields_query_by_currentScreen(){
 			$R = [
 			
 			];
@@ -147,11 +157,19 @@
 		 */
 		static function get_current_location_raw_values( $location_query = null ){
 			$R = [];
-			$fields = FieldsFactory::get_field_by_query( is_array( $location_query ) ? $location_query : self::get_current_fields_query() );
+			$fields = FieldsFactory::get_field_by_query( is_array( $location_query ) ? $location_query : ( is_array( self::$the_form_fields_query ) ? self::$the_form_fields_query : self::get_current_fields_query_by_currentScreen() ) );
 			foreach( $fields as $Field ){
 				if( array_key_exists( 'post_type', $location_query ) ){
 					if( metadata_exists( 'post', $location_query['post_type']['ID'], $Field->id() ) ){
 						$R[ $Field->id() ] = get_post_meta( $location_query['post_type']['ID'], $Field->id(), true );
+					}
+				}
+				elseif( array_key_exists( 'nav_menu', $location_query ) ){
+					if( metadata_exists( 'post', $location_query['nav_menu']['ID'], $Field->id() ) ){
+						$R[ $Field->id() ] = get_post_meta( $location_query['nav_menu']['ID'], $Field->id(), true );
+					}
+					else{
+						$R[ $Field->id() ] = null;
 					}
 				}
 				elseif( array_key_exists( 'taxonomy', $location_query ) ){
@@ -180,7 +198,7 @@
 				}
 				elseif( array_key_exists( 'options', $location_query ) ){
 					if( $Field->get_allow_save_field() ){
-						$R[ $Field->id() ] = get_option( FieldsFactory_Admin::get_field_input_option_name( $Field->id(), $location_query['options'] ), null );
+						$R[ $Field->id() ] = get_option( 'hiweb-option-' . $location_query['options'] . '-' . $Field->id(), null );
 					}
 					else{
 						$R[ $Field->id() ] = null;
@@ -195,18 +213,19 @@
 		
 		
 		/**
-		 * @param $query - QUERY LOCATION ARRAY
+		 * @param       $field_query - QUERY LOCATION ARRAY
+		 * @param array $form_options
 		 * @return false|string
 		 */
-		static function get_ajax_form_html( $query ){
-			if( !is_array( $query ) ) return '';
+		static function get_ajax_form_html( $field_query, $form_options = [] ){
+			if( !is_array( $field_query ) ) return '';
 			IncludesFactory::jquery_qtip();
 			IncludesFactory::js( HIWEB_DIR_VENDOR . '/jquery.regex-selector/jquery.regex-selector.min.js' )->deeps( 'jquery-core' );
 			IncludesFactory::js( __DIR__ . '/FieldsAdmin.min.js' )->deeps( 'jquery-core' );
 			IncludesFactory::css( __DIR__ . '/css/FieldsAdmin.css' );
-			if( count( FieldsFactory::get_field_by_query( $query ) ) == 0 ) return '<!--HIWEB FIELDS FORM is EMPTY-->';
+			if( count( FieldsFactory::get_field_by_query( $field_query ) ) == 0 ) return '<!--HIWEB FIELDS FORM is EMPTY-->';
 			//Init fields
-			foreach( FieldsFactory::get_field_by_query( $query ) as $Field ){
+			foreach( FieldsFactory::get_field_by_query( $field_query ) as $Field ){
 				$Field->admin_init();
 			}
 			//Print Fields FORM
@@ -234,11 +253,14 @@
 			$fields = [];
 			$css = [];
 			$js = [];
-			$query = json_decode( stripslashes( $_POST['field_query'] ), true );
+			$fields_query = json_decode( stripslashes( $_POST['field_query'] ), true );
+			$form_options = json_decode( stripslashes( $_POST['form_options'] ), true );
 			$debug = 0;
-			$values = self::get_current_location_raw_values( $query );
-			if( json_last_error() == JSON_ERROR_NONE && is_array( $query ) ){
-				$fields = FieldsFactory::get_field_by_query( $query );
+			if( json_last_error() == JSON_ERROR_NONE && is_array( $fields_query ) ){
+				self::$the_form_fields_query = $fields_query;
+				self::$the_form_options = $form_options;
+				$values = self::get_current_location_raw_values( self::$the_form_fields_query );
+				$fields = FieldsFactory::get_field_by_query( self::$the_form_fields_query );
 				$debug = 1;
 				foreach( $fields as $Field ){
 					$debug = 2;
@@ -252,7 +274,7 @@
 			}
 			///Scripts done
 			$scripts_done = $_POST['scripts_done'];
-			if( json_last_error() != JSON_ERROR_NONE || !is_array( $query ) ){
+			if( json_last_error() != JSON_ERROR_NONE || !is_array( $fields_query ) ){
 				$scripts_done = [];
 			}
 			///
@@ -300,14 +322,15 @@
 				}
 			}
 			///
-			$form_html = self::get_form_html( $fields, $values );
+			$form_html = self::get_form_html( $fields, $values, $form_options );
 			ob_start();
 			ConsoleFactory::the();
 			$form_html .= ob_get_clean();
 			///
 			wp_send_json( [
 				'success' => true,
-				'query' => $query,
+				'query' => self::$the_form_fields_query,
+				'form_options' => $form_options,
 				'debug' => $debug,
 				'values' => $values,
 				'scripts_done' => $scripts_done,
@@ -339,9 +362,10 @@
 		/**
 		 * @param array $fields_by_order_array
 		 * @param array $field_values
+		 * @param array $form_options
 		 * @return string
 		 */
-		static function get_form_section_fields_html( $fields_by_order_array = [], $field_values = [] ){
+		static function get_form_section_fields_html( $fields_by_order_array = [], $field_values = [], $form_options = [] ){
 			$fields_array = [];
 			ksort( $fields_by_order_array );
 			foreach( $fields_by_order_array as $order => $fields ){
@@ -376,8 +400,11 @@
 				if( is_null( $value ) && !is_null( $Field->options()->default_value() ) ){
 					$value = $Field->options()->default_value();
 				}
+				///set current field value
 				self::$the_form_field_value = $Field->get_sanitize_admin_value( $value );
-				self::$the_form_field_name = array_key_exists( 'options', $Field->options()->location()->_get_optionsCollect() ) ? self::get_field_input_option_name( $Field ) : self::get_field_input_name( $Field );
+				///set current field name
+				self::$the_form_field_name = ( isset( $form_options['name_before'] ) ? $form_options['name_before'] : '' ) . $Field->get_ID() . ( isset( $form_options['name_after'] ) ? $form_options['name_after'] : '' );
+				///
 				ob_start();
 				@include __DIR__ . '/FieldsFactory_Admin/templates/default-field.php';
 				$fields_html[] = ob_get_clean();
@@ -389,10 +416,11 @@
 		/**
 		 * @param Field[]    $fields_array
 		 * @param null|array $field_values - set fields value, or get values from screen context
+		 * @param array      $form_options
 		 * @return string|string[]|void
 		 * @version 1.1
 		 */
-		static function get_form_html( $fields_array, $field_values = null ){
+		static function get_form_html( $fields_array, $field_values = null, $form_options = [] ){
 			if( !is_array( $fields_array ) || count( $fields_array ) == 0 ) return;
 			///
 			ob_start();
@@ -432,7 +460,7 @@
 					$fields_html .= ob_get_clean();
 				}
 				else{
-					$fields_html .= self::get_form_section_fields_html( $section_data['fields'], $field_values );
+					$fields_html .= self::get_form_section_fields_html( $section_data['fields'], $field_values, $form_options );
 				}
 			}
 			///

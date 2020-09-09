@@ -31,7 +31,7 @@
 		/**
 		 * @return Path
 		 */
-		public function Path(){
+		public function path(){
 			return $this->Path;
 		}
 		
@@ -39,8 +39,8 @@
 		/**
 		 * @return Path_Url
 		 */
-		public function Url(){
-			return $this->Path()->url();
+		public function url(){
+			return $this->path()->url();
 		}
 		
 		
@@ -49,33 +49,33 @@
 		 */
 		public function Image(){
 			if( !$this->cache_Image instanceof Path_Image ){
-				$this->cache_Image = new Path_Image( $this->Path() );
+				$this->cache_Image = new Path_Image( $this->path() );
 			}
 			return $this->cache_Image;
 		}
 		
 		
 		private function prepare(){
-			$this->original_path = $this->Path()->get_original_path();
-			if( $this->Path()->is_url() ){
+			$this->original_path = $this->path()->get_original_path();
+			if( $this->path()->is_url() ){
 				
-				if( $this->Path()->is_local() ){
-					$this->original_path = $this->Url()->dirs()->join( '/' );
+				if( $this->path()->is_local() ){
+					$this->original_path = $this->url()->dirs()->join( '/' );
 				}
 				else{
 					$pattern = '/^(?>[\w]+:)?(?>\/\/)?[а-яА-ЯЁёa-zA-Z0-9_\-.]+\/(?<path>[^?]+)\/?(?>\?.*)?/im';
-					preg_match_all( $pattern, $this->Path()->get_original_path(), $matches );
+					preg_match_all( $pattern, $this->path()->get_original_path(), $matches );
 					if( isset( $matches['path'][0] ) ){
 						$this->original_path = $matches['path'][0];
 					}
 				}
 			}
 			///
-			if( $this->Path()->is_relative() ){
+			if( $this->path()->is_relative() ){
 				$this->absolute_path = PathsFactory::get_root_path() . '/' . $this->original_path;
 				$this->relative_path = trim( $this->original_path, '\\/' );
 			}
-			elseif( $this->Path()->is_absolute() ){
+			elseif( $this->path()->is_absolute() ){
 				$this->absolute_path = $this->original_path;
 				$this->relative_path = trim( str_replace( PathsFactory::get_root_path(), '', $this->original_path ), '\\/' );
 			}
@@ -130,14 +130,14 @@
 		 * @return string
 		 */
 		public function get_url($return_universalScheme = null){
-			return $this->Url()->get($return_universalScheme);
+			return $this->url()->get($return_universalScheme);
 		}
 		
 		/**
 		 * @return bool|null
 		 */
 		public function is_exists(){
-			if( is_string( $this->Path()->get_original_path() ) && $this->Path()->is_local() ){
+			if( is_string( $this->path()->get_original_path() ) && $this->path()->is_local() ){
 				return file_exists( $this->get_absolute_path() );
 			}
 			return null;
@@ -148,7 +148,7 @@
 		 * @return bool|null
 		 */
 		public function is_readable(){
-			if( !$this->Path()->is_local() ) return null;
+			if( !$this->path()->is_local() ) return null;
 			return file_exists( $this->get_absolute_path() ) && is_readable( $this->get_absolute_path() );
 		}
 		
@@ -157,8 +157,8 @@
 		 * @return bool
 		 */
 		public function is_writable(){
-			if( !$this->Path()->is_local() ) return false;
-			return is_writable( $this->Path()->get_original_path() );
+			if( !$this->path()->is_local() ) return false;
+			return is_writable( $this->path()->get_absolute_path() );
 		}
 		
 		
@@ -193,7 +193,7 @@
 							$R[ $file->original_path ] = $file;
 							break;
 						case 'js':
-							$path = apply_filters( '\hiweb\core\Paths\File::include_files-js', $file->Url()->get(), $file );
+							$path = apply_filters( '\hiweb\core\Paths\File::include_files-js', $file->url()->get(), $file );
 							IncludesFactory::js( $path );
 							$R[ $file->original_path ] = $file;
 							break;
@@ -255,7 +255,7 @@
 		 * @return bool|null
 		 */
 		public function is_dir(){
-			if( $this->Path()->is_local() ) return is_dir( $this->get_path() );
+			if( $this->path()->is_local() ) return is_dir( $this->get_path() );
 			return null;
 		}
 		
@@ -264,7 +264,7 @@
 		 * @return bool|null
 		 */
 		public function is_file(){
-			if( $this->Path()->is_local() ) return is_file( $this->get_path() );
+			if( $this->path()->is_local() ) return is_file( $this->get_path() );
 			return null;
 		}
 		
@@ -273,7 +273,7 @@
 		 * @return bool|null
 		 */
 		public function is_link(){
-			if( $this->Path()->is_local() ) return is_link( $this->get_path() );
+			if( $this->path()->is_local() ) return is_link( $this->get_path() );
 			return null;
 		}
 		
@@ -282,7 +282,7 @@
 		 * @return bool|null
 		 */
 		public function is_uploaded_file(){
-			if( $this->Path()->is_local() ) return is_uploaded_file( $this->get_path() );
+			if( $this->path()->is_local() ) return is_uploaded_file( $this->get_path() );
 			return null;
 		}
 		
@@ -291,7 +291,7 @@
 		 * @return bool|null
 		 */
 		public function is_executable(){
-			if( $this->Path()->is_local() ) return is_executable( $this->get_path() );
+			if( $this->path()->is_local() ) return is_executable( $this->get_path() );
 			return null;
 		}
 		
@@ -350,7 +350,7 @@
 		 * @return ArrayObject
 		 */
 		public function dirs(){
-			return CacheFactory::get( spl_object_id( $this->Path() ), __METHOD__, function(){
+			return CacheFactory::get( spl_object_id( $this->path() ), __METHOD__, function(){
 				return get_array( explode( '/', func_get_arg( 0 )->dirname() ) );
 			}, [ $this ] )->get_value();
 		}
@@ -383,7 +383,7 @@
 		 * @version 1.1
 		 */
 		public function set_content( $content, $appendPrepend = false ){
-			if( !$this->Path()->is_local() ) return - 1;
+			if( !$this->path()->is_local() ) return - 1;
 			if( $this->is_exists() && !$this->is_writable() ) return - 2;
 			///
 			if( $appendPrepend === true || $appendPrepend > 0 ){
@@ -434,7 +434,7 @@
 		 * @version 1.2
 		 */
 		public function get_sub_files( $mask = [], $depth = 99 ){
-			if( !$this->Path()->is_local() || $depth < 0 ) return [];
+			if( !$this->path()->is_local() || $depth < 0 ) return [];
 			///
 			$mask = is_array( $mask ) ? $mask : [ $mask ];
 			$maskKey = json_encode( $mask );
@@ -496,7 +496,7 @@
 		 * @return bool|int
 		 */
 		public function make_file( $content = '' ){
-			if( !$this->Path()->is_local() ){
+			if( !$this->path()->is_local() ){
 				if( function_exists( 'console_error' ) ){
 					console_error( '\hiweb\files\file::make: не удалось создать файл [' . $this->original_path . '], потому что ссылка не локальная' );
 				}

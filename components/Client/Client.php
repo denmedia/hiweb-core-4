@@ -235,7 +235,7 @@
 		public function is_webBot(){
 			return (
 				isset($_SERVER['HTTP_USER_AGENT'])
-				&& preg_match('/bot|crawl|slurp|spider|mediapartners/i', $_SERVER['HTTP_USER_AGENT'])
+				&& preg_match('/bot|crawl|slurp|spider|mediapartners|chrome-lighthouse|gtmetrix/i', $_SERVER['HTTP_USER_AGENT'])
 			);
 		}
 		

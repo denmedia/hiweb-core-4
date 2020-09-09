@@ -1,5 +1,9 @@
 jQuery(document).ready(function ($) {
 
+
+    let loaded_scripts = [];
+    let loaded_stylesheets = [];
+
     let notify_max_input_vars_excess = function (inputs_length, max_input_vars) {
         if (typeof Noty === 'function') {
             new Noty({
@@ -66,7 +70,10 @@ jQuery(document).ready(function ($) {
         ///LOAD JAVASCRIPTS
         let javascripts = [];
         for (let handle in response.js) {
-            javascripts.push([handle, response.js[handle]]);
+            if(loaded_scripts.indexOf(handle) == -1) {
+                javascripts.push([handle, response.js[handle]]);
+                loaded_scripts.push(handle);
+            }
         }
         let load_next_javascript = () => {
             if (javascripts.length > 0) {
@@ -157,7 +164,7 @@ jQuery(document).ready(function ($) {
                     url: ajaxurl + '?action=hiweb-components-form',
                     type: 'post',
                     dataType: 'json',
-                    data: {field_query: $form_wrap.attr('data-fields-query'), scripts_done: hiweb_components_fields_form_scripts_done},
+                    data: {field_query: $form_wrap.attr('data-fields-query'), form_options: $form_wrap.attr('data-form-options'), scripts_done: hiweb_components_fields_form_scripts_done},
                     async: true,
                     success: function (response) {
                         if (response.hasOwnProperty('success')) {
@@ -211,6 +218,13 @@ jQuery(document).ready(function ($) {
                     content: {
                         text: $source.attr('data-hiweb-fields-tooltip-help')
                     },
+                    hide: {
+                        //event: 'unfocus click mouseclick',
+                        delay: 1000,
+                        effect: function(offset) {
+                            jQuery(this).fadeOut(400); // "this" refers to the tooltip
+                        }
+                    },
                     style: {
                         classes: 'qtip-light qtip-shadow'
                     },
@@ -218,8 +232,9 @@ jQuery(document).ready(function ($) {
                         target: $source,
                         my: 'bottom center',
                         at: 'top center',
+                        viewport: true,
                         adjust: {
-                            method: 'shift none'
+                            method: 'shift flip'
                         }
                     }
                 });

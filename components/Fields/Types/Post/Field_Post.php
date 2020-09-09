@@ -43,7 +43,7 @@
 		 */
 		public function get_sanitize_admin_value( $value, $update_meta_process = false ){
 			if( !is_array( $value ) && $this->options()->multiple() ) $value = [ $value ];
-			elseif(is_array($value)) {
+			elseif(is_array($value) && !$this->options()->multiple()) {
 				$value = reset($value);
 			}
 			return $value;
@@ -74,10 +74,10 @@
 			
 			$selected = [];
 			$is_many_post_types = $this->is_many_post_types();
-			$post_types = [];
+			$post_types_labels = [];
 			if( $is_many_post_types ){
 				foreach( get_post_types([], OBJECT) as $WP_Post_Type ){
-					$post_types[ $WP_Post_Type->name ] = $WP_Post_Type->label;
+					$post_types_labels[ $WP_Post_Type->name ] = $WP_Post_Type->label;
 				}
 			}
 			if( is_array( $value ) && count( $value ) > 0 ){
@@ -90,7 +90,7 @@
 				];
 				$wp_query = new \WP_Query( $wp_query_args );
 				foreach( $wp_query->get_posts() as $post ){
-					$selected[ $post->ID ] = ( ( $is_many_post_types && array_key_exists( $post->post_type, $post_types ) ) ? $post_types[ $post->post_type ] . ': ' : '-' ) . $post->post_title;
+					$selected[ $post->ID ] = ( ( $is_many_post_types && array_key_exists( $post->post_type, $post_types_labels ) ) ? $post_types_labels[ $post->post_type ] . ': ' : '-' ) . $post->post_title;
 				}
 			}
 			ob_start();

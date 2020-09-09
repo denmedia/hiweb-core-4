@@ -5,6 +5,8 @@
 	
 	use hiweb\core\hidden_methods;
 	use hiweb\core\Paths\PathsFactory;
+	use WP_Error;
+	use WP_Post;
 	
 	
 	class Post_Duplicator{
@@ -26,6 +28,7 @@
 						if( wp_verify_nonce( $_GET['_wpnonce'], 'hiweb-post-duplicate' ) ){
 							self::do_duplicate( $_GET['hiweb-post-duplicate'] );
 							wp_redirect( PathsFactory::get()->url()->set_params( [ 'hiweb-post-duplicate' => null, '_wpnonce' => null, 'post_status' => 'draft' ] )->get( false ) );
+							die;
 						}
 						else{
 							add_admin_notice( 'Не удалось создать дубликат записи, так как ключ проверки не совпадает' )->options()->error();
@@ -37,7 +40,7 @@
 		
 		
 		static function _post_row_actions( $actions, $post ){
-			if( $post instanceof \WP_Post ){
+			if( $post instanceof WP_Post ){
 				$wp_post_type = get_post_type_object( $post->post_type );
 				$actions['hiweb-theme-post-duplicator'] = '<a data-hiweb-duplicate="' . $post->ID . '" href="' . get_url()->set_params( [ 'hiweb-post-duplicate' => $post->ID, '_wpnonce' => wp_create_nonce( 'hiweb-post-duplicate' ) ] )->get() . '">Дублировать <b>' . $wp_post_type->labels->name_admin_bar . '</b></a>';
 			}
@@ -49,9 +52,15 @@
 		}
 		
 		
+		/**
+		 * @param      $post_id
+		 * @param null $force_parent_post_id
+		 * @param bool $_main_proccess
+		 * @return int|mixed|void|WP_Error
+		 */
 		static function do_duplicate( $post_id, $force_parent_post_id = null, $_main_proccess = true ){
 			$source_post = get_post( $post_id );
-			if( !$source_post instanceof \WP_Post ) return;
+			if( !$source_post instanceof WP_Post ) return;
 			$new_post_args = [
 				'post_author' => get_current_user_id(),
 				//'post_date' => $source_post->post_date,
@@ -103,8 +112,10 @@
 				if( $_main_proccess ) add_admin_notice( 'Дубликат записи создан. <a href="' . get_edit_post_link( $destination_post_id ) . '">Редактировать запись "' . htmlentities( $destination_post->post_title ) . '"</a>' )->options()->success();
 			}
 			else{
-				if( $_main_proccess ) add_admin_notice( 'Не удалось создать дубликат записи')->options()->error();
+				if( $_main_proccess ) add_admin_notice( 'Не удалось создать дубликат записи' )->options()->error();
 			}
+			///
+			return $destination_post_id;
 		}
 		
 	}

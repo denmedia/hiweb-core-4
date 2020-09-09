@@ -50,7 +50,7 @@
 		 * @return string
 		 */
 		public function __toString(){
-			return htmlentities( $this->Json()->JSON_PRETTY_PRINT()->get() );
+			return htmlentities( $this->json()->JSON_PRETTY_PRINT()->get() );
 		}
 		
 		
@@ -104,7 +104,7 @@
 		/**
 		 * @return ArrayObject_Json
 		 */
-		public function Json(){
+		public function json(){
 			if( !$this->Json instanceof ArrayObject_Json ) $this->Json = new ArrayObject_Json( $this );
 			return $this->Json;
 		}
@@ -113,7 +113,7 @@
 		/**
 		 * @return ArrayObject_Rows
 		 */
-		public function Rows(){
+		public function rows(){
 			if( !$this->Rows instanceof ArrayObject_Rows ) $this->Rows = new ArrayObject_Rows( $this );
 			return $this->Rows;
 		}
@@ -569,20 +569,21 @@
 		
 		
 		/**
+		 * Return string like `color="#000" background="#fff"`
 		 * @param bool $return_array_pairs
-		 * @param bool $value_to_json
 		 * @return array|string
 		 */
-		public function get_param_html_tags( $return_array_pairs = false, $value_to_json = false ){
+		public function get_param_html_tags( $return_array_pairs = false ){
 			$pairs = [];
 			foreach( $this->get() as $key => $val ){
-				$pairs[] = $key . '="' . ( $value_to_json ? json_encode( $val ) : htmlentities( $val, ENT_QUOTES, 'UTF-8' ) ) . '"';
+				$pairs[] = $key . '="' . htmlentities( is_array($val) ? json_encode($val) : $val, ENT_QUOTES, 'UTF-8' ) . '"';
 			}
 			return $return_array_pairs ? $pairs : implode( ' ', $pairs );
 		}
 		
 		
 		/**
+		 * Return string like `color: #000; background: #fff`
 		 * @return string
 		 */
 		public function get_param_html_style(){
@@ -595,14 +596,27 @@
 		
 		
 		/**
+		 * Return string like `color=#000&background=#fff`
+		 * @param bool $return_null_params
 		 * @return string
 		 */
-		public function get_params_url(){
-			$R = [];
+		public function get_param_url( $return_null_params = false ){
+			$pairs = [];
 			foreach( $this->get() as $key => $val ){
-				$R[] = urlencode( $key ) . '=' . urlencode( $val );
+				if( !$return_null_params && is_null( $val ) ) continue;
+				$pairs[] = urlencode( $key ) . '=' . urlencode( is_array( $val ) ? json_encode( $val ) : $val );
 			}
-			return join( '&', $R );
+			return join( '&', $pairs );
+		}
+		
+		
+		/**
+		 * Return string like `color=#000&background=#fff`
+		 * @param bool $return_null_params
+		 * @return string
+		 */
+		public function get_params_url( $return_null_params = false ){
+			return $this->get_param_url( $return_null_params );
 		}
 		
 		
@@ -665,7 +679,7 @@
 		 * @deprecated
 		 */
 		public function have_rows(){
-			return $this->Rows()->have();
+			return $this->rows()->have();
 		}
 		
 		
@@ -674,7 +688,7 @@
 		 * @deprecated
 		 */
 		public function the_row(){
-			return $this->Rows()->the();
+			return $this->rows()->the();
 		}
 		
 		
@@ -683,7 +697,7 @@
 		 * @deprecated
 		 */
 		public function get_current_row(){
-			return $this->Rows()->get_current();
+			return $this->rows()->get_current();
 		}
 		
 		
@@ -694,7 +708,7 @@
 		 * @deprecated
 		 */
 		public function get_sub_field( $key, $default = null ){
-			return $this->Rows()->get_sub_field( $key, $default );
+			return $this->rows()->get_sub_field( $key, $default );
 		}
 		
 		

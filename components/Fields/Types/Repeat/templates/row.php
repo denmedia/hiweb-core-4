@@ -90,7 +90,10 @@
 										\hiweb\components\Console\ConsoleFactory::add( 'not the Filed instance', 'warn', __FILE__, $col, true );
 									}
 								?>
-								<?php if( $col->field()->options()->description() != '' ){
+								<?php if( $col->description() != '' ){
+									?><p class="description flex-description"><?= $col->description() ?></p><?php
+								}
+								elseif( $col->field()->options()->description() != '' ){
 									?><p class="description flex-description"><?= $col->field()->options()->description() ?></p><?php
 								} ?>
 							</div>

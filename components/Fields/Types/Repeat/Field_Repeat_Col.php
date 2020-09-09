@@ -20,6 +20,7 @@
 		
 		
 		/**
+		 * @version 1.1
 		 * @param Field               $repeat_Field
 		 * @param Field|Field_Options $Field_or_FieldOptions
 		 * @param null                $Flex
@@ -33,6 +34,8 @@
 			}
 			elseif( $Field_or_FieldOptions instanceof Field_Options ){
 				$this->Field = $Field_or_FieldOptions->field();
+			} else {
+				$this->Field = FieldsFactory::get_field('');
 			}
 			parent::__construct( $this->Field->options() );
 		}

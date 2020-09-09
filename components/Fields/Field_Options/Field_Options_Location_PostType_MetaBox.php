@@ -12,8 +12,8 @@
 		public function __construct( $parent_OptionsObject = null ){
 			parent::__construct( $parent_OptionsObject );
 			$this->title( '' );
-			$this->Context()->normal();
-			$this->Priority()->default_();
+			$this->context()->normal();
+			$this->priority()->default_();
 		}
 
 
@@ -30,7 +30,7 @@
 		/**
 		 * @return Field_Options_Location_PostType_MetaBox_Context
 		 */
-		public function Context(){
+		public function context(){
 			if( !$this->_( 'context' ) instanceof Field_Options_Location_PostType_MetaBox_Context ){
 				$this->_( 'context', new Field_Options_Location_PostType_MetaBox_Context( $this ) );
 			}
@@ -41,7 +41,7 @@
 		/**
 		 * @return Field_Options_Location_PostType_MetaBox_Priority
 		 */
-		public function Priority(){
+		public function priority(){
 			if( !$this->_( 'priority' ) instanceof Field_Options_Location_PostType_MetaBox_Priority ){
 				$this->_( 'priority', new Field_Options_Location_PostType_MetaBox_Priority( $this ) );
 			}

@@ -76,8 +76,12 @@
 		 */
 		static function the( $mixed, $depth = 6, $showObjects = true ){
 			$css = PathsFactory::get( __DIR__ . '/dump-the.css' );
+			static $print_css_link_once = false;
+			if(!$print_css_link_once){
+				$print_css_link_once = true;
+				?><link rel="stylesheet" href="<?= $css->get_url() ?>"/><?php
+			}
 			?>
-			<link rel="stylesheet" href="<?= $css->get_url() ?>"/>
 			<div class="hiweb-core-dump-the">
 				<?= self::getHtml_arrayPrint( $mixed, $depth, $showObjects ); ?>
 			</div>

@@ -59,6 +59,26 @@ jQuery(document).ready(function ($) {
             if (!window.wpActiveEditor) {
                 window.wpActiveEditor = id;
             }
+
+
+            ////WP Editor Mode Switch
+            $('body').on('click', '#' + id + '-tmce', () => {
+                let $wrap = $('#wp-' + id + '-wrap');
+                let $tmce = $('#wp-' + id + '-wrap .mce-container');
+                let $html = $('#wp-' + id + '-wrap .wp-editor-area');
+                tinymce.get(id).setContent($html.val());
+                $wrap.addClass('tmce-active').removeClass('html-active');
+                $tmce.show();
+                $html.hide();
+            }).on('click', '#' + id + '-html', () => {
+                let $wrap = $('#wp-' + id + '-wrap');
+                let $tmce = $('#wp-' + id + '-wrap .mce-container');
+                let $html = $('#wp-' + id + '-wrap .wp-editor-area');
+                $html.val(tinymce.get(id).getContent());
+                $wrap.addClass('html-active').removeClass('tmce-active');
+                $tmce.hide();
+                $html.show();
+            });
         }
 
     };

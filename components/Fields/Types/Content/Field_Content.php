@@ -20,6 +20,7 @@
 				'alignleft' => [ [ 'selector' => 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', 'styles' => [ 'textAlign' => 'left' ] ], [ 'selector' => 'img,table,dl.wp-caption', 'classes' => 'alignleft' ] ],
 				'aligncenter' => [ [ 'selector' => 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', 'styles' => [ 'textAlign' => 'center' ] ], [ 'selector' => 'img,table,dl.wp-caption', 'classes' => 'aligncenter' ] ],
 				'alignright' => [ [ 'selector' => 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', 'styles' => [ 'textAlign' => 'right' ] ], [ 'selector' => 'img,table,dl.wp-caption', 'classes' => 'alignright' ] ],
+				'alignjustify' => [ [ 'selector' => 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', 'styles' => [ 'textAlign' => 'justify' ] ], [ 'selector' => 'img,table,dl.wp-caption', 'classes' => 'alignjustify' ] ],
 				'strikethrough' => [ 'inline' => 'del' ],
 			],
 			'relative_urls' => false,
@@ -73,11 +74,11 @@
 				"Keyboard Shortcuts" => "accessH"
 			],
 			'content_css' => HIWEB_URL_ASSETS . '/css/wp-default.min.css',
-			'plugins' => "charmap,colorpicker,hr,lists,media,paste,tabfocus,textcolor,fullscreen,wordpress,wpautoresize,wpeditimage,wpemoji,wpgallery,wplink,wpdialogs,wptextpattern,wpview",
+			'plugins' => "charmap,colorpicker,hr,lists,media,paste,tabfocus,textcolor,fullscreen,wordpress,wpautoresize,wpeditimage,wpemoji,wpgallery,wplink,wpdialogs,wptextpattern,wpview,-anchor,-table,-code",
 			'wpautop' => true,
 			'indent' => false,
-			"toolbar1" => "formatselect,bold,italic,bullist,numlist,blockquote,alignleft,aligncenter,alignright,link,wp_more,spellchecker,dfw,wp_adv",
-			"toolbar2" => "strikethrough,hr,forecolor,pastetext,removeformat,charmap,outdent,indent,undo,redo,wp_help",
+			"toolbar1" => "formatselect,bold,italic,bullist,numlist,blockquote,alignleft,aligncenter,alignright,alignjustify,link,wp_more,spellchecker,dfw,wp_adv",
+			"toolbar2" => "strikethrough,hr,forecolor,pastetext,removeformat,charmap,outdent,indent,undo,redo,wp_help,anchor,table",
 			"toolbar3" => "",
 			"toolbar4" => "",
 			'wp_autoresize_on' => true,
@@ -109,6 +110,10 @@
 				$css = [ HIWEB_URL_ASSETS . '/css/wp-default.min.css', PathsFactory::get( WPINC . '/js/tinymce/skins/wordpress/wp-content.css' )->url()->get(), PathsFactory::get( __DIR__ . '/content.css' )->url()->get() ];
 				self::$default_settings['content_css'] = join( ',', $css );
 				add_action( 'in_admin_footer', function(){
+					add_filter( 'mce_external_plugins', function( $plugins ){
+						console_info( [ $plugins ] );
+						return $plugins;
+					}, 9999 );
 					include __DIR__ . '/template-footer-script.php';
 				}, 999999 );
 			}
@@ -130,7 +135,7 @@
 		
 		
 		public function get_js(){
-			return [ 'wp-tinymce', __DIR__ . '/tinymce-language-ru.min.js', __DIR__ . '/Field_Content.min.js' ];
+			return [ 'wp-tinymce', __DIR__ . '/tinymce-language-ru.min.js', HIWEB_DIR_COMPONENTS . '/TinyMCE/plugins/anchor/plugin.min.js', HIWEB_DIR_COMPONENTS . '/TinyMCE/plugins/table/plugin.min.js', HIWEB_DIR_COMPONENTS . '/TinyMCE/plugins/code/plugin.min.js', __DIR__ . '/Field_Content.min.js' ];
 		}
 		
 		

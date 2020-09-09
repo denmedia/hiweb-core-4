@@ -13,14 +13,15 @@
 		public static function css( $fileNameOrPathOrURL = null ){
 			return parent::css( $fileNameOrPathOrURL )->on_frontend(true);
 		}
-
-
+		
+		
 		/**
 		 * @param null|string $fileNameOrPathOrURL
+		 * @param null        $deeps
 		 * @return Js
 		 */
-		public static function js( $fileNameOrPathOrURL = null ){
-			return parent::js( $fileNameOrPathOrURL )->on_frontend(true);
+		public static function js( $fileNameOrPathOrURL = null, $deeps = null ){
+			return parent::js( $fileNameOrPathOrURL, $deeps );
 		}
 
 	}

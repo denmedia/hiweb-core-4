@@ -1,7 +1,7 @@
 jQuery(document).ready(function ($) {
 
 
-    let $admin_notices = $('#wpbody-content > .wrap > .notice, #wpbody-content > .wrap > .manage-menus, #wpbody-content > .update-nag, #post-body-content > .notice').not('.hidden');
+    let $admin_notices = $($('#hiweb-components-adminnotices-wrap').attr('data-selectors')); //$('#wpbody-content > .wrap > .notice, #wpbody-content > .update-nag, #post-body-content > .notice').not('.hidden');
     if (typeof Noty === 'function') {
         let popups = {};
         let popup_ids = [];
@@ -10,7 +10,7 @@ jQuery(document).ready(function ($) {
                 $source_notice = $(this);
             }
             let type = 'alert';
-            let timeout = false;
+            let timeout = 60000;
             let layout = 'topRight';
             let closeWith = ['button'];
             let container = '#hiweb-components-adminnotices-wrap';
@@ -34,11 +34,11 @@ jQuery(document).ready(function ($) {
                 allow_close_to_time = false;
             }
             if ($source_notice.is('.updated') || $source_notice.is('.notice-success') || $source_notice.is('.is-success')) {
-                timeout = 5000;
+                timeout = 30000;
                 allow_close_to_time = false;
                 type = 'success';
             }
-            if ($source_notice.is('.notice-error') || $source_notice.is('.is-error')) {
+            if ($source_notice.is('.notice-error') || $source_notice.is('.is-error') || $source_notice.is('.error')) {
                 timeout = 60000;
                 type = 'error';
             }
@@ -61,12 +61,15 @@ jQuery(document).ready(function ($) {
                     close: 'animated fadeOutRight'
                 };
             }
+            console.info( timeout );
             let text = $source_notice.html();
             let popup_id = md5(text);
+            timeout = timeout + (750 - (1500 * Math.random()));
+            timeout = timeout < 3000 ? 3000 : timeout;
             popups[popup_id] = new Noty({
                 text: '',
                 type: type,
-                timeout: timeout + (750 - (1500 * Math.random())),
+                timeout: timeout,
                 layout: layout,
                 closeWith: closeWith,
                 container: container,

@@ -28,7 +28,7 @@
 		<div class="button-group">
 			<button data-click-wp-media class="button" title="<?= __( 'Select other', 'hiweb-core-4' ) ?>"><?= FontAwesomeFactory::get( '<i class="fad fa-folder-open"></i>' ) ?></button>
 			<a href="<?= get_edit_post_link( $value ) ?>" target="_blank" data-click-edit-attachment class="button" title="<?= __( 'Edit attachment', 'hiweb-core-4' ) ?>"><?= FontAwesomeFactory::get( '<i class="fas fa-file-edit"></i>' ) ?></a>
-			<a href="<?= $this->the_File()->Url()->get() ?>" target="_blank" class="button button-secondary" title="<?= __( 'Download the file', 'hiweb-core-4' ) ?>"><?= FontAwesomeFactory::get( 'download' ) ?></a>
+			<a href="<?= $this->the_File()->url()->get() ?>" target="_blank" class="button button-secondary" title="<?= __( 'Download the file', 'hiweb-core-4' ) ?>"><?= FontAwesomeFactory::get( 'download' ) ?></a>
 			<button data-click-clear class="button button-link-delete" title="<?= __( 'Unselect file (clear)', 'hiweb-core-4' ) ?>"><?= FontAwesomeFactory::get( '<i class="fad fa-file-times"></i>' ) ?></button>
 		</div>
 	</div>

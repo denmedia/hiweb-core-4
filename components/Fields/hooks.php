@@ -15,6 +15,8 @@
 	add_action( 'dbx_post_sidebar', '\hiweb\components\Fields\FieldsFactory_Admin\FieldsFactory_Admin_PostType::_dbx_post_sidebar' );
 	//Post type Meta Box
 	add_action( 'add_meta_boxes', '\hiweb\components\Fields\FieldsFactory_Admin\FieldsFactory_Admin_PostType::_add_meta_boxes', 8, 2 );
+	//Post Disable Gutenberg
+	add_action( 'current_screen', '\hiweb\components\Fields\FieldsFactory_Admin\FieldsFactory_Admin_PostType::_disable_gutenberg_editor' );
 	///Post Save
 	add_action( 'save_post', '\hiweb\components\Fields\FieldsFactory_Admin\FieldsFactory_Admin_PostType::_save_post', 10, 3 );
 	
@@ -43,6 +45,19 @@
 	///TAXONOMY SAVE
 	add_action( 'created_term', '\hiweb\components\Fields\FieldsFactory_Admin\FieldsFactory_Admin_Taxonomy::taxonomy_edited_term', 10, 3 );
 	add_action( 'edit_term', '\hiweb\components\Fields\FieldsFactory_Admin\FieldsFactory_Admin_Taxonomy::taxonomy_edited_term', 10, 3 );
+	
+	///NAV MENUS
+	//* @since 5.4.0
+	//* @param int      $item_id Menu item ID.
+	//* @param WP_Post  $item    Menu item data object.
+	//* @param int      $depth   Depth of menu item. Used for padding.
+	//* @param stdClass $args    An object of menu item arguments.
+	//* @param int      $id      Nav menu ID.
+	///do_action( 'wp_nav_menu_item_custom_fields', $item_id, $item, $depth, $args, $id );
+	add_action( 'wp_nav_menu_item_custom_fields', '\hiweb\components\Fields\FieldsFactory_Admin\FieldsFactory_Admin_NavMenu::wp_nav_menu_item_custom_fields', 10, 5 );
+	
+	///NAV MENU UPDATE
+	add_action( 'wp_update_nav_menu_item', '\hiweb\components\Fields\FieldsFactory_Admin\FieldsFactory_Admin_NavMenu::wp_update_nav_menu_item', 10, 3 );
 	
 	/// USERS SETTINGS
 	/// USER ADD

@@ -9,6 +9,8 @@
 		
 		static private $notices = [];
 		
+		static $selectors = '#wpbody-content > .wrap > .notice, #wpbody-content > .update-nag, #post-body-content > .notice, #wpbody-content > .wrap > div.woocommerce-message, #wpbody-content > .wrap > .error';
+		
 		
 		static function init(){
 			if( !self::$init ){

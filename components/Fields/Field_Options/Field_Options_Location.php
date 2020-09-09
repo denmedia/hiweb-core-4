@@ -44,7 +44,7 @@
 			$new_location = clone $this;
 			$new_location->parent_OptionsObject = $target_Field_Options;
 			if( $new_location->options() != '' ){
-				\register_setting( $new_location->options(), FieldsFactory_Admin::get_field_input_option_name( $target_Field_Options->field()->id(), $new_location->options() ) );
+				\register_setting( $new_location->options(), 'hiweb-option-'.$new_location->options().'-'. $target_Field_Options->field()->id() );
 			}
 			return $new_location;
 		}
@@ -69,6 +69,18 @@
 				FieldsFactory::$fieldIds_by_locations['post_type'][ $this->getParent_OptionsObject()->field()->global_ID() ] = $this->getParent_OptionsObject()->field();
 			}
 			return $this->_( 'post_type' );
+		}
+		
+		
+		/**
+		 * @return Field_Options_Location_NavMenu
+		 */
+		public function nav_menu(){
+			if( !$this->_( 'nav_menu' ) instanceof Field_Options_Location_NavMenu ){
+				$this->_( 'nav_menu', new Field_Options_Location_NavMenu( $this ) );
+				FieldsFactory::$fieldIds_by_locations['nav_menu'][ $this->getParent_OptionsObject()->field()->global_ID() ] = $this->getParent_OptionsObject()->field();
+			}
+			return $this->_( 'nav_menu' );
 		}
 		
 		
@@ -109,7 +121,7 @@
 				FieldsFactory::$fieldIds_by_locations['options'][ $page_slug ][ $this->getParent_OptionsObject()->field()->global_ID() ] = $this->getParent_OptionsObject()->field();
 			}
 			if( is_string( $page_slug ) && $this->getParent_OptionsObject()->field()->get_allow_save_field() ){
-				\register_setting( $page_slug, FieldsFactory_Admin::get_field_input_option_name( $this->getParent_OptionsObject()->field()->id(), $page_slug ) );
+				\register_setting( $page_slug, 'hiweb-option-'.$page_slug.'-'.$this->getParent_OptionsObject()->field()->id() );
 			}
 			return $this->_( 'options', $page_slug );
 		}
@@ -123,7 +135,7 @@
 		 * @return string
 		 * @alias $this->Options
 		 */
-		public function Admin_Menus( $page_slug = null ){
+		public function admin_menus( $page_slug = null ){
 			return $this->options( $page_slug );
 		}
 		

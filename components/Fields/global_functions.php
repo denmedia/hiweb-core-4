@@ -261,7 +261,8 @@
 				return FieldsFactory_FrontEnd::get_current_row()->get_sub_field( $subField, $default );
 			}
 			else{
-				$rows = array_reverse( FieldsFactory_FrontEnd::get_rows() );
+				//$rows = array_reverse( FieldsFactory_FrontEnd::get_rows() );
+				$rows = FieldsFactory_FrontEnd::get_rows();
 				foreach( $rows as $row_id => $row ){
 					if( $row->have_sub_field( $subField ) ){
 						return $row->get_sub_field( $subField, $default );

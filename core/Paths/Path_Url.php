@@ -141,7 +141,7 @@
 			if( !is_string( $this->prepare_url ) ){
 				$this->prepare_url = apply_filters( '\hiweb\urls\url::prepare-first', $this->base( $return_universalScheme ) . ( $this->dirs()->is_empty() ? '' : '/' . $this->dirs()->join( '/' ) ) . ( $this->params()->is_empty() ? '' : '?' . $this->params()->get_params_url() ), $this );
 			}
-			return apply_filters( '\hiweb\urls\url::prepare', $this->prepare_url, $this );
+			return apply_filters( '\hiweb\urls\url::prepare', $this->get_clear().( $this->params()->is_empty() ? '' : '?'.$this->params()->get_params_url() ) ); //$this->prepare_url, $this );
 		}
 		
 		
@@ -210,7 +210,7 @@
 		 */
 		public function get_dirs_intersect( $haystackUrl ){
 			$R = [];
-			$this->dirs()->Rows()->each( function( $index, $dir ){
+			$this->dirs()->rows()->each( function( $index, $dir ){
 				if( $this->dirs()->get_value_by_index( $index ) != $dir ){
 					return;
 				}
