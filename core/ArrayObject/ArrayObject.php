@@ -3,6 +3,11 @@
 	namespace hiweb\core\ArrayObject;
 	
 	
+	/**
+	 * Class ArrayObject
+	 * @package hiweb\core\ArrayObject
+	 * @version 1.1
+	 */
 	class ArrayObject extends \ArrayObject{
 		
 		/**
@@ -573,12 +578,24 @@
 		 * @param bool $return_array_pairs
 		 * @return array|string
 		 */
-		public function get_param_html_tags( $return_array_pairs = false ){
+		public function get_as_tag_attributes( $return_array_pairs = false ){
 			$pairs = [];
 			foreach( $this->get() as $key => $val ){
-				$pairs[] = $key . '="' . htmlentities( is_array($val) ? json_encode($val) : $val, ENT_QUOTES, 'UTF-8' ) . '"';
+				$pairs[] = $key . '="' . htmlentities( is_array( $val ) ? json_encode( $val ) : $val, ENT_QUOTES, 'UTF-8' ) . '"';
 			}
 			return $return_array_pairs ? $pairs : implode( ' ', $pairs );
+		}
+		
+		
+		/**
+		 * Return string like `color="#000" background="#fff"`
+		 * @param bool $return_array_pairs
+		 * @return array|string
+		 * @deprecated
+		 * @alias $this->get_as_tag_attributes(); //get_param_html_tags
+		 */
+		public function get_param_html_tags( $return_array_pairs = false ){
+			return $this->get_as_tag_attributes( $return_array_pairs );
 		}
 		
 		
@@ -586,12 +603,22 @@
 		 * Return string like `color: #000; background: #fff`
 		 * @return string
 		 */
-		public function get_param_html_style(){
+		public function get_as_tag_style(){
 			$R = [];
 			foreach( $this->get() as $key => $val ){
 				$R[] = $key . ':' . addslashes( $val );
 			}
 			return join( ';', $R );
+		}
+		
+		/**
+		 * Return string like `color: #000; background: #fff`
+		 * @return string
+		 * @deprecated
+		 * @alias $this->get_as_tag_style();
+		 */
+		public function get_param_html_style(){
+			return $this->get_as_tag_style();
 		}
 		
 		

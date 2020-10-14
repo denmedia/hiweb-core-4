@@ -2,10 +2,17 @@
  * Created by DenMedia on 25.10.2016.
  */
 
-var hiweb_field_file = {
+let hiweb_field_file = {
 
     init: function (root) {
-        jQuery(root).on('click', '[data-click-wp-media]', function (e) {
+        let $root = jQuery(root);
+        if (!$root.is('.hiweb-field-type-file')) {
+            $root = $root.closest('.hiweb-field-type-file');
+        }
+        if ($root.length === 0) return;
+        if ($root.is('.hiweb-field-type-file-init')) return;
+        $root.addClass('hiweb-field-type-file-init');
+        $root.on('click', '[data-click-wp-media]', function (e) {
             e.preventDefault();
             hiweb_field_file.event_click_select(root);
         }).on('click', '[data-click-clear]', function (e) {
@@ -16,14 +23,11 @@ var hiweb_field_file = {
 
     event_click_select: function (root) {
         root = jQuery(root);
-        var media_options = {
+        let media_options = {
             title: 'Выбор файла',
             multiple: false,
             button: {text: 'Выбрать файл'}
         };
-        if (root.is('.hiweb-field-image')) {
-            media_options.library = {type: 'image'};
-        }
         let gallery_window = wp.media(media_options);
         gallery_window.on('select', function () {
             hiweb_field_file.select_file(root, gallery_window.state().get('selection').first().toJSON());
@@ -91,10 +95,18 @@ var hiweb_field_file = {
 
 };
 
-jQuery('.hiweb-type-field-file').each(function () {
-    hiweb_field_file.init(this);
+jQuery('body').on('hiweb-form-ajax-loaded hiweb-field-repeat-added-row', '.hiweb-components-form-ajax-wrap', function () {
+    jQuery(this).find('.hiweb-field-type-file').each(function () {
+        hiweb_field_file.init(this)
+    });
+}).find('.hiweb-field-type-file').each(function () {
+    hiweb_field_file.init(this)
 });
 
-jQuery('body').on('hiweb-field-repeat-added-row', '.hiweb-type-field-file input[name]', function () {
-    hiweb_field_file.init(jQuery(this).closest('.hiweb-type-field-file'));
-});
+// jQuery('.hiweb-type-field-file').each(function () {
+//     hiweb_field_file.init(this);
+// });
+//
+// jQuery('body').on('hiweb-field-repeat-added-row', '.hiweb-type-field-file input[name]', function () {
+//     hiweb_field_file.init(jQuery(this).closest('.hiweb-type-field-file'));
+// });

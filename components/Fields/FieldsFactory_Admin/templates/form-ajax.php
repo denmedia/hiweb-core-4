@@ -8,6 +8,6 @@
 	] );
 
 ?>
-<div class="hiweb-components-form-ajax-wrap preloading" <?= $ajax_tags->get_param_html_tags() ?>>
+<div class="hiweb-components-form-ajax-wrap preloading" <?= $ajax_tags->get_as_tag_attributes() ?>>
 	<div class="hiweb-components-form-ajax-inner"></div>
 </div>

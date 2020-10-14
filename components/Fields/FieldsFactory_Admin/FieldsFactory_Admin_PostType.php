@@ -3,6 +3,7 @@
 	namespace hiweb\components\Fields\FieldsFactory_Admin;
 	
 	
+	use hiweb\components\Console\ConsoleFactory;
 	use hiweb\components\Fields\FieldsFactory;
 	use hiweb\components\Fields\FieldsFactory_Admin;
 	use hiweb\components\Structures\StructuresFactory;
@@ -149,7 +150,7 @@
 		
 		///POST META BOXES
 		static function _add_meta_boxes(){
-			$query = self::get_current_query( [ 'position' => '', 'metabox' => [] ] );
+			$query = self::get_current_query( [ 'metabox' => [] ] );
 			$query_by_box = [];
 			$fields = FieldsFactory::get_field_by_query( $query );
 			if( !is_array( $fields ) || count( $fields ) == 0 ) return;
@@ -162,7 +163,8 @@
 			foreach( $query_by_box as $title => $query ){
 				$box_id = 'hiweb-metabox-' . Strings::sanitize_id( $title );
 				add_meta_box( $box_id, $title, function(){
-					echo FieldsFactory_Admin::get_ajax_form_html( func_get_arg( 1 )['args'][0], [ 'name_before' => 'hiweb-' ] );
+					$locationQuery = func_get_arg( 1 )['args'][0];
+					echo FieldsFactory_Admin::get_ajax_form_html( $locationQuery, [ 'name_before' => 'hiweb-' ] );
 				}, $first_field_location->post_type(), $first_field_location->metaBox()->context()->_(), $first_field_location->metaBox()->priority()->_(), [ $query ] );
 			}
 		}

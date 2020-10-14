@@ -18,7 +18,7 @@
 
 ?>
 <div class="hiweb-field-type-terms">
-	<select <?= $attributes->get_param_html_tags() ?>>
+	<select <?= $attributes->get_as_tag_attributes() ?>>
 		<?php
 			$this->get_html_options_from_terms( $value, $terms );
 		?>

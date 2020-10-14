@@ -22,4 +22,4 @@
 		$attributes->push('style', 'font-size: '.$font_size.'em;');
 	}
 ?>
-<div class="hiweb-field-type-text"><input <?= $attributes->get_param_html_tags() ?>/></div>
+<div class="hiweb-field-type-text"><input <?= $attributes->get_as_tag_attributes() ?>/></div>

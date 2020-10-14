@@ -302,6 +302,26 @@
 		}
 	}
 	
+	if( !function_exists( 'the_row_is_first' ) ){
+		/**
+		 * Return true if current row is first
+		 * @return bool
+		 */
+		function the_row_is_first(){
+			return FieldsFactory_FrontEnd::get_current_row()->is_first();
+		}
+	}
+	
+	if( !function_exists( 'the_row_is_last' ) ){
+		/**
+		 * Return true if current row is last
+		 * @return bool
+		 */
+		function the_row_is_last(){
+			return FieldsFactory_FrontEnd::get_current_row()->is_last();
+		}
+	}
+	
 	///TODO:...
 	
 	//	if( !function_exists( 'get_sub_field_content' ) ){

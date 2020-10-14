@@ -28,7 +28,7 @@
 	] );
 
 ?>
-<div class="hiweb-field-type-images" <?= $attributes->get_param_html_tags() ?>>
+<div class="hiweb-field-type-images" <?= $attributes->get_as_tag_attributes() ?>>
 	<div class="images-top-panel">
 		<div class="images-top-panel-label"><?= $this->options()->label_top() ?> : <b data-images-count-wrap><?= count( $value_sanitized ) ?></b></div>
 		<div data-constrol-wrap>

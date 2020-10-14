@@ -17,5 +17,5 @@
 	}
 ?>
 <div class="hiweb-field-type-textarea">
-	<textarea <?= $attributes->get_param_html_tags() ?>><?= $value ?></textarea>
+	<textarea <?= $attributes->get_as_tag_attributes() ?>><?= $value ?></textarea>
 </div>

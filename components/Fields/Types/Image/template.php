@@ -25,8 +25,8 @@
 	$style->push('width', $this->options()->admin_width());
 	$style->push('height', $this->options()->admin_height());
 ?>
-<div class="hiweb-field-type-image" data-rand-id="<?= $rand_id ?>" data-global-id="<?= $this->global_id() ?>" data-has-file="<?= $has_file ? '1' : '0' ?>" data-file-mime="<?= $this->the_Image()->get_mime_type() ?>" style="<?=$style->get_param_html_style()?>">
-	<div data-image-place style="<?=$style2->get_param_html_style()?>"></div>
+<div class="hiweb-field-type-image" data-rand-id="<?= $rand_id ?>" data-global-id="<?= $this->global_id() ?>" data-has-file="<?= $has_file ? '1' : '0' ?>" data-file-mime="<?= $this->the_Image()->get_mime_type() ?>" style="<?=$style->get_as_tag_style()?>">
+	<div data-image-place style="<?=$style2->get_as_tag_style()?>"></div>
 	<input type="hidden" value="<?= htmlentities( $value ) ?>" name="<?= $name ?>"/>
 	<!--CONTROL-->
 	<div data-image-control-wrap="0">

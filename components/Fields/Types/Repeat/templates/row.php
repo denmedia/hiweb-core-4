@@ -23,7 +23,7 @@
 		'data-unique_id' => $this->Field->get_unique_id()
 	] );
 ?>
-<tr <?= $row_attributes->get_param_html_tags() ?>>
+<tr <?= $row_attributes->get_as_tag_attributes() ?>>
 	<td data-drag-handle data-col="_flex_row_id" title="<?= __( 'click - collapse / expand; drag - sorting this row', 'hiweb-core-4' ) ?>">
 		<?= FontAwesomeFactory::get( 'fas fa-sort' )->get_style()->get_raw() ?>
 		<input type="hidden" name="<?= $this->get_col_input_name( '_flex_row_id' ) ?>"

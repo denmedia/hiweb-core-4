@@ -17,7 +17,7 @@
 	}
 
 ?>
-<div class="hiweb-type-field-file" data-rand-id="<?= $rand_id ?>" data-global-id="<?= $this->global_id() ?>" data-has-file="<?= $has_file ? '1' : '0' ?>" data-file-mime="<?= $this->the_File()->mime() ?>" data-file-image="<?= $this->the_File()->is_image() ? 'image' : 'file' ?>">
+<div class="hiweb-field-type-file" data-rand-id="<?= $rand_id ?>" data-global-id="<?= $this->global_id() ?>" data-has-file="<?= $has_file ? '1' : '0' ?>" data-file-mime="<?= $this->the_File()->mime() ?>" data-file-image="<?= $this->the_File()->is_image() ? 'image' : 'file' ?>">
 	<input type="hidden" value="<?= htmlentities( $value ) ?>" name="<?= $name ?>"/>
 	<div data-status="empty">
 		<input type="text" disabled data-message="empty" value="<?= htmlentities( $this->options()->label_empty() ) ?>"/>

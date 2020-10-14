@@ -240,6 +240,18 @@
 		
 		
 		/**
+		 * @param     $width
+		 * @param     $height
+		 * @param int $resize_mod
+		 * @return string
+		 * @deprecated
+		 */
+		public function get_similar_src( $width, $height, $resize_mod = 1 ){
+			return $this->get_src( [ $width, $height, $resize_mod ] );
+		}
+		
+		
+		/**
 		 * @param      $size
 		 * @param bool $make_new_file
 		 * @return string
@@ -341,7 +353,7 @@
 				$sources = apply_filters( '\hiweb\images\image::html_picture-sources', $sources, $this );
 				$sources = implode( '', $sources );
 				$sources = $sources == '' ? '' : apply_filters( '\hiweb\images\image::html_picture-ie9escape', "<!--[if IE 9]><video style=\"display: none;\"><![endif]-->{$sources}<!--[if IE 9]></video><![endif]-->", $this );
-				$R = apply_filters( '\hiweb\images\image::html_picture-return', "<picture {$attr_picture->get_param_html_tags()}>{$sources}{$img}</picture>", $this );
+				$R = apply_filters( '\hiweb\images\image::html_picture-return', "<picture {$attr_picture->get_as_tag_attributes()}>{$sources}{$img}</picture>", $this );
 				return $R;
 			}
 		}
@@ -360,7 +372,7 @@
 			$attributes->push( 'height', $size_current->height() );
 			if( !$this->is_attachment_exists() ){
 				$attributes->push( 'src', ImagesFactory::get_default_src() );
-				return '<img ' . $attributes->get_param_html_tags() . '/>';
+				return '<img ' . $attributes->get_as_tag_attributes() . '/>';
 			}
 			else{
 				$attributes->push( 'src', $size_current->path()->get_url() );
@@ -375,7 +387,7 @@
 					$srcset[] = $image_Size->path()->get_url() . ' ' . $image_Size->width() . "w\n";
 				}
 				$attributes->push( 'srcset', join( ', ', $srcset ) );
-				return '<img ' . $attributes->get_param_html_tags() . '/>';
+				return '<img ' . $attributes->get_as_tag_attributes() . '/>';
 			}
 		}
 		

@@ -3,10 +3,13 @@
 	namespace hiweb\components\Fields;
 	
 	
+	use hiweb\components\Console\Console;
+	use hiweb\components\Console\ConsoleFactory;
 	use hiweb\components\Fields\Field_Options\Field_Options_Location;
 	use hiweb\components\Structures\StructuresFactory;
 	use hiweb\core\Cache\CacheFactory;
 	use hiweb\core\hidden_methods;
+	use theme\breadcrumbs;
 	use WP_Post;
 	
 	
@@ -92,37 +95,162 @@
 		
 		
 		/**
-		 * @param $arr1
-		 * @param $arr2
+		 * @param $require_arr
+		 * @param $candidate_arr
 		 * @return array
+		 * @deprecated
 		 */
-		static private function diff( $arr1, $arr2 ){
+		static private function diff( $require_arr, $candidate_arr ){
 			$R = [];
-			$keys = array_unique( array_merge( array_keys( $arr1 ), array_keys( $arr2 ) ) );
+			$keys = array_unique( array_merge( array_keys( $require_arr ), array_keys( $candidate_arr ) ) );
 			foreach( $keys as $key ){
-				if( count( func_get_args() ) == 2 && !array_key_exists( $key, $arr2 ) ){
-					$R[ $key ] = $arr1[ $key ];
+				if( count( func_get_args() ) == 2 && !array_key_exists( $key, $candidate_arr ) ){
+					$R[ $key ] = $require_arr[ $key ];
 				}
-				elseif( !array_key_exists( $key, $arr1 ) ){
+				elseif( !array_key_exists( $key, $require_arr ) ){
 					//do nothing
 					//$R[ $key ] = $arr1[ $key ];
 				}
-				elseif( array_key_exists( $key, $arr1 ) && array_key_exists( $key, $arr2 ) && !is_array( $arr1[ $key ] ) && !is_array( $arr2[ $key ] ) ){
-					if( $arr1[ $key ] != $arr2[ $key ] ){
-						$R[ $key ] = $arr1[ $key ];
+				elseif( array_key_exists( $key, $require_arr ) && array_key_exists( $key, $candidate_arr ) && !is_array( $require_arr[ $key ] ) && !is_array( $candidate_arr[ $key ] ) ){
+					if( $require_arr[ $key ] != $candidate_arr[ $key ] ){
+						$R[ $key ] = $require_arr[ $key ];
 					}
 				}
-				else if( array_key_exists( $key, $arr1 ) && is_array( $arr1[ $key ] ) && count( $arr1[ $key ] ) == 0 && !array_key_exists( $key, $arr2 ) ){
+				else if( array_key_exists( $key, $require_arr ) && is_array( $require_arr[ $key ] ) && count( $require_arr[ $key ] ) == 0 && !array_key_exists( $key, $candidate_arr ) ){
 					$R[ $key ] = [];
 				}
-				elseif( array_key_exists( $key, $arr1 ) && array_key_exists( $key, $arr2 ) && ( is_array( $arr1[ $key ] ) || is_array( $arr2[ $key ] ) ) ){
-					if( !is_array( $arr1[ $key ] ) ) $arr1[ $key ] = [ $arr1[ $key ] ];
-					if( !is_array( $arr2[ $key ] ) ) $arr2[ $key ] = [ $arr2[ $key ] ];
-					$sub_arr = self::diff( $arr1[ $key ], $arr2[ $key ], false );
+				elseif( array_key_exists( $key, $require_arr ) && array_key_exists( $key, $candidate_arr ) && ( is_array( $require_arr[ $key ] ) || is_array( $candidate_arr[ $key ] ) ) ){
+					if( !is_array( $require_arr[ $key ] ) ) $require_arr[ $key ] = [ $require_arr[ $key ] ];
+					if( !is_array( $candidate_arr[ $key ] ) ) $candidate_arr[ $key ] = [ $candidate_arr[ $key ] ];
+					$sub_arr = self::diff( $require_arr[ $key ], $candidate_arr[ $key ], false );
 					if( count( $sub_arr ) > 0 ){
 						$R[ $key ] = $sub_arr;
 					}
 				}
+			}
+			return $R;
+		}
+		
+		
+		/**
+		 * @param $pattern
+		 * @param $array
+		 * @return int
+		 */
+		static private function preg_array_key_exists( $pattern, $array ){
+			$keys = array_keys( $array );
+			return (int)preg_grep( $pattern, $keys );
+		}
+		
+		
+		/**
+		 * @param array       $fieldLocation
+		 * @param array       $locationQuery
+		 * @param null|string $parent_key
+		 * @param string|null $parent_operator
+		 * @return array
+		 */
+		static function diff_2( $locationQuery, $fieldLocation, $parent_key = null, $parent_operator = '&' ){
+			$R = [];
+			///Prepare Arrays
+			$is_end_of_branch = true;
+			$operator_by_key = [];
+			$locationQuery_emptyKeys = [];
+			$locationQuery_filtered = [];
+			$fieldLocation_filtered = [];
+			foreach( [ 'locationQuery' => $locationQuery, 'fieldLocation' => $fieldLocation ] as $name => $arr ){
+				$tmp_result_arr = [];
+				foreach( $arr as $key => $value ){
+					if( !is_numeric( $key ) ){
+						$is_end_of_branch = false;
+						///
+						$tmp_operator = substr( $key, 0, 1 );
+						if( in_array( $tmp_operator, [ '&', '|', '!', '~', '?' ] ) ){
+							$tmp_key = substr( $key, 1 );
+						}
+						else{
+							$tmp_key = $key;
+							$tmp_operator = '&';
+						}
+						$operator_by_key[ $tmp_key ] = $tmp_operator;
+						$tmp_result_arr[ $tmp_key ] = (array)$value;
+						if( $name == 'locationQuery' && count( (array)$value ) == 0 ){
+							$locationQuery_emptyKeys[] = $tmp_key;
+						}
+					}
+					else{
+						$tmp_result_arr[] = $value;
+					}
+				}
+				switch( $name ){
+					case 'locationQuery' :
+						$locationQuery_filtered = $tmp_result_arr;
+						break;
+					case 'fieldLocation' :
+						$fieldLocation_filtered = $tmp_result_arr;
+						break;
+				}
+			}
+			///Compare arrays
+			$matches = 0;
+			$mismatches = 0;
+			foreach( $fieldLocation_filtered as $key => $value ){
+				if( $is_end_of_branch ){
+					if( !in_array( $value, $locationQuery_filtered ) ){
+						$R[] = $value;
+						$mismatches ++;
+					}
+					else{
+						$matches ++;
+					}
+				}
+				else{
+					if( array_key_exists( $key, $locationQuery_filtered ) && count( $locationQuery_filtered[ $key ] ) > 0 && count( $value ) > 0 ){
+						$tmp_result_arr = self::diff_2( $locationQuery_filtered[ $key ], $fieldLocation_filtered[ $key ], $key, $operator_by_key[ $key ] );
+						if( count( $tmp_result_arr ) > 0 ){
+							$R[ $key ] = $tmp_result_arr;
+							$mismatches ++;
+						}
+						else{
+							$matches ++;
+						}
+					}
+					else{
+						if( is_null( $parent_key ) ){
+							$R[ $key ] = $value;
+							$mismatches ++;
+						}
+						else{
+							$matches ++;
+						}
+					}
+				}
+			}
+			///Empty Location Query
+			foreach( $locationQuery_emptyKeys as $key ){
+				if( !array_key_exists( $key, $fieldLocation_filtered ) || count( $fieldLocation_filtered[ $key ] ) == 0 ){
+					$R[ $key ] = [];
+					$mismatches ++;
+				}
+			}
+			///Operator Compare
+			switch( $parent_operator ){
+				case '|':
+					if( $matches > 0 ) $R = [];
+					break;
+				case '!':
+					if( $mismatches > 0 ) $R = [];
+					break;
+				case '~':
+					if( $matches == 0 && $mismatches > 0 ) $R = [];
+					break;
+				case '?':
+					if( array_key_exists( $parent_key, $locationQuery_filtered ) ) $R = [];
+					break;
+				default:
+					//do nothing
+					if( $mismatches == 0 ) $R = [];
+					break;
 			}
 			return $R;
 		}
@@ -140,7 +268,7 @@
 				foreach( FieldsFactory::get_fields() as $global_id => $Field ){
 					$field_location_options = $Field->options()->location()->_get_optionsCollect();
 					if( count( $field_location_options ) == 0 ) continue;
-					$diff = self::diff( $locationQuery, $field_location_options );
+					$diff = self::diff_2( $locationQuery, $field_location_options );
 					if( count( $diff ) == 0 ){
 						$Fields[ $Field->id() ] = $Field;
 					}

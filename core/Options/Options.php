@@ -11,6 +11,7 @@
 	 * Используется создания опций или субопций объекта
 	 * Class Options
 	 * @package hiweb\core
+	 * @version 1.1
 	 */
 	abstract class Options{
 		
@@ -94,7 +95,9 @@
 		 * @return array|mixed|null
 		 */
 		protected function get( $option_key = null, $default = null ){
-			return $this->Options->_( $option_key, $default );
+			$R = $this->Options->_( $option_key, $default );
+			if( is_callable( $R ) && get_class( $R ) == 'Closure' ) $R = $R( func_get_arg( 2 ), func_get_arg( 3 ), func_get_arg( 4 ), func_get_arg( 5 ) );
+			return $R;
 		}
 		
 		
@@ -135,7 +138,7 @@
 		 */
 		public function _( $option_key, $value = null, $default = null ){
 			if( is_null( $value ) ){
-				return $this->Options->_( $option_key, $default );
+				return $this->get( $option_key, $default );
 			}
 			else{
 				return $this->set( $option_key, $value );
@@ -155,12 +158,13 @@
 		/**
 		 * Collect options and sub-options to array
 		 * @return array
+		 * @version 1.1
 		 */
 		public function _get_optionsCollect(){
 			$R = [];
 			foreach( $this->options_ArrayObject()->get() as $key => $value ){
 				if( $value instanceof Options ){
-					$R = array_merge( $R, [ $key => $value->_get_optionsCollect() ] );
+					$R[ $key ] = $value->_get_optionsCollect();
 				}
 				else{
 					$R[ $key ] = $value;
@@ -185,6 +189,16 @@
 					$this->_( $key, $value );
 				}
 			}
+		}
+		
+		
+		/**
+		 * Return TRUE if key is callable
+		 * @param $key
+		 * @return bool
+		 */
+		public function _isCallable( $key ){
+			return is_callable( $this->_( $key ) );
 		}
 		
 	}

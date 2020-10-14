@@ -29,7 +29,7 @@
 		 */
 		public function post_type( $set = null ){
 			if( is_string( $set ) ) $set = [ $set ];
-			return $this->_( __FUNCTION__, $set );
+			return $this->_( '|' . __FUNCTION__, $set );
 		}
 		
 		

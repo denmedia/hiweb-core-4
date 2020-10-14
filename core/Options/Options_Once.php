@@ -19,7 +19,9 @@
 		 * @return array|mixed|null
 		 */
 		protected function get( $option_key = null, $default = null ){
-			return $this->options_ArrayObject()->get_value( '', $default );
+			$R = $this->options_ArrayObject()->get_value( '', $default );
+			if( is_callable( $R ) && get_class($R) == 'Closure' ) $R = $R(func_get_arg(2), func_get_arg(3), func_get_arg(4), func_get_arg(5));
+			return $R;
 		}
 
 

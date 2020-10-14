@@ -111,7 +111,6 @@
 				self::$default_settings['content_css'] = join( ',', $css );
 				add_action( 'in_admin_footer', function(){
 					add_filter( 'mce_external_plugins', function( $plugins ){
-						console_info( [ $plugins ] );
 						return $plugins;
 					}, 9999 );
 					include __DIR__ . '/template-footer-script.php';

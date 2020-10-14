@@ -25,7 +25,7 @@
 	] );
 
 ?>
-<div <?= $root_attributes->get_param_html_tags() ?>>
+<div <?= $root_attributes->get_as_tag_attributes() ?>>
 	<?php if( !$this->options()->have_cols() ){
 		?>
 		<p class="empty-message"><?= sprintf( __( 'For repeat input [%s] not add col fields. For that do this: <code>$this->add_col_field( add_field_text(...) )</code>' ), $this->id() ) ?></p><?php

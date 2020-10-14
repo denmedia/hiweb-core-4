@@ -28,8 +28,8 @@
 		 * @param null $width
 		 * @return array|Field_Image_Options|mixed|null
 		 */
-		public function admin_width($width = null){
-			return $this->_('admin_width', $width, '150px');
+		public function admin_width( $width = null ){
+			return $this->_( 'admin_width', $width, '150px' );
 		}
 		
 		
@@ -38,7 +38,27 @@
 		 * @param null $height
 		 * @return array|Field_Image_Options|mixed|null
 		 */
-		public function admin_height($height = null){
-			return $this->_('admin_height', $height, '120px');
+		public function admin_height( $height = null ){
+			return $this->_( 'admin_height', $height, '120px' );
+		}
+		
+		
+		/**
+		 * @param null $width
+		 * @return array|Field_Image_Options|mixed|null
+		 * @deprecated
+		 */
+		public function preview_width( $width = null ){
+			return $this->admin_width( $width );
+		}
+		
+		
+		/**
+		 * @param null $height
+		 * @return array|Field_Image_Options|mixed|null
+		 * @deprecated
+		 */
+		public function preview_height( $height = null ){
+			return $this->admin_height( $height );
 		}
 	}

@@ -9,7 +9,7 @@
 	
 	/**
 	 * Class ArrayObject_Rows
-	 * @version 1.1
+	 * @version 1.3
 	 * @package hiweb\core\ArrayObject
 	 */
 	class ArrayObject_Rows{
@@ -76,7 +76,10 @@
 		public function have(){
 			if( $this->array->is_empty() ) return false;
 			if( !is_array( $this->rows ) ) $this->reset();
-			if( count( $this->rows ) == 0 ) return false;
+			if( count( $this->rows ) == 0 ){
+				$this->reset();
+				return false;
+			}
 			$this->current_sub_field_rows = null;
 			return true;
 		}
@@ -160,10 +163,11 @@
 		 * @param string $col_id
 		 * @return bool
 		 */
-		public function have_sub_field($col_id) {
+		public function have_sub_field( $col_id ){
 			if( $this->is_sub_rows() ) return $this->current_sub_rows->arrayObject()->key_exists( $col_id );
 			else return false;
 		}
+		
 		
 		/**
 		 * Return sub field value
@@ -181,7 +185,7 @@
 		 * @return array|mixed|null
 		 */
 		public function get_layout(){
-			return $this->get_sub_field('_flex_row_id');
+			return $this->get_sub_field( '_flex_row_id' );
 		}
 		
 		
@@ -195,6 +199,15 @@
 		
 		
 		/**
+		 * Return current row index
+		 * @return int
+		 */
+		public function get_index(){
+			return $this->array->count() - (count( $this->rows ) + 1);
+		}
+		
+		
+		/**
 		 * @param $col_id
 		 * @return ArrayObject_Rows
 		 */
@@ -204,6 +217,29 @@
 				$this->current_sub_field_rows = new ArrayObject_Rows( $this->get_sub_field( $col_id ) );
 			}
 			return $this->current_sub_field_rows;
+		}
+		
+		
+		/**
+		 * Return all count
+		 * @return int
+		 */
+		public function get_count(){
+			return $this->arrayObject()->count();
+		}
+		
+		
+		/**
+		 *
+		 */
+		public function get_count_prev(){
+			if(!is_array($this->rows)) return 0;
+			return $this->get_count() - count($this->rows) - 1;
+		}
+		
+		public function get_count_next(){
+			if(!is_array($this->rows)) return 0;
+			return count($this->rows);
 		}
 		
 		

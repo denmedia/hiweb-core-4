@@ -25,5 +25,5 @@
 	}
 ?>
 <div class="hiweb-field-type-select">
-	<select <?= $attributes->get_param_html_tags() ?>><?= $options_html ?></select>
+	<select <?= $attributes->get_as_tag_attributes() ?>><?= $options_html ?></select>
 </div>
