@@ -202,7 +202,7 @@
 		 * @return array|Field_Options_Location_PostType|mixed|null
 		 */
 		public function disable_editor( $set = null ){
-			if($set == true) $this->disable_gutenberg( true );
+			if( $set == true ) $this->disable_gutenberg( true );
 			return $this->_( 'disable_editor', $set );
 		}
 		
@@ -226,7 +226,6 @@
 			if( !$this->_( 'metabox' ) instanceof Field_Options_Location_PostType_MetaBox ){
 				$this->_( 'metabox', new Field_Options_Location_PostType_MetaBox( $this ) );
 			}
-			$this->position()->clear();
 			if( !is_null( $set_title ) ) $this->_( 'metabox' )->title( $set_title );
 			return $this->_( 'metabox' );
 		}

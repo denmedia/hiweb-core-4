@@ -150,7 +150,7 @@
 		
 		///POST META BOXES
 		static function _add_meta_boxes(){
-			$query = self::get_current_query( [ 'metabox' => [] ] );
+			$query = self::get_current_query( [ 'position' => '', 'metabox' => [] ] );
 			$query_by_box = [];
 			$fields = FieldsFactory::get_field_by_query( $query );
 			if( !is_array( $fields ) || count( $fields ) == 0 ) return;
@@ -165,7 +165,7 @@
 				add_meta_box( $box_id, $title, function(){
 					$locationQuery = func_get_arg( 1 )['args'][0];
 					echo FieldsFactory_Admin::get_ajax_form_html( $locationQuery, [ 'name_before' => 'hiweb-' ] );
-				}, $first_field_location->post_type(), $first_field_location->metaBox()->context()->_(), $first_field_location->metaBox()->priority()->_(), [ $query ] );
+				}, $first_field_location->post_type(), $first_field_location->metaBox()->context()(), $first_field_location->metaBox()->priority()(), [ $query ] );
 			}
 		}
 		
