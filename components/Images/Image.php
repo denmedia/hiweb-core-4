@@ -173,10 +173,12 @@
 		
 		
 		/**
+		 * @param bool $sanitize_htmlentities
 		 * @return string
 		 */
-		public function alt(){
-			return (string)get_post_meta( $this->get_attachment_id(), '_wp_attachment_image_alt', true );
+		public function alt( $sanitize_htmlentities = false ){
+			$R = (string)get_post_meta( $this->get_attachment_id(), '_wp_attachment_image_alt', true );
+			return $sanitize_htmlentities ? htmlentities( $R ) : $R;
 		}
 		
 		

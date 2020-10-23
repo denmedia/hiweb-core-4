@@ -1,29 +1,29 @@
 <?php
-	
+
 	namespace hiweb\core\Options;
-	
-	
+
+
 	use hiweb\core\ArrayObject\ArrayObject;
 	use hiweb\core\hidden_methods;
-	
-	
+
+
 	/**
 	 * Используется создания опций или субопций объекта
 	 * Class Options
 	 * @package hiweb\core
-	 * @version 1.1
+	 * @version 1.2
 	 */
 	abstract class Options{
-		
+
 		use hidden_methods;
-		
-		
+
+
 		/** @var ArrayObject */
 		protected $Options;
 		/** @var Options|null */
 		protected $parent_OptionsObject;
-		
-		
+
+
 		public function __construct( $parent_OptionsObject = null ){
 			$this->Options = new ArrayObject( [] );
 			///Set Parent Options Object
@@ -31,16 +31,16 @@
 				$this->parent_OptionsObject = $parent_OptionsObject;
 			}
 		}
-		
-		
+
+
 		/**
 		 * @return array
 		 */
 		public function __invoke(){
 			return $this->_get_optionsCollect();
 		}
-		
-		
+
+
 		/**
 		 * @return $this
 		 */
@@ -53,8 +53,8 @@
 			}
 			return $this;
 		}
-		
-		
+
+
 		/**
 		 * @return Options|null|$this|mixed
 		 */
@@ -64,8 +64,8 @@
 			}
 			return null;
 		}
-		
-		
+
+
 		/**
 		 * Return root Options Object
 		 * @return Options
@@ -76,8 +76,8 @@
 			}
 			else return $this;
 		}
-		
-		
+
+
 		/**
 		 * @param $option_key
 		 * @param $value
@@ -87,20 +87,21 @@
 			$this->Options->set_value( $option_key, $value );
 			return $this;
 		}
-		
-		
+
+
 		/**
 		 * @param null $option_key
 		 * @param null $default
 		 * @return array|mixed|null
+		 * @version 1.1
 		 */
 		protected function get( $option_key = null, $default = null ){
 			$R = $this->Options->_( $option_key, $default );
-			if( is_callable( $R ) && get_class( $R ) == 'Closure' ) $R = $R( func_get_arg( 2 ), func_get_arg( 3 ), func_get_arg( 4 ), func_get_arg( 5 ) );
+			if( is_object($R) && is_callable( $R ) && get_class( $R ) == 'Closure' ) $R = $R( func_get_arg( 2 ), func_get_arg( 3 ), func_get_arg( 4 ), func_get_arg( 5 ) );
 			return $R;
 		}
-		
-		
+
+
 		/**
 		 * Remove option by key
 		 * @aliace \hiweb\core\ArrayObject\Options::unset
@@ -111,8 +112,8 @@
 			$this->Options->unset_key( $option_key );
 			return $this;
 		}
-		
-		
+
+
 		/**
 		 * Unset option by key to NULL
 		 * @param $option_key
@@ -120,16 +121,16 @@
 		protected function unset( $option_key ){
 			$this->set( $option_key, null );
 		}
-		
-		
+
+
 		/**
 		 * @return ArrayObject
 		 */
 		protected function options_ArrayObject(){
 			return $this->Options;
 		}
-		
-		
+
+
 		/**
 		 * @param string|int           $option_key
 		 * @param null|mixed           $value
@@ -144,8 +145,8 @@
 				return $this->set( $option_key, $value );
 			}
 		}
-		
-		
+
+
 		/**
 		 * @param $option_key
 		 * @return bool
@@ -153,8 +154,8 @@
 		public function _is_exists( $option_key ){
 			return $this->options_ArrayObject()->is_key_exists( $option_key );
 		}
-		
-		
+
+
 		/**
 		 * Collect options and sub-options to array
 		 * @return array
@@ -172,8 +173,8 @@
 			}
 			return $R;
 		}
-		
-		
+
+
 		/**
 		 * @param array|mixed $arrayOrOnceData
 		 */
@@ -190,8 +191,8 @@
 				}
 			}
 		}
-		
-		
+
+
 		/**
 		 * Return TRUE if key is callable
 		 * @param $key
@@ -200,5 +201,5 @@
 		public function _isCallable( $key ){
 			return is_callable( $this->_( $key ) );
 		}
-		
+
 	}

@@ -4,7 +4,7 @@
 	Plugin Name: hiWeb Core 4
 	Plugin URI: https://github.com/denmedia/hiweb-core-4
 	Description: Framework Plugin for WordPress min v5.4, PHP min v7
-	Version: 4.1.7.0 develop
+	Version: 4.1.8.0 develop
 	Author: Den Media
 	Author URI: http://hiweb.moscow
 	*/
