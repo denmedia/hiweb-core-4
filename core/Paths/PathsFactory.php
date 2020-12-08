@@ -14,7 +14,7 @@
 	
 	/**
 	 * Class PathsFactory
-	 * @varsion 1.1
+	 * @varsion 1.2
 	 * @package hiweb\core\Paths
 	 */
 	class PathsFactory{
@@ -116,6 +116,16 @@
 			}
 			return self::$root;
 		}
+
+
+        /**
+         * Return root url
+         * @return string
+         * @version 1.0
+         */
+        static function get_root_url(){
+            return self::root()->get_url();
+        }
 		
 		
 		/**

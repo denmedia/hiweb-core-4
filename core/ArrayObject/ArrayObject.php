@@ -409,16 +409,18 @@
 		public function join( $glue = '' ){
 			return join( $glue, $this->get() );
 		}
-		
-		
-		/**
-		 * Set value in arrays, by key
-		 * @param null $key - leave NULL, if you want push
-		 * @param null $value
-		 */
+
+
+        /**
+         * Set value in arrays, by key
+         * @param null $key - leave NULL, if you want push
+         * @param null $value
+         * @return ArrayObject
+         */
 		public function set_value( $key = null, $value = null ){
 			if( is_null( $key ) ) $this->array[] = $value;
 			else $this->array[ $key ] = $value;
+			return $this;
 		}
 		
 		

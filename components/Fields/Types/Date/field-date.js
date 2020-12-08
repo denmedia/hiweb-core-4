@@ -69,7 +69,7 @@ jQuery(document).ready(function ($) {
 
     };
 
-    $('body').on('hiweb-form-ajax-input-loaded', hiweb_field_date.selector_root + ' input[name]', hiweb_field_date.init);
+    $('body').on('hiweb-form-ajax-loaded hiweb-field-repeat-added-row', hiweb_field_date.selector_root + ' input[name]', hiweb_field_date.init);
     $(hiweb_field_date.selector_root + ' input[name]').each(hiweb_field_date.init);
 
 });

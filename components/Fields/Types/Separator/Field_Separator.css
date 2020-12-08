@@ -1,31 +1,29 @@
 .hiweb-fields-form fieldset:not(:first-child) .hiweb-field-type-separator {
-  margin-top: 2.4em;
-}
+  margin-top: 2.4em; }
 
 .hiweb-field-type-separator {
   margin-bottom: 1em;
-  border-bottom: 1px dashed #ccc;
-}
-.hiweb-field-type-separator .hw-field-separator-title {
-  font-size: 140% !important;
-  margin: 4px 0;
-  padding: 0 !important;
-}
-.hiweb-field-type-separator .hw-field-separator-title.has-description {
-  margin-bottom: 4px;
-  padding-bottom: 0;
-}
-.hiweb-field-type-separator .hw-field-separator-title.no-description {
-  margin-bottom: 10px;
-  padding-bottom: 0;
-}
-.hiweb-field-type-separator .hw-field-separator-description {
-  margin: 0 0 4px 0;
-  font-style: italic;
-}
+  border-bottom: 1px dashed #ccc; }
+  .hiweb-field-type-separator .hw-field-separator-title {
+    font-size: 140% !important;
+    margin: 4px 0;
+    padding: 0 !important; }
+    .hiweb-field-type-separator .hw-field-separator-title.has-description {
+      margin-bottom: 4px;
+      padding-bottom: 0; }
+    .hiweb-field-type-separator .hw-field-separator-title.no-description {
+      margin-bottom: 10px;
+      padding-bottom: 0; }
+  .hiweb-field-type-separator .hw-field-separator-description {
+    margin: 0 0 4px 0;
+    font-style: italic; }
+  .hiweb-field-type-separator svg {
+    font-size: 1em;
+    height: 1em;
+    display: inline-block;
+    vertical-align: bottom; }
 
 form .hiweb-field-type-separator:first-child {
-  margin-top: 0;
-}
+  margin-top: 0; }
 
 /*# sourceMappingURL=Field_Separator.css.map */

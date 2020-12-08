@@ -35,6 +35,9 @@ let hiweb_field_repeat = {
         $rootOrRow.find('[data-action_add][data-unique_id="' + unique_id + '"]').on('click', hiweb_field_repeat.click_add);
         $rootOrRow.on('click', '[data-action-remove][data-unique_id="' + unique_id + '"]', hiweb_field_repeat.click_remove);
         $rootOrRow.find('[data-action_clear][data-unique_id="' + unique_id + '"]').on('click', hiweb_field_repeat.click_clear_full);
+        $rootOrRow.on('click', '[data-drag-handle="' + unique_id + '"]', hiweb_field_repeat.click_row_expand);
+        $rootOrRow.find('[data-action_collapse][data-unique_id="' + unique_id + '"]').on('click', hiweb_field_repeat.click_row_expand_all);
+        $rootOrRow.on('click', '[data-action-duplicate][data-unique_id="' + unique_id + '"]', hiweb_field_repeat.click_duplicate);
     },
 
     init_dropdown: function ($root) {
@@ -331,62 +334,10 @@ let hiweb_field_repeat = {
 
 
     click_duplicate: function (e) {
-        // e.preventDefault();
-        // var root = jQuery(this).closest(hiweb_field_repeat.selector);
-        // var row_list = hiweb_field_repeat.get_rows_list(root);
-        // var currentRow = jQuery(this).closest(hiweb_field_repeat.selector_row);
-        // var values = [];
-        // var base_name = hiweb_field_repeat.get_input_name(this) + '[' + currentRow.attr('data-row') + ']';
-        // currentRow.find('input[name], select[name], textarea[name], file[name]').each(function () {
-        //     var input_name = jQuery(this).attr('name');
-        //     if (input_name.indexOf(base_name) === 0) {
-        //         input_name = input_name.substr(base_name.toString().length).replace(/^\[([\w\d\-_]+)\]/g, '$1');
-        //         values.push(hiweb_field_repeat.paramsToArray(input_name, jQuery(this).val()));
-        //     }
-        // });
-        //
-        // jQuery.ajax({
-        //     url: ajaxurl + '?action=hiweb-field-repeat-get-row',
-        //     type: 'post',
-        //     data: {
-        //         id: hiweb_field_repeat.get_global_id(this),
-        //         method: 'ajax_html_row',
-        //         row_index: currentRow.attr('data-row'),
-        //         values: deepMerge.all(values)
-        //     },
-        //     dataType: 'json',
-        //     success: function (response) {
-        //         if (response.hasOwnProperty('result') && response.result === true) {
-        //             var newLine = jQuery(response.data).hide().fadeIn();
-        //             currentRow.after(newLine);
-        //             newLine.find('[data-col]').each(function () {
-        //                 jQuery(this).trigger('hiweb-field-repeat-add-new-row', [jQuery(this), newLine, root]);
-        //             });
-        //             newLine.css('opacity', 0).animate({opacity: 1}).find('> td')
-        //                 .wrapInner('<div style="display: none;" />')
-        //                 .parent()
-        //                 .find('> td > div')
-        //                 .slideDown(700, function () {
-        //                     var $set = jQuery(this);
-        //                     $set.replaceWith($set.contents());
-        //                     // newLine.find('[data-col]').each(function () {
-        //                     // jQuery(this).trigger('hiweb-field-repeat-cloned-row-fadein', [jQuery(this), newLine, root]);
-        //                     // jQuery(this).trigger('hiweb-field-repeat-added-new-row-fadein', [jQuery(this), newLine, root]);
-        //                     // });
-        //                 });
-        //             hiweb_field_repeat.set_input_names(root);
-        //             // newLine.find('[data-col]').each(function () {
-        //             // jQuery(this).trigger('hiweb-field-repeat-cloned-row', [jQuery(this), newLine, root]);
-        //             // jQuery(this).trigger('hiweb-field-repeat-added-new-row', [jQuery(this), newLine, root]);
-        //             // });
-        //         } else {
-        //             console.warn(response);
-        //         }
-        //     },
-        //     error: function (data) {
-        //         console.warn(data);
-        //     }
-        // });
+        e.preventDefault();
+        let $row = jQuery(this).closest('tr');
+        $row.after( $row.clone(true) );
+        hiweb_field_repeat.set_input_names( $row.closest( hiweb_field_repeat.selector ) );
     },
 
     click_remove: function (e) {
@@ -420,6 +371,34 @@ let hiweb_field_repeat = {
             hiweb_field_repeat.get_rows($root).each(function () {
                 hiweb_field_repeat.do_remove_row(jQuery(this));
             });
+        }
+    },
+
+    click_row_expand: function(e){
+        let unique_id = jQuery(this).attr('data-drag-handle');
+        let $row = jQuery(this).closest('[data-row][data-unique_id="'+unique_id+'"]');
+        let is_dragged = jQuery(this).closest('.iu-sorting-process').length > 0;
+        if(!is_dragged) {
+            if($row.is('.row-collapsed')) {
+                $row.removeClass('row-collapsed');
+                jQuery('[data-flex-row-collapsed-input="'+unique_id+'"]').val('0');
+            } else {
+                $row.addClass('row-collapsed');
+                jQuery('[data-flex-row-collapsed-input="'+unique_id+'"]').val('1');
+            }
+        }
+    },
+
+    click_row_expand_all: function(e){
+        e.preventDefault();
+        let $table_id = jQuery(this).attr('data-unique_id');
+        let $rows = jQuery('.hiweb-field-type-repeat[data-unique_id="'+$table_id+'"] [data-row]');
+        if($rows.length !== $rows.filter('.row-collapsed').length) {
+            $rows.addClass('row-collapsed');
+            jQuery('[data-flex-row-collapsed-input="'+$table_id+'"]').val('1');
+        } else {
+            $rows.removeClass('row-collapsed');
+            jQuery('[data-flex-row-collapsed-input="'+$table_id+'"]').val('0');
         }
     }
 

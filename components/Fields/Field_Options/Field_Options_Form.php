@@ -129,6 +129,17 @@
 		public function full(){
 			return $this->_( 'width', __FUNCTION__ );
 		}
+
+
+		/**
+		 * Set TRUE/FALSE for show or hide field label
+		 * @param null|boolean $set
+		 *
+		 * @return array|Field_Options_Form|mixed|null
+		 */
+		public function show_labels($set = null){
+			return $this->_('show_label', $set, true);
+		}
 		
 		
 		//		/**

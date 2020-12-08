@@ -77,7 +77,7 @@
 					return $Field->get_sanitize_admin_value( $value );
 				}
 				else{
-					ConsoleFactory::add( 'Undefined field id and get value', 'warn', __METHOD__, [ $field_ID, $objectContext ], true );
+					//ConsoleFactory::add( 'Undefined field id and get value', 'warn', __METHOD__, [ $field_ID, $objectContext ], true );
 					return $default;
 				}
 			}, [ $field_ID, $objectContext, $default, $fields_query ] )->get_value();

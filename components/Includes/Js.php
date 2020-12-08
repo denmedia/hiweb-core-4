@@ -85,8 +85,10 @@
 		 * @return Js
 		 */
 		public function defer( $set = null ){
-			if( $set ) return $this->_( 'async', 'defer' );
-			else $this->remove( 'async' );
+		    if(is_bool($set)) {
+                if( $set ) return $this->_( 'async', 'defer' );
+                else $this->remove( 'async' );
+            }
 			return $this;
 		}
 		
@@ -114,7 +116,8 @@
 		
 		
 		public function get_html(){
-			return '<script type="text/javascript" src="' . $this->path()->url()->get() . '" ' . $this->_( 'async' ) . ' data-handle="' . $this->path()->handle() . '"></script>';
+			$R = '<script src="' . $this->path()->url()->get() . '" ' . $this->_( 'async' ) . ' data-handle="' . $this->path()->handle() . '"></script>';
+            return $R;
 		}
 		
 		

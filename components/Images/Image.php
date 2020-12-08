@@ -382,12 +382,12 @@
 				if( $this->title() != '' ) $attributes->push( 'title', htmlentities( $this->title() ) );
 				$limit = 3;
 				$srcset = [];
-				foreach( $this->sizes()->get_search( $dimensionsOrSizeName, 1, 0 ) as $image_Size ){
-					if( $limit < 1 ) break;
-					if( !$image_Size->path()->file()->is_exists() ) continue;
-					$limit --;
-					$srcset[] = $image_Size->path()->get_url() . ' ' . $image_Size->width() . "w\n";
-				}
+//				foreach( $this->sizes()->get_search( $dimensionsOrSizeName, 1, 0 ) as $image_Size ){
+//					if( $limit < 1 ) break;
+//					if( !$image_Size->path()->file()->is_exists() ) continue;
+//					$limit --;
+//					$srcset[] = $image_Size->path()->get_url() . ' ' . $image_Size->width() . "w\n";
+//				}
 				$attributes->push( 'srcset', join( ', ', $srcset ) );
 				return '<img ' . $attributes->get_as_tag_attributes() . '/>';
 			}

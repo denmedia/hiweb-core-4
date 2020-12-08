@@ -10,6 +10,7 @@
 		private $row_cols;
 		private $row_raw;
 		private $flex_row_id = '';
+		private $flex_row_collapsed = false;
 		private $row_name_prefix;
 		
 		
@@ -20,6 +21,7 @@
 			$this->row_raw = $row_raw;
 			$this->row_name_prefix = ( !is_string( $prefix_name ) ? $Field->get_sanitize_admin_name() : $prefix_name );
 			if( array_key_exists( '_flex_row_id', $row_raw ) ) $this->flex_row_id = $row_raw['_flex_row_id'];
+			if( array_key_exists( '_flex_row_collapsed', $row_raw ) ) $this->flex_row_collapsed = $row_raw['_flex_row_collapsed'];
 		}
 		
 		
@@ -42,6 +44,14 @@
 		 */
 		public function get_flex_row_id(){
 			return $this->flex_row_id;
+		}
+
+
+		/**
+		 * @return mixed|string
+		 */
+		public function get_flex_row_collapsed(){
+			return $this->flex_row_collapsed;
 		}
 		
 		

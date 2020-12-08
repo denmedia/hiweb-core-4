@@ -10,7 +10,6 @@
 
 
 	use hiweb\components\Includes\Css;
-	use hiweb\core\Options\Options;
 	use hiweb\core\Options\Options_Once;
 
 
@@ -70,7 +69,7 @@
 		 * @return string
 		 */
 		public function __invoke(){
-			return $this->options_ArrayObject()->count() > 0 ? 'media="' . implode( ',', $this->get() ) . '"' : '';
+			return $this->options_ArrayObject()->count() > 0 ? join( ',', $this->get() )  : '';
 		}
 
 	}

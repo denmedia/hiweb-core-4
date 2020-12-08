@@ -22,12 +22,19 @@
 		'data-flex_id' => $this->get_flex_row_id(),
 		'data-unique_id' => $this->Field->get_unique_id()
 	] );
+	if($this->get_flex_row_collapsed()) {
+	    $row_attributes->push('class','row-collapsed');
+    }
 ?>
 <tr <?= $row_attributes->get_as_tag_attributes() ?>>
-	<td data-drag-handle data-col="_flex_row_id" title="<?= __( 'click - collapse / expand; drag - sorting this row', 'hiweb-core-4' ) ?>">
+	<td data-drag-handle="<?= $this->Field->get_unique_id() ?>" title="<?= __( 'click - collapse / expand; drag - sorting this row', 'hiweb-core-4' ) ?>">
 		<?= FontAwesomeFactory::get( 'fas fa-sort' )->get_style()->get_raw() ?>
-		<input type="hidden" name="<?= $this->get_col_input_name( '_flex_row_id' ) ?>"
-			   value="<?= $this->get_flex_row_id() ?>"/>
+		<div data-col="_flex_row_id">
+        <input data-flex-row-id-input="<?=$this->Field->get_unique_id()?>" type="hidden" name="<?= $this->get_col_input_name( '_flex_row_id' ) ?>"
+			   value="<?= $this->get_flex_row_id() ?>"/></div>
+        <div data-col="_flex_row_collapsed">
+        <input data-flex-row-collapsed-input="<?=$this->Field->get_unique_id()?>" type="hidden" name="<?= $this->get_col_input_name( '_flex_row_collapsed' ) ?>"
+               value="<?= $this->get_flex_row_collapsed() ? '1' : '0' ?>"/></div>
 	</td>
 	<?php
 		if( $this->get_flex_row_id() != '' ){
@@ -110,11 +117,11 @@
 	?>
 	<td data-ctrl_wrap>
 		<div>
-			<!--<a class="item" title="Копировать строку" data-action-duplicate="<?= $this->get_index() ?>">
-				<?= FontAwesomeFactory::get( 'fad fa-copy' )->get_style()->get_raw() ?>
-			</a>-->
 			<a class="item ctrl-button" title="Удалить строку" data-unique_id="<?= $this->Field()->get_unique_id() ?>" data-action-remove="<?= $this->get_index() ?>">
 				<?= FontAwesomeFactory::get( 'trash' )->get_style()->get_raw() ?>
+			</a>
+			<a class="item ctrl-button" title="Дублировать строку" data-unique_id="<?= $this->Field()->get_unique_id() ?>" data-action-duplicate="<?= $this->get_index() ?>">
+				<?= FontAwesomeFactory::get( 'fad fa-copy' )->get_style()->get_raw() ?>
 			</a>
 		</div>
 	</td>

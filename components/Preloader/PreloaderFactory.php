@@ -4,9 +4,15 @@
 	
 	
 	use hiweb\core\Cache\CacheFactory;
-	
-	
-	class PreloaderFactory{
+    use hiweb\core\Paths\PathsFactory;
+
+
+    /**
+     * Class PreloaderFactory
+     * @package hiweb\components\Preloader
+     * @version 1.2
+     */
+    class PreloaderFactory{
 		
 		static $enable = true;
 		static private $preloaded_post_ids = [];
@@ -54,7 +60,7 @@
 		 * @param bool $preload_terms
 		 * @param bool $woocommerce_cache
 		 * @return \stdClass
-		 * @version 2.0
+		 * @version 2.1
 		 */
 		static function batch_preload_posts( $postOrIds, $preload_thumbnails = true, $preload_children_posts = true, $preload_terms = true, $woocommerce_cache = true ){
 			if( !self::$enable ) return [];
@@ -97,6 +103,7 @@
 				$R->posts[ $row->ID ]['wp_post'] = $post;
 				$R->posts_hierarchy[ $row->post_parent ][] = $row->ID;
 				$R->post_type[ $row->post_type ][] = $row->ID;
+				$R->post_status[ $row->post_status ][] = $row->ID;
 			}
 			/// preload post meta
 			$query = [ "/*" . __METHOD__ . ": preload post meta */" ];
@@ -122,6 +129,7 @@
 				$select_fields = [ 'posts.ID' ];
 				$select_fields[] = 'relation.term_taxonomy_id';
 				$select_fields[] = 'taxonomy.taxonomy';
+				$select_fields[] = 'terms.term_id AS term_id';
 				$select_fields[] = 'terms.name AS term_name';
 				$select_fields[] = 'terms.slug AS term_slug';
 				$select_fields[] = 'taxonomy.description AS term_description';
@@ -139,15 +147,16 @@
 				$query[] = 'WHERE ' . join( ' AND ', $where );
 				$query_str = join( "\n", $query );
 				$wpdb->query( $query_str );
+                $R->terms_by_tax_slug = [];
+                $R->relationships = [];
+                $R->terms = [];
 				if( $wpdb->last_result ){
 					foreach( $wpdb->last_result as $row ){
 						$term = new \stdClass();
 						foreach((array)$row as $tmp_key => $tmp_val) {
-							if(strpos($tmp_key, 'term_') === 0) $tmp_key = substr($tmp_key, 5);
+							if(strpos($tmp_key, 'term_') !== 0) continue; // $tmp_key = substr($tmp_key, 5);
 							$term->{$tmp_key} = $tmp_val;
 						}
-						unset( $term->ID );
-						$term->term_id = $term->term_taxonomy_id;
 						$found_term_ids[ $term->term_id ][] = $row->ID;
 						wp_cache_set( $term->term_id, $term, 'terms' );
 						$current_relation = wp_cache_get( $row->ID, $row->taxonomy . '_relationships' );
@@ -155,7 +164,9 @@
 						$current_relation[] = (int)$term->term_id;
 						wp_cache_set( $row->ID, $current_relation, $row->taxonomy . '_relationships' );
 						$R->terms[ $term->term_id ]['term'] = $term;
+                        $R->terms[ $term->term_id ]['term_meta'] = [];
 						$R->relationships[ $row->taxonomy ][ $row->ID ] = $current_relation;
+                        $R->terms_by_tax_slug[$row->taxonomy][$row->term_slug] = $row->term_id;
 					}
 				}
 				/// preload terms meta
@@ -261,7 +272,7 @@
 		 */
 		static function get_posts( $postOrIds ){
 			$post_ids = self::posts_to_ids( $postOrIds );
-			self::batch_preload_posts( $post_ids );
+			return self::batch_preload_posts( $post_ids );
 			//			foreach( self::batch_preload_posts( $post_ids ) as $post_id => $post_preload_data ){
 			//				CacheFactory::get( $post_id, __METHOD__, function(){
 			//					return new Preloader_Post( func_get_arg( 0 ) );

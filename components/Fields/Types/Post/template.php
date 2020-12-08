@@ -19,7 +19,6 @@
 	}
 	$attributes->push('placeholder', $this->options()->placeholder());
 	$attributes->push( 'name', $name );
-
 ?>
 <div class="hiweb-field-type-post">
 	<select <?= $attributes->get_as_tag_attributes() ?> data-options="<?= htmlentities( json_encode( [ 'post_type' => $this->options()->post_type() ] ) ) ?>" data-value="<?= htmlentities( json_encode( $value ) ) ?>">

@@ -153,6 +153,8 @@
 				if( extension_loaded( 'gd' ) ){
 					///
 					switch( $this->get_mime_type() ){
+						case 'image/jpe':
+						case 'image/jpeg':
 						case 'image/jpg':
 							$src_image = imagecreatefromjpeg( $this->File()->get_path() );
 							break;

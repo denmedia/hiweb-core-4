@@ -2,197 +2,203 @@
 
 
 .hiweb-components-form-ajax-wrap {
-	//@include transition((opacity, height));
-	@include opacity(1);
-	min-height: 50px;
-	padding-bottom: 1em;
-	@include fields_ui_load_wrap();
+  //@include transition((opacity, height));
+  @include opacity(1);
+  min-height: 50px;
+  padding-bottom: 1em;
+  @include fields_ui_load_wrap();
 }
 
 .hiweb-components-form-ajax-wrap, .hiweb-components-form-wrap {
 
-	.hiweb-fieldset {
-		margin-bottom: 1.2em;
+  .hiweb-fieldset {
+    margin-bottom: 1.2em;
 
-		&:last-child {
-			margin-bottom: 0;
-		}
+    &:last-child {
+      margin-bottom: 0;
+    }
 
-		.hiweb-fieldset-help {
-			display: inline-block;
-			width: 1.4em;
-			height: 1em;
-			line-height: 1;
-			color: $fields_color_main;
-			cursor: pointer;
+    .hiweb-fieldset-help {
+      display: inline-block;
+      width: 1.4em;
+      height: 1em;
+      line-height: 1;
+      color: $fields_color_main;
+      cursor: pointer;
 
-			svg {
-				max-width: 100%;
-				max-height: 100%;
-			}
+      svg {
+        max-width: 100%;
+        max-height: 100%;
+      }
 
-			&:hover {
-				color: $fields_color_main_dark;
-			}
-		}
-	}
+      &:hover {
+        color: $fields_color_main_dark;
+      }
+    }
+  }
 }
 
 .nav-menus-php {
-	.hiweb-components-form-ajax-wrap, .hiweb-components-form-wrap {
-		padding: 1em 1em 0 0;
-		clear: both;
-	}
+  .hiweb-components-form-ajax-wrap, .hiweb-components-form-wrap {
+    padding: 1em 1em 0 0;
+    clear: both;
+  }
 }
 
 .postbox {
-	.hiweb-components-form-ajax-wrap, .hiweb-components-form-wrap {
-		.hiweb-fieldset {
-			margin-bottom: .6em;
-		}
-	}
+  .hiweb-components-form-ajax-wrap, .hiweb-components-form-wrap {
+    .hiweb-fieldset {
+      margin-bottom: .6em;
+    }
+  }
 }
 
 
 .hiweb-fields-dropdown-menu {
-	padding: .4em 1.2em;
-	font-size: 14px;
-	text-align: left;
-	min-width: 100px;
+  padding: .4em 1.2em;
+  font-size: 14px;
+  text-align: left;
+  min-width: 100px;
 
-	.dropdown-item {
-		display: block;
-		margin-bottom: .5em;
-		white-space: nowrap;
+  .dropdown-item {
+    display: block;
+    margin-bottom: .5em;
+    white-space: nowrap;
 
-		svg, i {
-			display: inline-block;
-			max-width: 14px;
-			max-height: 14px;
-			vertical-align: middle;
-		}
+    svg, i {
+      display: inline-block;
+      max-width: 14px;
+      max-height: 14px;
+      vertical-align: middle;
+    }
 
-		&:last-child {
-			margin-bottom: .2em;
-		}
-	}
+    &:last-child {
+      margin-bottom: .2em;
+    }
+  }
 
-	.separator {
-		border-bottom: 1px solid $fields_color_grey_lighten;
-		width: 100%;
-		margin: .4em auto;
-	}
+  .separator {
+    border-bottom: 1px solid $fields_color_grey_lighten;
+    width: 100%;
+    margin: .4em auto;
+  }
 }
 
 
 .hiweb-fields-form-tabs-wrap {
-	margin-bottom: 3em;
+  margin-bottom: 3em;
 
-	.hiweb-fields-form-tabs-handles {
-		@include display-flex;
-		position: relative;
-		z-index: 5;
-		margin-bottom: -1px;
-		align-items: stretch;
-		overflow: hidden;
+  .hiweb-fields-form-tabs-handles {
+    @include display-flex;
+    position: relative;
+    z-index: 5;
+    margin-bottom: -1px;
+    align-items: stretch;
+    overflow: hidden;
 
-		[data-tab-handle] {
-			border: 1px solid $fields_color_border;
-			border-bottom: none;
-			padding: 1em;
-			text-align: center;
-			max-width: 340px;
-			min-width: 80px;
-			background-color: $fields_color_bg_grey;
-			margin-right: -1px;
-			position: relative;
-			cursor: pointer;
-			top: 3px;
-			z-index: -1;
-			color: $fields_color_grey;
-			@include transition();
+    [data-tab-handle] {
+      border: 1px solid $fields_color_border;
+      border-bottom: none;
+      padding: 1em;
+      text-align: center;
+      max-width: 340px;
+      min-width: 80px;
+      background-color: $fields_color_bg_grey;
+      margin-right: -1px;
+      position: relative;
+      cursor: pointer;
+      top: 3px;
+      z-index: -1;
+      color: $fields_color_grey;
+      @include transition();
 
-			.label-wrap {
-				//position: relative;
-				//top: 50%;
-				//@include transform(translateY(-50%));
-			}
+      .label-wrap {
+        //position: relative;
+        //top: 50%;
+        //@include transform(translateY(-50%));
+      }
 
-			&[data-tab-active="1"] {
-				border-bottom-color: transparent;
-				color: $fields_color_main;
-				background-color: $fields_color_bg_grey_white;
-				z-index: 5;
+      &[data-tab-active="1"] {
+        border-bottom-color: transparent;
+        color: $fields_color_main;
+        background-color: $fields_color_bg_grey_white;
+        z-index: 5;
 
-				&:before {
-					content: '';
-					position: absolute;
-					left: 0;
-					right: 0;
-					top: 0;
-					height: 3px;
-					background-color: $fields_color_main;
-				}
-			}
+        &:before {
+          content: '';
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          height: 3px;
+          background-color: $fields_color_main;
+        }
+      }
 
-			&:hover {
-				@include box-shadow(6px, .05, 0, -4px);
-				z-index: 5;
-				top: 0;
-			}
+      &:hover {
+        @include box-shadow(6px, .05, 0, -4px);
+        z-index: 5;
+        top: 0;
+      }
 
 
-			.icon {
-				svg {
-					max-width: 100%;
-					max-height: 32px;
-					margin-bottom: .4em;
-				}
-			}
+      .icon {
+        svg {
+          max-width: 100%;
+          max-height: 32px;
+          margin-bottom: .4em;
+        }
+      }
 
-			.label {
-				font-weight: 500;
-			}
+      .label {
+        font-weight: 500;
+      }
 
-			.description {
-				font-style: italic;
-				color: $fields_color_grey;
-				font-size: .9em;
-			}
-		}
-	}
+      .description {
+        font-style: italic;
+        color: $fields_color_grey;
+        font-size: .9em;
+      }
+    }
+  }
 
-	.hiweb-fields-form-tabs-content {
-		padding: 1.8em 1.4em 2.8em;
-		border: 1px solid $fields_color_border;
-		background-color: $fields_color_bg_grey_white;
-		@include box-shadow(8px, .05, 0, 6px);
-	}
+  .hiweb-fields-form-tabs-content {
+    padding: 1.8em 1.4em 2.8em;
+    border: 1px solid $fields_color_border;
+    background-color: $fields_color_bg_grey_white;
+    @include box-shadow(8px, .05, 0, 6px);
+  }
 }
 
 .hiweb-fields-tooltip-help {
-	padding: .4em .8em;
-	line-height: 1.7;
-	min-width: 200px;
-	max-width: 480px;
+  padding: .4em .8em;
+  line-height: 1.7;
+  min-width: 200px;
+  max-width: 480px;
 
 
-	.help-image-wrap {
-		text-align: center;
-		margin-bottom: .6em;
-	}
+  .help-image-wrap {
+    text-align: center;
+    margin-bottom: .6em;
+  }
 
-	.help-only-image-wrap {
-		margin-bottom: 0;
+  .help-only-image-wrap {
+    margin-bottom: 0;
 
-		img, picture {
-			max-height: 280px;
-		}
-	}
+    img, picture {
+      max-height: 280px;
+    }
+  }
 
-	img, picture {
-		max-width: 100%;
-		max-height: 120px;
-		width: auto;
-	}
+  img, picture {
+    max-width: 100%;
+    max-height: 120px;
+    width: auto;
+  }
+}
+
+.hiweb-fieldset {
+  .selectize-dropdown {
+    z-index: 1005;
+  }
 }

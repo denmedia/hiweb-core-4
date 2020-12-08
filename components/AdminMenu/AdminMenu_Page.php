@@ -4,13 +4,17 @@
 	
 	
 	use hiweb\components\FontAwesome\FontAwesome_Icon;
-	use hiweb\components\FontAwesome\FontAwesome_Icon_Style;
 	use hiweb\components\FontAwesome\FontAwesomeFactory;
 	use hiweb\core\Options\Options;
 	use hiweb\core\Strings;
 	use function hiweb\components\FontAwesome\is_fontawesome_class_name;
-	
-	
+
+
+    /**
+     * Class AdminMenu_Page
+     * @package hiweb\components\AdminMenu
+     * @version 1.1
+     */
 	class AdminMenu_Page extends Options{
 		
 		
@@ -109,7 +113,7 @@
 		 * @return array|AdminMenu_Page|mixed|null
 		 */
 		public function function_( $callback = null ){
-			return $this->_( 'function', $callback );
+			return $this->_( 'function', $callback, null, false );
 		}
 		
 		
@@ -152,11 +156,15 @@
 		public function position( $set = null ){
 			return $this->_( 'position', $set );
 		}
-		
-		
+
+
+        /**
+         * Return the options page html
+         * @version 1.1
+         */
 		public function the_page(){
 			if( isset( $_GET['settings-updated'] ) ){
-				if( $_GET['settings-updated'] ){
+				if( $_GET['settings-updated'] ){ //todo
 					if( get_current_screen()->parent_file != 'options-general.php' ){
 //						$notice = add_admin_notice( 'Для страницы "' . $this->page_title() . '" все данные успешно сохранены' );
 //						$notice->CLASS_()->success();
@@ -168,7 +176,11 @@
 //					$notice->the();
 				}
 			}
-			include __DIR__ . '/template-default.php';
+			if(is_callable($this->function_()) && get_class($this->function_()) === 'Closure') {
+			    call_user_func($this->function_());
+            } else {
+                include __DIR__ . '/template-default.php';
+            }
 		}
 		
 		

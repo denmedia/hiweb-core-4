@@ -6,6 +6,12 @@
 	use hiweb\core\Options\Options;
 	
 	
+	/**
+	 * Class Supports
+	 *
+	 * @package hiweb\components\PostType\PostType
+	 * @version 1.0
+	 */
 	class Supports extends Options{
 		
 		/**

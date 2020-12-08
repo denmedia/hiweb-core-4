@@ -81,6 +81,7 @@
 						?>
 						<div class="separator"></div>
 						<!--<a href="#" class="dropdown-item" data-action_copy data-unique_id="<?= $this->get_unique_id() ?>"><?= FontAwesomeFactory::get( '<i class="fad fa-copy"></i>' ) ?> <?= $this->options()->label_button_copy_all() ?></a>-->
+						<a href="#" class="dropdown-item" data-action_collapse data-unique_id="<?= $this->get_unique_id() ?>"><?= FontAwesomeFactory::get( '<i class="fad fa-compress-alt"></i>' ) ?> <?= $this->options()->label_button_collapse_all() ?></a>
 						<a href="#" class="dropdown-item" data-action_clear data-unique_id="<?= $this->get_unique_id() ?>"><?= FontAwesomeFactory::get( '<i class="fad fa-trash-alt"></i>' ) ?> <?= $this->options()->label_button_clear_all() ?></a>
 					</div>
 				</div>

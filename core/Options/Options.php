@@ -11,7 +11,7 @@
 	 * Используется создания опций или субопций объекта
 	 * Class Options
 	 * @package hiweb\core
-	 * @version 1.2
+	 * @version 1.3
 	 */
 	abstract class Options{
 
@@ -89,15 +89,16 @@
 		}
 
 
-		/**
-		 * @param null $option_key
-		 * @param null $default
-		 * @return array|mixed|null
-		 * @version 1.1
-		 */
-		protected function get( $option_key = null, $default = null ){
+        /**
+         * @param null $option_key
+         * @param null $default
+         * @param bool $callIfFunction - call function if is callable
+         * @return array|mixed|null
+         * @version 1.2
+         */
+		protected function get( $option_key = null, $default = null, $callIfFunction = true ){
 			$R = $this->Options->_( $option_key, $default );
-			if( is_object($R) && is_callable( $R ) && get_class( $R ) == 'Closure' ) $R = $R( func_get_arg( 2 ), func_get_arg( 3 ), func_get_arg( 4 ), func_get_arg( 5 ) );
+			if($callIfFunction &&  is_object($R) && is_callable( $R ) && get_class( $R ) == 'Closure' ) $R = $R( func_get_arg( 2 ), func_get_arg( 3 ), func_get_arg( 4 ), func_get_arg( 5 ) );
 			return $R;
 		}
 
@@ -131,15 +132,16 @@
 		}
 
 
-		/**
-		 * @param string|int           $option_key
-		 * @param null|mixed           $value
-		 * @param null |mixed|callable $default
-		 * @return $this|array|mixed|null
-		 */
-		public function _( $option_key, $value = null, $default = null ){
+        /**
+         * @param string|int           $option_key
+         * @param null|mixed           $value
+         * @param null |mixed|callable $default
+         * @param bool                 $callIfFunction - call function if is callable
+         * @return $this|array|mixed|null
+         */
+		public function _( $option_key, $value = null, $default = null, $callIfFunction = true ){
 			if( is_null( $value ) ){
-				return $this->get( $option_key, $default );
+				return $this->get( $option_key, $default, $callIfFunction );
 			}
 			else{
 				return $this->set( $option_key, $value );

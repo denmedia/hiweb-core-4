@@ -86,6 +86,7 @@
 
 					.hiweb-field-type-repeat-col-inner {
 						//overflow: hidden;
+						height: auto;
 
 						[data-col] {
 							margin-bottom: .4em;
@@ -93,6 +94,31 @@
 							&:last-child {
 								margin-bottom: .1em;
 							}
+						}
+					}
+				}
+
+				&.row-collapsed {
+					.hiweb-field-type-repeat-col-inner {
+						height: 55px;
+						position: relative;
+						overflow: hidden;
+						@include transition(height);
+
+						&:after {
+							content: '';
+							position: absolute;
+							top: 0;
+							left: 0;
+							right: 0;
+							bottom: 0;
+							z-index: 10;
+							background: rgb(255, 255, 255);
+							background: -moz-linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+							background: -webkit-linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+							background: linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+							filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#ffffff", GradientType=1);
+							@include fields_backdrop_blur(1px);
 						}
 					}
 				}
