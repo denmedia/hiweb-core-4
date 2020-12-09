@@ -3,6 +3,11 @@
 	namespace hiweb\components\Includes;
 
 
+    /**
+     * Class IncludesFactory_LoginPage
+     * @package hiweb\components\Includes
+     * @version 1.1
+     */
 	class IncludesFactory_LoginPage extends IncludesFactory{
 
 		/**
@@ -12,14 +17,15 @@
 		public function css( $fileNameOrPathOrURL = null ){
 			return parent::css( $fileNameOrPathOrURL )->on_login( true );
 		}
-		
-		
-		/**
-		 * @param null|string $fileNameOrPathOrURL
-		 * @param null        $deeps
-		 * @return Js
-		 */
-		public function js( $fileNameOrPathOrURL = null, $deeps = null ){
+
+
+        /**
+         * @param null|string $fileNameOrPathOrURL
+         * @param null        $deeps
+         * @param bool        $defer
+         * @return Js
+         */
+		public function js( $fileNameOrPathOrURL = null, $deeps = null, $defer = true ){
 			return parent::js( $fileNameOrPathOrURL, $deeps )->on_frontend(true);
 		}
 

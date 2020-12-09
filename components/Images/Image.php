@@ -10,8 +10,13 @@
 	use hiweb\core\Paths\PathsFactory;
 	use stdClass;
 	use WP_Post;
-	
-	
+
+
+    /**
+     * Class Image
+     * @package hiweb\components\Images
+     * @version 1.1
+     */
 	class Image{
 		
 		use hidden_methods;
@@ -289,9 +294,10 @@
 		 * @param array  $attr_img
 		 * @param bool   $make_new_file
 		 * @return string
+         * @version 1.1
 		 */
 		public function html_picture( $dimensionsOrSizeName = 'thumbnail', $attr_picture = [], $attr_img = [], $make_new_file = true ){
-			if( !$this->is_attachment_exists() ){
+			if( !$this->is_exists() ){
 				if( is_array( $dimensionsOrSizeName ) ) $dimensions = get_wp_register_size_from_dimension( $dimensionsOrSizeName[0], $dimensionsOrSizeName[1] );
 				else $dimensions = $dimensionsOrSizeName;
 				$size = is_array( $dimensions ) ? ' width="' . $dimensions[0] . '" height="' . $dimensions[1] . '"' : '';
@@ -366,13 +372,14 @@
 		 * @param array  $attributes
 		 * @param bool   $make_new_file
 		 * @return mixed|string
+         * @version 1.1
 		 */
 		public function html_img( $dimensionsOrSizeName = 'thumbnail', $attributes = [], $make_new_file = true ){
 			$size_current = $this->sizes()->get( $dimensionsOrSizeName, $make_new_file );
 			$attributes = new ArrayObject( $attributes );
 			$attributes->push( 'width', $size_current->width() );
 			$attributes->push( 'height', $size_current->height() );
-			if( !$this->is_attachment_exists() ){
+			if( !$this->is_exists() ){
 				$attributes->push( 'src', ImagesFactory::get_default_src() );
 				return '<img ' . $attributes->get_as_tag_attributes() . '/>';
 			}

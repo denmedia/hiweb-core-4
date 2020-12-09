@@ -4,9 +4,11 @@
 	
 	
 	use hiweb\components\Fields\Field;
-	
-	
-	class Field_Images extends Field{
+    use hiweb\components\Images\ImagesFactory;
+    use hiweb\core\Paths\PathsFactory;
+
+
+    class Field_Images extends Field{
 		
 		private $images;
 		protected $options_class = '\hiweb\components\Fields\Types\Images\Field_Images_Options';
@@ -34,10 +36,15 @@
 			wp_enqueue_media();
 		}
 		
-		
+		/**
+		/* @version 1.1
+		/**
 		public function get_sanitize_admin_value( $value, $update_meta_process = false ){
 			$R = [];
 			if( is_array( $value ) ) foreach( $value as $image_id ){
+			    if(!is_numeric($image_id)) {
+			        $image_id = PathsFactory::get_attachment_id_from_url($image_id);
+                }
 				$test_id = intval( $image_id );
 				if( $test_id > 0 ) $R[] = $test_id;
 			}

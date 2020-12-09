@@ -1,1 +1,7 @@
-{"version":3,"sourceRoot":"","sources":["AdminMenu.scss"],"names":[],"mappings":"AAAA;EACC;EACA;EACA;EACA","file":"AdminMenu.css"}
+{
+"version": 3,
+"mappings": "AAAA,0CAA2C;EAC1C,OAAO,EAAE,YAAY;EACrB,SAAS,EAAE,GAAG;EACd,UAAU,EAAE,GAAG;EACf,cAAc,EAAE,MAAM;EACtB,UAAU,EAAE,MAAM;EAClB,WAAW,EAAE,CAAC",
+"sources": ["AdminMenu.scss"],
+"names": [],
+"file": "AdminMenu.css"
+}

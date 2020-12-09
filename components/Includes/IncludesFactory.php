@@ -16,7 +16,7 @@ use hiweb\core\Paths\PathsFactory;
 /**
  * Include css and js files for WordPress
  * @package hiweb\components\Includes
- * @version 1.1
+ * @version 1.2
  */
 class IncludesFactory {
 
@@ -24,6 +24,7 @@ class IncludesFactory {
 
 
     static $already_printed = [];
+    static $jquery_3_path = HIWEB_DIR_VENDOR . '/jquery3/jquery-3.3.1.min.js';
 
 
     public function get_srcs_from_handle(string $handle, $scripts = true, $styles = true) {
@@ -131,10 +132,11 @@ class IncludesFactory {
      * Include js file (path or url)
      * @param null $fileNameOrPathOrURL
      * @param null $deeps
+     * @param bool $defer
      * @return Js
      * @version 1.1
      */
-    public function js($fileNameOrPathOrURL = null, $deeps = null) {
+    public function js($fileNameOrPathOrURL = null, $deeps = null, $defer = true) {
         $Path = self::get_Path_bySearch($fileNameOrPathOrURL, 'js');
         /** @var Js $js */
         $js = CacheFactory::get($Path->handle(), __CLASS__ . ':js', function() {
@@ -144,6 +146,10 @@ class IncludesFactory {
         ///deeps
         if (is_string($deeps) || is_array($deeps)) {
             $js->deeps($deeps);
+        }
+        ///defer
+        if ($defer) {
+            $js->defer(true);
         }
         ///backend / frontend
         switch(basename(str_replace('\\', '/', get_called_class()))) {
@@ -259,16 +265,16 @@ class IncludesFactory {
 
 
     /**
-     * @param bool $include_migrate_js
-     * @return bool
+     * @param false $include_migrate_js
+     * @return bool|int|string
      */
     public function jquery($include_migrate_js = false) {
-        $R = static::js(HIWEB_THEME_VENDORS_DIR . '/jquery3/jquery-3.3.1.min.js');
+        $R = static::js(self::$jquery_3_path);
         $R->defer(false);
         if ($include_migrate_js) {
             static::js(HIWEB_THEME_VENDORS_DIR . '/jquery3/jquery-migrate-1.4.1.min.js');
         }
-        return $R->path()->handle();
+        return 'jquery-core';//$R->path()->handle();
     }
 
 
@@ -347,18 +353,18 @@ class IncludesFactory {
     public function owl_carousel() {
         static::css(HIWEB_THEME_VENDORS_DIR . '/owl-carousel/assets/owl.carousel.min.css');
         static::css(HIWEB_THEME_VENDORS_DIR . '/owl-carousel/assets/owl.theme.default.min.css');
-        return static::js(HIWEB_THEME_VENDORS_DIR . '/owl-carousel/owl.carousel.min.js', static::jquery())->path()->handle();
+        return static::js(HIWEB_THEME_VENDORS_DIR . '/owl-carousel/owl.carousel.min.js', 'jquery-core')->path()->handle();
     }
 
 
     public function jquery_sticky() {
-        static::js(HIWEB_THEME_VENDORS_DIR . '/jquery.sticky/jquery.sticky.min.js', [ self::jquery(true) ]);
+        static::js(HIWEB_THEME_VENDORS_DIR . '/jquery.sticky/jquery.sticky.min.js', 'jquery-core');
     }
 
 
     public function jquery_mhead() {
         static::css(HIWEB_THEME_VENDORS_DIR . '/jquery.mhead/jquery.mhead.min.css');
-        static::js(HIWEB_THEME_VENDORS_DIR . '/jquery.mhead/jquery.mhead.min.js', [ static::jquery() ]);
+        static::js(HIWEB_THEME_VENDORS_DIR . '/jquery.mhead/jquery.mhead.min.js', 'jquery-core');
     }
 
 
@@ -366,7 +372,7 @@ class IncludesFactory {
      * @return bool|string
      */
     public function isotope() {
-        return static::js(HIWEB_THEME_VENDORS_DIR . '/isotope.pkgd/isotope.pkgd.min.js', static::jquery())->path()->handle();
+        return static::js(HIWEB_THEME_VENDORS_DIR . '/isotope.pkgd/isotope.pkgd.min.js', 'jquery-core')->path()->handle();
     }
 
 
@@ -379,18 +385,18 @@ class IncludesFactory {
      * vendors/jquery.form/jquery.form.min.js
      */
     public function jquery_form() {
-        return static::js(HIWEB_THEME_VENDORS_DIR . '/jquery.form/jquery.form.min.js', [ static::jquery() ])->path()->handle();
+        return static::js(HIWEB_THEME_VENDORS_DIR . '/jquery.form/jquery.form.min.js', 'jquery-core')->path()->handle();
     }
 
 
     public function jquery_mask() {
-        return static::js(HIWEB_THEME_VENDORS_DIR . '/jquery.mask/jquery.mask.min.js', [ static::jquery() ])->path()->handle();
+        return static::js(HIWEB_THEME_VENDORS_DIR . '/jquery.mask/jquery.mask.min.js', 'jquery-core')->path()->handle();
     }
 
 
     public function stellarnav() {
         static::css(HIWEB_THEME_VENDORS_DIR . '/jquery.stellarnav/stellarnav.min.css');
-        static::js(HIWEB_THEME_VENDORS_DIR . '/jquery.stellarnav/stellarnav.min.js', [ static::jquery() ]);
+        static::js(HIWEB_THEME_VENDORS_DIR . '/jquery.stellarnav/stellarnav.min.js', 'jquery-core');
     }
 
 
@@ -399,7 +405,7 @@ class IncludesFactory {
      * @return string js handler
      */
     public function jquery_parallaxie() {
-        return static::js(HIWEB_THEME_VENDORS_DIR . '/jquery.parallaxie/jquery.parallax.min.js', [ static::jquery() ])->path()->handle();
+        return static::js(HIWEB_THEME_VENDORS_DIR . '/jquery.parallaxie/jquery.parallax.min.js', 'jquery-core')->path()->handle();
     }
 
 
@@ -410,7 +416,7 @@ class IncludesFactory {
      * @deprecated
      */
     public function jquery_pin() {
-        return static::js(HIWEB_THEME_VENDORS_DIR . '/jquery.pin/jquery.pin.min.js', [ static::jquery() ])->path()->handle();
+        return static::js(HIWEB_THEME_VENDORS_DIR . '/jquery.pin/jquery.pin.min.js', 'jquery-core')->path()->handle();
     }
 
 
@@ -458,7 +464,7 @@ class IncludesFactory {
      * @return bool|Js
      */
     public function jquery_autocomplete() {
-        return static::js(HIWEB_THEME_VENDORS_DIR . '/jquery.autocomplete/jquery.autocomplete.min.js', static::jquery())->path()->handle();
+        return static::js(HIWEB_THEME_VENDORS_DIR . '/jquery.autocomplete/jquery.autocomplete.min.js', 'jquery-core')->path()->handle();
     }
 
 
@@ -466,7 +472,7 @@ class IncludesFactory {
      * vendors/jquery.badonkatrunc/jquery.badonkatrunc.min.js
      */
     public function jquery_badoncatrunc() {
-        static::js(HIWEB_THEME_VENDORS_DIR . '/jquery.badonkatrunc/jquery.badonkatrunc.min.js', static::jquery());
+        static::js(HIWEB_THEME_VENDORS_DIR . '/jquery.badonkatrunc/jquery.badonkatrunc.min.js', 'jquery-core');
     }
 
 }

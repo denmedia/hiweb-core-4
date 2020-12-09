@@ -3,9 +3,6 @@
 namespace hiweb\core\Options;
 
 
-use hiweb\core\Options\Options;
-
-
 /**
  * Используется для суб-опции, которая имеет тольуко одно значение
  * Class Options_Once
@@ -44,9 +41,10 @@ abstract class Options_Once extends Options {
      * @param null|mixed $value
      * @param null|mixed $default
      * @param null       $null
+     * @param bool       $callIfFunction
      * @return array|\hiweb\core\Options\Options|mixed|null
      */
-    public function _($value = null, $default = null, $null = null) {
+    public function _($value = null, $default = null, $null = null, $callIfFunction = true) {
         return parent::_('', $value, $default);
     }
 
