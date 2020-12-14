@@ -14,7 +14,7 @@
          * @param bool           $enableFile - enable cache to file
          * @return Cache
          */
-		function get_cache( $variable_name = '', $group_name = null, $valueOrCallable = null, $callableArgs = [], $enableFile = false ){
+		function get_cache( $variable_name = '', $group_name = null, $valueOrCallable = null, $callableArgs = [], $enableFile = false ): Cache {
 			return CacheFactory::get( $variable_name, $group_name, $valueOrCallable, $callableArgs, $enableFile );
 		}
 	}

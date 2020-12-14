@@ -11,7 +11,7 @@
 
 	/**
 	 * Class client
-	 * @version 1.1
+	 * @version 1.2
 	 * @package hiweb
 	 */
 	class Client{
@@ -19,7 +19,7 @@
 		/**
 		 * @return Client
 		 */
-		static function get_instance(){
+		static function get_instance(): Client {
 			static $instance;
 			if(!$instance instanceof Client) $instance = new Client();
 			return $instance;
@@ -224,7 +224,7 @@
 		/**
 		 * @return string
 		 */
-		public function get_id_OsIp(){
+		public function get_id_OsIp(): string {
 			return md5( self::get_ip().'-'.self::get_os2() );
 		}
 
@@ -232,7 +232,7 @@
 		/**
 		 * @return bool
 		 */
-		public function is_webBot(){
+		public function is_webBot(): bool {
 			return (
 				isset($_SERVER['HTTP_USER_AGENT'])
 				&& preg_match('/bot|crawl|slurp|spider|mediapartners|chrome-lighthouse|gtmetrix/i', $_SERVER['HTTP_USER_AGENT'])
@@ -240,8 +240,17 @@
 		}
 		
 		
-		public function is_mobile($iPad_is_desktop = true){
+		public function is_mobile($iPad_is_desktop = true): bool {
 			return wp_is_mobile() && ( !$iPad_is_desktop || preg_match('~Mozilla/5\.0\s?\(iPad;~i', $_SERVER['HTTP_USER_AGENT']) == 0);
 		}
+
+
+        /**
+         * Return TRUE if browser (client) is support WebP image format
+         * @return bool
+         */
+		public function is_support_WebP(): bool {
+		    return (strpos( $_SERVER['HTTP_ACCEPT'], 'image/webp' ) !== false || strpos( $_SERVER['HTTP_USER_AGENT'], ' Chrome/' ) !== false);
+        }
 
 	}

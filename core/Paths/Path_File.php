@@ -36,7 +36,7 @@ class Path_File {
     /**
      * @return Path
      */
-    public function path() {
+    public function path(): Path {
         return $this->Path;
     }
 
@@ -44,7 +44,7 @@ class Path_File {
     /**
      * @return Path_Url
      */
-    public function url() {
+    public function url(): Path_Url {
         return $this->path()->url();
     }
 
@@ -52,7 +52,7 @@ class Path_File {
     /**
      * @return Path_Image
      */
-    public function Image() {
+    public function image(): Path_Image {
         if ( !$this->cache_Image instanceof Path_Image) {
             $this->cache_Image = new Path_Image($this->path());
         }
@@ -60,6 +60,9 @@ class Path_File {
     }
 
 
+    /**
+     * Prepare file data
+     */
     private function prepare() {
         $this->original_path = $this->path()->get_original_path();
         if ($this->path()->is_url()) {
@@ -86,34 +89,36 @@ class Path_File {
 
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function get_original_path() {
+    public function get_original_path(): ?string {
         return $this->original_path;
     }
 
 
     /**
-     * @return string
+     * @return null|string
+     * @aliase get_path_relative()
      */
-    public function get_relative_path() {
+    public function get_relative_path(): ?string {
         return $this->relative_path;
     }
 
 
     /**
      * @alias get_relative_path()
-     * @return string
+     * @return null|string
      */
-    public function get_path_relative() {
+    public function get_path_relative(): ?string {
         return $this->relative_path;
     }
 
 
     /**
-     * @return string
+     * @return null|string
+     * @aliase get_path()
      */
-    public function get_absolute_path() {
+    public function get_absolute_path(): ?string {
         return $this->absolute_path;
     }
 
@@ -122,7 +127,7 @@ class Path_File {
      * @alias get_absolute_path()
      * @return string
      */
-    public function get_path() {
+    public function get_path(): ?string {
         return $this->absolute_path;
     }
 
@@ -140,7 +145,7 @@ class Path_File {
      * @param null $return_universalScheme
      * @return string
      */
-    public function get_url($return_universalScheme = null) {
+    public function get_url($return_universalScheme = null): string {
         return $this->url()->get($return_universalScheme);
     }
 
@@ -148,7 +153,7 @@ class Path_File {
     /**
      * @return bool|null
      */
-    public function is_exists() {
+    public function is_exists(): ?bool {
         if (is_string($this->path()->get_original_path()) && $this->path()->is_local()) {
             return file_exists($this->get_absolute_path());
         }
@@ -159,7 +164,7 @@ class Path_File {
     /**
      * @return bool|null
      */
-    public function is_readable() {
+    public function is_readable(): ?bool {
         if ( !$this->path()->is_local()) return null;
         return file_exists($this->get_absolute_path()) && is_readable($this->get_absolute_path());
     }
@@ -168,7 +173,7 @@ class Path_File {
     /**
      * @return bool
      */
-    public function is_writable() {
+    public function is_writable(): bool {
         if ( !$this->path()->is_local()) return false;
         return is_writable($this->path()->get_absolute_path());
     }
@@ -180,7 +185,7 @@ class Path_File {
      * @param int    $depth - depth of sub dirs
      * @return Path_File[]
      */
-    public function include_files($fileExtension = [ 'php', 'css', 'js' ], $excludeFiles_withPrefix = '-', $depth = 99) {
+    public function include_files($fileExtension = [ 'php', 'css', 'js' ], $excludeFiles_withPrefix = '-', $depth = 99): array {
         $R = [];
         if ( !$this->is_readable() || !$this->is_dir()) {
             ConsoleFactory::add('Dir is not readable or not exists', __METHOD__, [], true);
@@ -190,9 +195,9 @@ class Path_File {
                 ///skip folders and files
                 if ($file->get_next_file('.notinclude')->is_exists()) continue;
                 if ( !$file->is_readable()) continue;
-                if ($excludeFiles_withPrefix != '' && strpos($file->basename(), $excludeFiles_withPrefix) === 0) continue;
+                if ($excludeFiles_withPrefix != '' && strpos($file->get_basename(), $excludeFiles_withPrefix) === 0) continue;
                 ///
-                switch($file->extension()) {
+                switch($file->get_extension()) {
                     case 'php':
                         $path = $file->get_path();
                         include_once $path;
@@ -221,7 +226,7 @@ class Path_File {
      * @return Path_File[]
      * @version 1.0
      */
-    public function include_files_by_name($needle_file_names = [ 'functions.php' ]) {
+    public function include_files_by_name($needle_file_names = [ 'functions.php' ]): array {
         if ( !is_array($needle_file_names)) $needle_file_names = [ $needle_file_names ];
         $dir = $this;
         $R = [];
@@ -235,8 +240,8 @@ class Path_File {
                 if ($file->get_next_file('.notinclude')->is_exists()) continue;
                 if ( !$file->is_readable()) continue;
                 //
-                if (array_key_exists($file->basename(), $needle_file_names_flip)) {
-                    switch($file->extension()) {
+                if (array_key_exists($file->get_basename(), $needle_file_names_flip)) {
+                    switch($file->get_extension()) {
                         case 'php':
                             $path = $file->get_path();
                             include_once $path;
@@ -264,7 +269,7 @@ class Path_File {
     /**
      * @return bool|null
      */
-    public function is_dir() {
+    public function is_dir(): ?bool {
         if ($this->path()->is_local()) return is_dir($this->get_path());
         return null;
     }
@@ -273,7 +278,7 @@ class Path_File {
     /**
      * @return bool|null
      */
-    public function is_file() {
+    public function is_file(): ?bool {
         if ($this->path()->is_local()) return is_file($this->get_path());
         return null;
     }
@@ -282,7 +287,7 @@ class Path_File {
     /**
      * @return bool|null
      */
-    public function is_link() {
+    public function is_link(): ?bool {
         if ($this->path()->is_local()) return is_link($this->get_path());
         return null;
     }
@@ -291,7 +296,7 @@ class Path_File {
     /**
      * @return bool|null
      */
-    public function is_uploaded_file() {
+    public function is_uploaded_file(): ?bool {
         if ($this->path()->is_local()) return is_uploaded_file($this->get_path());
         return null;
     }
@@ -300,17 +305,26 @@ class Path_File {
     /**
      * @return bool|null
      */
-    public function is_executable() {
+    public function is_executable(): ?bool {
         if ($this->path()->is_local()) return is_executable($this->get_path());
         return null;
     }
 
 
     /**
-     * Return mime type of file if path is file
-     * @return null|string
+     * @return string|null
+     * @deprecated use get_mime_content_type()
      */
-    public function mime() {
+    protected function mime(): ?string {
+        return $this->get_mime_content_type();
+    }
+
+
+    /**
+     * Return mime type of file if path is file
+     * @return string|null
+     */
+    public function get_mime_content_type(): ?string {
         if ( !$this->is_file()) return null;
         return mime_content_type($this->get_path());
     }
@@ -318,11 +332,28 @@ class Path_File {
 
     /**
      * @return string
+     * @deprecated use get_extension()
      */
-    public function extension() {
-        $pathInfo = pathinfo($this->get_path_relative());
+    protected function extension(): string {
+        return $this->get_extension();
+    }
 
+
+    /**
+     * @return string
+     */
+    public function get_extension(): string {
+        $pathInfo = pathinfo($this->get_path_relative());
         return isset($pathInfo['extension']) ? $pathInfo['extension'] : '';
+    }
+
+
+    /**
+     * @return string
+     * @deprecated use get_basename()
+     */
+    protected function basename(): string {
+        return $this->get_basename();
     }
 
 
@@ -330,8 +361,17 @@ class Path_File {
      * Return file name which extension, like 'filename.jpg'
      * @return string
      */
-    public function basename() {
+    public function get_basename(): string {
         return basename($this->original_path);
+    }
+
+
+    /**
+     * @return string
+     * @deprecated use get_filename()
+     */
+    protected function filename(): string {
+        return $this->get_filename();
     }
 
 
@@ -339,11 +379,20 @@ class Path_File {
      * Return file name whithout extension, like 'filename'
      * @return string
      */
-    public function filename() {
-        if ($this->extension() != '') {
-            return substr($this->basename(), 0, strlen('.' . $this->extension()) * - 1);
+    public function get_filename(): string {
+        if ($this->get_extension() != '') {
+            return substr($this->get_basename(), 0, strlen('.' . $this->get_extension()) * - 1);
         }
-        return $this->basename();
+        return $this->get_basename();
+    }
+
+
+    /**
+     * @return string
+     * @deprecated use get_dirname()
+     */
+    protected function dirname(): string {
+        return $this->get_dirname();
     }
 
 
@@ -351,7 +400,7 @@ class Path_File {
      * Return dir name component of path
      * @return string
      */
-    public function dirname() {
+    public function get_dirname(): string {
         return dirname($this->get_path());
     }
 
@@ -359,7 +408,7 @@ class Path_File {
     /**
      * @return ArrayObject
      */
-    public function dirs() {
+    public function dirs(): ArrayObject {
         return CacheFactory::get(spl_object_id($this->path()), __METHOD__, function() {
             return get_array(explode('/', func_get_arg(0)->dirname()));
         }, [ $this ])->get_value();
@@ -370,8 +419,8 @@ class Path_File {
      * Return true, if file is exists and image
      * @return bool
      */
-    public function is_image() {
-        return ($this->is_file() && strpos($this->Image()->get_mime_type(), 'image') === 0);
+    public function is_image(): bool {
+        return ($this->is_file() && strpos($this->image()->get_mime_type(), 'image') === 0);
     }
 
 
@@ -379,7 +428,7 @@ class Path_File {
      * @param null|string $default
      * @return string
      */
-    public function get_content($default = null) {
+    public function get_content($default = null): ?string {
         //TODO: сделать чтение содержимого из удаленного URL файла
         if ($this->is_readable()) return file_get_contents($this->get_path()); else return $default;
     }
@@ -407,7 +456,7 @@ class Path_File {
     /**
      * @return bool|int
      * @version 1.1
-     *          Return file or directory size in bites
+     * Return file or directory size in bites
      */
     public function get_size() { //TODO~!!!
         $R = false;
@@ -428,7 +477,7 @@ class Path_File {
     /**
      * @return string
      */
-    public function get_size_formatted() {
+    public function get_size_formatted(): string {
         return PathsFactory::get_size_formatted($this->get_size());
     }
 
@@ -440,7 +489,7 @@ class Path_File {
      * @return Path_File[]
      * @version 1.2
      */
-    public function get_sub_files($mask = [], $depth = 99) {
+    public function get_sub_files($mask = [], $depth = 99): array {
         if ( !$this->path()->is_local() || $depth < 0) return [];
         ///
         $mask = is_array($mask) ? $mask : [ $mask ];
@@ -471,7 +520,7 @@ class Path_File {
      * @param bool $returnOnlyPaths - return only string paths in array
      * @return Path_File[]|string[]
      */
-    public function get_sub_files_by_mtime($returnOnlyPaths = false) {
+    public function get_sub_files_by_mtime($returnOnlyPaths = false): array {
         $R = get_array();
         if ($this->is_dir()) foreach (scandir($this->get_absolute_path()) as $subFileName) {
             if ($subFileName == '.' || $subFileName == '..') continue;
@@ -491,8 +540,8 @@ class Path_File {
      * @param $file_name
      * @return Path_File
      */
-    public function get_next_file($file_name) {
-        return PathsFactory::get($this->dirname() . '/' . $file_name)->file();
+    public function get_next_file($file_name): Path_File {
+        return PathsFactory::get($this->get_dirname() . '/' . $file_name)->file();
     }
 
 

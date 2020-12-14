@@ -4,7 +4,6 @@
 	
 	
 	use hiweb\components\Fields\Field;
-    use hiweb\components\Images\ImagesFactory;
     use hiweb\core\Paths\PathsFactory;
 
 
@@ -35,10 +34,14 @@
 		function admin_init(){
 			wp_enqueue_media();
 		}
-		
-		/**
-		/* @version 1.1
-		/**
+
+
+        /**
+         * @param mixed $value
+         * @param false $update_meta_process
+         * @return array
+         * @version 1.1
+         */
 		public function get_sanitize_admin_value( $value, $update_meta_process = false ){
 			$R = [];
 			if( is_array( $value ) ) foreach( $value as $image_id ){

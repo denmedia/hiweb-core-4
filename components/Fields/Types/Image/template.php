@@ -13,7 +13,7 @@
 	
 	$file_info = 'select file...';
 	if( $has_file ){
-		$file_info = $this->the_Image()->path()->file()->basename() . ', size:' . $this->the_Image()->path()->file()->get_size_formatted();
+		$file_info = $this->the_Image()->path()->file()->get_basename() . ', size:' . $this->the_Image()->path()->file()->get_size_formatted();
 	}
 	$style = new \hiweb\core\ArrayObject\ArrayObject();
 	$style2 = new \hiweb\core\ArrayObject\ArrayObject();

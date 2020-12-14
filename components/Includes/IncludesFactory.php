@@ -99,7 +99,7 @@ class IncludesFactory {
                 ];
                 $Path = PathsFactory::get_bySearch($search_paths);
             }
-            if ($Path->file()->extension() != $extension) {
+            if ($Path->file()->get_extension() != $extension) {
                 ConsoleFactory::add('file [' . $fileNameOrPath . '] not found', 'warn', __CLASS__ . ' - the file is not have ' . $extension . ' extension', $Path->get_path_relative(), true);
             } elseif ( !$Path->is_local()) {
                 return $Path;

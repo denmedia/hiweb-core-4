@@ -7,7 +7,6 @@ use hiweb\components\Includes\IncludesFactory;
 use hiweb\components\Includes\IncludesFactory_LoginPage;
 use hiweb\components\Includes\Js;
 
-
 if ( !function_exists('include_js')) {
 
     /**
@@ -17,7 +16,7 @@ if ( !function_exists('include_js')) {
      * @param bool  $set_toFooter
      * @return Js
      */
-    function include_js($fileNameOrPathOrURL, $deeps = [], $set_toFooter = true) {
+    function include_js($fileNameOrPathOrURL, $deeps = [], $set_toFooter = true): Js {
         $Js = IncludesFactory::js($fileNameOrPathOrURL);
         $Js->deeps($deeps);
         $Js->to_footer($set_toFooter);
@@ -34,7 +33,7 @@ if ( !function_exists('include_frontend_js')) {
      * @param bool  $set_toFooter
      * @return Js
      */
-    function include_frontend_js($fileNameOrPathOrURL, $deeps = [], $set_toFooter = true) {
+    function include_frontend_js($fileNameOrPathOrURL, $deeps = [], $set_toFooter = true): Js {
         $Js = IncludesFactory_FrontendPage::js($fileNameOrPathOrURL);
         $Js->deeps($deeps);
         $Js->to_footer($set_toFooter);
@@ -51,7 +50,7 @@ if ( !function_exists('include_admin_js')) {
      * @param bool  $set_toFooter
      * @return Js
      */
-    function include_admin_js($fileNameOrPathOrURL, $deeps = [], $set_toFooter = true) {
+    function include_admin_js($fileNameOrPathOrURL, $deeps = [], $set_toFooter = true): Js {
         $Js = IncludesFactory_AdminPage::js($fileNameOrPathOrURL);
         $Js->deeps($deeps);
         $Js->to_footer($set_toFooter);
@@ -68,7 +67,7 @@ if ( !function_exists('include_login_js')) {
      * @param bool  $set_toFooter
      * @return Js
      */
-    function include_login_js($fileNameOrPathOrURL, $deeps = [], $set_toFooter = true) {
+    function include_login_js($fileNameOrPathOrURL, $deeps = [], $set_toFooter = true): Js {
         $Js = \hiweb\components\Includes\IncludesFactory_LoginPage::js($fileNameOrPathOrURL);
         $Js->deeps($deeps);
         $Js->to_footer($set_toFooter);
@@ -84,7 +83,7 @@ if ( !function_exists('include_css')) {
      * @param bool  $set_toFooter
      * @return Css
      */
-    function include_css($fileNameOrPathOrURL, $deeps = [], $set_toFooter = false) {
+    function include_css($fileNameOrPathOrURL, $deeps = [], $set_toFooter = false): Css {
         $Css = IncludesFactory::css($fileNameOrPathOrURL);
         $Css->deeps($deeps);
         $Css->to_footer($set_toFooter);
@@ -99,7 +98,7 @@ if ( !function_exists('include_frontend_css')) {
      * @param bool  $set_toFooter
      * @return Css
      */
-    function include_frontend_css($fileNameOrPathOrURL, $deeps = [], $set_toFooter = false) {
+    function include_frontend_css($fileNameOrPathOrURL, $deeps = [], $set_toFooter = false): Css {
         $Css = IncludesFactory_FrontendPage::css($fileNameOrPathOrURL);
         $Css->deeps($deeps);
         $Css->to_footer($set_toFooter);
@@ -114,7 +113,7 @@ if ( !function_exists('include_admin_css')) {
      * @param bool  $set_toFooter
      * @return Css
      */
-    function include_admin_css($fileNameOrPathOrURL, $deeps = [], $set_toFooter = false) {
+    function include_admin_css($fileNameOrPathOrURL, $deeps = [], $set_toFooter = false): Css {
         $Css = IncludesFactory_AdminPage::css($fileNameOrPathOrURL);
         $Css->deeps($deeps);
         $Css->to_footer($set_toFooter);
@@ -130,7 +129,7 @@ if ( !function_exists('include_login_css')) {
      * @param bool  $set_toFooter
      * @return Css
      */
-    function include_login_css($fileNameOrPathOrURL, $deeps = [], $set_toFooter = false) {
+    function include_login_css($fileNameOrPathOrURL, $deeps = [], $set_toFooter = false): Css {
         $Css = IncludesFactory_AdminPage::css($fileNameOrPathOrURL);
         $Css->deeps($deeps);
         $Css->to_footer($set_toFooter);
@@ -145,7 +144,7 @@ if ( !function_exists('include_scripts')) {
      * Return instance of IncludesFactory_FrontendPage
      * @return IncludesFactory
      */
-    function include_scripts() {
+    function include_scripts(): IncludesFactory {
         static $class;
         if ( !$class instanceof IncludesFactory) $class = new IncludesFactory();
         return $class;
@@ -159,7 +158,7 @@ if ( !function_exists('include_frontend')) {
      * Return instance of IncludesFactory_FrontendPage
      * @return IncludesFactory_FrontendPage
      */
-    function include_frontend() {
+    function include_frontend(): IncludesFactory_FrontendPage {
         static $class;
         if ( !$class instanceof IncludesFactory_FrontendPage) $class = new IncludesFactory_FrontendPage();
         return $class;
@@ -173,7 +172,7 @@ if ( !function_exists('include_admin')) {
      * Return instance of IncludesFactory_FrontendPage
      * @return IncludesFactory_AdminPage
      */
-    function include_admin() {
+    function include_admin(): IncludesFactory_AdminPage {
         static $class;
         if ( !$class instanceof IncludesFactory_AdminPage) $class = new IncludesFactory_AdminPage();
         return $class;
@@ -187,7 +186,7 @@ if ( !function_exists('include_login')) {
      * Return instance of IncludesFactory_FrontendPage
      * @return IncludesFactory_LoginPage
      */
-    function include_login() {
+    function include_login(): IncludesFactory_LoginPage {
         static $class;
         if ( !$class instanceof IncludesFactory_LoginPage) $class = new IncludesFactory_LoginPage();
         return $class;

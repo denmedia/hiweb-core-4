@@ -113,7 +113,7 @@
 				$strtr = [];
 				foreach( $matches['url'] as $url ){
 					$result = preg_match( '/^(\.\.\/)+/i', trim( $url, '"\'' ) );
-					$url_dest = $this->path_object->file()->dirname();
+					$url_dest = $this->path_object->file()->get_dirname();
 					for( $n = 0; $n < $result; $n ++ ){
 						$url_dest = dirname( $url_dest );
 					}

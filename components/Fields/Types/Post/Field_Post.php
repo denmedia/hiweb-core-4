@@ -49,9 +49,12 @@ class Field_Post extends Field {
      */
     public function get_sanitize_admin_value($value, $update_meta_process = false) {
         if ( !is_array($value) && $this->options()->multiple()) {
-            $value = [ (int)$value ];
+            if ((int)$value > 0) $value = [ (int)$value ];
+            else $value = null;
         } elseif (is_array($value) && !$this->options()->multiple()) {
-            $value = (int)reset($value);
+            $test_value = (int)reset($value);
+            if ($test_value > 0) $value = $test_value;
+            else $value = null;
         } elseif (is_array($value)) {
             $value_filtered = [];
             foreach ($value as $id) {

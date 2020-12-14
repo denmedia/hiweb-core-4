@@ -8,6 +8,11 @@
 	use hiweb\core\Paths\PathsFactory;
 
 
+    /**
+     * Class RemoteVideo
+     * @package hiweb\components\RemoteVideos
+     * @version 1.1
+     */
 	class RemoteVideo{
 
 		public $url;
@@ -60,6 +65,9 @@
 		}
 
 
+        /**
+         * @version 1.1
+         */
 		private function setup_data(){
 			if( $this->data_is_setuped ){
 				//do nothing
@@ -94,7 +102,9 @@
 						$this->title = $data['title'];
 					}
 					if( isset( $data['html'] ) ){
-						$this->html = '<div class="hiweb-remote-video-html">' . $data['html'] . '</div>';
+						//$this->html = '<div class="hiweb-remote-video-html">' . $data['html'] . '</div>';
+						$this->html = '<div class="hiweb-remote-video-html"><iframe src="https://www.youtube.com/embed/'.$this->get_id().'?rel=0&modestbranding=1" frameborder="0"
+    allow="accelerometer; encrypted-media; gyroscope; picture-in-picture;" allowfullscreen></iframe></div>';
 					}
 				} elseif( $this->is_vimeo() ) {
 					if( isset( $data[0] ) ){

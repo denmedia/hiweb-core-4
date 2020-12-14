@@ -9,15 +9,13 @@
 namespace hiweb\core\Paths;
 
 
-use hiweb\core\Cache\CacheFactory;
-use hiweb\core\Paths\PathsFactory;
 use hiweb\core\Strings;
 
 
 /**
  * Class Path
  * @package hiweb\core\Paths
- * @version 1.2
+ * @version 1.3
  */
 class Path {
 
@@ -54,14 +52,17 @@ class Path {
 
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function __toString() {
+    public function __toString(): ?string {
         return $this->get_original_path();
     }
 
 
-    public function __invoke() {
+    /**
+     * @return string|null
+     */
+    public function __invoke(): ?string {
         return $this->get_original_path();
     }
 
@@ -69,7 +70,7 @@ class Path {
     /**
      * @return Path_Url
      */
-    public function url() {
+    public function url(): Path_Url {
         if ( !$this->cache_Url instanceof Path_Url) $this->cache_Url = new Path_Url($this);
         return $this->cache_Url;
     }
@@ -78,7 +79,7 @@ class Path {
     /**
      * @return Path_File
      */
-    public function file() {
+    public function file(): Path_File {
         if ( !$this->cache_File instanceof Path_File) $this->cache_File = new Path_File($this);
         return $this->cache_File;
     }
@@ -87,8 +88,8 @@ class Path {
     /**
      * @return Path_Image
      */
-    public function image() {
-        return $this->file()->Image();
+    public function image(): Path_Image {
+        return $this->file()->image();
     }
 
 
@@ -96,7 +97,7 @@ class Path {
      * Return raw original path
      * @return string
      */
-    public function get_original_path() {
+    public function get_original_path(): ?string {
         return $this->original_path;
     }
 
@@ -107,7 +108,7 @@ class Path {
      */
     public function handle() {
         if ( !is_string($this->handle) || trim($this->handle) == '') {
-            $path_to_handler = $this->is_local() ? join('-', array_slice($this->file()->dirs()->get(), - 3, 3)) . '-' . $this->file()->basename() : $this->url()->dirs()->join('-');
+            $path_to_handler = $this->is_local() ? join('-', array_slice($this->file()->dirs()->get(), - 3, 3)) . '-' . $this->file()->get_basename() : $this->url()->dirs()->join('-');
             $this->handle = trim(Strings::sanitize_id($path_to_handler, '-'), '_-');
         }
         return $this->handle;
@@ -118,7 +119,7 @@ class Path {
      * @return bool
      * @version 1.0
      */
-    public function is_relative() {
+    public function is_relative(): bool {
         return is_string($this->original_path) && (strpos($this->original_path, PathsFactory::get_root_path()) !== 0 && !$this->is_url());
     }
 
@@ -127,7 +128,7 @@ class Path {
      * @return bool
      * @version 1.0
      */
-    public function is_absolute() {
+    public function is_absolute(): bool {
         return is_string($this->original_path) && (strpos($this->original_path, PathsFactory::get_root_path()) === 0 && !$this->is_url());
     }
 
@@ -136,9 +137,9 @@ class Path {
      * @return bool
      * @version 1.0
      */
-    public function is_local() {
+    public function is_local(): bool {
         if (is_string($this->get_original_path()) && $this->is_url()) {
-            return $this->url()->domain() == $_SERVER['HTTP_HOST'];
+            return $this->url()->get_domain() == $_SERVER['HTTP_HOST'];
         } else {
             return $this->is_absolute() || $this->is_relative();
         }
@@ -149,7 +150,7 @@ class Path {
      * Возвращает TRUE, если передан URL
      * @return mixed
      */
-    public function is_url() {
+    public function is_url(): bool {
         return (is_string($this->get_original_path()) && preg_match('/^([\w]+:)?\/\/[а-яА-ЯЁёa-zA-Z0-9_\-.]+/im', $this->get_original_path()) > 0);
     }
 
@@ -159,7 +160,7 @@ class Path {
      * @return string
      * @version 1.1
      */
-    public function get_path_relative($return_params = false) {
+    public function get_path_relative($return_params = false): string {
         if ($this->is_url()) {
             return '/' . $this->url()->dirs()->join('/');
         } else {
@@ -171,7 +172,7 @@ class Path {
     /**
      * @return string
      */
-    public function get_absolute_path() {
+    public function get_absolute_path(): string {
         return $this->file()->get_path();
     }
 
@@ -180,7 +181,7 @@ class Path {
      * @param null $return_universalScheme
      * @return string
      */
-    public function get_url($return_universalScheme = null) {
+    public function get_url($return_universalScheme = null): string {
         return $this->url()->get($return_universalScheme);
     }
 

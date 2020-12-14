@@ -8,5 +8,3 @@ if (function_exists('add_action')) {
 } else {
     \hiweb\core\Cache\CacheFactory::clear_old_files();
 }
-
-
