@@ -9,6 +9,7 @@
 namespace hiweb\core\Paths;
 
 
+use hiweb\core\hidden_methods;
 use hiweb\core\Strings;
 
 
@@ -26,6 +27,9 @@ class Path {
     /** @var Path_File */
     protected $cache_File;
     protected $handle;
+
+
+    use hidden_methods;
 
 
     /**
@@ -152,6 +156,23 @@ class Path {
      */
     public function is_url(): bool {
         return (is_string($this->get_original_path()) && preg_match('/^([\w]+:)?\/\/[а-яА-ЯЁёa-zA-Z0-9_\-.]+/im', $this->get_original_path()) > 0);
+    }
+
+
+    /**
+     * Return TRUE if file is image mime type
+     */
+    public function is_image(): bool {
+        return strpos($this->file()->get_mime_content_type(), 'image/') === 0;
+    }
+
+
+    /**
+     * Return current file extension
+     * @return string
+     */
+    public function get_extension(): string {
+        return PathsFactory::get_extension($this->get_original_path());
     }
 
 

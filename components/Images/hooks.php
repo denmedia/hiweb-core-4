@@ -37,6 +37,7 @@ if (ImagesFactory::$useImageDefer) {
         });
 
         add_action('init', function() {
+            //include_frontend_css(__DIR__ . '/defer.css');
             include_frontend_js(__DIR__ . '/defer.min.js', 'jquery-core');
         });
     }

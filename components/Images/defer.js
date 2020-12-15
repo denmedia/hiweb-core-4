@@ -22,6 +22,8 @@ jQuery(document).ready(function ($) {
 
             ///
             queue_started: false,
+            queue_parallel_limit: 5, //set option
+            queue_parallel_count: 5, //set option
 
             init: function () {
                 hiweb_imagesDefer.make_events();
@@ -83,8 +85,12 @@ jQuery(document).ready(function ($) {
                 let minHeight = $(window).scrollTop();
                 let maxHeight = minHeight + window.innerHeight;
                 for (let defer_id in hiweb_imagesDefer.receive_images_src) {
+                    ///skip already in queue
+                    if (hiweb_imagesDefer.images_ids_queue.indexOf(defer_id) > -1 || hiweb_imagesDefer.images_ids_processed.indexOf(defer_id) > -1) continue;
+                    ///find images in browser window
                     let $img = $('[data-image-defer-id="' + defer_id + '"][data-image-defer-status="preload"]');
-                    if ($img.length > 0 && $img.offset().top < maxHeight + $img.height() + 100 && hiweb_imagesDefer.images_ids_queue.indexOf(defer_id) === -1 && hiweb_imagesDefer.images_ids_processed.indexOf(defer_id) === -1) {
+                    let offset_top = $img.find('img').length > 0 ? $img.find('img').offset().top : $img.offset().top;
+                    if ($img.length > 0 && offset_top < maxHeight + $img.height() - 100) {
                         hiweb_imagesDefer.images_ids_queue.push(defer_id);
                         hiweb_imagesDefer.queue_start();
                     }
@@ -94,14 +100,18 @@ jQuery(document).ready(function ($) {
             queue_start: function () {
                 if (hiweb_imagesDefer.queue_started) return;
                 hiweb_imagesDefer.queue_started = true;
-                hiweb_imagesDefer.queue_next();
+                for (let n = 0; n < hiweb_imagesDefer.queue_parallel_limit; n++) {
+                    hiweb_imagesDefer.queue_next();
+                    hiweb_imagesDefer.queue_parallel_count++;
+                }
             },
 
             queue_next: function () {
-                if (!hiweb_imagesDefer.queue_started) {
+                if (!hiweb_imagesDefer.queue_started && hiweb_imagesDefer.queue_parallel_count >= hiweb_imagesDefer.queue_parallel_limit) {
                     return;
                 } else if (hiweb_imagesDefer.images_ids_queue.length === 0) {
                     hiweb_imagesDefer.queue_started = false;
+                    hiweb_imagesDefer.queue_parallel_count = 0;
                 } else {
                     let defer_id = hiweb_imagesDefer.images_ids_queue.shift();
                     hiweb_imagesDefer.images_ids_processed.push(defer_id);
@@ -116,9 +126,13 @@ jQuery(document).ready(function ($) {
                     $img.addClass('data-image-defer-status', 'loading');
                     let loading_image = new Image();
                     loading_image.onload = function () {
-                        $img[0].outerHTML = $(hiweb_imagesDefer.receive_images_html[defer_id]).attr('data-image-defer-status', 'loaded')[0].outerHTML;
+                        $img.replaceWith($(hiweb_imagesDefer.receive_images_html[defer_id]).attr('data-image-defer-status', 'loaded'));
                         if (typeof successCallback === 'function') successCallback();
                     };
+                    loading_image.onerror = function () {
+                        //$img[0].outerHTML = $(hiweb_imagesDefer.receive_images_html[defer_id]).attr('data-image-defer-status', 'loaded')[0].outerHTML;
+                        if (typeof successCallback === 'function') successCallback();
+                    }
                     loading_image.src = hiweb_imagesDefer.receive_images_src[defer_id];
                 }
             }

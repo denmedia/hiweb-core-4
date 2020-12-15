@@ -6,151 +6,46 @@ namespace hiweb\components\Images;
 use hiweb\components\Console\ConsoleFactory;
 use hiweb\core\hidden_methods;
 use hiweb\core\Paths\Path;
-use hiweb\core\Paths\PathsFactory;
-use stdClass;
 
 
+/**
+ * Class Image_Size
+ * @package hiweb\components\Images
+ * @version 1.1
+ */
 class Image_Size {
 
     use hidden_methods;
 
 
+    /** @var Image */
     private $Image;
-    /** @var stdClass */
-    private $size_raw;
-    private $size_name;
-    protected $file_path;
-    protected $file_path_webp;
-    protected $width = 0;
-    protected $height = 0;
-    protected $crop = 1;
+    /**  @var Path|null */
+    private $Path;
+    /**  @var Path|null */
+    private $Path_WebP;
+    /** @var string */
+    private $fileRelativePath;
+    /** @var string */
+    private $sizeName;
+    /** @var null|int */
+    protected $width;
+    /** @var null|int */
+    protected $height;
+    /** @var null|bool */
+    protected $crop;
+    /** @var null|int */
+    protected $resizeMode;
 
 
-    public function __construct(Image $Image, $sizeRawData, $size_name = '') {
+    public function __construct(Image $Image, $fileRelativePath) {
         $this->Image = $Image;
-        $this->size_raw = (object)$sizeRawData;
-        $this->size_name = $size_name;
-        ///FILE PATH
-        if ( !property_exists($this->get_size_raw(), 'file') || $this->get_size_raw()->file == '') {
-            if (property_exists($this->size_raw, 'width') && $this->size_raw->width > 0) $this->width = $this->size_raw->width;
-            if (property_exists($this->size_raw, 'height') && $this->size_raw->height > 0) $this->height = $this->size_raw->height;
-            $this->file_path = $this->Image->path()->file()->get_dirname() . '/' . $this->Image->path()->file()->get_filename() . '-' . $this->width . 'x' . $this->height . '.' . $this->Image->path()->file()->get_extension();
-        } else {
-            if (property_exists($this->size_raw, 'width') && $this->size_raw->width > 0) $this->width = $this->size_raw->width;
-            if (property_exists($this->size_raw, 'height') && $this->size_raw->height > 0) $this->height = $this->size_raw->height;
-            $this->file_path = $this->Image->path()->file()->get_dirname() . '/' . $this->get_size_raw()->file;
-        }
-        $this->file_path_webp = $this->path()->file()->get_dirname() . '/' . $this->path()->file()->get_filename() . '.webp';
-        ///
-        if (property_exists($this->get_size_raw(), 'crop')) {
-            if ($this->get_size_raw()->crop === true) {
-                $this->crop = 0;
-            } elseif ($this->get_size_raw()->crop === false) {
-                $this->crop = - 1;
-            } elseif ($this->get_size_raw()->crop === - 1 && $this->get_size_raw()->crop === 1) {
-                $this->crop = $this->get_size_raw()->crop;
-            } else {
-                $this->crop = 0;
-            }
-        }
+        $this->fileRelativePath = $fileRelativePath;
     }
 
 
     /**
-     * @return int
-     * @deprecated use get_width()
-     */
-    protected function width(): int {
-        return $this->get_width();
-    }
-
-
-    /**
-     * @return int
-     */
-    public function get_width(): int {
-        return $this->width;
-    }
-
-
-    /**
-     * @return int
-     * @deprecated use get_height()
-     */
-    protected function height(): int {
-        return $this->get_height();
-    }
-
-
-    /**
-     * @return int
-     */
-    public function get_height(): int {
-        return $this->height;
-    }
-
-
-    /**
-     * @return float|int
-     * @deprecated use get_aspect()
-     */
-    protected function aspect() {
-        return $this->get_aspect();
-    }
-
-
-    /**
-     * @return float|int
-     */
-    public function get_aspect() {
-        if ($this->get_width() == 0 || $this->get_height() == 0) return 0;
-        return $this->get_width() / $this->get_height();
-    }
-
-
-    /**
-     * @return bool|int
-     */
-    public function get_crop_mode() {
-        return $this->crop;
-    }
-
-
-    /**
-     * @return array
-     * @deprecated us get_dimension()
-     */
-    protected function dimension(): array {
-        return $this->get_dimension();
-    }
-
-
-    /**
-     * @return array
-     */
-    public function get_dimension(): array {
-        return [ $this->get_width(), $this->get_height(), $this->get_crop_mode() ];
-    }
-
-
-    /**
-     * Return image area size
-     * @return int
-     */
-    public function get_area(): int {
-        return $this->get_width() * $this->get_height();
-    }
-
-
-    /**
-     * @return string
-     */
-    public function get_name(): string {
-        return $this->size_name;
-    }
-
-
-    /**
+     * Return Instance of Image
      * @return Image
      */
     public function image(): Image {
@@ -159,42 +54,28 @@ class Image_Size {
 
 
     /**
-     * @return stdClass
-     */
-    public function get_size_raw() {
-        return $this->size_raw;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function get_file_path(): string {
-        return $this->file_path;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function get_file_path_webp(): string {
-        return $this->file_path_webp;
-    }
-
-
-    /**
+     * Return Image Instance of Path
      * @return Path
      */
     public function path(): Path {
-        return PathsFactory::get($this->get_file_path());
+        if ( !$this->Path instanceof Path) $this->Path = get_path($this->fileRelativePath);
+        return $this->Path;
     }
 
 
     /**
-     * @return Path
+     * @return bool
      */
-    public function path_webp(): Path {
-        return PathsFactory::get($this->get_file_path_webp());
+    public function is_exists(): bool {
+        return $this->path()->file()->is_file();
+    }
+
+
+    /**
+     * @return string
+     */
+    public function get_path_absolute(): string {
+        return $this->path()->get_absolute_path();
     }
 
 
@@ -208,45 +89,171 @@ class Image_Size {
 
 
     /**
+     * Return WebP Instance of Path
+     * @return Path
+     */
+    public function path_webp(): Path {
+        if ( !$this->Path_WebP instanceof Path) {
+            $file = $this->path()->file();
+            $this->Path_WebP = get_path($file->get_dirname() . '/' . $file->get_filename() . '.webp');
+        }
+        return $this->Path_WebP;
+    }
+
+
+    /**
+     * @return bool|null
+     */
+    public function is_exists_webp(): ?bool {
+        return $this->path_webp()->file()->is_exists();
+    }
+
+
+    /**
+     * @return string
+     */
+    public function get_path_absolute_webp(): string {
+        return $this->path_webp()->get_absolute_path();
+    }
+
+
+    /**
      * Return url to image file (WebP format, if exists)
      * @return string
      */
     public function get_src_webp(): string {
-        if ( !$this->path_webp()->file()->is_exists()) {
-            $this->make_file(true, 75, true);
-        }
         return $this->path_webp()->get_url();
     }
 
 
+    public function set_name($sizeName) {
+        $this->sizeName = $sizeName;
+    }
+
+
+    public function get_name(): string {
+        return $this->sizeName;
+    }
+
+
     /**
-     * @return bool
+     * @return string
      */
-    public function is_exists(): bool {
-        return $this->file_path != '' && $this->path()->file()->is_file() && $this->path()->file()->is_exists();
-    }
-
-
-    public function is_webp_exists() {
-
+    public function get_url(): string {
+        return $this->path()->get_url();
     }
 
 
     /**
-     * @param bool      $force_renew
-     * @param int       $quality_jpg_png
-     * @param null|bool $tryMakeWebP - set NULL to use default option 'ImagesFactory::$useStandardExtensions'
+     * @param int           $width
+     * @param int           $height
+     * @param null|bool|int $cropOrResizeMode
+     */
+    public function set_dimension(int $width, int $height, $cropOrResizeMode = null) {
+        $this->width = $width;
+        $this->height = $height;
+        $this->set_crop($cropOrResizeMode);
+    }
+
+
+    public function set_crop($cropOrResizeMode) {
+        if (is_bool($cropOrResizeMode)) {
+            $this->crop = $cropOrResizeMode;
+            $this->resizeMode = $cropOrResizeMode ? 0 : - 1;
+        } elseif (is_numeric($cropOrResizeMode)) {
+            $this->crop = ($cropOrResizeMode == 0);
+            if ($cropOrResizeMode < 0) {
+                $this->resizeMode = - 1;
+            } elseif ($cropOrResizeMode > 0) {
+                $this->resizeMode = 1;
+            }
+        }
+    }
+
+
+    /**
+     * @return int
+     */
+    public function get_width(): ?int {
+        if ( !is_int($this->width)) {
+            if ($this->path() instanceof Path && $this->path()->file()->is_exists() && $this->path()->is_image() && $this->path()->file()->is_exists()) {
+                $this->width = $this->path()->image()->get_width();
+                $this->height = $this->path()->image()->get_height();
+            }
+        }
+        return $this->width;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function get_height(): ?int {
+        if ( !is_int($this->height)) {
+            if ($this->path() instanceof Path && $this->path()->file()->is_exists() && $this->path()->is_image() && $this->path()->file()->is_exists()) {
+                $this->width = $this->path()->image()->get_width();
+                $this->height = $this->path()->image()->get_height();
+            }
+        }
+        return $this->height;
+    }
+
+
+    /**
+     * @return float
+     */
+    public function get_aspect(): float {
+        if ($this->get_width() == 0 || $this->get_height() == 0) return 0;
+        return $this->get_width() / $this->get_height();
+    }
+
+
+    /**
      * @return bool|int
      */
-    public function make_file($force_renew = false, $quality_jpg_png = 75, $tryMakeWebP = null) {
+    public function get_crop() {
+        return $this->crop;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function get_dimension(): array {
+        return [ $this->get_width(), $this->get_height(), $this->get_crop() ];
+    }
+
+
+    /**
+     * Return image area size
+     * @return int
+     */
+    public function get_area(): int {
+        return $this->get_width() * $this->get_height();
+    }
+
+
+    /**
+     * @param bool $force_renew
+     * @param int  $quality_jpg_png_webp
+     * @param null $tryMakeWebP
+     * @return bool|int
+     */
+    public function make($force_renew = false, $quality_jpg_png_webp = 75, $tryMakeWebP = null) {
         if ( !$this->Image->is_exists()) return 0;
-        if ( !$force_renew && $this->path()->file()->is_exists()) return 0;
-        $R = $this->Image->path()->image()->resize($this->get_width(), $this->get_height(), $this->get_file_path(), $quality_jpg_png, is_null($tryMakeWebP) ? !ImagesFactory::$useStandardExtensionsOnly : $tryMakeWebP);
-        if ($R == true) {
-            ConsoleFactory::add('New image file created', 'info', __METHOD__, $this->get_file_path(), true);
+        if (is_null($tryMakeWebP)) $tryMakeWebP = ImagesFactory::$useWebPExtension && function_exists('imagewebp');
+        if (( !$force_renew && $this->is_exists() && ($tryMakeWebP && $this->is_exists_webp()))) return 0;
+        $new_file_path = $this->get_path_absolute();
+        if ( !$force_renew && $this->is_exists() && $tryMakeWebP) {
+            $new_file_path = $this->get_path_absolute_webp();
+        }
+        ///Process Resize
+        $R = $this->Image->path()->image()->resize($this->get_width(), $this->get_height(), $new_file_path, $quality_jpg_png_webp, $tryMakeWebP);
+        if ($R === true || (is_array($R) && count($R) > 0)) {
+            ConsoleFactory::add('New image file created', 'info', __METHOD__, [ 'result' => $R, $new_file_path ], true);
             $this->Image->_update_image_sizes_meta();
         } else {
-            ConsoleFactory::add('Error while create new image file', 'warn', __METHOD__, $this->get_file_path(), true);
+            ConsoleFactory::add('Error while create new image file', 'warn', __METHOD__, [ 'result' => $R, $new_file_path ], true);
         }
         return $R;
     }

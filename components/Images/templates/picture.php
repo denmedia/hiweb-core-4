@@ -11,15 +11,21 @@ use hiweb\components\Images\Image_Size;
  * @var array    $imgAttributes
  * @var bool     $tryWebP
  */
-
+$main_size = $this->sizes()->get($dimension, true);
 ?>
 <picture>
-    <?php if ( !\hiweb\components\Images\ImagesFactory::$useStandardExtensionsOnly && \hiweb\components\Client\Client::get_instance()->is_support_WebP()) {
-        $webp_path = $this->sizes()->get($dimension, true)->path_webp();
-        if ($webp_path->file()->is_exists()) {
+    <?php if (\hiweb\components\Images\ImagesFactory::$useWebPExtension && \hiweb\components\Client\Client::get_instance()->is_support_WebP()) {
+        $webp_path = $main_size->path_webp();
+        if ($dimension->width < 1000 && $dimension->height < 1000) {
+            $big_size = current($this->sizes()->get_similar_sizes([ $dimension->width * 1.75, $dimension->height * 1.75, 1 ]));
+            if ($big_size instanceof Image_Size && $big_size->is_exists_webp() && $big_size->get_name() !== $main_size->get_name() && $big_size->get_area() >= ($main_size->get_area() * 1.4)) {
+                ?>
+                <source srcset="<?= $webp_path->get_url() ?>, <?= $big_size->path_webp()->get_url() ?> 2x" type="<?= $big_size->path_webp()->image()->get_mime_type() ?>"><?php
+            }
+        } elseif($main_size->is_exists_webp()) {
             ?>
-            <source srcset="<?= $webp_path->get_url() ?>" type="<?=$webp_path->image()->get_mime_type()?>"><?php
+            <source srcset="<?= $webp_path->get_url() ?>" type="<?= $webp_path->image()->get_mime_type() ?>"><?php
         }
     } ?>
-    <?= $this->get_html_img($dimensionsOrSizeName, $imgAttributes, $make_new_file, false) ?>
+    <?= $this->get_html_img($dimensionsOrSizeName, $imgAttributes) ?>
 </picture>

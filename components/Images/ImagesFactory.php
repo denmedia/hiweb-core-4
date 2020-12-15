@@ -16,14 +16,9 @@ class ImagesFactory {
     public static $makeFileIfNotExists = true;
     public static $standardExtensions = [ 'jpg', 'jpeg', 'jpe', 'png', 'gif' ];
     /** @var bool If set to FALSE try make WebP file type with standards (etc. JPEG or PNG) */
-    public static $useStandardExtensionsOnly = false;
+    public static $useWebPExtension = true;
     public static $useImageDefer = true;
     public static $usePictureHtmlTag = true;
-
-    //TODO: init thumbnail regenerate tool
-    //		static function init(){
-    //
-    //        }
 
     /**
      * @param $idOrUrl

@@ -50,6 +50,7 @@ class Image {
 
     /**
      * @return stdClass|WP_Post
+     * @version 1.1
      */
     public function wp_post() {
         return CacheFactory::get($this->attachment_ID, __METHOD__, function() {
@@ -326,6 +327,7 @@ class Image {
         $meta = (array)$this->get_attachment_meta();
         $meta['sizes'] = [];
         foreach ($this->sizes()->get_sizes() as $size_name => $Image_Size) {
+            if ($size_name == 'original') continue;
             $meta['sizes'][$size_name] = [
                 'file' => $Image_Size->path()->file()->get_basename(),
                 'width' => $Image_Size->get_width(),
@@ -373,7 +375,7 @@ class Image {
      * @return string
      */
     public function get_path($size, $make_new_file = true): string {
-        return $this->sizes()->get($size, $make_new_file)->get_file_path();
+        return $this->sizes()->get($size, $make_new_file)->get_path_absolute();
     }
 
 

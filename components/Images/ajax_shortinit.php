@@ -20,9 +20,9 @@ foreach ($_POST['images'] as $defer_id => $defer_data) {
         continue;
     }
     $image = get_image($defer_data['id']);
-    $images_src[$defer_id] = $image->get_src($defer_data['dimension'], null, true);
+    $images_src[$defer_id] = $image->get_src($defer_data['dimension'], true, !ImagesFactory::$usePictureHtmlTag);
     ///is webp support
-    $images[$defer_id] = $image->get_html($defer_data['dimension'], isset($defer_data['attributes']) ? $defer_data['attributes'] : [], null, get_client()->is_support_WebP());
+    $images[$defer_id] = \hiweb\components\HTML_CSS_JS_Minifier::minify_html($image->get_html($defer_data['dimension'], isset($defer_data['attributes']) ? $defer_data['attributes'] : [], null, get_client()->is_support_WebP()));
 }
 ob_start();
 ConsoleFactory::the();

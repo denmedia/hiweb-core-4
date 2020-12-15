@@ -3,6 +3,9 @@
 namespace hiweb\core\Paths;
 
 
+use hiweb\core\hidden_methods;
+
+
 /**
  * Class Path_Image
  * @package hiweb\core\Paths
@@ -18,6 +21,9 @@ class Path_Image {
     private $cache_image_width;
     /** @var int */
     private $cache_image_height;
+
+
+    use hidden_methods;
 
 
     public function __construct(Path $Path) {
@@ -175,11 +181,11 @@ class Path_Image {
      * @param int  $dest_height          - destination file height or leave 0 for current file height
      * @param null $dest_file_path       - destination file or leave empty for select current file path
      * @param int  $quality_jpg_png_webp - 0...100 quality for jpg or png files
-     * @param bool $tryMakeWebp
+     * @param bool $tryMakeWebP
      * @return bool
-     * @version 1.2
+     * @version 1.3
      */
-    public function resize($dest_width = 0, $dest_height = 0, $dest_file_path = null, $quality_jpg_png_webp = 75, $tryMakeWebp = true) {
+    public function resize($dest_width = 0, $dest_height = 0, $dest_file_path = null, $quality_jpg_png_webp = 75, $tryMakeWebP = false) {
         if ($this->file()->is_image() && $this->get_aspect() != 0) {
             if ( !is_string($dest_file_path) || strlen($dest_file_path) < 2) $dest_file_path = $this->file()->get_path();
             if ($dest_width > $this->get_width()) $dest_width = $this->get_width();
@@ -190,7 +196,8 @@ class Path_Image {
             //GD
             if (extension_loaded('gd')) {
                 ///
-                switch($this->get_mime_type()) {
+                $mime = $this->get_mime_type();
+                switch($mime) {
                     case 'image/jpe':
                     case 'image/jpeg':
                     case 'image/jpg':
@@ -228,7 +235,15 @@ class Path_Image {
                 imagecopyresampled($image_gd_new, $src_image, 0, 0, $src_x, $src_y, $dest_width, $dest_height, $src_width, $src_height);
                 $B = - 2;
                 imageinterlace($image_gd_new, true);
-                switch($this->get_mime_type()) {
+
+                if (is_string($dest_file_path) && $dest_file_path != '' && $dest_file_path != $this->file()->get_path()) {
+                    $dest_mime = get_file($dest_file_path)->image()->get_mime_type();
+                } else {
+                    $dest_mime = $this->get_mime_type();
+                }
+                switch($dest_mime) {
+                    case 'image/jpe':
+                    case 'image/jpeg':
                     case 'image/jpg':
                         $B = imagejpeg($image_gd_new, $dest_file_path, $quality_jpg_png_webp);
                         break;
@@ -238,10 +253,17 @@ class Path_Image {
                     case 'image/gif':
                         $B = imagegif($image_gd_new, $dest_file_path);
                         break;
+                    case 'image/webp':
+                        //$B = imagegif($image_gd_new, $dest_file_path);
+                        if (function_exists('imagewebp')) {
+                            imagewebp($image_gd_new, $dest_file_path, (100 - $quality_jpg_png_webp) * .5 + $quality_jpg_png_webp);
+                        }
+                        break;
                 }
-                if ($tryMakeWebp && function_exists('imagewebp')) {
+                ///duplicate to webp
+                if (strtolower($dest_mime) !== 'image/webp' && $tryMakeWebP && function_exists('imagewebp')) {
                     $dest_file = get_file($dest_file_path);
-                    imagewebp($image_gd_new, $dest_file->get_dirname() . '/' . $dest_file->get_filename() . '.webp', $quality_jpg_png_webp);
+                    imagewebp($image_gd_new, $dest_file->get_dirname() . '/' . $dest_file->get_filename() . '.webp', (100 - $quality_jpg_png_webp) * .5 + $quality_jpg_png_webp);
                 }
                 imagedestroy($src_image);
                 imagedestroy($image_gd_new);

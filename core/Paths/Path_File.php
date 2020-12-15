@@ -7,6 +7,7 @@ use hiweb\components\Console\ConsoleFactory;
 use hiweb\components\Includes\IncludesFactory;
 use hiweb\core\ArrayObject\ArrayObject;
 use hiweb\core\Cache\CacheFactory;
+use hiweb\core\hidden_methods;
 
 
 /**
@@ -25,6 +26,9 @@ class Path_File {
     private $absolute_path;
     /** @var array */
     private $cache_subFiles = [];
+
+
+    use hidden_methods;
 
 
     public function __construct(Path $Path) {
@@ -505,7 +509,7 @@ class Path_File {
                     $this->cache_subFiles[$cache_key] = array_merge($this->cache_subFiles[$cache_key], $subFile->get_sub_files($mask, $depth - 1));
                 } else {
                     if (is_array($mask) && count($mask) > 0) {
-                        if ( !in_array(PathsFactory::file_extension($subFileName), $mask)) continue;
+                        if ( !in_array(PathsFactory::get_extension($subFileName), $mask)) continue;
                     }
                     $this->cache_subFiles[$cache_key][$subFile->get_original_path()] = $subFile;
                 }

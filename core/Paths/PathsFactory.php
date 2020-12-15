@@ -52,7 +52,7 @@ class PathsFactory {
      */
     static function get_by_id($attachment_id = 0): Path {
         if ( !array_key_exists($attachment_id, self::$cache_attachment_ids)) {
-            if(function_exists('get_attached_file')) {
+            if (function_exists('get_attached_file')) {
                 self::$cache_attachment_ids[$attachment_id] = get_attached_file($attachment_id);
             } else {
                 //global $wpdb;
@@ -200,12 +200,22 @@ class PathsFactory {
 
 
     /**
-     * @param $file_name
+     * @param $fileName
      * @return mixed|string
      */
-    static function file_extension($file_name): string {
-        $pathinfo = pathinfo($file_name);
-        return isset($pathinfo['extension']) ? $pathinfo['extension'] : '';
+    static function get_extension($fileName): string {
+        $pathInfo = pathinfo($fileName);
+        return isset($pathInfo['extension']) ? $pathInfo['extension'] : '';
+    }
+
+
+    /**
+     * @param $fileName
+     * @return string
+     * @deprecated use get_extension(...)
+     */
+    static protected function file_extension($fileName): string {
+        return self::get_extension($fileName);
     }
 
 

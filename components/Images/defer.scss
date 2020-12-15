@@ -1,0 +1,7 @@
+@import "../../assets/css/mixins";
+
+[data-image-defer-status="preload"] {
+	img {
+		@include filter(blur(2px));
+	}
+}

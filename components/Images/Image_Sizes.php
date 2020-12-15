@@ -29,13 +29,39 @@ class Image_Sizes {
 
 
     /**
+     * @param       $width
+     * @param       $height
+     * @param false $crop
+     * @param null  $extension
+     * @return string
+     */
+    protected function get_filePath_bySizeName($width, $height, $crop = false, $extension = null): string {
+        $main_file = $this->Image->path()->file();
+        $file_path = [ $main_file->get_dirname() . '/' ];
+        $file_path[] = $main_file->get_filename();
+        $file_path[] = '-' . $width . 'x' . $height;
+        $file_path[] = ($crop === 0 || $crop === false) ? 'c' : '';
+        $file_path[] = !is_string($extension) ? '.' . $main_file->get_extension() : '.' . ltrim('.', $extension);
+        return join('', $file_path);
+    }
+
+
+    /**
      * Return calculate dimension by current image file
      * @param string|array $sizeOrName
      * @return stdClass
      */
     public function get_calculate_size($sizeOrName = 'thumbnail'): stdClass {
         if (is_string($sizeOrName)) {
-            $sizeOrName = get_dimension_from_wp_register_size($sizeOrName);
+            if (strtolower($sizeOrName) == 'original' || strtolower($sizeOrName) == 'full') {
+                $sizeOrName = [
+                    'width' => $this->Image->get_width(),
+                    'height' => $this->Image->get_height(),
+                    'crop' => - 1
+                ];
+            } else {
+                $sizeOrName = get_dimension_from_wp_register_size($sizeOrName);
+            }
         }
         if (is_array($sizeOrName) || is_object($sizeOrName)) {
             $sizeOrName = (array)$sizeOrName;
@@ -57,17 +83,27 @@ class Image_Sizes {
      */
     public function get_sizes(): array {
         if ( !is_array($this->sizes)) {
+            $originalSize = new Image_Size($this->Image, $this->Image->get_original_src(true));
+            $originalSize->set_dimension($this->Image->get_width(), $this->Image->get_height(), false);
+            $originalSize->set_name('original');
             $this->sizes = [
-                'original' => $this->get_original_size()
+                'original' => $originalSize
             ];
             if (property_exists($this->Image->get_attachment_meta(), 'sizes') && is_array($this->Image->get_attachment_meta()->sizes)) {
                 foreach ($this->Image->get_attachment_meta()->sizes as $sizeName => $sizeRawData) {
-                    if(preg_match('/^[\d]{1,}x[\d]{1,}c?$/i', $sizeName) > 0) {
-                        $sizeRawData['crop'] = preg_match('/c$/i', $sizeName) > 0;
-                    }elseif(function_exists('wp_get_registered_image_subsizes') && array_key_exists($sizeName, wp_get_registered_image_subsizes() )) {
-                        $sizeRawData['crop'] = wp_get_registered_image_subsizes()[$sizeName]['crop'];
+                    if ($sizeName == 'original') continue;
+                    if (isset($sizeRawData['file'])) {
+                        $crop = false;
+                        if (preg_match('/^[\d]{1,}x[\d]{1,}c?$/i', $sizeName) > 0) {
+                            $crop = preg_match('/c$/i', $sizeName) > 0;
+                        } elseif (function_exists('wp_get_registered_image_subsizes') && array_key_exists($sizeName, wp_get_registered_image_subsizes())) {
+                            $crop = wp_get_registered_image_subsizes()[$sizeName]['crop'];
+                        }
+                        $Image_Size = new Image_Size($this->Image, $sizeRawData['file']);
+                        if (isset($sizeRawData['width'])) $Image_Size->set_dimension($sizeRawData['width'], $sizeRawData['height'], $crop);
+                        $Image_Size->set_name($sizeName);
+                        $this->sizes[$sizeName] = $Image_Size;
                     }
-                    $this->sizes[$sizeName] = new Image_Size($this->Image, $sizeRawData, $sizeName);
                 }
             }
         }
@@ -80,9 +116,8 @@ class Image_Sizes {
      * @return Image_Size
      */
     public function get_original_size(): Image_Size {
-        return CacheFactory::get($this->Image->get_attachment_ID(), __METHOD__, function() {
-            return new Image_Size($this->Image, (object)[ 'width' => $this->Image->get_width(), 'height' => $this->Image->get_height(), 'file' => $this->Image->path()->file()->get_basename(), 'crop' => false ], 'original');
-        })->get_value();
+        if (ImagesFactory::$useWebPExtension) $this->get_sizes()['original']->make(false);
+        return $this->get_sizes()['original'];
     }
 
 
@@ -94,29 +129,30 @@ class Image_Sizes {
         $sizes_by_delta = [];
         ///
         $dimension = $this->get_calculate_size($sizeOrName);
-        $src_pixel = $dimension->width * $dimension->height;
-        $src_aspect = $dimension->width / $dimension->height;
+        $desireArea = $dimension->width * $dimension->height;
+        $desireAspect = $dimension->width / $dimension->height;
         $more_that = ($dimension->resize_mode > 0);
         $less_that = ($dimension->resize_mode < 0);
         foreach ($this->get_sizes() as $sizeName => $image_Size) {
             if ($sizeName == '' || $image_Size->get_aspect() == 0) continue;
-            $delta = (($image_Size->get_width() * $image_Size->get_height()) - $src_pixel) * ($src_aspect / $image_Size->get_height() && $image_Size->is_exists());
+            $delta = ($image_Size->get_area() - $desireArea) + ($image_Size->get_area() - $desireArea) * abs($image_Size->get_aspect() - $desireAspect);
             if (($more_that && $delta >= 0) || ($less_that && $delta <= 0)) {
                 $sizes_by_delta[abs($delta)] = $image_Size;
             }
         }
-        ksort($sizes_by_delta);
+        ksort($sizes_by_delta, SORT_NATURAL);
         return $sizes_by_delta;
     }
 
 
     /**
      * @param string|array|stdClass $sizeOrName
-     * @param bool                  $makeIfNotExist
+     * @param null                  $makeIfNotExist
+     * @param int                   $quality_jpg_png_webp
      * @return Image_Size
      * @version 1.1
      */
-    public function get($sizeOrName = 'medium', $makeIfNotExist = null): Image_Size {
+    public function get($sizeOrName = 'medium', $makeIfNotExist = null, $quality_jpg_png_webp = 75): Image_Size {
         if ( !$this->Image->is_attachment_exists()) return $this->get_original_size();
         if (is_null($makeIfNotExist)) $makeIfNotExist = ImagesFactory::$makeFileIfNotExists;
         $dimension = $this->get_calculate_size($sizeOrName);
@@ -124,53 +160,32 @@ class Image_Sizes {
         if ($dimension->width == $this->Image->get_width() && $dimension->height == $this->Image->get_height()) return $this->get_original_size();
         foreach ($this->get_sizes() as $image_Size) {
             if ($dimension->resize_mode == 0 && $image_Size->path()->file()->is_exists() && $image_Size->get_width() == $dimension->width && $image_Size->get_height() == $dimension->height) {
+                $image_Size->make();
                 return $image_Size;
             } elseif ($dimension->resize_mode == - 1 && $image_Size->path()->file()->is_exists() && (($dimension->width == $image_Size->get_width() && $dimension->height >= $image_Size->get_height()) || ($dimension->width >= $image_Size->get_width() && $dimension->height == $image_Size->get_height()))) {
+                $image_Size->make();
                 return $image_Size;
             } elseif ($dimension->resize_mode == 1 && $image_Size->path()->file()->is_exists() && (($dimension->width == $image_Size->get_width() && $dimension->height <= $image_Size->get_height()) || ($dimension->width <= $image_Size->get_width() && $dimension->height == $image_Size->get_height()))) {
+                $image_Size->make();
                 return $image_Size;
             }
         }
         ///find similar image size
         if ( !$makeIfNotExist) {
             foreach ($this->get_similar_sizes($sizeOrName) as $image_Size) {
+                if (ImagesFactory::$makeFileIfNotExists) $image_Size->make();
                 return $image_Size;
             }
         } else {
             $dimension = $this->get_calculate_size($sizeOrName);
             $newSizeName = $dimension->width . 'x' . $dimension->height . ($dimension->resize_mode == 0 ? 'c' : '');
-            $Image_Size = new Image_Size($this->Image, [ 'width' => $dimension->width, 'height' => $dimension->height, 'crop' => $dimension->resize_mode ], $newSizeName);
+            $Image_Size = new Image_Size($this->Image, $this->get_filePath_bySizeName($dimension->width, $dimension->height, $dimension->resize_mode));
+            $Image_Size->set_dimension($dimension->width, $dimension->height, $dimension->resize_mode);
+            $Image_Size->make(false, $quality_jpg_png_webp);
             $this->sizes[$newSizeName] = $Image_Size;
-            $Image_Size->make_file();
             return $Image_Size;
         }
         return $this->get_original_size();
     }
-
-
-    /**
-     * @param      $dimensionOrSizeName
-     * @param bool $more_that
-     * @param bool $less_that
-     * @return Image_Size[]
-     */
-    //    public function get_search($dimensionOrSizeName, $more_that = true, $less_that = false) {
-    //        $dimension = $dimensionOrSizeName;
-    //        if (is_string($dimensionOrSizeName)) {
-    //            $dimension = get_dimension_from_wp_register_size($dimensionOrSizeName);
-    //        }
-    //        $src_pixel = $dimension[0] * $dimension[1];
-    //        $src_aspect = $dimension[0] / $dimension[1];
-    //        $sizes_by_delta = [];
-    //        foreach ($this->get_sizes() as $size_name => $image_Size) {
-    //            if ($size_name == '' || $image_Size->aspect() == 0) continue;
-    //            $delta = (($image_Size->width() * $image_Size->height()) - $src_pixel) * ($src_aspect / $image_Size->height());
-    //            if (($more_that && $delta >= 0) || ($less_that && $delta <= 0)) {
-    //                $sizes_by_delta[abs($delta)] = $image_Size;
-    //            }
-    //        }
-    //        ksort($sizes_by_delta);
-    //        return $sizes_by_delta;
-    //    }
 
 }
