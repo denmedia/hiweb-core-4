@@ -256,8 +256,8 @@ class Path_Image {
                     case 'image/webp':
                         //$B = imagegif($image_gd_new, $dest_file_path);
                         if (function_exists('imagewebp')) {
-                            imagewebp($image_gd_new, $dest_file_path, (100 - $quality_jpg_png_webp) * .5 + $quality_jpg_png_webp);
-                        }
+                            $B = imagewebp($image_gd_new, $dest_file_path, (100 - $quality_jpg_png_webp) * .5 + $quality_jpg_png_webp);
+                        } else  $B = - 4;
                         break;
                 }
                 ///duplicate to webp

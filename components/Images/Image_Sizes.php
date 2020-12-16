@@ -29,15 +29,17 @@ class Image_Sizes {
 
 
     /**
+     * Return file name like 'my_image-640x480.jpg' by size 640px * 480px
      * @param       $width
      * @param       $height
      * @param false $crop
      * @param null  $extension
      * @return string
      */
-    protected function get_filePath_bySizeName($width, $height, $crop = false, $extension = null): string {
+    protected function get_fileName_bySizeName($width, $height, $crop = false, $extension = null): string {
         $main_file = $this->Image->path()->file();
-        $file_path = [ $main_file->get_dirname() . '/' ];
+        $file_path = [];
+        //$file_path[] = $main_file->get_dirname() . '/';
         $file_path[] = $main_file->get_filename();
         $file_path[] = '-' . $width . 'x' . $height;
         $file_path[] = ($crop === 0 || $crop === false) ? 'c' : '';
@@ -65,16 +67,17 @@ class Image_Sizes {
         }
         if (is_array($sizeOrName) || is_object($sizeOrName)) {
             $sizeOrName = (array)$sizeOrName;
-            if (isset($sizeOrName['width'])) $sizeOrName[0] = $sizeOrName['width'];
-            if (isset($sizeOrName['height'])) $sizeOrName[1] = $sizeOrName['height'];
-            if (isset($sizeOrName['crop'])) $sizeOrName[2] = $sizeOrName['crop'] === true ? 0 : - 1;
-            if (isset($sizeOrName['resize_mode'])) $sizeOrName[2] = $sizeOrName['resize_mode'];
-            if ( !isset($sizeOrName[2])) $sizeOrName[2] = - 1;
+            if(isset($sizeOrName[0])) $sizeOrName['width'] = $sizeOrName[0];
+            if(isset($sizeOrName[1])) $sizeOrName['height'] = $sizeOrName[1];
+            if(isset($sizeOrName[2])) $sizeOrName['resize_mode'] = $sizeOrName[2];
+            if (isset($sizeOrName['crop'])) $sizeOrName['resize_mode'] = $sizeOrName['crop'] === true ? 0 : - 1;
+            if (isset($sizeOrName['resize_mode'])) $sizeOrName['crop'] = $sizeOrName['resize_mode'] == 0;
+            if ( !isset($sizeOrName['resize_mode'])) $sizeOrName['resize_mode'] = - 1;
         }
         if ($this->Image->get_width() == 0 || $this->Image->get_height() == 0) {
             return (object)$sizeOrName;
         }
-        return get_image_calculate_size_from_dimension($sizeOrName[0], $sizeOrName[1], $this->Image->get_width(), $this->Image->get_height(), $sizeOrName[2]);
+        return get_image_calculate_size_from_dimension($sizeOrName['width'], $sizeOrName['height'], $this->Image->get_width(), $this->Image->get_height(), $sizeOrName['resize_mode']);
     }
 
 
@@ -83,7 +86,7 @@ class Image_Sizes {
      */
     public function get_sizes(): array {
         if ( !is_array($this->sizes)) {
-            $originalSize = new Image_Size($this->Image, $this->Image->get_original_src(true));
+            $originalSize = new Image_Size($this->Image, $this->Image->path()->file()->get_basename());
             $originalSize->set_dimension($this->Image->get_width(), $this->Image->get_height(), false);
             $originalSize->set_name('original');
             $this->sizes = [
@@ -179,8 +182,9 @@ class Image_Sizes {
         } else {
             $dimension = $this->get_calculate_size($sizeOrName);
             $newSizeName = $dimension->width . 'x' . $dimension->height . ($dimension->resize_mode == 0 ? 'c' : '');
-            $Image_Size = new Image_Size($this->Image, $this->get_filePath_bySizeName($dimension->width, $dimension->height, $dimension->resize_mode));
+            $Image_Size = new Image_Size($this->Image, $this->get_fileName_bySizeName($dimension->width, $dimension->height, $dimension->resize_mode));
             $Image_Size->set_dimension($dimension->width, $dimension->height, $dimension->resize_mode);
+            $Image_Size->set_name($newSizeName);
             $Image_Size->make(false, $quality_jpg_png_webp);
             $this->sizes[$newSizeName] = $Image_Size;
             return $Image_Size;

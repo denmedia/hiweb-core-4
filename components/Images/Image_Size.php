@@ -40,7 +40,7 @@ class Image_Size {
 
     public function __construct(Image $Image, $fileRelativePath) {
         $this->Image = $Image;
-        $this->fileRelativePath = $fileRelativePath;
+        $this->fileRelativePath = $this->Image->path()->file()->get_dirname() . '/' . $fileRelativePath;
     }
 
 
@@ -131,8 +131,11 @@ class Image_Size {
     }
 
 
+    /**
+     * @return string
+     */
     public function get_name(): string {
-        return $this->sizeName;
+        return (string)$this->sizeName;
     }
 
 
