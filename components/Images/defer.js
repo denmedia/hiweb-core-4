@@ -5,6 +5,9 @@ jQuery(document).ready(function ($) {
 
 
         let hiweb_imagesDefer = {
+            ///true, если в текущий момент идет ajax получение изображений
+            is_receive_data: false,
+
             ///Найденные defer изображения до загрузки данных
             source_images_data: {},
             ///Загруженные html скрипты
@@ -33,7 +36,9 @@ jQuery(document).ready(function ($) {
                         hiweb_imagesDefer.receive_images_data(hiweb_imagesDefer.find_images_on_windows);
                         // ///ajax events //todo
                         $(document).on('ajaxComplete', function () {
-                            //hiweb_imagesDefer.receive_images_data(hiweb_imagesDefer.find_images_on_windows)
+                            if(!hiweb_imagesDefer.is_receive_data) {
+                                hiweb_imagesDefer.receive_images_data(hiweb_imagesDefer.find_images_on_windows)
+                            }
                         });
                     }
                 }, 100);
@@ -46,6 +51,7 @@ jQuery(document).ready(function ($) {
                     let $img = $(this);
                     hiweb_imagesDefer.source_images_data[$img.attr('data-image-defer-id')] = JSON.parse($img.attr('data-image-defer'));
                 });
+                hiweb_imagesDefer.is_receive_data = true;
                 $.ajax({
                     url: hiweb_imageDefer_ajax_url,
                     //url: '/wp-json/hiweb/components/images/defer',
@@ -63,6 +69,9 @@ jQuery(document).ready(function ($) {
                             if (typeof successCallBack === 'function') successCallBack();
                         }
                         $('body').append(response.js);
+                    },
+                    complete: function () {
+                        hiweb_imagesDefer.is_receive_data = false;
                     }
                 })
             },

@@ -485,6 +485,7 @@ class Image {
      * @return false|string
      */
     public function get_html_defer($sizeOrName, $attributes = []) {
+        ob_start();
         $dimension = $this->sizes()->get_calculate_size($sizeOrName);
         if ( !$this->is_exists()) {
             include __DIR__ . '/templates/noimg.php';
