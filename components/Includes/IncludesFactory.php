@@ -16,7 +16,7 @@ use hiweb\core\Paths\PathsFactory;
 /**
  * Include css and js files for WordPress
  * @package hiweb\components\Includes
- * @version 1.2
+ * @version 1.3
  */
 class IncludesFactory {
 
@@ -25,9 +25,35 @@ class IncludesFactory {
 
     static $already_printed = [];
     static $jquery_3_path = HIWEB_DIR_VENDOR . '/jquery3/jquery-3.3.1.min.js';
+    static $replace_wp_scripts = true;
+    static $wp_scripts_default_replace = [
+        'jquery-core' => HIWEB_DIR_VENDOR . '/jquery3/jquery-3.3.1.min.js'
+    ];
 
 
-    public function get_srcs_from_handle(string $handle, $scripts = true, $styles = true) {
+    static function init() {
+        if (function_exists('add_action')) {
+            add_action('init', function() {
+                if (self::$replace_wp_scripts && function_exists('wp_scripts')) {
+                    foreach (self::$wp_scripts_default_replace as $handle => $absolutePath) {
+                        if (array_key_exists($handle, wp_scripts()->registered) && get_path($absolutePath)->file()->is_exists()) {
+                            wp_scripts()->registered[$handle]->src = get_path($absolutePath)->get_path_relative(false);
+                            wp_scripts()->registered[$handle]->ver = filemtime(get_path($absolutePath)->get_absolute_path());
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+
+    /**
+     * @param string $handle
+     * @param bool   $scripts
+     * @param bool   $styles
+     * @return array
+     */
+    public function get_srcs_from_handle(string $handle, $scripts = true, $styles = true): array {
         $R = [];
         $_WP_Dependency = false;
         if ($scripts && array_key_exists($handle, wp_scripts()->registered)) {
@@ -54,7 +80,7 @@ class IncludesFactory {
      * @return Path
      * @version 1.1
      */
-    static private function get_Path_bySearch($fileNameOrPath = null, $extension = 'css') {
+    static private function get_Path_bySearch($fileNameOrPath = null, $extension = 'css'): Path {
         return CacheFactory::get($fileNameOrPath . ':' . $extension, __METHOD__, function() {
             $search_paths = [];
             $fileNameOrPath = func_get_arg(0);
@@ -119,7 +145,7 @@ class IncludesFactory {
      * @param null $fileNameOrPathOrURL
      * @return Css
      */
-    public function css($fileNameOrPathOrURL = null) {
+    public function css($fileNameOrPathOrURL = null): Css {
         $Path = self::get_Path_bySearch($fileNameOrPathOrURL, 'css');
         return CacheFactory::get($Path->handle(), __CLASS__ . ':css', function() {
             $Path = func_get_arg(0);
@@ -136,7 +162,7 @@ class IncludesFactory {
      * @return Js
      * @version 1.1
      */
-    public function js($fileNameOrPathOrURL = null, $deeps = null, $defer = true) {
+    public function js($fileNameOrPathOrURL = null, $deeps = null, $defer = true): Js {
         $Path = self::get_Path_bySearch($fileNameOrPathOrURL, 'js');
         /** @var Js $js */
         $js = CacheFactory::get($Path->handle(), __CLASS__ . ':js', function() {
@@ -211,7 +237,7 @@ class IncludesFactory {
      * @param $media
      * @return null|string
      */
-    static protected function _add_filter_style_loader_tag($html = null, $handle = null, $href = null, $media = null) {
+    static protected function _add_filter_style_loader_tag($html = null, $handle = null, $href = null, $media = null): ?string {
         if (CacheFactory::is_exists($handle, __CLASS__ . ':css')) {
             $Css = CacheFactory::get($handle, __CLASS__ . ':css')();
             if ($Css instanceof Css) {
@@ -222,7 +248,7 @@ class IncludesFactory {
     }
 
 
-    static protected function _add_filter_script_loader_tag($tag, $handle, $src) {
+    static protected function _add_filter_script_loader_tag($tag, $handle, $src): string {
         if (CacheFactory::is_exists($handle, __CLASS__ . ':js')) {
             $Js = CacheFactory::get($handle, __CLASS__ . ':js')();
             if ($Js instanceof Js) {

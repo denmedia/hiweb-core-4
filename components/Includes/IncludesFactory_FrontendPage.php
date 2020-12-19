@@ -14,7 +14,7 @@
 		 * @param null|string $fileNameOrPathOrURL
 		 * @return Css
 		 */
-		public function css( $fileNameOrPathOrURL = null ){
+		public function css( $fileNameOrPathOrURL = null ): Css{
 			return parent::css( $fileNameOrPathOrURL )->on_frontend(true);
 		}
 
@@ -25,7 +25,7 @@
          * @param bool        $defer
          * @return Js
          */
-		public function js( $fileNameOrPathOrURL = null, $deeps = null, $defer = true ){
+		public function js( $fileNameOrPathOrURL = null, $deeps = null, $defer = true ): Js{
 			return parent::js( $fileNameOrPathOrURL, $deeps );
 		}
 

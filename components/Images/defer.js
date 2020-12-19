@@ -6,7 +6,7 @@ jQuery(document).ready(function ($) {
 
         let hiweb_imagesDefer = {
             ///true, если в текущий момент идет ajax получение изображений
-            is_receive_data: false,
+            is_receive_data: 0,
 
             ///Найденные defer изображения до загрузки данных
             source_images_data: {},
@@ -34,9 +34,11 @@ jQuery(document).ready(function ($) {
                     if (/loaded|complete/.test(document.readyState)) {
                         clearInterval(everythingLoaded);
                         hiweb_imagesDefer.receive_images_data(hiweb_imagesDefer.find_images_on_windows);
-                        // ///ajax events //todo
+                        ///ajax events
                         $(document).on('ajaxComplete', function () {
-                            if(!hiweb_imagesDefer.is_receive_data) {
+                            if (hiweb_imagesDefer.is_receive_data === 2) {
+                                hiweb_imagesDefer.is_receive_data = 0;
+                            } else if (hiweb_imagesDefer.is_receive_data === 0) {
                                 hiweb_imagesDefer.receive_images_data(hiweb_imagesDefer.find_images_on_windows)
                             }
                         });
@@ -45,13 +47,13 @@ jQuery(document).ready(function ($) {
             },
 
             receive_images_data: function (successCallBack) {
+                hiweb_imagesDefer.is_receive_data = 1;
                 let $source_images_data = $('[data-image-defer-id]');
                 if ($source_images_data.length === 0) return;
                 $source_images_data.each(function () {
                     let $img = $(this);
                     hiweb_imagesDefer.source_images_data[$img.attr('data-image-defer-id')] = JSON.parse($img.attr('data-image-defer'));
                 });
-                hiweb_imagesDefer.is_receive_data = true;
                 $.ajax({
                     url: hiweb_imageDefer_ajax_url,
                     //url: '/wp-json/hiweb/components/images/defer',
@@ -71,7 +73,7 @@ jQuery(document).ready(function ($) {
                         $('body').append(response.js);
                     },
                     complete: function () {
-                        hiweb_imagesDefer.is_receive_data = false;
+                        hiweb_imagesDefer.is_receive_data = 2;
                     }
                 })
             },
@@ -93,7 +95,7 @@ jQuery(document).ready(function ($) {
             find_images_on_windows: function () {
                 let minHeight = $(window).scrollTop();
                 let maxHeight = minHeight + window.innerHeight;
-                for (let defer_id in hiweb_imagesDefer.receive_images_src) {
+                for (let defer_id in hiweb_imagesDefer.receive_images_html) {
                     ///skip already in queue
                     if (hiweb_imagesDefer.images_ids_queue.indexOf(defer_id) > -1 || hiweb_imagesDefer.images_ids_processed.indexOf(defer_id) > -1) continue;
                     ///find images in browser window
@@ -133,16 +135,40 @@ jQuery(document).ready(function ($) {
                 let $img = $('[data-image-defer-id="' + defer_id + '"]');
                 if ($img.length > 0) {
                     $img.addClass('data-image-defer-status', 'loading');
-                    let loading_image = new Image();
-                    loading_image.onload = function () {
-                        $img.replaceWith($(hiweb_imagesDefer.receive_images_html[defer_id]).attr('data-image-defer-status', 'loaded'));
-                        if (typeof successCallback === 'function') successCallback();
-                    };
-                    loading_image.onerror = function () {
-                        //$img[0].outerHTML = $(hiweb_imagesDefer.receive_images_html[defer_id]).attr('data-image-defer-status', 'loaded')[0].outerHTML;
-                        if (typeof successCallback === 'function') successCallback();
+                    let urls = hiweb_imagesDefer.receive_images_src[defer_id];
+                    let urls_count = urls.length;
+                    if (urls_count === 0 && typeof successCallback === 'function') {
+                        return successCallback();
                     }
-                    loading_image.src = hiweb_imagesDefer.receive_images_src[defer_id];
+                    ///
+                    for (let i in urls) {
+                        let loading_image = new Image();
+                        loading_image.onload = function () {
+                            urls_count--;
+                            if (urls_count < 1 && typeof successCallback === 'function') {
+                                $img.replaceWith($(hiweb_imagesDefer.receive_images_html[defer_id]).attr('data-image-defer-status', 'loaded'));
+                                successCallback();
+                            }
+                        }
+                        loading_image.onerror = function () {
+                            urls_count--;
+                            if (urls_count < 1 && typeof successCallback === 'function') {
+                                successCallback();
+                            }
+                        }
+                        loading_image.src = urls[i];
+                    }
+                    ///
+                    // let loading_image = new Image();
+                    // loading_image.onload = function () {
+                    //     $img.replaceWith($(hiweb_imagesDefer.receive_images_html[defer_id]).attr('data-image-defer-status', 'loaded'));
+                    //     if (typeof successCallback === 'function') successCallback();
+                    // };
+                    // loading_image.onerror = function () {
+                    //$img[0].outerHTML = $(hiweb_imagesDefer.receive_images_html[defer_id]).attr('data-image-defer-status', 'loaded')[0].outerHTML;
+                    //     if (typeof successCallback === 'function') successCallback();
+                    // }
+                    // loading_image.src = hiweb_imagesDefer.receive_images_src[defer_id];
                 }
             }
 

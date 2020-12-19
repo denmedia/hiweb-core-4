@@ -20,6 +20,8 @@ class ImagesFactory {
     public static $useImageDefer = true;
     public static $usePictureHtmlTag = true;
 
+    public static $requested_urls = [];
+
     /**
      * @param $idOrUrl
      * @return Image

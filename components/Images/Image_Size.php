@@ -84,7 +84,9 @@ class Image_Size {
      * @return string
      */
     public function get_src(): string {
-        return $this->path()->get_url();
+        $url = $this->path()->get_url();
+        ImagesFactory::$requested_urls[] = $url;
+        return $url;
     }
 
 
@@ -122,7 +124,9 @@ class Image_Size {
      * @return string
      */
     public function get_src_webp(): string {
-        return $this->path_webp()->get_url();
+        $url = $this->path_webp()->get_url();
+        ImagesFactory::$requested_urls[] = $url;
+        return $url;
     }
 
 

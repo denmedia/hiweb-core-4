@@ -10,7 +10,7 @@
 		 * @return Css
          * @version 1.1
 		 */
-		public function css( $fileNameOrPathOrURL = null ){
+		public function css( $fileNameOrPathOrURL = null ): Css{
 			return parent::css( $fileNameOrPathOrURL )->on_admin( true );
 		}
 
@@ -21,7 +21,7 @@
          * @param bool        $defer
          * @return Js
          */
-		public function js( $fileNameOrPathOrURL = null, $deeps = null, $defer = true ){
+		public function js( $fileNameOrPathOrURL = null, $deeps = null, $defer = true ): Js{
 			return parent::js( $fileNameOrPathOrURL, $deeps )->on_frontend(true);
 		}
 
