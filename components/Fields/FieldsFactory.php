@@ -228,10 +228,10 @@ class FieldsFactory {
 
 
     /**
-     * @param $objectContext
+     * @param null|WP_Post|WP_Term|WP_User|string $objectContext
      * @return array|object|WP_Post|null
      */
-    static function sanitize_objectContext($objectContext = null) {
+    static function get_sanitize_objectContext($objectContext = null) {
         ///prepare object
         if (is_null($objectContext)) {
             if (function_exists('get_queried_object')) {
@@ -248,47 +248,51 @@ class FieldsFactory {
     }
 
 
-    static function get_query_from_contextObject($objectContext = null) {
+    /**
+     * @param null|WP_Post|WP_Term|WP_User|string $contextObject
+     * @return array|array[]|string[]
+     */
+    static function get_query_from_contextObject($contextObject = null): array {
         $R = [];
-        $objectContext = self::sanitize_objectContext($objectContext);
+        $contextObject = self::get_sanitize_objectContext($contextObject);
         ///
-        if ($objectContext instanceof WP_Post) {
-            if ($objectContext->post_type == 'nav_menu_item') {
+        if ($contextObject instanceof WP_Post) {
+            if ($contextObject->post_type == 'nav_menu_item') {
                 $R = [
                     'nav_menu' => [
-                        'ID' => $objectContext->ID,
+                        'ID' => $contextObject->ID,
                     ],
                 ];
             } else {
                 $R = [
                     'post_type' => [
-                        'ID' => $objectContext->ID,
-                        'post_type' => $objectContext->post_type,
-                        'post_name' => $objectContext->post_name,
-                        'post_status' => $objectContext->post_status,
-                        'comment_status' => $objectContext->comment_status,
-                        'post_parent' => $objectContext->post_parent,
-                        'has_taxonomy' => $objectContext->has_taxonomy,
-                        'front_page' => StructuresFactory::get_front_page_id() == $objectContext->ID,
+                        'ID' => $contextObject->ID,
+                        'post_type' => $contextObject->post_type,
+                        'post_name' => $contextObject->post_name,
+                        'post_status' => $contextObject->post_status,
+                        'comment_status' => $contextObject->comment_status,
+                        'post_parent' => $contextObject->post_parent,
+                        'has_taxonomy' => $contextObject->has_taxonomy,
+                        'front_page' => StructuresFactory::get_front_page_id() == $contextObject->ID,
                     ],
                 ];
             }
-        } elseif ($objectContext instanceof \WP_Term) {
+        } elseif ($contextObject instanceof \WP_Term) {
             $R = [
                 'taxonomy' => [
-                    'term_id' => $objectContext->term_id,
-                    'term_taxonomy_id' => $objectContext->term_taxonomy_id,
-                    'name' => $objectContext->name,
-                    'taxonomy' => $objectContext->taxonomy,
-                    'slug' => $objectContext->slug,
-                    'count' => $objectContext->count,
-                    'parent' => $objectContext->parent,
-                    'term_group' => $objectContext->term_group,
+                    'term_id' => $contextObject->term_id,
+                    'term_taxonomy_id' => $contextObject->term_taxonomy_id,
+                    'name' => $contextObject->name,
+                    'taxonomy' => $contextObject->taxonomy,
+                    'slug' => $contextObject->slug,
+                    'count' => $contextObject->count,
+                    'parent' => $contextObject->parent,
+                    'term_group' => $contextObject->term_group,
                 ],
             ];
-        } elseif (is_string($objectContext)) {
+        } elseif (is_string($contextObject)) {
             $R = [
-                'options' => $objectContext,
+                'options' => $contextObject,
             ];
         }
         return $R;
@@ -303,7 +307,7 @@ class FieldsFactory {
      * @return false
      */
     static function set_field_value($field_ID, $objectContext = null, $setValue = null) {
-        $contextObject_sanitize = FieldsFactory::sanitize_objectContext($objectContext);
+        $contextObject_sanitize = FieldsFactory::get_sanitize_objectContext($objectContext);
         $fields = self::get_field_by_query(self::get_query_from_contextObject($contextObject_sanitize));
         if (array_key_exists($field_ID, $fields)) {
             $field = $fields[$field_ID];

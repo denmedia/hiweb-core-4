@@ -12,7 +12,7 @@
 		/**
 		 * @return Field_Options_Location_PostType_MetaBox
 		 */
-		public function normal(){
+		public function normal(): Field_Options_Location_PostType_MetaBox {
 			return $this->_( 'normal' );
 		}
 
@@ -20,7 +20,7 @@
 		/**
 		 * @return Field_Options_Location_PostType_MetaBox
 		 */
-		public function advanced(){
+		public function advanced(): Field_Options_Location_PostType_MetaBox {
 			return $this->_( 'advanced' );
 		}
 
@@ -28,7 +28,7 @@
 		/**
 		 * @return Field_Options_Location_PostType_MetaBox
 		 */
-		public function side(){
+		public function side(): Field_Options_Location_PostType_MetaBox {
 			return $this->_( 'side' );
 		}
 

@@ -3,13 +3,12 @@
 namespace hiweb\core\ArrayObject;
 
 
-use hiweb\core\ArrayObject\ArrayObject;
 use hiweb\core\Cache\CacheFactory;
 
 
 /**
  * Class ArrayObject_Rows
- * @version 1.3
+ * @version 1.4
  * @package hiweb\core\ArrayObject
  */
 class ArrayObject_Rows {
@@ -61,7 +60,7 @@ class ArrayObject_Rows {
      * Reset rows of ArrayObject to first
      * @return int
      */
-    public function reset() {
+    public function reset(): int {
         if ($this->array->is_empty()) return 0;
         $this->rows = $this->array->get();
         $this->current_row = null;
@@ -170,9 +169,20 @@ class ArrayObject_Rows {
     /**
      * @param string $col_id
      * @return bool
+     * @aliase is_sub_field_exists
      */
-    public function have_sub_field($col_id) {
+    public function have_sub_field(string $col_id): bool {
         if ($this->is_sub_rows()) return $this->current_sub_rows->arrayObject()->key_exists($col_id); else return false;
+    }
+
+
+    /**
+     * @param string $col_id
+     * @return bool
+     * @aliase have_sub_field
+     */
+    public function is_sub_field_exists(string $col_id): bool {
+        return $this->have_sub_field($col_id);
     }
 
 
@@ -180,7 +190,7 @@ class ArrayObject_Rows {
      * Return sub field value
      * @param null $col_id
      * @param null $default
-     * @return array|mixed|null
+     * @return mixed|null
      */
     public function get_sub_field($col_id = null, $default = null) {
         if ($this->is_sub_rows()) return $this->current_sub_rows->arrayObject()->_($col_id, $default); else return $default;
@@ -188,18 +198,18 @@ class ArrayObject_Rows {
 
 
     /**
-     * @return array|mixed|null
+     * @return string
      */
-    public function get_layout() {
-        return $this->get_sub_field('_flex_row_id');
+    public function get_layout(): string {
+        return (string)$this->get_sub_field('_flex_row_id', '');
     }
 
 
     /**
      * @alias get_layout()
-     * @return array|mixed|null
+     * @return string
      */
-    public function get_row_layout() {
+    public function get_row_layout(): string {
         return $this->get_layout();
     }
 
@@ -208,7 +218,7 @@ class ArrayObject_Rows {
      * Return current row index
      * @return int
      */
-    public function get_index() {
+    public function get_index(): int {
         return $this->array->count() - (count($this->rows) + 1);
     }
 

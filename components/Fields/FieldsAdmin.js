@@ -24,13 +24,13 @@ jQuery(document).ready(function ($) {
     };
 
     let loadStyleSheet = function (path, fn, scope) {
-        var head = document.getElementsByTagName('head')[0], // reference to document.head for appending/ removing link nodes
+        let head = document.getElementsByTagName('head')[0], // reference to document.head for appending/ removing link nodes
             link = document.createElement('link');           // create the link node
         link.setAttribute('href', path);
         link.setAttribute('rel', 'stylesheet');
         link.setAttribute('type', 'text/css');
 
-        var sheet, cssRules;
+        let sheet, cssRules;
 // get the correct properties to check for depending on the browser
         if ('sheet' in link) {
             sheet = 'sheet';
@@ -40,7 +40,7 @@ jQuery(document).ready(function ($) {
             cssRules = 'rules';
         }
 
-        var interval_id = setInterval(function () {                     // start checking whether the style sheet has successfully loaded
+        let interval_id = setInterval(function () {                     // start checking whether the style sheet has successfully loaded
                 try {
                     if (link[sheet] && link[sheet][cssRules].length) { // SUCCESS! our style sheet has loaded
                         clearInterval(interval_id);                      // clear the counters
@@ -70,7 +70,7 @@ jQuery(document).ready(function ($) {
         ///LOAD JAVASCRIPTS
         let javascripts = [];
         for (let handle in response.js) {
-            if(loaded_scripts.indexOf(handle) == -1) {
+            if (loaded_scripts.indexOf(handle) == -1) {
                 javascripts.push([handle, response.js[handle]]);
                 loaded_scripts.push(handle);
             }
@@ -147,17 +147,23 @@ jQuery(document).ready(function ($) {
     let $ajax_forms = $('.hiweb-components-form-ajax-wrap[data-fields-query][data-fields-query-id]');
     let max_input_vars = 0;
     let max_input_vars_excess_triggered = false;
+    let form_loading_ids = [];
     let form_loaded_ids = [];
     if ($ajax_forms.length > 0) {
-        let load_nex_form = function () {
+        ///disable submit form
+        $ajax_forms.closest('form').each(function () {
+            $(this).find('button, input[type="submit"]').not('[disabled]').attr('disabled', '').attr('data-hiweb-form-submit-stop', '1');
+        });
+        ///
+        let load_next_form = function () {
             let $form_wrap;
-            if (form_loaded_ids.length === 0) {
+            if (form_loading_ids.length === 0) {
                 $form_wrap = $ajax_forms.eq(0);
             } else {
-                $form_wrap = $ajax_forms.not('[data-fields-query-id="' + form_loaded_ids.join('"], [data-fields-query-id="') + '"]').eq(0);
+                $form_wrap = $ajax_forms.not('[data-fields-query-id="' + form_loading_ids.join('"], [data-fields-query-id="') + '"]').eq(0);
             }
             if ($form_wrap.length > 0) {
-                form_loaded_ids.push($form_wrap.attr('data-fields-query-id'));
+                form_loading_ids.push($form_wrap.attr('data-fields-query-id'));
                 $form_wrap.addClass('loading').removeClass('preloaded');
                 $form_wrap.height($form_wrap.height());
                 $.ajax({
@@ -186,12 +192,21 @@ jQuery(document).ready(function ($) {
                                 notify_max_input_vars_excess(inputs_length, max_input_vars);
                             }
                         }
-                        setTimeout(load_nex_form, 50);
+                        setTimeout(load_next_form, 50);
+                    },
+                    complete: function () {
+                        form_loaded_ids.push($form_wrap.attr('data-fields-query-id'));
+                        ///unlock send button
+                        if ($ajax_forms.length <= form_loaded_ids.length) {
+                            $ajax_forms.closest('form').each(function () {
+                                $(this).find('button[disabled][data-hiweb-form-submit-stop="1"], input[type="submit"][disabled][data-hiweb-form-submit-stop="1"]').removeAttr('disabled').removeAttr('data-hiweb-form-submit-stop');
+                            });
+                        }
                     }
                 });
             }
         };
-        load_nex_form();
+        load_next_form();
     }
 
 
@@ -221,7 +236,7 @@ jQuery(document).ready(function ($) {
                     hide: {
                         //event: 'unfocus click mouseclick',
                         delay: 1000,
-                        effect: function(offset) {
+                        effect: function (offset) {
                             jQuery(this).fadeOut(400); // "this" refers to the tooltip
                         }
                     },

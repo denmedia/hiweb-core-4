@@ -32,7 +32,7 @@ class IncludesFactory {
 
 
     static function init() {
-        if (function_exists('add_action')) {
+        if (function_exists('add_action') && Context::is_frontend_page()) {
             add_action('init', function() {
                 if (self::$replace_wp_scripts && function_exists('wp_scripts')) {
                     foreach (self::$wp_scripts_default_replace as $handle => $absolutePath) {
