@@ -13,11 +13,13 @@ use hiweb\components\Images\Image_Size;
 
 $main_size = $this->sizes()->get($dimension);
 
-$img_attributes = get_array($attributes);
+$img_attributes = get_array([]);
 $img_attributes->push('src', $tryWebP ? $main_size->get_src_webp() : $main_size->get_src());
 $img_attributes->push('data-webp', $tryWebP ? '1' : '0');
-$img_attributes->push('width', $dimension->width);
-$img_attributes->push('height', $dimension->height);
+if (\hiweb\components\Images\ImagesFactory::$useWidthHeightProps) {
+    $img_attributes->push('width', $dimension->width);
+    $img_attributes->push('height', $dimension->height);
+}
 $img_attributes->push('alt', $this->get_alt());
 $img_attributes->push('title', $this->get_title());
 
@@ -31,5 +33,11 @@ if ($dimension->width < 1000 && $dimension->height < 1000) {
         }
     }
 }
-
+if (is_array($attributes)) foreach ($attributes as $key => $val) {
+    if (is_null($val)) {
+        $img_attributes->unset_key($key);
+    } else {
+        $img_attributes->set_value($key, $val);
+    }
+}
 ?><img <?= $img_attributes->get_as_tag_attributes() ?> />

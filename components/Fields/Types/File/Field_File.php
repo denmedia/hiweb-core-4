@@ -29,14 +29,14 @@
 		
 		function get_css(){
 			return [
-				__DIR__ . '/field-file.css'
+				__DIR__ . '/assets/file.css'
 			];
 		}
 		
 		
 		function get_js(){
 			return [
-				__DIR__ . '/field-file.min.js'
+				__DIR__ . '/assets/file.min.js'
 			];
 		}
 		
@@ -64,8 +64,13 @@
 		public function the_File(){
 			return $this->last_Path instanceof Path ? $this->last_Path->file() : null;
 		}
-		
-		
+
+
+        /**
+         * @param null $value
+         * @param null $name
+         * @return false|string
+         */
 		public function get_admin_html( $value = null, $name = null ){
 			$this->last_Path = $this->Path( $value );
 			ob_start();

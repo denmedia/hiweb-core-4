@@ -567,7 +567,7 @@ class ArrayObject extends \ArrayObject {
     public function get_as_tag_attributes($return_array_pairs = false) {
         $pairs = [];
         foreach ($this->get() as $key => $val) {
-            $pairs[] = $key . '="' . htmlentities(is_array($val) ? json_encode($val) : $val, ENT_QUOTES, 'UTF-8') . '"';
+            $pairs[] = $key . '="' . htmlentities((is_array($val) ? json_encode($val) : $val), ENT_QUOTES, 'UTF-8') . '"';
         }
         return $return_array_pairs ? $pairs : implode(' ', $pairs);
     }

@@ -52,9 +52,9 @@ class FieldsFactory {
      */
     static function add_field(Field $Field, $field_options_class = '\hiweb\components\Fields\Field_Options') {
         $global_ID = self::get_free_global_id($Field->id());
-        $Field->global_ID = $global_ID;
+        $Field->global_id = $global_ID;
         self::$fields[$global_ID] = $Field;
-        CacheFactory::remove_group('\hiweb\components\Fields\FieldsFactory::get_field_by_query');
+        CacheFactory::remove_group('\hiweb\components\Fields\FieldsFactory::get_field_by_query', false);
         return $Field->options();
     }
 
@@ -76,7 +76,7 @@ class FieldsFactory {
         $R = [];
         $field_ID = strtr($field_ID, [ '*' => '.*', '-' => '\-' ]);
         foreach (self::get_fields() as $id => $field) {
-            if (preg_match('/^' . $field_ID . '$/i', $id) > 0) $R[$field->global_ID()] = $field;
+            if (preg_match('/^' . $field_ID . '$/i', $id) > 0) $R[$field->global_id()] = $field;
         }
         return $R;
     }

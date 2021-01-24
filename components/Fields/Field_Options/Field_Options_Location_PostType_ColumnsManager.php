@@ -31,10 +31,14 @@
 		public function name( $set = null ){
 			return $this->_( __FUNCTION__, $set );
 		}
-		
-		
+
+
+        /**
+         * @param null $set
+         * @return array|Field_Options_Location_PostType_ColumnsManager|mixed|null
+         */
 		public function callback( $set = null ){
-			return $this->_( __FUNCTION__, $set );
+			return $this->_( __FUNCTION__, $set, null, false );
 		}
 		
 		

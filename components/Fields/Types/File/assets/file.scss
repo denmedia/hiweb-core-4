@@ -1,0 +1,46 @@
+@import "../../../css/Fields_UI";
+
+.hiweb-field_file {
+	position: relative;
+
+	&[data-has-file="0"] {
+		[data-status="selected"] {
+			display: none;
+		}
+	}
+
+	&[data-has-file="1"] {
+		[data-status="empty"] {
+			display: none;
+		}
+	}
+
+	[data-message] {
+		@include fields_ui_text-input_oneline;
+		max-width: 320px;
+	}
+
+	[data-status] {
+		@include display-flex;
+	}
+
+	.button {
+		display: inline-block;
+		padding: 4px 10px;
+
+		svg {
+			height: 16px;
+		}
+	}
+
+	[data-upload-place] {
+		display: none;
+		@include position_stretch_2();
+		padding: 2em;
+		background-color: $fields_color_bg_grey;
+		margin: 2px;
+		border: 2px dashed $fields_color_border;
+		text-align: center;
+		cursor: pointer;
+	}
+}

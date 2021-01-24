@@ -1,17 +1,16 @@
-.hiweb-field-type-text input[type=text] {
-  padding: 0.4em;
+.hiweb-field_text input[type="text"] {
+  padding: .4em;
   line-height: 1;
-  -webkit-transition: border-bottom 0.2s ease-in-out 0ms;
-  -moz-transition: border-bottom 0.2s ease-in-out 0ms;
-  -o-transition: border-bottom 0.2s ease-in-out 0ms;
-  transition: border-bottom 0.2s ease-in-out 0ms;
+  -webkit-transition: border-bottom 0.2s ease-in-out;
+  -moz-transition: border-bottom 0.2s ease-in-out;
+  -o-transition: border-bottom 0.2s ease-in-out;
+  transition: border-bottom 0.2s ease-in-out;
   width: 100%;
   max-width: 800px;
   border-left: none;
   border-top: none;
   border-right: none;
-  border-bottom: 1px solid #ccd0d4;
-  margin-bottom: 1px;
+  border-bottom: 2px solid #ccd0d4;
   -webkit-border-top-left-radius: 0;
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 0;
@@ -28,28 +27,21 @@
   -webkit-box-shadow: 0px 0px 2px 0 rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px 0px 2px 0 rgba(0, 0, 0, 0.1);
   -o-box-shadow: 0px 0px 2px 0 rgba(0, 0, 0, 0.1);
-  box-shadow: 0px 0px 2px 0 rgba(0, 0, 0, 0.1);
-}
-.hiweb-field-type-text input[type=text]:focus {
-  stroke: none;
-  border-bottom: 2px solid #007cba;
-  margin-bottom: 1px;
-}
-.hiweb-field-type-text input[type=text]::-webkit-input-placeholder {
-  color: #ccd0d4;
-  font-weight: 100;
-}
-.hiweb-field-type-text input[type=text]:-moz-placeholder {
-  color: #ccd0d4;
-  font-weight: 100;
-}
-.hiweb-field-type-text input[type=text]::-moz-placeholder {
-  color: #ccd0d4;
-  font-weight: 100;
-}
-.hiweb-field-type-text input[type=text]:-ms-input-placeholder {
-  color: #ccd0d4;
-  font-weight: 100;
-}
+  box-shadow: 0px 0px 2px 0 rgba(0, 0, 0, 0.1); }
+  .hiweb-field_text input[type="text"]:focus {
+    stroke: none;
+    border-bottom-color: #007cba; }
+  .hiweb-field_text input[type="text"]::-webkit-input-placeholder {
+    color: #ccd0d4;
+    font-weight: 100; }
+  .hiweb-field_text input[type="text"]:-moz-placeholder {
+    color: #ccd0d4;
+    font-weight: 100; }
+  .hiweb-field_text input[type="text"]::-moz-placeholder {
+    color: #ccd0d4;
+    font-weight: 100; }
+  .hiweb-field_text input[type="text"]:-ms-input-placeholder {
+    color: #ccd0d4;
+    font-weight: 100; }
 
 /*# sourceMappingURL=style.css.map */

@@ -84,14 +84,14 @@ class IncludesFactory {
         return CacheFactory::get($fileNameOrPath . ':' . $extension, __METHOD__, function() {
             $search_paths = [];
             $fileNameOrPath = func_get_arg(0);
-            if (array_key_exists($fileNameOrPath, wp_scripts()->registered)) {
+            if (function_exists('wp_scripts') && array_key_exists($fileNameOrPath, wp_scripts()->registered)) {
                 $extension = 'js';
                 $src = wp_scripts()->registered[$fileNameOrPath]->src;
                 if (preg_match('~^\/[\w\-_]+~i', wp_scripts()->registered[$fileNameOrPath]->src) > 0) {
                     $src = ltrim($src, '/');
                 }
                 $Path = PathsFactory::get($src);
-            } elseif (array_key_exists($fileNameOrPath, wp_styles()->registered)) {
+            } elseif (function_exists('wp_styles') && array_key_exists($fileNameOrPath, wp_styles()->registered)) {
                 $extension = 'css';
                 $src = wp_styles()->registered[$fileNameOrPath]->src;
                 if (preg_match('~^\/[\w\-_]+~i', wp_scripts()->registered[$fileNameOrPath]->src) > 0) {
@@ -113,16 +113,18 @@ class IncludesFactory {
                     HIWEB_DIR_ASSETS . '/' . $fileNameOrPath . '.' . $extension,
                     HIWEB_DIR_ASSETS . '/' . $fileNameOrPath . 'style.min.' . $extension,
                     HIWEB_DIR_ASSETS . '/' . $fileNameOrPath . 'style.' . $extension,
-                    get_stylesheet_directory() . '/' . $fileNameOrPath,
-                    get_stylesheet_directory() . '/' . $fileNameOrPath . '.min.' . $extension,
-                    get_stylesheet_directory() . '/' . $fileNameOrPath . '.' . $extension,
-                    get_template_directory() . '/' . $fileNameOrPath,
-                    get_template_directory() . '/' . $fileNameOrPath . '.min.' . $extension,
-                    get_template_directory() . '/' . $fileNameOrPath . '.' . $extension,
+                    //не работают в shortinit
+                    //get_stylesheet_directory() . '/' . $fileNameOrPath,
+                    //get_stylesheet_directory() . '/' . $fileNameOrPath . '.min.' . $extension,
+                    //get_stylesheet_directory() . '/' . $fileNameOrPath . '.' . $extension,
+                    //get_template_directory() . '/' . $fileNameOrPath,
+                    //get_template_directory() . '/' . $fileNameOrPath . '.min.' . $extension,
+                    //get_template_directory() . '/' . $fileNameOrPath . '.' . $extension,
                     PathsFactory::get_root_path() . '/' . $fileNameOrPath,
                     PathsFactory::get_root_path() . '/' . $fileNameOrPath . '.min.' . $extension,
                     PathsFactory::get_root_path() . '/' . $fileNameOrPath . '.' . $extension,
                 ];
+
                 $Path = PathsFactory::get_bySearch($search_paths);
             }
             if ($Path->file()->get_extension() != $extension) {

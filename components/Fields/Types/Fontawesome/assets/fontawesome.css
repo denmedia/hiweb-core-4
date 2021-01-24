@@ -1,0 +1,239 @@
+.hiweb-field_fontawesome {
+  position: relative; }
+  .hiweb-field_fontawesome .button-group {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: nowrap;
+    max-width: 360px; }
+  .hiweb-field_fontawesome [data-icon-preview] {
+    position: absolute;
+    width: 30px;
+    height: 24px;
+    line-height: 1;
+    vertical-align: top;
+    left: 2px;
+    top: 3px;
+    border-right: 1px dashed #f1f1f1;
+    flex-grow: 0; }
+    .hiweb-field_fontawesome [data-icon-preview] svg {
+      vertical-align: middle;
+      max-width: 100%;
+      max-height: 100%;
+      min-height: 22px; }
+  .hiweb-field_fontawesome[data-selected="0"] [data-click="styles"] {
+    width: 0;
+    padding-left: 0;
+    padding-right: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    -ms-opacity: 0;
+    -o-opacity: 0;
+    opacity: 0;
+    filter: alpha(opacity=0); }
+  .hiweb-field_fontawesome[data-input_empty="1"] {
+    border-color: red !important; }
+    .hiweb-field_fontawesome[data-input_empty="1"] [data-click="find"] {
+      width: 0;
+      padding-left: 0;
+      padding-right: 0;
+      -webkit-opacity: 0;
+      -moz-opacity: 0;
+      -ms-opacity: 0;
+      -o-opacity: 0;
+      opacity: 0;
+      filter: alpha(opacity=0); }
+    .hiweb-field_fontawesome[data-input_empty="1"] [data-click="clear"] {
+      width: 0;
+      padding-left: 0;
+      padding-right: 0;
+      -webkit-opacity: 0;
+      -moz-opacity: 0;
+      -ms-opacity: 0;
+      -o-opacity: 0;
+      opacity: 0;
+      filter: alpha(opacity=0); }
+  .hiweb-field_fontawesome input[name] {
+    padding: .4em;
+    line-height: 1;
+    -webkit-transition: border-bottom 0.2s ease-in-out;
+    -moz-transition: border-bottom 0.2s ease-in-out;
+    -o-transition: border-bottom 0.2s ease-in-out;
+    transition: border-bottom 0.2s ease-in-out;
+    width: 100%;
+    max-width: 800px;
+    border-left: none;
+    border-top: none;
+    border-right: none;
+    border-bottom: 2px solid #ccd0d4;
+    -webkit-border-top-left-radius: 0;
+    -webkit-border-top-right-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
+    -webkit-border-bottom-left-radius: 0;
+    -moz-border-radius-topleft: 0;
+    -moz-border-radius-topright: 0;
+    -moz-border-radius-bottomright: 0;
+    -moz-border-radius-bottomleft: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    background: rgba(255, 255, 255, 0.9);
+    -webkit-box-shadow: 0px 0px 2px 0 rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 0px 2px 0 rgba(0, 0, 0, 0.1);
+    -o-box-shadow: 0px 0px 2px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 2px 0 rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    width: 100%;
+    vertical-align: top;
+    padding-left: 36px;
+    flex-basis: 100%;
+    flex-grow: 1; }
+    .hiweb-field_fontawesome input[name]:focus {
+      stroke: none;
+      border-bottom-color: #007cba; }
+    .hiweb-field_fontawesome input[name]::-webkit-input-placeholder {
+      color: #ccd0d4;
+      font-weight: 100; }
+    .hiweb-field_fontawesome input[name]:-moz-placeholder {
+      color: #ccd0d4;
+      font-weight: 100; }
+    .hiweb-field_fontawesome input[name]::-moz-placeholder {
+      color: #ccd0d4;
+      font-weight: 100; }
+    .hiweb-field_fontawesome input[name]:-ms-input-placeholder {
+      color: #ccd0d4;
+      font-weight: 100; }
+  .hiweb-field_fontawesome button.button {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    left: -5px;
+    width: 44px;
+    text-align: center;
+    font-size: unset;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    flex-grow: 0; }
+    .hiweb-field_fontawesome button.button svg {
+      height: 16px;
+      width: auto;
+      max-width: 22px; }
+
+.hiweb-field_fontawesome__dropdown {
+  min-width: 180px;
+  max-width: 640px;
+  min-height: 120px;
+  max-height: 380px;
+  overflow: auto; }
+  .hiweb-field_fontawesome__dropdown[data-status="loading"] {
+    min-height: 60px;
+    background-image: url(../../../../../assets/img/loader-cloud.gif);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: contain; }
+    .hiweb-field_fontawesome__dropdown[data-status="loading"]:before {
+      -webkit-opacity: 0.2;
+      -moz-opacity: 0.2;
+      -ms-opacity: 0.2;
+      -o-opacity: 0.2;
+      opacity: 0.2;
+      filter: alpha(opacity=20);
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 10;
+      background: 50% 50% no-repeat rgba(255, 255, 255, 0.9) url(../../../assets/img/loader-cloud.gif);
+      background-size: 50px 50px; }
+    .hiweb-field_fontawesome__dropdown[data-status="loading"].preloading, .hiweb-field_fontawesome__dropdown[data-status="loading"][data-status="preloading"] {
+      position: relative; }
+      .hiweb-field_fontawesome__dropdown[data-status="loading"].preloading:before, .hiweb-field_fontawesome__dropdown[data-status="loading"][data-status="preloading"]:before {
+        content: ''; }
+    .hiweb-field_fontawesome__dropdown[data-status="loading"].loading, .hiweb-field_fontawesome__dropdown[data-status="loading"][data-status="loading"] {
+      position: relative;
+      overflow: hidden; }
+      .hiweb-field_fontawesome__dropdown[data-status="loading"].loading:before, .hiweb-field_fontawesome__dropdown[data-status="loading"][data-status="loading"]:before {
+        content: '';
+        -webkit-opacity: 1;
+        -moz-opacity: 1;
+        -ms-opacity: 1;
+        -o-opacity: 1;
+        opacity: 1;
+        filter: alpha(opacity=100); }
+    .hiweb-field_fontawesome__dropdown[data-status="loading"].loaded:before, .hiweb-field_fontawesome__dropdown[data-status="loading"][data-status="loaded"]:before {
+      background: transparent;
+      -webkit-backdrop-filter: saturate(100%) brightness(100%) blur(0);
+      backdrop-filter: saturate(100%) brightness(100%) blur(0); }
+      .hiweb-field_fontawesome__dropdown[data-status="loading"].loaded:before:hover, .hiweb-field_fontawesome__dropdown[data-status="loading"][data-status="loaded"]:before:hover {
+        content: unset;
+        display: none; }
+  .hiweb-field_fontawesome__dropdown [data-icon] {
+    cursor: pointer;
+    display: inline-block;
+    width: 28px;
+    height: 22px;
+    margin: .3em .2em;
+    vertical-align: middle;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    -webkit-opacity: 0.5;
+    -moz-opacity: 0.5;
+    -ms-opacity: 0.5;
+    -o-opacity: 0.5;
+    opacity: 0.5;
+    filter: alpha(opacity=50); }
+    .hiweb-field_fontawesome__dropdown [data-icon] svg {
+      max-width: 100%;
+      max-height: 100%; }
+    .hiweb-field_fontawesome__dropdown [data-icon]:hover {
+      -webkit-opacity: 1;
+      -moz-opacity: 1;
+      -ms-opacity: 1;
+      -o-opacity: 1;
+      opacity: 1;
+      filter: alpha(opacity=100);
+      color: #000; }
+
+[data-fontawesome-result-place] {
+  min-width: 180px;
+  max-width: 640px;
+  max-height: 200px;
+  width: 100%;
+  overflow: auto; }
+  [data-fontawesome-result-place] [data-result-icon] {
+    display: inline-block;
+    width: 28px;
+    height: 22px;
+    margin: .3em .2em;
+    vertical-align: middle;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    -webkit-opacity: 0.5;
+    -moz-opacity: 0.5;
+    -ms-opacity: 0.5;
+    -o-opacity: 0.5;
+    opacity: 0.5;
+    filter: alpha(opacity=50); }
+    [data-fontawesome-result-place] [data-result-icon] svg {
+      max-width: 100%;
+      max-height: 100%; }
+    [data-fontawesome-result-place] [data-result-icon]:hover {
+      -webkit-opacity: 1;
+      -moz-opacity: 1;
+      -ms-opacity: 1;
+      -o-opacity: 1;
+      opacity: 1;
+      filter: alpha(opacity=100);
+      color: #000; }
+
+/*# sourceMappingURL=fontawesome.css.map */

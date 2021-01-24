@@ -9,6 +9,6 @@
 	 * @param $field_ID
 	 * @return Field_Options
 	 */
-	function add_field_color( $field_ID ){
+	function add_field_color( $field_ID ): Field_Options {
 		return FieldsFactory::add_field( new Field_Color( $field_ID ) );
 	}

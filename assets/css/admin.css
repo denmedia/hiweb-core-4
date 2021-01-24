@@ -1,0 +1,13 @@
+.plugins_page_hiweb-components .hiweb-components-fields-form-wrap {
+  padding: 1em 0; }
+  .plugins_page_hiweb-components .hiweb-components-fields-form-wrap label, .plugins_page_hiweb-components .hiweb-components-fields-form-wrap .component__label, .plugins_page_hiweb-components .hiweb-components-fields-form-wrap .component__description {
+    display: block;
+    -webkit-transition: color 0.2s ease-in-out;
+    -moz-transition: color 0.2s ease-in-out;
+    -o-transition: color 0.2s ease-in-out;
+    transition: color 0.2s ease-in-out; }
+  .plugins_page_hiweb-components .hiweb-components-fields-form-wrap .component__label {
+    font-size: 1.2em;
+    font-weight: 500; }
+
+/*# sourceMappingURL=admin.css.map */

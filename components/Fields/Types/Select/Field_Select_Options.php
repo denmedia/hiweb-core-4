@@ -23,7 +23,7 @@
 		 * @return array|Field_Select_Options|mixed|null
 		 */
 		public function placeholder($set = null){
-			return $this->_('placeholder', $set);
+			return $this->_('placeholder', $set, $this->multiple() ? __('Select options') : __('Select option'));
 		}
 		
 		

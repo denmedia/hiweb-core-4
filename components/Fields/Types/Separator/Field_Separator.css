@@ -1,23 +1,23 @@
-.hiweb-fields-form fieldset:not(:first-child) .hiweb-field-type-separator {
+.hiweb-fields-form fieldset:not(:first-child) .hiweb-field_separator {
   margin-top: 2.4em; }
 
-.hiweb-field-type-separator {
+.hiweb-field_separator {
   margin-bottom: 1em;
   border-bottom: 1px dashed #ccc; }
-  .hiweb-field-type-separator .hw-field-separator-title {
+  .hiweb-field_separator .hw-field-separator-title {
     font-size: 140% !important;
     margin: 4px 0;
     padding: 0 !important; }
-    .hiweb-field-type-separator .hw-field-separator-title.has-description {
+    .hiweb-field_separator .hw-field-separator-title.has-description {
       margin-bottom: 4px;
       padding-bottom: 0; }
-    .hiweb-field-type-separator .hw-field-separator-title.no-description {
+    .hiweb-field_separator .hw-field-separator-title.no-description {
       margin-bottom: 10px;
       padding-bottom: 0; }
-  .hiweb-field-type-separator .hw-field-separator-description {
+  .hiweb-field_separator .hw-field-separator-description {
     margin: 0 0 4px 0;
     font-style: italic; }
-  .hiweb-field-type-separator svg {
+  .hiweb-field_separator svg {
     font-size: 1em;
     height: 1em;
     display: inline-block;

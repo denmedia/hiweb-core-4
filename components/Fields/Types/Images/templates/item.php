@@ -15,7 +15,7 @@
 	
 ?>
 <div <?= $attachment_id == 0 ? 'data-source-image' : 'data-item-image="' . $attachment_id . '"' ?> data-image-exists="<?= $Image->is_attachment_exists() ?>" style="background-image: url(<?= $Image->get_src( 'medium' ) ?>)">
-	<input type="hidden" name="<?= $name ?>[]" value="<?= $attachment_id ?>"/>
+	<input type="hidden" name="<?=$name?>[]" data-input_name_append="[]" value="<?= $attachment_id ?>"/>
 	<!--CONTROL-->
 	<div data-image-control-wrap>
 		<a data-click="edit" href="#"><?= FontAwesomeFactory::get( '<i class="fad fa-file-check"></i>' ) ?></a>

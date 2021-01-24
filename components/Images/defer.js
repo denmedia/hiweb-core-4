@@ -59,7 +59,7 @@ jQuery(document).ready(function ($) {
                     //url: '/wp-json/hiweb/components/images/defer',
                     type: 'post',
                     dataType: 'json',
-                    data: {images: hiweb_imagesDefer.source_images_data},
+                    data: {images: hiweb_imagesDefer.source_images_data, usePictureHtml: hiweb_imageDefer_usePictureHtml, useWidthHeightProps: hiweb_imageDefer_useWidthHeightProps},
                     success: function (response) {
                         if (response.success) {
                             for (let defer_id in response.images) {

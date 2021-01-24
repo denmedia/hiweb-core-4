@@ -1,8 +1,15 @@
 jQuery(document).ready(function ($) {
 
 
+    let $ajax_forms = $('.hiweb-components-fields-form-ajax-wrap[data-fields-query][data-fields-query-id]');
+    let $forms = $('.hiweb-components-fields-form-wrap');
+    let max_input_vars = 0;
+    let max_input_vars_excess_triggered = false;
     let loaded_scripts = [];
     let loaded_stylesheets = [];
+    let form_loading_ids = [];
+    let form_loaded_ids = [];
+    let fields_input_change = false;
 
     let notify_max_input_vars_excess = function (inputs_length, max_input_vars) {
         if (typeof Noty === 'function') {
@@ -22,6 +29,16 @@ jQuery(document).ready(function ($) {
             alert("Количество передаваемых данных превышено!\nСохранение (обновление) приведет к потере части этих данных, включая старые.\nНа странице " + inputs_length + " полей, но на хостинге стоит ограничение в php.ini max_input_vars = " + max_input_vars + ".\nПопробуйте поместить в файл .htaccess следующую строчку: php_value max_input_vars 2000");
         }
     };
+
+    $('form').on('submit', function(){
+        fields_input_change = false;
+    });
+    $(window).on('beforeunload', function () {
+        if (fields_input_change) {
+            return wp.i18n.__('The changes you made will be lost if you navigate away from this page.');
+        }
+        return undefined;
+    });
 
     let loadStyleSheet = function (path, fn, scope) {
         let head = document.getElementsByTagName('head')[0], // reference to document.head for appending/ removing link nodes
@@ -112,6 +129,7 @@ jQuery(document).ready(function ($) {
                 let style = styles.shift();
                 if ($('link[data-handle="' + style[0] + '"]').length === 0) {
                     loadStyleSheet(style[1], () => {
+                        loaded_stylesheets.push(style[0]);
                         load_next_style();
                     });
                 } else {
@@ -132,7 +150,10 @@ jQuery(document).ready(function ($) {
         let new_inputs = $(response.form_html);
         let $form_inner = $form_wrap.find('.hiweb-components-form-ajax-inner');
         $form_inner.append(new_inputs);
-        new_inputs.find('input[name], select[name],textarea[name],file[name]').trigger('hiweb-form-ajax-input-loaded').trigger('hiweb-form-updated');
+        //new_inputs.find(':input[name]').trigger('hiweb-form-ajax-input-loaded').trigger('hiweb-form-updated');
+        new_inputs.on('change keydown', ':input', () => {
+            fields_input_change = true;
+        });
     };
 
     let form_auto_height = function ($form_wrap, callback) {
@@ -143,75 +164,60 @@ jQuery(document).ready(function ($) {
         });
     };
 
-    ///AJAX FORM
-    let $ajax_forms = $('.hiweb-components-form-ajax-wrap[data-fields-query][data-fields-query-id]');
-    let max_input_vars = 0;
-    let max_input_vars_excess_triggered = false;
-    let form_loading_ids = [];
-    let form_loaded_ids = [];
-    if ($ajax_forms.length > 0) {
-        ///disable submit form
-        $ajax_forms.closest('form').each(function () {
-            $(this).find('button, input[type="submit"]').not('[disabled]').attr('disabled', '').attr('data-hiweb-form-submit-stop', '1');
-        });
-        ///
-        let load_next_form = function () {
-            let $form_wrap;
-            if (form_loading_ids.length === 0) {
-                $form_wrap = $ajax_forms.eq(0);
-            } else {
-                $form_wrap = $ajax_forms.not('[data-fields-query-id="' + form_loading_ids.join('"], [data-fields-query-id="') + '"]').eq(0);
-            }
-            if ($form_wrap.length > 0) {
-                form_loading_ids.push($form_wrap.attr('data-fields-query-id'));
-                $form_wrap.addClass('loading').removeClass('preloaded');
-                $form_wrap.height($form_wrap.height());
-                $.ajax({
-                    url: ajaxurl + '?action=hiweb-components-form',
-                    type: 'post',
-                    dataType: 'json',
-                    data: {field_query: $form_wrap.attr('data-fields-query'), form_options: $form_wrap.attr('data-form-options'), scripts_done: hiweb_components_fields_form_scripts_done},
-                    async: true,
-                    success: function (response) {
-                        if (response.hasOwnProperty('success')) {
-                            load_form_scripts($form_wrap, response, () => {
-                                load_form_inputs($form_wrap, response);
-                                form_auto_height($form_wrap, () => {
-                                    $form_wrap.removeClass('loading').removeClass('loaded');
-                                    $form_wrap.trigger('hiweb-form-ajax-loaded');
-                                });
-                                $form_wrap.removeClass('preloading');
+    let load_next_form = function () {
+        let $form_wrap;
+        if (form_loading_ids.length === 0) {
+            $form_wrap = $ajax_forms.eq(0);
+        } else {
+            $form_wrap = $ajax_forms.not('[data-fields-query-id="' + form_loading_ids.join('"], [data-fields-query-id="') + '"]').eq(0);
+        }
+        if ($form_wrap.length > 0) {
+            form_loading_ids.push($form_wrap.attr('data-fields-query-id'));
+            $form_wrap.addClass('loading').removeClass('preloaded');
+            $form_wrap.height($form_wrap.height());
+            $.ajax({
+                url: ajaxurl + '?action=hiweb-components-form',
+                type: 'post',
+                dataType: 'json',
+                data: {field_query: $form_wrap.attr('data-fields-query'), form_options: $form_wrap.attr('data-form-options'), scripts_done: hiweb_components_fields_form_scripts_done},
+                async: true,
+                success: function (response) {
+                    if (response.hasOwnProperty('success')) {
+                        load_form_scripts($form_wrap, response, () => {
+                            load_form_inputs($form_wrap, response);
+                            form_auto_height($form_wrap, () => {
+                                $form_wrap.removeClass('loading').removeClass('loaded');
+                                $form_wrap.trigger('hiweb-form-ajax-loaded');
+                                init_inputs();
                             });
-                        }
-                        if (response.hasOwnProperty('max_input_vars')) {
-                            let test_max_input_vars = parseInt(response.max_input_vars);
-                            if (!isNaN(test_max_input_vars) && max_input_vars < test_max_input_vars) max_input_vars = test_max_input_vars;
-                            let inputs_length = $('form#post').find('input[name], select[name],textarea[name],file[name]').length;
-                            if (inputs_length > max_input_vars && !max_input_vars_excess_triggered) {
-                                max_input_vars_excess_triggered = true;
-                                notify_max_input_vars_excess(inputs_length, max_input_vars);
-                            }
-                        }
-                        setTimeout(load_next_form, 50);
-                    },
-                    complete: function () {
-                        form_loaded_ids.push($form_wrap.attr('data-fields-query-id'));
-                        ///unlock send button
-                        if ($ajax_forms.length <= form_loaded_ids.length) {
-                            $ajax_forms.closest('form').each(function () {
-                                $(this).find('button[disabled][data-hiweb-form-submit-stop="1"], input[type="submit"][disabled][data-hiweb-form-submit-stop="1"]').removeAttr('disabled').removeAttr('data-hiweb-form-submit-stop');
-                            });
+                            $form_wrap.removeClass('preloading');
+                        });
+                    }
+                    if (response.hasOwnProperty('max_input_vars')) {
+                        let test_max_input_vars = parseInt(response.max_input_vars);
+                        if (!isNaN(test_max_input_vars) && max_input_vars < test_max_input_vars) max_input_vars = test_max_input_vars;
+                        let inputs_length = $('form#post').find('input[name], select[name],textarea[name]').length;
+                        if (inputs_length > max_input_vars && !max_input_vars_excess_triggered) {
+                            max_input_vars_excess_triggered = true;
+                            notify_max_input_vars_excess(inputs_length, max_input_vars);
                         }
                     }
-                });
-            }
-        };
-        load_next_form();
-    }
+                    setTimeout(load_next_form, 50);
+                },
+                complete: function () {
+                    form_loaded_ids.push($form_wrap.attr('data-fields-query-id'));
+                    ///unlock submit button
+                    if ($ajax_forms.length <= form_loaded_ids.length) {
+                        $ajax_forms.closest('form').each(function () {
+                            $(this).find('button[disabled][data-hiweb-form-submit-stop="1"], input[type="submit"][disabled][data-hiweb-form-submit-stop="1"]').removeAttr('disabled').removeAttr('data-hiweb-form-submit-stop');
+                        });
+                    }
+                }
+            });
+        }
+    };
 
-
-    ///TABS
-    $('.hiweb-components-form-ajax-wrap, .hiweb-components-form-wrap').on('click', '.hiweb-fields-form-tabs-handles [data-tab-handle]', function (e) {
+    let tab_click_handle = function (e) {
         e.preventDefault();
         let $this = $(this);
         if ($this.is('[data-tab-active="0"]')) {
@@ -220,11 +226,15 @@ jQuery(document).ready(function ($) {
             $this.closest('.hiweb-fields-form-tabs-wrap').find('[data-tab-content]').slideUp();
             $this.closest('.hiweb-fields-form-tabs-wrap').find('[data-tab-content="' + $this.attr('data-tab-handle') + '"]').slideDown();
         }
-    });
+    }
 
+    let init_inputs = function () {
+        $forms.find('[data-field-init="0"]').each(function () {
+            $(this).trigger('field_init').attr('data-field-init', '1');
+        });
+    }
 
-    ///HELP TOOLTIP
-    $('.hiweb-components-form-ajax-wrap, .hiweb-components-form-wrap').on('hiweb-form-ajax-loaded', function () {
+    let make_qtips = function () {
         let $tooltip_help = $('[data-hiweb-fields-tooltip-help]');
         if ($tooltip_help.length > 0 && typeof $tooltip_help.qtip === 'function') {
             $tooltip_help.each(function () {
@@ -256,7 +266,23 @@ jQuery(document).ready(function ($) {
             })
         }
         $.fn.qtip.zindex = 100000;
-    });
+    }
 
+    ///AJAX FORM
+    if ($ajax_forms.length > 0) {
+        ///disable submit form
+        $ajax_forms.closest('form').each(function () {
+            $(this).find('button, input[type="submit"]').not('[disabled]').attr('disabled', '').attr('data-hiweb-form-submit-stop', '1');
+        });
+        ///
+        load_next_form();
+    }
 
+    ///TABS
+    $forms.on('click', '.hiweb-fields-form-tabs-handles [data-tab-handle]', tab_click_handle);
+
+    ///HELP TOOLTIP
+    $forms.on('hiweb-form-ajax-loaded', make_qtips);
+
+    init_inputs();
 });

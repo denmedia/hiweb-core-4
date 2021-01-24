@@ -362,7 +362,7 @@ class FieldsFactory_Admin {
             ///set current field value
             self::$the_form_field_value = $Field->get_sanitize_admin_value($value);
             ///set current field name
-            self::$the_form_field_name = (isset($form_options['name_before']) ? $form_options['name_before'] : '') . $Field->get_ID() . (isset($form_options['name_after']) ? $form_options['name_after'] : '');
+            self::$the_form_field_name = (isset($form_options['name_before']) ? $form_options['name_before'] : '') . $Field->get_id() . (isset($form_options['name_after']) ? $form_options['name_after'] : '');
             ///
             ob_start();
             @include __DIR__ . '/FieldsFactory_Admin/templates/default-field.php';
@@ -398,11 +398,11 @@ class FieldsFactory_Admin {
                     $last_Field_Tab = null;
                 } else {
                     if ( !$last_Field_Tab instanceof Field_Tab) $sections_index ++;
-                    $sections[$sections_index]['tabs'][$Field->global_ID()] = $Field;
+                    $sections[$sections_index]['tabs'][$Field->get_global_id()] = $Field;
                     $last_Field_Tab = $Field;
                 }
             } elseif ($last_Field_Tab instanceof Field_Tab) {
-                $sections[$sections_index]['fields_by_tabs'][$last_Field_Tab->global_ID()][$Field->options()->form()->order()][$Field->id()] = $Field;
+                $sections[$sections_index]['fields_by_tabs'][$last_Field_Tab->get_global_id()][$Field->options()->form()->order()][$Field->id()] = $Field;
             } else {
                 $sections[$sections_index]['fields'][$Field->options()->form()->order()][$Field->id()] = $Field;
             }

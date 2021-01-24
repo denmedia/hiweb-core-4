@@ -1,823 +1,711 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: hiweb-core-4\n"
-"POT-Creation-Date: 2020-05-02 13:55+0300\n"
-"PO-Revision-Date: 2020-05-02 13:56+0300\n"
+"POT-Creation-Date: 2021-01-19 23:36+0300\n"
+"PO-Revision-Date: 2021-01-19 23:36+0300\n"
 "Last-Translator: DenMedia\n"
 "Language-Team: DenMedia\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
-"X-Poedit-Basepath: ..\n"
+"X-Generator: Poedit 2.0.7\n"
+"X-Poedit-Basepath: ../..\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;esc_attr__;esc_attr_e;esc_html__;"
+"X-Poedit-KeywordsList: ;__;_e;_n:1,2;esc_attr__;esc_attr_e;esc_html__;"
 "esc_html_e\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: .\n"
 
-#: components/AdminMenu/AdminMenu_Page.php:34
-msgid "page_title"
+#: components/error_404/options.php:3
+msgid "Page 404"
+msgstr "Страница 404"
+
+#: components/error_404/options.php:3
+msgid "Error page 404"
+msgstr "Страница ошибки 404"
+
+#: components/error_404/options.php:5
+msgid "Page title"
+msgstr "Заголовок страницы"
+
+#: components/error_404/options.php:6
+msgid ""
+"<h2>Oops! Page not found.</h2><h4>Sorry...The requested URL was not found on "
+"the server....</h4>"
 msgstr ""
+"<h2>Оопс! Страница не найдена.</h2><h4>Извините...Страницы, которую Вы "
+"открыли, не существует...</h4>"
 
-#: components/AdminMenu/AdminMenu_Page.php:45
-#: components/AdminMenu/AdminMenu_Page.php:48
-msgid "menu_title"
+#: components/error_404/options.php:6
+msgid "Page text content"
+msgstr "Текстовое содержимое страницы"
+
+#: components/forms/form_submit.php:51
+msgid "Invalid form field"
+msgstr "Не верное поле формы"
+
+#: components/forms/inputs/button.php:21
+msgid "Submit"
+msgstr "Отправить"
+
+#: components/forms/inputs/button.php:21
+msgid "Button with text"
+msgstr "Кнопка с текстом"
+
+#: components/forms/inputs/button.php:22
+msgid "Form submit"
+msgstr "Отправить форму"
+
+#: components/forms/inputs/button.php:22
+msgid "Form reset"
+msgstr "Сбросить форму"
+
+#: components/forms/inputs/checkbox.php:21
+msgid "Option item"
+msgstr "Элемент опции"
+
+#: components/forms/inputs/checkbox.php:21
+msgid "Checkbox"
+msgstr "Чекбокс (галочка)"
+
+#: components/forms/inputs/checkbox.php:22
+msgid "Name (id) of field"
+msgstr "Имя (id) поля на латинице"
+
+#: components/forms/inputs/checkbox.php:23
+msgid "Required to filed"
+msgstr "Обязательно для заполнения"
+
+#: components/forms/inputs/checkbox.php:24
+msgid "Incorrectly filled field message"
+msgstr "Сообщение о неверно заполненном поле"
+
+#: components/forms/inputs/checkbox.php:24
+msgid "You have filled in the field incorrectly"
+msgstr "Вы не верно заполнили поле"
+
+#: components/forms/inputs/checkbox.php:25
+msgid "Do not send this field by mail"
+msgstr "Не отправлять данное поле по email"
+
+#: components/forms/options.php:18
+msgid "Options"
+msgstr "Опции"
+
+#: components/forms/options.php:21
+msgid "Main settings"
+msgstr "Основные настройки"
+
+#: components/forms/options.php:21
+msgid "Destination address of the recipient of messages from forms"
+msgstr "Целевой адрес получателя сообщений с форм"
+
+#: components/forms/options.php:22
+msgid "The mail address to which messages will be sent."
+msgstr "Адрес почты, на который будет отправляться сообщения."
+
+#: components/forms/options.php:22
+#, php-format
+msgid ""
+"This will be the default address for receiving messages. If you leave this "
+"field empty, emails will be sent to the super-admin address <b>% s <a href="
+"\"%s\" data-tooltip=\"Change this address\" title=\"Change this address\"> "
+"<i class = \"fas fa -pencil-alt \"> </i> </a> </b> For each form, you can "
+"also set an individual address. You can also specify several addresses "
+"separated by commas or spaces, for example: <code> info@email.com "
+"admin@email.com </code>"
 msgstr ""
+"Этот адрес будет стандартным для приема сообщений. Если оставить поле "
+"пустым, письма будут отправляться на адрес супер-администратора <b>%s <a "
+"href=\"%s\" data-tooltip=\"Изменить этот адрес\" title=\"Изменить этот адрес"
+"\"><i class=\"fas fa-pencil-alt\"></i></a></b> Для каждой формы так же можно "
+"установить индивидуальный адрес. Так же можно указать несколько адресов "
+"через запятую или пробел, например: <code>info@email.com admin@email.com</"
+"code>"
 
-#: components/AdminMenu/AdminMenu_Page.php:59
-msgid "capability"
+#: components/forms/options.php:29
+msgid "Privacy policy"
+msgstr "Политика конфиденциальности"
+
+#: components/forms/options.php:29
+msgid "Checkbox for form with information"
+msgstr "Галочка для формы с информацией"
+
+#: components/forms/parts/columns-shortcode.php:3
+msgid "Print form widget"
+msgstr "Вывести виджет формы"
+
+#: components/forms/parts/columns-shortcode.php:3
+msgid "Print button calling modal form"
+msgstr "Вывести кнопку, открывающая форму в модальном окне"
+
+#: components/forms/parts/columns-shortcode.php:3
+msgid "Open contact form"
+msgstr "Открыть форму"
+
+#: components/forms/post-type-messages.php:7
+msgid "All messages"
+msgstr "Все сообщения"
+
+#: components/forms/post-type-messages.php:7
+#: components/forms/post-type-messages.php:16
+msgid "Messages"
+msgstr "Сообщения"
+
+#: components/forms/post-type-messages.php:7
+msgid "Add message"
+msgstr "Добавить сообщение"
+
+#: components/forms/post-type-messages.php:7
+msgid "Add message item"
+msgstr "Создание нового сообщения"
+
+#: components/forms/post-type-messages.php:7
+msgid "Archive of messages"
+msgstr "Архив сообщений"
+
+#: components/forms/post-type-messages.php:7
+msgid "Edit message"
+msgstr "Редактировать"
+
+#: components/forms/post-type-messages.php:7
+msgid "Messages list"
+msgstr "Список сообщений"
+
+#: components/forms/post-type-messages.php:7
+msgid "New Message"
+msgstr "Новое сообщение"
+
+#: components/forms/post-type-messages.php:7
+msgid "Messages not found"
+msgstr "Сообщений не найдено"
+
+#: components/forms/post-type-messages.php:7
+msgid "No messanges in trash"
+msgstr "Удаленных сообщений нет"
+
+#: components/forms/post-type-messages.php:7
+msgid "Search messages"
+msgstr "Поиск сообщений"
+
+#: components/forms/post-type-messages.php:21
+msgid "Recipient and subject line"
+msgstr "Получатель и тема"
+
+#: components/forms/post-type-messages.php:31
+msgid "Message content"
+msgstr "Содержимое сообщения"
+
+#: components/forms/post-type-messages.php:34
+msgid "Client data"
+msgstr "Данные клиента"
+
+#: components/forms/post-type-messages.php:44
+msgid "UTM tracked data"
+msgstr "UTL отслеживаемые данные"
+
+#: components/forms/post-type-messages.php:48
+msgid "Form data"
+msgstr "Данные формы"
+
+#: components/forms/post-type.php:31
+msgid "Contact Form"
+msgstr "Контактные формы"
+
+#: components/forms/post-type.php:31 components/forms/post-type.php:37
+msgid "Forms"
+msgstr "Формы"
+
+#: components/forms/post-type.php:38
+msgid "Create form"
+msgstr "Создать форму"
+
+#: components/forms/post-type.php:41
+msgid "Form"
+msgstr "Форма"
+
+#: components/forms/post-type.php:42
+msgid "Show form title"
+msgstr "Показывать заголовок формы"
+
+#: components/forms/post-type.php:44
+msgid "Input fields"
+msgstr "Поля данных"
+
+#: components/forms/post-type.php:44
+msgid "Shortcodes"
+msgstr "Шорткоды"
+
+#: components/forms/post-type.php:67
+msgid "List of filled data"
+msgstr "Список заполненных данных"
+
+#: components/forms/post-type.php:68
+msgid "Content of this field (replace {name} with the field name)"
+msgstr "Содержимое данного поля (замените {name} на латинское название поля)"
+
+#: components/forms/post-type.php:75
+msgid "Submission status of this form"
+msgstr "Статус отправки сообщений формы"
+
+#: components/forms/post-type.php:77
+msgid "AJAX form submit status"
+msgstr "AJAX статус отправки данных"
+
+#: components/forms/post-type.php:77
+#, php-format
+msgid ""
+"These settings are relevant only for this form. If left blank, the default "
+"settings from the <a data-tooltip=\"Open Options Page\" href=\"%s\"> Form "
+"Options </a> page will be used instead"
 msgstr ""
+"Эти настройки актуальны только для данной формы. Если оставить их "
+"незаполненными, вместо них будут использованы стандартные установки со "
+"страницы <a data-tooltip=\"Открыть страницу опций\" href=\"%s\">Опции формы</"
+"a>"
 
-#: components/AdminMenu/AdminMenu_Page.php:95
-msgid "parent_slug"
+#: components/forms/post-type.php:78
+msgid "Submission process icon"
+msgstr "Иконка процесса отправки"
+
+#: components/forms/post-type.php:79
+msgid "Successful message icon"
+msgstr "Иконка удачной отправки сообщения"
+
+#: components/forms/post-type.php:80
+msgid "Incorrectly filled form icon"
+msgstr "Иконка неверно заполненной формы"
+
+#: components/forms/post-type.php:81
+msgid "Error icon while submitting"
+msgstr "Иконка ошибки во время отправки"
+
+#: components/forms/post-type.php:82
+msgid "Form submit text"
+msgstr "Текст отправки формы"
+
+#: components/forms/post-type.php:83
+msgid "Successful form submission text"
+msgstr "Текст удачной отправки формы"
+
+#: components/forms/post-type.php:84
+msgid "Filled form error text"
+msgstr "Текст ошибки заполненной формы"
+
+#: components/forms/post-type.php:85
+msgid "Error text during form submission"
+msgstr "Текст ошибки в процессе отправки формы"
+
+#: components/forms/post-type.php:86
+msgid "Email templates"
+msgstr "Шаблоны писем email"
+
+#: components/forms/post-type.php:88
+msgid "Email templates for this form"
+msgstr "Шаблоны для данной формы"
+
+#: components/forms/post-type.php:88
+#, php-format
+msgid ""
+"These template settings are relevant only for this form. If left blank, the "
+"default settings from the <a data-tooltip=\"Open Options Page\" href=\"%s\"> "
+"Form Options </a> page will be used instead"
 msgstr ""
+"Эти настройки шаблонов актуальны только для данной формы. Если оставить их "
+"незаполненными, вместо них будут использованы стандартные установки со "
+"страницы <a data-tooltip=\"Открыть страницу опций\" href=\"%s\">Опции формы</"
+"a>"
 
-#: components/AdminMenu/AdminMenu_Page.php:112
-msgid "function"
+#: components/forms/post-type.php:89
+msgid "Email subject for admin"
+msgstr "Тема письма для администратора"
+
+#: components/forms/post-type.php:90
+msgid "Default email content for admin"
+msgstr "Стандартное содержимое письма для администратора"
+
+#: components/forms/post-type.php:91
+msgid ""
+"Send a email to the form filler to the address specified by him, if the form "
+"had an email field and it was filled in correctly."
 msgstr ""
+"Отправлять письмо заполнителю формы по указанному им адресу, в случае, если "
+"в форме было поле email и оно было корректно заполнено."
 
-#: components/AdminMenu/AdminMenu_Page.php:126
-msgid "icon_url"
+#: components/forms/post-type.php:92
+msgid "Placeholder email subject"
+msgstr "Тема письма для заполнителя"
+
+#: components/forms/post-type.php:93
+msgid "Default email content for placeholder"
+msgstr "Стандартное содержимое письма для заполнителя"
+
+#: components/forms/post-type.php:96
+msgid "JavaScript that will be executed if the form is submitted successfully."
+msgstr "JavaScript, который будет выполнен в случае удачной отправки формы."
+
+#: components/forms/post-type.php:96
+msgid "Filling example:"
+msgstr "Пример заполнения:"
+
+#: components/migration/includes/hooks.php:84
+msgid "Migration Panel"
+msgstr "Панель миграции"
+
+#: components/migration/template/options.php:7
+msgid "Site ready to mirgate..."
+msgstr "Сайт готов к миграции..."
+
+#: components/migration/template/options.php:9
+msgid ""
+"Download site & MySQL dump files via FTP or Client Panel by you'r hosting."
 msgstr ""
+"Скачайте файлы сайта и дампа базы данных  через FTP или панель вашего "
+"хостинга."
 
-#: components/AdminMenu/AdminMenu_Page.php:153
-#: components/Fields/Field_Options.php:69
-#: components/Fields/Field_Options/Field_Options_Location_PostType.php:112
-#: components/Fields/Field_Options/Field_Options_Location_PostType.php:113
-#: components/Fields/Field_Options/Field_Options_Location_PostType.php:115
-msgid "position"
+#: components/migration/template/options.php:10
+msgid "Upload this files on you'r new server."
+msgstr "Загрузите эти файлы на Ваш новый сервер."
+
+#: components/migration/template/options.php:11
+msgid ""
+"Connect site to new MySQL server, change connect data in wp-config.php file"
 msgstr ""
+"Подсоедините сайт к базе данных нового сервера, указав данные в файле wp-"
+"config.php"
 
-#: components/AdminMenu/AdminMenu_Page.php:176
+#: components/migration/template/options.php:12
+msgid ""
+"Go to new home page. Now you see message: \"hiWeb Migrate Site Process\". "
+"This message indicates the beginning of a process to automatically replace "
+"the old ways to the new database. Wait until the end, it should not take "
+"more than few easy\n"
+"\t\t\tseconds."
+msgstr ""
+"Откройте главную страницу сайта. Вы увидите сообщение: \"hiWeb Migrate Site "
+"Process\". Это сообщение обозначает начало процесса автоматического "
+"изменения старых путей на новые в базе данных. Дождитесь окончания, это не "
+"займет много времени."
+
+#: components/migration/template/options.php:15
+msgid "Done. Enjoy ;)"
+msgstr "Готово. Приятного аппетита ;)"
+
+#: components/migration/template/options.php:19
+msgid "Force Re-Migrate"
+msgstr "Ручная Ре-Миграция"
+
+#: components/migration/template/options.php:22
+msgid ""
+"This option is useful if the domain has changed, but the hosting site and "
+"the folder is not changed"
+msgstr ""
+"Эта опция полезна, если вы меняете домен, но хостинг и папка не изменяется"
+
+#: components/migration/template/options.php:24
+msgid "From Old Domain... (select one or more)"
+msgstr "С указанного домена(ов)..."
+
+#: components/migration/template/options.php:26
+msgid "current URL"
+msgstr "текущий URL"
+
+#: components/migration/template/options.php:38
+msgid "To New Domain..."
+msgstr "На новый домен..."
+
+#: components/migration/template/options.php:40
+msgid "RE-MIGRATE to New Domain"
+msgstr "Ре-МИГРАЦИЯ на новый домен"
+
+#: components/migration/template/options.php:43
+msgid ""
+"Enter new domain (or stay them clear) and click this button to force a re-"
+"migrate procedure to new domain.<br>\n"
+"\t\tDon't forget about <b>http://</b> prefix."
+msgstr ""
+"Укажите новый домен (или оставьте поле пустым) и кликните на эту кнопку для "
+"принудительной ре-миграции на новый домен.<br>\n"
+"Не забудьте указать <b>https://</b> перед доменом."
+
+#: hiweb-core-4/components/AdminMenu/AdminMenu_Page.php:188
 msgid "Update"
 msgstr "Обновить"
 
-#: components/AdminMenu/AdminMenu_Page.php:176
-msgid "submit_button_label"
+#: hiweb-core-4/components/AdminNotices/init.php:4
+msgid ""
+"Show styled posts from WordPress. The ability to temporarily hide these "
+"messages, even if these messages are not hidden."
 msgstr ""
+"Показывать стилизованные сообщения от WordPress. Возможность временно "
+"скрывать эти сообщения, даже если эти сообщения не скрываемы."
 
-#: components/AdminMenu/AdminMenu_Page.php:180
-msgid "submit_button_icon"
+#: hiweb-core-4/components/ComponentsManager/options.php:6
+msgid "hiWeb Components"
+msgstr "hiWeb Компоненты"
+
+#: hiweb-core-4/components/ComponentsManager/options.php:9
+msgid "No registered components"
+msgstr "Не найдено зарегистрированных компонентов"
+
+#: hiweb-core-4/components/ComponentsManager/options.php:9
+#, php-format
+msgid "Use code% s to register your component"
+msgstr "Используйте код %s для регистрации компонента"
+
+#: hiweb-core-4/components/Fields/FieldsAdmin.js:38
+#: hiweb-core-4/components/Fields/FieldsAdmin.min.js:8
+msgid "The changes you made will be lost if you navigate away from this page."
 msgstr ""
+"Изменения, которые Вы сделали делали, не сохраняться, если Вы покините эту "
+"страницу."
 
-#: components/Fields/Field_Options.php:39
-#: components/Fields/Types/Repeat/Field_Repeat_Col.php:71
-#: components/Fields/Types/Repeat/Field_Repeat_Flex.php:32
-#: components/PostType/PostType.php:80 components/Taxonomies/Taxonomy.php:49
-msgid "label"
-msgstr ""
+#: hiweb-core-4/components/Fields/FieldsFactory_Admin/templates/tabs.php:60
+msgid "No fields inside tab"
+msgstr "Нет полей в данном табе"
 
-#: components/Fields/Field_Options.php:49
-#: components/Fields/Types/Repeat/Field_Repeat_Col.php:80
-#: components/PostType/PostType.php:90
-msgid "description"
-msgstr ""
+#: hiweb-core-4/components/Fields/Types/Content/templates/template.php:16
+msgid "Click to edit"
+msgstr "Кликните для редактирования"
 
-#: components/Fields/Field_Options.php:59
-msgid "default_value"
-msgstr ""
-
-#: components/Fields/Field_Options.php:79
-#: components/Fields/Field_Options.php:80
-#: components/Fields/Field_Options.php:81
-#: components/Fields/Field_Options.php:83
-#: components/Fields/Field_Options.php:86
-#: components/Fields/Field_Options.php:87
-#: components/Fields/Field_Options.php:90
-#: components/Fields/Field_Options.php:91
-msgid "location"
-msgstr ""
-
-#: components/Fields/Field_Options/Field_Options_Location.php:31
-#: components/Fields/Field_Options/Field_Options_Location.php:32
-#: components/Fields/Field_Options/Field_Options_Location.php:35
-#: components/Fields/Types/Post/Field_Post_Options.php:13
-msgid "post_type"
-msgstr ""
-
-#: components/Fields/Field_Options/Field_Options_Location.php:44
-#: components/Fields/Field_Options/Field_Options_Location.php:45
-#: components/Fields/Field_Options/Field_Options_Location.php:49
-#: components/Taxonomies/Taxonomy.php:19
-msgid "taxonomy"
-msgstr ""
-
-#: components/Fields/Field_Options/Field_Options_Location.php:57
-#: components/Fields/Field_Options/Field_Options_Location.php:58
-#: components/Fields/Field_Options/Field_Options_Location.php:60
-msgid "user"
-msgstr ""
-
-#: components/Fields/Field_Options/Field_Options_Location.php:70
-#: components/Fields/Field_Options/Field_Options_Location.php:75
-#: components/Fields/FieldsFactory_Admin.php:37
-#: components/Fields/Types/Select/Field_Select_Options.php:17
-msgid "options"
-msgstr ""
-
-#: components/Fields/Field_Options/Field_Options_Location.php:83
-#: components/Fields/Field_Options/Field_Options_Location.php:84
-#: components/Fields/Field_Options/Field_Options_Location.php:86
-msgid "form"
-msgstr ""
-
-#: components/Fields/Field_Options/Field_Options_Location_AdminMenu.php:12
-msgid "page_slug"
-msgstr ""
-
-#: components/Fields/Field_Options/Field_Options_Location_Form.php:29
-msgid "order"
-msgstr ""
-
-#: components/Fields/Field_Options/Field_Options_Location_Form.php:47
-#: components/Fields/Field_Options/Field_Options_Location_Form.php:56
-#: components/Fields/Field_Options/Field_Options_Location_Form.php:65
-#: components/Fields/Field_Options/Field_Options_Location_Form.php:74
-#: components/Fields/Field_Options/Field_Options_Location_Form.php:83
-#: components/Fields/Field_Options/Field_Options_Location_Form.php:92
-#: components/Fields/Field_Options/Field_Options_Location_Form.php:101
-#: components/Fields/Field_Options/Field_Options_Location_Form.php:110
-#: components/Fields/Field_Options/Field_Options_Location_Form.php:119
-#: components/Fields/Field_Options/Field_Options_Location_Form.php:128
-#: components/Fields/Types/Repeat/Field_Repeat_Col.php:89
-msgid "width"
-msgstr ""
-
-#: components/Fields/Field_Options/Field_Options_Location_PostType.php:104
-msgid "template"
-msgstr ""
-
-#: components/Fields/Field_Options/Field_Options_Location_PostType.php:124
-#: components/Fields/Field_Options/Field_Options_Location_PostType.php:125
-#: components/Fields/Field_Options/Field_Options_Location_PostType.php:128
-#: components/Fields/Field_Options/Field_Options_Location_PostType.php:129
-msgid "metabox"
-msgstr ""
-
-#: components/Fields/Field_Options/Field_Options_Location_PostType.php:137
-#: components/Fields/Field_Options/Field_Options_Location_PostType.php:138
-#: components/Fields/Field_Options/Field_Options_Location_PostType.php:140
-msgid "columns_manager"
-msgstr ""
-
-#: components/Fields/Field_Options/Field_Options_Location_PostType_ColumnsManager.php:22
-msgid "id"
-msgstr ""
-
-#: components/Fields/Field_Options/Field_Options_Location_PostType_MetaBox.php:26
-#: components/PostType/PostType/Supports.php:17
-msgid "title"
-msgstr ""
-
-#: components/Fields/Field_Options/Field_Options_Location_PostType_MetaBox.php:34
-#: components/Fields/Field_Options/Field_Options_Location_PostType_MetaBox.php:35
-#: components/Fields/Field_Options/Field_Options_Location_PostType_MetaBox.php:37
-msgid "context"
-msgstr ""
-
-#: components/Fields/Field_Options/Field_Options_Location_PostType_MetaBox.php:45
-#: components/Fields/Field_Options/Field_Options_Location_PostType_MetaBox.php:46
-#: components/Fields/Field_Options/Field_Options_Location_PostType_MetaBox.php:48
-msgid "priority"
-msgstr ""
-
-#: components/Fields/Field_Options/Field_Options_Location_PostType_MetaBox_Context.php:16
-msgid "normal"
-msgstr ""
-
-#: components/Fields/Field_Options/Field_Options_Location_PostType_MetaBox_Context.php:24
-msgid "advanced"
-msgstr ""
-
-#: components/Fields/Field_Options/Field_Options_Location_PostType_MetaBox_Context.php:32
-msgid "side"
-msgstr ""
-
-#: components/Fields/Field_Options/Field_Options_Location_PostType_MetaBox_Priority.php:16
-msgid "high"
-msgstr ""
-
-#: components/Fields/Field_Options/Field_Options_Location_PostType_MetaBox_Priority.php:24
-msgid "low"
-msgstr ""
-
-#: components/Fields/Field_Options/Field_Options_Location_PostType_MetaBox_Priority.php:32
-msgid "default"
-msgstr ""
-
-#: components/Fields/FieldsFactory_Admin.php:72
-msgid "global_id"
-msgstr ""
-
-#: components/Fields/Types/Checkbox/Field_Checkbox_Options.php:16
-msgid "label_checkbox"
-msgstr ""
-
-#: components/Fields/Types/Content/Field_Content_Options.php:23
-msgid "editor_height"
-msgstr ""
-
-#: components/Fields/Types/Date/Field_Date_Options.php:12
-#: components/Fields/Types/Post/Field_Post_Options.php:17
-#: components/Fields/Types/Select/Field_Select_Options.php:26
-#: components/Fields/Types/Text/Field_Text_Options.php:17
-#: components/Fields/Types/Textarea/Field_Textarea_Options.php:25
-msgid "placeholder"
-msgstr ""
-
-#: components/Fields/Types/File/Field_File_Options.php:17
-#: components/Fields/Types/Image/Field_Image_Options.php:17
+#: hiweb-core-4/components/Fields/Types/File/Field_File_Options.php:17
+#: hiweb-core-4/components/Fields/Types/Image/Field_Image_Options.php:17
 msgid "File not select. Click or Upload file in to that place"
 msgstr "Файл не выбран. Кликните или Загрузите файл прямо сюда"
 
-#: components/Fields/Types/File/Field_File_Options.php:17
-#: components/Fields/Types/Image/Field_Image_Options.php:17
-msgid "label_empty"
-msgstr ""
-
-#: components/Fields/Types/File/Field_File_Options.php:22
-#: components/Fields/Types/Image/Field_Image_Options.php:22
+#: hiweb-core-4/components/Fields/Types/File/Field_File_Options.php:22
+#: hiweb-core-4/components/Fields/Types/Image/Field_Image_Options.php:22
 msgid "Select file"
 msgstr "Выбрать файл"
 
-#: components/Fields/Types/File/Field_File_Options.php:22
-#: components/Fields/Types/Image/Field_Image_Options.php:22
-msgid "label_button_select"
-msgstr ""
-
-#: components/Fields/Types/File/template.php:29
+#: hiweb-core-4/components/Fields/Types/File/template.php:38
 msgid "Select other"
 msgstr "Выбрать другой"
 
-#: components/Fields/Types/File/template.php:30
+#: hiweb-core-4/components/Fields/Types/File/template.php:39
 msgid "Edit attachment"
 msgstr "Редактировать файл"
 
-#: components/Fields/Types/File/template.php:31
+#: hiweb-core-4/components/Fields/Types/File/template.php:40
 msgid "Download the file"
 msgstr "Скачать файл"
 
-#: components/Fields/Types/File/template.php:32
+#: hiweb-core-4/components/Fields/Types/File/template.php:41
 msgid "Unselect file (clear)"
 msgstr "Отменить выбор файла"
 
-#: components/Fields/Types/File/template.php:36
+#: hiweb-core-4/components/Fields/Types/File/template.php:45
 msgid "Drag&Drop uploaded file in that place"
 msgstr "Перетащите файл в эту область"
 
-#: components/Fields/Types/Image/Field_Image_Options.php:32
-msgid "admin_width"
-msgstr ""
+#: hiweb-core-4/components/Fields/Types/Fontawesome/ajax_short.php:29
+msgid "Icon not exists"
+msgstr "Иконка не существует"
 
-#: components/Fields/Types/Image/Field_Image_Options.php:42
-msgid "admin_height"
-msgstr ""
-
-#: components/Fields/Types/Images/Field_Images_Options.php:16
+#: hiweb-core-4/components/Fields/Types/Images/Field_Images_Options.php:16
 msgid "Select images"
 msgstr "Выбрать изображение"
 
-#: components/Fields/Types/Images/Field_Images_Options.php:16
-msgid "label_top"
-msgstr ""
-
-#: components/Fields/Types/Images/templates/template.php:42
+#: hiweb-core-4/components/Fields/Types/Images/templates/template.php:42
 msgid "No images, press \"+\" for select and adding first file"
 msgstr "Нет изображений, нажмите \"+\" для выбора файла"
 
-#: components/Fields/Types/Post/Field_Post_Options.php:21
-msgid "meta_key"
-msgstr ""
+#: hiweb-core-4/components/Fields/Types/Post/Field_Post_Options.php:18
+msgid "Select posts"
+msgstr "Выбрать записи"
 
-#: components/Fields/Types/Post/Field_Post_Options.php:25
-#: components/Fields/Types/Select/Field_Select_Options.php:35
-msgid "multiple"
-msgstr ""
+#: hiweb-core-4/components/Fields/Types/Post/Field_Post_Options.php:18
+msgid "Select post"
+msgstr "Выбрать запись"
 
-#: components/Fields/Types/Repeat/Field_Repeat_Col.php:99
-msgid "compact"
-msgstr ""
-
-#: components/Fields/Types/Repeat/Field_Repeat_Flex.php:43
-msgid "icon"
-msgstr ""
-
-#: components/Fields/Types/Repeat/Field_Repeat_Options.php:25
-#: components/Fields/Types/Repeat/Field_Repeat_Options.php:28
-#: components/Fields/Types/Repeat/Field_Repeat_Options.php:30
-#: components/Fields/Types/Repeat/Field_Repeat_Options.php:101
-msgid "cols"
-msgstr ""
-
-#: components/Fields/Types/Repeat/Field_Repeat_Options.php:43
+#: hiweb-core-4/components/Fields/Types/Repeat/Field_Repeat_Options.php:43
 msgid "Add new row"
 msgstr "Добавить строку"
 
-#: components/Fields/Types/Repeat/Field_Repeat_Options.php:43
-msgid "label_button_new_row"
-msgstr ""
-
-#: components/Fields/Types/Repeat/Field_Repeat_Options.php:52
+#: hiweb-core-4/components/Fields/Types/Repeat/Field_Repeat_Options.php:52
 msgid "Clear repeat"
 msgstr "Очистить поля"
 
-#: components/Fields/Types/Repeat/Field_Repeat_Options.php:52
-msgid "label_button_clear_all"
-msgstr ""
-
-#: components/Fields/Types/Repeat/Field_Repeat_Options.php:57
+#: hiweb-core-4/components/Fields/Types/Repeat/Field_Repeat_Options.php:57
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:26
 msgid "Copy all rows"
 msgstr "Копировать все строки"
 
-#: components/Fields/Types/Repeat/Field_Repeat_Options.php:57
-msgid "label_button_copy_all"
-msgstr ""
+#: hiweb-core-4/components/Fields/Types/Repeat/Field_Repeat_Options.php:68
+msgid "Collapse / Expand rows"
+msgstr "Свернуть / Развернуть строки"
 
-#: components/Fields/Types/Repeat/Field_Repeat_Options.php:61
+#: hiweb-core-4/components/Fields/Types/Repeat/Field_Repeat_Options.php:72
 msgid "Remove all table rows?"
 msgstr "Удалить все поля?"
 
-#: components/Fields/Types/Repeat/Field_Repeat_Options.php:61
-msgid "text_confirm_clear_all"
-msgstr ""
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:26
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:52
+msgid "Copy"
+msgstr "Копировать"
 
-#: components/Fields/Types/Repeat/templates/head.php:17
-msgid "collapse / expand all rows"
-msgstr ""
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:27
+msgid "Paste rows"
+msgstr "Вставить скопированные строки"
 
-#: components/Fields/Types/Repeat/templates/row.php:27
-msgid "click - collapse / expand; drag - sorting this row"
-msgstr ""
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:27
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:56
+msgid "Paste"
+msgstr "Вставить"
 
-#: components/Fields/Types/Repeat/templates/template.php:31
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:36
+msgid "Remove"
+msgstr "Удалить"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:39
+msgid "Collapse / Expand Row"
+msgstr "Свернуть / Развернуть строку"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:41
+msgid "Collapse"
+msgstr "Схлопнуть"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:46
+msgid "Append row"
+msgstr "Добавить строку"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:50
+msgid "Copy row"
+msgstr "Копировать строку"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:54
+msgid "Paste row"
+msgstr "Вставить строку"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:58
+msgid "Duplicate row"
+msgstr "Дублировать строку"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:60
+msgid "Duplicate"
+msgstr "Дублировать"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/message-empty.php:13
 #, php-format
 msgid ""
-"For repeat input [%s] not add col fields. For that do this: <code>$this-"
-">add_col_field( add_field_text(...) )</code>"
+"The table is empty. To add at least one field, click on the <b>%s</b> button"
 msgstr ""
-"Для репит [%s] не добавлены колонки. Для этого добавьте код: <code>$this-"
-">add_col_field( add_field_text(...) )</code>"
+"Таблица пуста. Для добавления хотя бы одной строки, кликните по кнопке <b>"
+"%s</b>"
 
-#: components/Fields/Types/Repeat/templates/template.php:49
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/row-fields.php:97
+msgid "Options for this row"
+msgstr "Опции для данной строки"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/row-left.php:10
+msgid "click - collapse / expand; drag - sorting this row"
+msgstr "клик - свернуть / развернуть; потяните - поменять порядок строк11"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/template.php:15
+#, php-format
 msgid ""
-"The table is empty. To add at least one field, click on the \"+\" button"
+"For repeat input [%s] not add col fields. For that do this: "
+"<code>add_field_repeat(...)->add_col_field( add_field_text(...) )</code>"
 msgstr ""
-"Таблица пуста. Для добавления хотя бы одног поля, кликните по кнопке \"+\""
+"Для данного поля  [%s] не добавлены колонки. Для этого добавьте код: "
+"<code>add_field_repeat(...)->add_col_field( add_field_text(...) )</code>"
 
-#: components/Fields/Types/Separator/Field_Separator_Options.php:16
-msgid "separator_label"
-msgstr ""
-
-#: components/Fields/Types/Separator/Field_Separator_Options.php:25
-msgid "separator_description"
-msgstr ""
-
-#: components/Fields/Types/Separator/Field_Separator_Options.php:34
-msgid "tag_label"
-msgstr ""
-
-#: components/Fields/Types/Separator/Field_Separator_Options.php:43
-msgid "tag_description"
-msgstr ""
-
-#: components/Fields/Types/Textarea/Field_Textarea_Options.php:16
-msgid "rows"
-msgstr ""
-
-#: components/Includes/Css.php:38 components/Includes/Js.php:36
-msgid "footer"
-msgstr ""
-
-#: components/Includes/Css.php:47 components/Includes/Js.php:45
-msgid "on_frontend"
-msgstr ""
-
-#: components/Includes/Css.php:56 components/Includes/Js.php:54
-msgid "on_admin"
-msgstr ""
-
-#: components/Includes/Css.php:65 components/Includes/Js.php:63
-msgid "on_login"
-msgstr ""
-
-#: components/Includes/Css.php:74
-msgid "is_admin"
-msgstr ""
-
-#: components/Includes/Css.php:84 components/Includes/Js.php:92
-msgid "deeps"
-msgstr ""
-
-#: components/Includes/Css.php:92 components/Includes/Css.php:93
-#: components/Includes/Css.php:95
-msgid "rel"
-msgstr ""
-
-#: components/Includes/Css.php:103 components/Includes/Css.php:104
-#: components/Includes/Css.php:106 components/Includes/Css/Media.php:64
-msgid "media"
-msgstr ""
-
-#: components/Includes/Js.php:72 components/Includes/Js.php:82
-#: components/Includes/Js.php:97
-msgid "async"
-msgstr ""
-
-#: components/PostType/PostType.php:45 components/PostType/PostType.php:46
-#: components/PostType/PostType.php:48 components/Taxonomies/Taxonomy.php:59
-#: components/Taxonomies/Taxonomy.php:60 components/Taxonomies/Taxonomy.php:62
-msgid "labels"
-msgstr ""
-
-#: components/PostType/PostType.php:56 components/PostType/PostType.php:57
-#: components/PostType/PostType.php:59 components/Taxonomies/Taxonomy.php:196
-msgid "rewrite"
-msgstr ""
-
-#: components/PostType/PostType.php:67 components/PostType/PostType.php:68
-#: components/PostType/PostType.php:70
-msgid "supports"
-msgstr ""
-
-#: components/PostType/PostType.php:110 components/Taxonomies/Taxonomy.php:73
-msgid "public"
-msgstr ""
-
-#: components/PostType/PostType.php:127 components/Taxonomies/Taxonomy.php:207
-msgid "publicly_queryable"
-msgstr ""
-
-#: components/PostType/PostType.php:137
-msgid "exclude_from_search"
-msgstr ""
-
-#: components/PostType/PostType.php:148 components/Taxonomies/Taxonomy.php:84
-msgid "show_ui"
-msgstr ""
-
-#: components/PostType/PostType.php:162 components/Taxonomies/Taxonomy.php:98
-msgid "show_in_menu"
-msgstr ""
-
-#: components/PostType/PostType.php:172
-msgid "show_in_admin_bar"
-msgstr ""
-
-#: components/PostType/PostType.php:182 components/Taxonomies/Taxonomy.php:109
-msgid "show_in_nav_menus"
-msgstr ""
-
-#: components/PostType/PostType.php:193 components/Taxonomies/Taxonomy.php:131
-msgid "show_in_rest"
-msgstr ""
-
-#: components/PostType/PostType.php:203 components/Taxonomies/Taxonomy.php:142
-msgid "rest_base"
-msgstr ""
-
-#: components/PostType/PostType.php:214 components/Taxonomies/Taxonomy.php:153
-msgid "rest_controller_class"
-msgstr ""
-
-#: components/PostType/PostType.php:237
-msgid "menu_position"
-msgstr ""
-
-#: components/PostType/PostType.php:253
-msgid "menu_icon"
-msgstr ""
-
-#: components/PostType/PostType.php:269
-msgid "capability_type"
-msgstr ""
-
-#: components/PostType/PostType.php:298 components/Taxonomies/Taxonomy.php:232
-msgid "capabilities"
-msgstr ""
-
-#: components/PostType/PostType.php:312
-msgid "map_meta_cap"
-msgstr ""
-
-#: components/PostType/PostType.php:324 components/Taxonomies/Taxonomy.php:164
-msgid "hierarchical"
-msgstr ""
-
-#: components/PostType/PostType.php:334
-msgid "register_meta_box_cb"
-msgstr ""
-
-#: components/PostType/PostType.php:346
-msgid "taxonomies"
-msgstr ""
-
-#: components/PostType/PostType.php:375
-msgid "permalink_epmask"
-msgstr ""
-
-#: components/PostType/PostType.php:387
-msgid "has_archive"
-msgstr ""
-
-#: components/PostType/PostType.php:402 components/Taxonomies/Taxonomy.php:218
-msgid "query_var"
-msgstr ""
-
-#: components/PostType/PostType.php:412
-msgid "can_export"
-msgstr ""
-
-#: components/PostType/PostType.php:424
-msgid "delete_with_user"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:17
-#: components/Taxonomies/Taxonomy_Labels.php:18
-msgid "name"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:27
-#: components/Taxonomies/Taxonomy_Labels.php:28
-msgid "singular_name"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:37
-msgid "add_new"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:47
-#: components/Taxonomies/Taxonomy_Labels.php:118
-msgid "add_new_item"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:57
-#: components/Taxonomies/Taxonomy_Labels.php:98
-msgid "edit_item"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:67
-msgid "new_item"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:77
-#: components/Taxonomies/Taxonomy_Labels.php:128
-msgid "view_item"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:87
-#: components/Taxonomies/Taxonomy_Labels.php:48
-msgid "search_items"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:98
-#: components/Taxonomies/Taxonomy_Labels.php:178
-msgid "not_found"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:109
-msgid "not_found_in_trash"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:120
-#: components/Taxonomies/Taxonomy_Labels.php:88
-msgid "parent_item_colon"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:130
-#: components/Taxonomies/Taxonomy_Labels.php:68
-msgid "all_items"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:140
-msgid "archives"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:150
-msgid "insert_into_item"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:160
-msgid "uploaded_to_this_item"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:170
-msgid "featured_image"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:180
-msgid "set_featured_image"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:190
-msgid "remove_featured_image"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:200
-msgid "use_featured_image"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:210
-msgid "filter_items_list"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:220
-msgid "items_list_navigation"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:230
-msgid "items_list"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:240
-#: components/Taxonomies/Taxonomy_Labels.php:38
-msgid "menu_name"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:250
-msgid "name_admin_bar"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:260
-msgid "view_items"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:271
-msgid "attributes"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:282
-msgid "item_updated"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:293
-msgid "item_published"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:304
-msgid "item_published_privately"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:315
-msgid "item_reverted_to_draft"
-msgstr ""
-
-#: components/PostType/PostType/PostType_Labels.php:326
-msgid "item_scheduled"
-msgstr ""
+#: hiweb-core-4/components/Fields/Types/Select/Field_Select_Options.php:26
+msgid "Select options"
+msgstr "Выбрать варианты"
 
-#: components/PostType/PostType/Rewrite.php:18
-msgid "slug"
-msgstr ""
-
-#: components/PostType/PostType/Rewrite.php:28
-msgid "with_front"
-msgstr ""
-
-#: components/PostType/PostType/Rewrite.php:38
-msgid "feeds"
-msgstr ""
-
-#: components/PostType/PostType/Rewrite.php:48
-msgid "pages"
-msgstr ""
-
-#: components/PostType/PostType/Supports.php:27
-msgid "editor"
-msgstr ""
-
-#: components/PostType/PostType/Supports.php:37
-msgid "author"
-msgstr ""
-
-#: components/PostType/PostType/Supports.php:48
-msgid "thumbnail"
-msgstr ""
-
-#: components/PostType/PostType/Supports.php:58
-msgid "excerpt"
-msgstr ""
-
-#: components/PostType/PostType/Supports.php:68
-msgid "trackbacks"
-msgstr ""
-
-#: components/PostType/PostType/Supports.php:78
-msgid "custom-fields"
-msgstr ""
-
-#: components/PostType/PostType/Supports.php:88
-msgid "comments"
-msgstr ""
-
-#: components/PostType/PostType/Supports.php:98
-msgid "page-attributes"
-msgstr ""
-
-#: components/PostType/PostType/Supports.php:108
-msgid "post-formats"
-msgstr ""
-
-#: components/Structures/Structure.php:85
-msgid "s"
-msgstr ""
-
-#: components/Taxonomies/Taxonomy.php:38
-msgid "object_type"
-msgstr ""
-
-#: components/Taxonomies/Taxonomy.php:120
-msgid "show_tagcloud"
-msgstr ""
-
-#: components/Taxonomies/Taxonomy.php:180
-msgid "update_count_callback"
-msgstr ""
-
-#: components/Taxonomies/Taxonomy.php:247
-msgid "meta_box_cb"
-msgstr ""
-
-#: components/Taxonomies/Taxonomy.php:258
-msgid "show_admin_column"
-msgstr ""
-
-#: components/Taxonomies/Taxonomy.php:269
-msgid "show_in_quick_edit"
-msgstr ""
-
-#: components/Taxonomies/Taxonomy.php:282
-msgid "sort"
-msgstr ""
-
-#: components/Taxonomies/Taxonomy_Labels.php:58
-msgid "popular_items"
-msgstr ""
+#: hiweb-core-4/components/Fields/Types/Select/Field_Select_Options.php:26
+msgid "Select option"
+msgstr "Выбрать вариант"
 
-#: components/Taxonomies/Taxonomy_Labels.php:78
-msgid "parent_item"
+#: hiweb-core-4/components/Images/init.php:3
+msgid "Create a new image file of the required size if it does not exist"
 msgstr ""
+"Создавать новый файл изображения требуемого размера, если он не существует"
 
-#: components/Taxonomies/Taxonomy_Labels.php:108
-msgid "update_item"
-msgstr ""
+#: hiweb-core-4/components/Images/init.php:4
+msgid "Images Defer"
+msgstr "Отложенные загрузки изображений"
 
-#: components/Taxonomies/Taxonomy_Labels.php:138
-msgid "new_item_name"
-msgstr ""
+#: hiweb-core-4/components/Images/init.php:5
+msgid "Use <picture/> html tag"
+msgstr "Использовать <picture/> html тег"
 
-#: components/Taxonomies/Taxonomy_Labels.php:148
-msgid "separate_items_with_commas"
-msgstr ""
+#: hiweb-core-4/components/Images/init.php:6
+msgid "Use WebP images format if server is support them"
+msgstr "Использовать WebP формат изображений, если хостинг поддерживает из"
 
-#: components/Taxonomies/Taxonomy_Labels.php:158
-msgid "add_or_remove_items"
-msgstr ""
+#: hiweb-core-4/components/Taxonomy_Main_Select/init.php:3
+msgid "Taxonomy/Category Main Select"
+msgstr "Выбор главной Таксономии / Категории"
 
-#: components/Taxonomies/Taxonomy_Labels.php:168
-msgid "choose_from_most_used"
-msgstr ""
+#: hiweb-core-4/components/TinyMCE/init.php:3
+msgid "TinyMCE Addons"
+msgstr "Дополнения для TinyMCE"
 
-#: core/Paths/PathsFactory.php:163
+#: hiweb-core-4/core/Paths/PathsFactory.php:198
 msgid "B"
 msgstr ""
 
-#: core/Paths/PathsFactory.php:166
+#: hiweb-core-4/core/Paths/PathsFactory.php:200
 msgid "KB"
 msgstr ""
 
-#: core/Paths/PathsFactory.php:169
+#: hiweb-core-4/core/Paths/PathsFactory.php:202
 msgid "MB"
 msgstr ""
 
-#: core/Paths/PathsFactory.php:172
+#: hiweb-core-4/core/Paths/PathsFactory.php:204
 msgid "GB"
 msgstr ""
 
-#: core/Paths/PathsFactory.php:175
+#: hiweb-core-4/core/Paths/PathsFactory.php:206
 msgid "TB"
 msgstr ""
 
-#: core/Paths/PathsFactory.php:178
+#: hiweb-core-4/core/Paths/PathsFactory.php:208
 msgid "PB"
 msgstr ""
 
-#: core/Paths/PathsFactory.php:181
+#: hiweb-core-4/core/Paths/PathsFactory.php:210
 msgid "EB"
 msgstr ""
 
-#: core/Paths/PathsFactory.php:184
+#: hiweb-core-4/core/Paths/PathsFactory.php:212
 msgid "ZB"
 msgstr ""
 
-#: core/Paths/PathsFactory.php:187
+#: hiweb-core-4/core/Paths/PathsFactory.php:214
 msgid "YiB"
 msgstr ""
 
-#: hiweb-core-4.php:18
-msgid "Your version of PHP must be 7.0 or higher."
-msgstr "Ваша версия PHP должна быть 7.0 или выше."
+#: hiweb-core-4/hiweb-core-4.php:18
+msgid "Your version of PHP must be 7.2 or higher."
+msgstr "Ваша версия PHP должна быть 7.2 или выше."
+
+#: widgets/menu_collapse/widget.php:195
+#, php-format
+msgid "No menus have been created yet. <a href=\"%s\">Create some</a>."
+msgstr ""
+
+#: widgets/menu_collapse/widget.php:199
+msgid "Title:"
+msgstr "Заголовок:"
+
+#: widgets/menu_collapse/widget.php:203
+msgid "Select Menu:"
+msgstr "Выбрать меню:"
+
+#: widgets/menu_collapse/widget.php:205
+msgid "&mdash; Select &mdash;"
+msgstr ""
+
+#: widgets/menu_collapse/widget.php:215
+msgid "Edit Menu"
+msgstr "Редактировать меню"
 
 #~ msgid "Save Changes"
 #~ msgstr "Сохранить Изменения"

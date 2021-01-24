@@ -67,9 +67,9 @@ class Image_Sizes {
         }
         if (is_array($sizeOrName) || is_object($sizeOrName)) {
             $sizeOrName = (array)$sizeOrName;
-            if(isset($sizeOrName[0])) $sizeOrName['width'] = $sizeOrName[0];
-            if(isset($sizeOrName[1])) $sizeOrName['height'] = $sizeOrName[1];
-            if(isset($sizeOrName[2])) $sizeOrName['resize_mode'] = $sizeOrName[2];
+            if (isset($sizeOrName[0])) $sizeOrName['width'] = $sizeOrName[0];
+            if (isset($sizeOrName[1])) $sizeOrName['height'] = $sizeOrName[1];
+            if (isset($sizeOrName[2])) $sizeOrName['resize_mode'] = $sizeOrName[2];
             if (isset($sizeOrName['crop'])) $sizeOrName['resize_mode'] = $sizeOrName['crop'] === true ? 0 : - 1;
             if (isset($sizeOrName['resize_mode'])) $sizeOrName['crop'] = $sizeOrName['resize_mode'] == 0;
             if ( !isset($sizeOrName['resize_mode'])) $sizeOrName['resize_mode'] = - 1;
@@ -157,19 +157,19 @@ class Image_Sizes {
      */
     public function get($sizeOrName = 'medium', $makeIfNotExist = null, $quality_jpg_png_webp = 75): Image_Size {
         if ( !$this->Image->is_attachment_exists()) return $this->get_original_size();
-        if (is_null($makeIfNotExist)) $makeIfNotExist = ImagesFactory::$makeFileIfNotExists;
+        if ( !is_bool($makeIfNotExist)) $makeIfNotExist = ImagesFactory::$makeFileIfNotExists;
         $dimension = $this->get_calculate_size($sizeOrName);
         ///check if dimension is exists and find in wp registered sizes...
         if ($dimension->width == $this->Image->get_width() && $dimension->height == $this->Image->get_height()) return $this->get_original_size();
         foreach ($this->get_sizes() as $image_Size) {
             if ($dimension->resize_mode == 0 && $image_Size->path()->file()->is_exists() && $image_Size->get_width() == $dimension->width && $image_Size->get_height() == $dimension->height) {
-                $image_Size->make();
+                if (ImagesFactory::$useWebPExtension) $image_Size->make(false, $quality_jpg_png_webp);
                 return $image_Size;
             } elseif ($dimension->resize_mode == - 1 && $image_Size->path()->file()->is_exists() && (($dimension->width == $image_Size->get_width() && $dimension->height >= $image_Size->get_height()) || ($dimension->width >= $image_Size->get_width() && $dimension->height == $image_Size->get_height()))) {
-                $image_Size->make();
+                if (ImagesFactory::$useWebPExtension) $image_Size->make(false, $quality_jpg_png_webp);
                 return $image_Size;
             } elseif ($dimension->resize_mode == 1 && $image_Size->path()->file()->is_exists() && (($dimension->width == $image_Size->get_width() && $dimension->height <= $image_Size->get_height()) || ($dimension->width <= $image_Size->get_width() && $dimension->height == $image_Size->get_height()))) {
-                $image_Size->make();
+                if (ImagesFactory::$useWebPExtension) $image_Size->make(false, $quality_jpg_png_webp);
                 return $image_Size;
             }
         }

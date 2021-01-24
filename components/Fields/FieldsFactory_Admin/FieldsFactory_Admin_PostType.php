@@ -150,7 +150,6 @@ class FieldsFactory_Admin_PostType {
     }
 
 
-
     /**
      * POST META BOXES
      * @version 1.1
@@ -185,7 +184,7 @@ class FieldsFactory_Admin_PostType {
     static function _save_post($post_ID, $post, $update) {
         if ( !$update || !array_key_exists('hiweb-core-field-form-nonce', $_POST) || !wp_verify_nonce($_POST['hiweb-core-field-form-nonce'], 'hiweb-core-field-form-save')) return;
         foreach (FieldsFactory::get_field_by_query(self::get_current_query([], $post)) as $Field) {
-            $field_name = 'hiweb-' . $Field->get_ID();
+            $field_name = 'hiweb-' . $Field->get_id();
             if ($Field->get_allow_save_field(array_key_exists($field_name, $_POST) ? $_POST[$field_name] : null)) {
                 if (array_key_exists($field_name, $_POST)) {
                     update_post_meta($post_ID, $Field->id(), $Field->get_sanitize_admin_value($_POST[$field_name], true));
@@ -242,10 +241,10 @@ class FieldsFactory_Admin_PostType {
      */
     static function manage_posts_sortable_columns($sortable_columns) {
         $fields = FieldsFactory::get_field_by_query([
-                'post_type' => [
-                    'post_type' => get_current_screen()->post_type,
-                ],
-            ]);
+            'post_type' => [
+                'post_type' => get_current_screen()->post_type,
+            ],
+        ]);
         foreach ($fields as $Field) {
             if ($Field->options()->location()->posts()->columnsManager()->sortable()) {
                 $sortable_columns['hiweb-field-' . $Field->id()] = 'hiweb-field-' . $Field->id();

@@ -1,0 +1,78 @@
+.hiweb-field_file {
+  position: relative; }
+  .hiweb-field_file[data-has-file="0"] [data-status="selected"] {
+    display: none; }
+  .hiweb-field_file[data-has-file="1"] [data-status="empty"] {
+    display: none; }
+  .hiweb-field_file [data-message] {
+    padding: .4em;
+    line-height: 1;
+    -webkit-transition: border-bottom 0.2s ease-in-out;
+    -moz-transition: border-bottom 0.2s ease-in-out;
+    -o-transition: border-bottom 0.2s ease-in-out;
+    transition: border-bottom 0.2s ease-in-out;
+    width: 100%;
+    max-width: 800px;
+    border-left: none;
+    border-top: none;
+    border-right: none;
+    border-bottom: 2px solid #ccd0d4;
+    -webkit-border-top-left-radius: 0;
+    -webkit-border-top-right-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
+    -webkit-border-bottom-left-radius: 0;
+    -moz-border-radius-topleft: 0;
+    -moz-border-radius-topright: 0;
+    -moz-border-radius-bottomright: 0;
+    -moz-border-radius-bottomleft: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    background: rgba(255, 255, 255, 0.9);
+    -webkit-box-shadow: 0px 0px 2px 0 rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 0px 2px 0 rgba(0, 0, 0, 0.1);
+    -o-box-shadow: 0px 0px 2px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 2px 0 rgba(0, 0, 0, 0.1);
+    max-width: 320px; }
+    .hiweb-field_file [data-message]:focus {
+      stroke: none;
+      border-bottom-color: #007cba; }
+    .hiweb-field_file [data-message]::-webkit-input-placeholder {
+      color: #ccd0d4;
+      font-weight: 100; }
+    .hiweb-field_file [data-message]:-moz-placeholder {
+      color: #ccd0d4;
+      font-weight: 100; }
+    .hiweb-field_file [data-message]::-moz-placeholder {
+      color: #ccd0d4;
+      font-weight: 100; }
+    .hiweb-field_file [data-message]:-ms-input-placeholder {
+      color: #ccd0d4;
+      font-weight: 100; }
+  .hiweb-field_file [data-status] {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex; }
+  .hiweb-field_file .button {
+    display: inline-block;
+    padding: 4px 10px; }
+    .hiweb-field_file .button svg {
+      height: 16px; }
+  .hiweb-field_file [data-upload-place] {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 2em;
+    background-color: #f1f1f1;
+    margin: 2px;
+    border: 2px dashed #ccd0d4;
+    text-align: center;
+    cursor: pointer; }
+
+/*# sourceMappingURL=file.css.map */

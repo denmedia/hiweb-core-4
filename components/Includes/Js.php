@@ -119,7 +119,7 @@ class Js extends Options {
      */
     public function get_html(): string {
         $version = '';
-        if ($this->path()->is_local() && filemtime($this->path()->get_path_relative()) != '') $version = '?ver=' . filemtime($this->path()->get_path_relative());
+        if ($this->path()->is_local() && @filemtime($this->path()->get_path_relative()) != '') $version = '?ver=' . @filemtime($this->path()->get_path_relative());
         return '<script src="' . $this->path()->url()->get() . $version . '" ' . $this->_('async') . ' data-handle="' . $this->path()->handle() . '"></script>';
     }
 

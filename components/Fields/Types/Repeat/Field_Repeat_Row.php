@@ -34,7 +34,7 @@
 		/**
 		 * @return Field_Repeat
 		 */
-		public function Field(){
+		public function field(): Field_Repeat {
 			return $this->Field;
 		}
 		

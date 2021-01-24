@@ -365,7 +365,7 @@ class Image {
      * @deprecated
      */
     public function get_similar_src($width, $height, $resize_mode = 1): string {
-        return $this->get_src([ $width, $height, $resize_mode ]);
+        return $this->get_src([ $width, $height, $resize_mode ], false);
     }
 
 
@@ -417,10 +417,11 @@ class Image {
      * @param array  $pictureAttributes
      * @param array  $imgAttributes
      * @param bool   $make_new_file
+     * @param bool   $tryWebP
      * @return string
      * @version 2.0
      */
-    public function get_html_picture($dimensionsOrSizeName = 'thumbnail', $pictureAttributes = [], $imgAttributes = [], $make_new_file = true): string {
+    public function get_html_picture($dimensionsOrSizeName = 'thumbnail', $pictureAttributes = [], $imgAttributes = [], $make_new_file = true, $tryWebP = false): string {
         $dimension = $this->sizes()->get_calculate_size($dimensionsOrSizeName);
         ob_start();
         if ( !$this->is_exists()) {
@@ -509,7 +510,7 @@ class Image {
             return $this->get_html_defer($dimensionsOrSizeName, $attributes);
         } else {
             if (ImagesFactory::$usePictureHtmlTag) {
-                return $this->get_html_picture($dimensionsOrSizeName, $attributes, $make_new_file, $tryWepB);
+                return $this->get_html_picture($dimensionsOrSizeName, $attributes, $attributes, $make_new_file, $tryWepB);
             } else {
                 return $this->get_html_img($dimensionsOrSizeName, $attributes, $make_new_file, $tryWepB);
             }

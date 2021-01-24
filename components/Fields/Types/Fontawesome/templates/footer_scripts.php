@@ -1,0 +1,1 @@
+<script>let hiweb_components_field_type_fontawesome_ajaxUrl = '<?=get_url(dirname(__DIR__) . '/ajax_short.php')?>';</script>

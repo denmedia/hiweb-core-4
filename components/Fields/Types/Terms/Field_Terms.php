@@ -16,6 +16,7 @@ class Field_Terms extends Field {
     public function get_css() {
         return [
             HIWEB_DIR_VENDOR . '/selectize.js/css/selectize.css',
+            __DIR__ . '/assets/terms.css'
         ];
     }
 
@@ -24,7 +25,7 @@ class Field_Terms extends Field {
         return [
             'jquery-ui-sortable',
             HIWEB_DIR_VENDOR . '/selectize.js/js/standalone/selectize.min.js',
-            __DIR__ . '/Field_Terms.min.js'
+            __DIR__ . '/assets/terms.min.js'
         ];
     }
 

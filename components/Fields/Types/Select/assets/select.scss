@@ -1,0 +1,33 @@
+@import "../../../css/Fields_UI";
+
+.hiweb-field_select {
+	.selectize-input {
+		@include fields_ui_text-input_oneline;
+		padding: 8px 8px;
+		line-height: 18px;
+	}
+
+	input[placeholder] {
+		@include fields_ui_text_input_placeholder;
+	}
+
+	.selectize-dropdown {
+		z-index: 100105;
+	}
+
+	.item.ui-sortable-handle {
+		cursor: move !important;
+	}
+
+	div.active.item.ui-sortable-helper {
+		border: 1px solid $fields_color_main;
+		cursor: move;
+		@include transition((transform, opacity, box-shadow, filter), 200ms);
+		transform: scale(1.02);
+		z-index: 10000 !important;
+		@include box-shadow(25px, 0.2, 8px, 14px);
+		background-color: rgba($fields_color_panel_bg, .1);
+		-webkit-backdrop-filter: saturate(180%) brightness(120%) blur(10px);
+		backdrop-filter: saturate(180%) brightness(120%) blur(10px);
+	}
+}

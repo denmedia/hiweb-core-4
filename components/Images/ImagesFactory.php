@@ -4,23 +4,34 @@ namespace hiweb\components\Images;
 
 
 use hiweb\core\Cache\CacheFactory;
+use hiweb\core\hidden_methods;
 use hiweb\core\Paths\Path;
 use hiweb\core\Paths\PathsFactory;
 
 
+/**
+ * Class ImagesFactory
+ * @package hiweb\components\Images
+ * @version 2.0
+ */
 class ImagesFactory {
+
+    use hidden_methods;
+
 
     /** @var Path */
     protected static $default_image_file;
     protected static $default_defer_file;
-    public static $makeFileIfNotExists = true;
+    public static $makeFileIfNotExists = false;
     public static $standardExtensions = [ 'jpg', 'jpeg', 'jpe', 'png', 'gif' ];
     /** @var bool If set to FALSE try make WebP file type with standards (etc. JPEG or PNG) */
-    public static $useWebPExtension = true;
-    public static $useImageDefer = true;
-    public static $usePictureHtmlTag = true;
+    public static $useWebPExtension = false;
+    public static $useImageDefer = false;
+    public static $usePictureHtmlTag = false;
+    public static $useWidthHeightProps = true;
 
     public static $requested_urls = [];
+
 
     /**
      * @param $idOrUrl
@@ -85,6 +96,33 @@ class ImagesFactory {
             return PathsFactory::get(__DIR__ . '/img/image-loading.svg')->get_url();
         }
         return self::$default_defer_file->get_url();
+    }
+
+    static protected function _makeNewDimensionFile(){
+        self::$makeFileIfNotExists = true;
+    }
+
+    static protected function _useImageDefer() {
+        include_frontend_js(__DIR__ . '/defer.min.js', 'jquery-core');
+        add_action('wp_head', function() {
+            ?>
+            <script>
+                let hiweb_imageDefer_ajax_url = '<?=get_url(__DIR__ . '/ajax_shortinit.php')?>';
+                let hiweb_imageDefer_usePictureHtml = <?= json_encode(ImagesFactory::$usePictureHtmlTag) ?>;
+                let hiweb_imageDefer_useWidthHeightProps = <?= json_encode(ImagesFactory::$useWidthHeightProps) ?>;
+            </script><?php
+        });
+        self::$useImageDefer = true;
+    }
+
+
+    static protected function _usePictureHtmlTag() {
+        self::$usePictureHtmlTag = true;
+    }
+
+
+    static protected function _useWebPExtension() {
+        self::$useWebPExtension = true;
     }
 
 }

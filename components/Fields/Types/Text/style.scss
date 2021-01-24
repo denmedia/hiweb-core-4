@@ -1,6 +1,6 @@
 @import "../../css/Fields_UI";
 
-.hiweb-field-type-text {
+.hiweb-field_text {
 
 	input[type="text"] {
 		@include fields_ui_text-input_oneline;

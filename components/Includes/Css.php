@@ -131,7 +131,7 @@ class Css extends Options {
      */
     public function get_html(): string {
         $version = '';
-        if ($this->path()->is_local() && filemtime($this->path()->get_path_relative()) != '') $version = '?ver=' . filemtime($this->Path()->file()->get_path());
+        if ($this->path()->is_local() && @filemtime($this->path()->get_path_relative()) != '') $version = '?ver=' . @filemtime($this->Path()->file()->get_path());
         return '<link ' . $this->rel()() . ' id="' . $this->Path()->handle() . '" href="' . $this->Path()->url()->get_clear() . $version . '" ' . $this->media()() . ' />';
     }
 

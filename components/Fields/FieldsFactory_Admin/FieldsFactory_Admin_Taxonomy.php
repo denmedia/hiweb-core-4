@@ -39,7 +39,7 @@
 				$query = FieldsFactory::get_query_from_contextObject( $term );
 				$fields = FieldsFactory::get_field_by_query( $query );
 				foreach( $fields as $Field ){
-					$field_name = 'hiweb-' . $Field->get_ID();
+					$field_name = 'hiweb-' . $Field->get_id();
 					if( $Field->get_allow_save_field( array_key_exists( $field_name, $_POST ) ? $_POST[ $field_name ] : null ) ){
 						if( isset( $_POST[ $field_name ] ) ){
 							update_term_meta( $term_id, $Field->id(), $Field->get_sanitize_admin_value( $_POST[ $field_name ], true ) );

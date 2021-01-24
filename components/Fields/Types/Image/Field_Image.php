@@ -28,12 +28,12 @@
 		
 		
 		public function get_js(){
-			return [ __DIR__ . '/Field_Image.min.js' ];
+			return [ __DIR__ . '/assets/image.min.js' ];
 		}
 		
 		
 		public function get_css(){
-			return [ __DIR__ . '/Field_Image.css' ];
+			return [ __DIR__ . '/assets/image.css' ];
 		}
 		
 		

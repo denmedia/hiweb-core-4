@@ -20,15 +20,16 @@ class Field_Post extends Field {
     public function get_css() {
         return [
             HIWEB_DIR_VENDOR . '/selectize.js/css/selectize.css',
-            __DIR__ . '/Field_Post.css',
+            __DIR__ . '/assets/post.css',
         ];
     }
 
 
     public function get_js() {
         return [
+            'jquery-ui-sortable',
             HIWEB_DIR_VENDOR . '/selectize.js/js/standalone/selectize.min.js',
-            __DIR__ . '/Field_Post.min.js',
+            __DIR__ . '/assets/post.min.js',
         ];
     }
 
@@ -49,12 +50,10 @@ class Field_Post extends Field {
      */
     public function get_sanitize_admin_value($value, $update_meta_process = false) {
         if ( !is_array($value) && $this->options()->multiple()) {
-            if ((int)$value > 0) $value = [ (int)$value ];
-            else $value = null;
+            if ((int)$value > 0) $value = [ (int)$value ]; else $value = null;
         } elseif (is_array($value) && !$this->options()->multiple()) {
             $test_value = (int)reset($value);
-            if ($test_value > 0) $value = $test_value;
-            else $value = null;
+            if ($test_value > 0) $value = $test_value; else $value = null;
         } elseif (is_array($value)) {
             $value_filtered = [];
             foreach ($value as $id) {

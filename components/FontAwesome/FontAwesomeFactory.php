@@ -26,7 +26,7 @@
 		/**
 		 * @return array
 		 */
-		static function get_icons_data(){
+		static function get_icons_data(): array {
 			return CacheFactory::get( 'icons_data', __CLASS__, function(){
 				$icons_json_path = FontAwesomeFactory::$vendor_path . '/metadata/icons.json';
 				if( file_exists( $icons_json_path ) && is_file( $icons_json_path ) && is_readable( $icons_json_path ) ){
@@ -44,7 +44,7 @@
 		 * @param string $search
 		 * @return FontAwesome_Icon[]
 		 */
-		static function get_search_icons( $search = 'wordpress' ){
+		static function get_search_icons( $search = 'wordpress' ): array {
 			$ids = CacheFactory::get( $search, __METHOD__, function(){
 				$R = [];
 				$search = strtolower( func_get_arg( 0 ) );
@@ -70,7 +70,7 @@
 					}
 				}
 				return $R;
-			}, $search )->Cache_File()->enable()->Cache()->get_value();
+			}, $search, true )->get_value();
 			///
 			return CacheFactory::get( $search, __METHOD__ . '::$search_result', function(){
 				$R = [];
@@ -78,7 +78,7 @@
 					$R[ $id ] = new FontAwesome_Icon( $id );
 				}
 				return $R;
-			}, [ $ids ] )();
+			}, [ $ids ] )->get_value();
 		}
 
 	}

@@ -38,9 +38,9 @@ function get_wp_register_size_from_dimension($width, $height) {
     ///FIND WP SIZE NAME
     foreach (wp_get_registered_image_subsizes() as $wp_size_name => $wp_size_data) {
         $wp_size_data = (object)$wp_size_data;
-        if($wp_size_data->crop && $wp_size_data->width == $width && $wp_size_data->height == $height) {
+        if ($wp_size_data->crop && $wp_size_data->width == $width && $wp_size_data->height == $height) {
             return $wp_size_name;
-        } elseif(!$wp_size_data->crop && (($wp_size_data->width == $width && $wp_size_data->height >= $height) || ($wp_size_data->width >= $width && $wp_size_data->height == $height))) {
+        } elseif ( !$wp_size_data->crop && (($wp_size_data->width == $width && $wp_size_data->height >= $height) || ($wp_size_data->width >= $width && $wp_size_data->height == $height))) {
             return $wp_size_name;
         }
     }
@@ -75,12 +75,12 @@ function get_dimension_from_wp_register_size($wp_size_name = 'thumbnail'): stdCl
  * @param      $sourceWidth
  * @param      $sourceHeight
  * @return stdClass
- * @version 1.1
+ * @version 1.2
  */
 function get_image_calculate_size_from_dimension($desiredWidth, $desiredHeight, $sourceWidth, $sourceHeight, $resizeMode): stdClass {
     $desiredWidth = absint($desiredWidth);
     $desiredHeight = absint($desiredHeight);
-    $desireAspect = $desiredWidth / $desiredHeight;
+    $desireAspect = $desiredHeight === 0 ? 0 : ($desiredWidth / $desiredHeight);
     $sourceWidth = absint($sourceWidth);
     $sourceHeight = absint($sourceHeight);
     $sourceAspect = $sourceWidth / $sourceHeight;

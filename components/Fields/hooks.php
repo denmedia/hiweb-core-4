@@ -1,4 +1,11 @@
 <?php
+
+use hiweb\components\Fields\Field;
+use hiweb\components\Fields\Field_Options\Field_Options_Location_AdminMenu;
+use hiweb\components\Fields\FieldsFactory;
+use hiweb\components\Fields\FieldsFactory_FrontEnd;
+
+
 if (function_exists('add_action')) {
     //ADMIN HOOKS
     //FORM LOAD
@@ -83,4 +90,15 @@ if (function_exists('add_action')) {
     ///COMMENTS
     //	add_action( 'add_meta_boxes_comment', 'hiweb\\fields\\locations\\admin::add_meta_boxes_comment' );
     //	add_action( 'comment_edit_redirect', 'hiweb\\fields\\locations\\admin::comment_edit_redirect', 10, 2 );
+
+    ///DEFAULT OPTIONSPAGES
+    add_action('current_screen', function() {
+        foreach (Field_Options_Location_AdminMenu::$default_options_pages as $option_page_file => $option_slug) {
+            if (get_current_screen()->base !== '' && get_current_screen()->base . '.php' == basename($option_page_file)) {
+                add_settings_section('hiweb-form', null, function() {
+                    echo \hiweb\components\Fields\FieldsFactory_Admin::get_ajax_form_html([ 'options' => get_current_screen()->base . '.php' ]);
+                }, $option_slug);
+            }
+        }
+    });
 }

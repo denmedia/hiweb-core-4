@@ -1,0 +1,99 @@
+@import "../../../css/Fields_UI";
+
+.hiweb-field_date {
+
+	position: relative;
+	max-width: 150px;
+
+	[data-datepicker-show] {
+		position: relative;
+		right: 42px;
+
+		svg {
+			display: inline-block;
+			min-width: 20px;
+			height: 16px;
+			width: auto;
+		}
+	}
+
+	input[name] {
+		@include fields_ui_text-input_oneline;
+		max-width: 100%;
+		width: 100%;
+		padding-right: 25px;
+	}
+
+	.button {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		height: 2em;
+	}
+
+}
+
+
+.hiweb-fields_date-picker {
+
+	div.zabuto_calendar div.calendar-month-navigation {
+		svg {
+			display: inline-block;
+			width: 16px;
+			height: .8em;
+			line-height: 1;
+		}
+	}
+
+	div.zabuto_calendar .table tr.calendar-dow-header th {
+		font-size: 12px;
+		padding: .4em;
+		background-color: $fields_color_grey_white;
+		color: $fields_color_grey_light;
+		font-weight: 100;
+	}
+
+	div.zabuto_calendar .badge-today, div.zabuto_calendar div.legend span.badge-today {
+		@include border_radius(10px);
+		background-color: transparent;
+		border: 1px dashed $fields_color_main;
+		color: $fields_color_grey_dark;
+	}
+
+	div.zabuto_calendar .table tr td.event div.day, div.zabuto_calendar ul.legend li.event {
+		background-color: $fields_color_main;
+		color: $fields_color_white;
+	}
+
+	div.zabuto_calendar .table tr.calendar-month-header td {
+		padding: .2em;
+	}
+
+	div.zabuto_calendar .table tr.calendar-month-header td span {
+		padding: 0;
+		font-size: 12px;
+		font-weight: 100;
+	}
+
+	div.zabuto_calendar .table th, div.zabuto_calendar .table td {
+		padding: 0;
+	}
+
+	div.zabuto_calendar .table tr td div.day {
+		cursor: pointer;
+		@include transition();
+
+		&:hover {
+			@include transition(all, .2s, ease-out);
+			background-color: $fields_color_grey_lighten;
+		}
+
+		&:active {
+			@include transition(none);
+			@include transform(scale(.9));
+			background-color: $fields_color_main;
+			color: #fff;
+		}
+	}
+}

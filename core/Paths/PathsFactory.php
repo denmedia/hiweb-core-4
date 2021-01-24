@@ -172,6 +172,23 @@ class PathsFactory {
 
 
     /**
+     * @param array $postArray
+     * @return array
+     */
+    static function urldecode_array($postArray = []): array {
+        $R = [];
+        if (is_array($postArray)) foreach ($postArray as $key => $val) {
+            if (is_string($val)) {
+                $R[$key] = stripslashes($val);
+            } elseif (is_array($val)) {
+                $R[$key] = self::urldecode_array($val);
+            } else $R[$key] = $val;
+        }
+        return $R;
+    }
+
+
+    /**
      * @param int|string $size
      * @return string
      */

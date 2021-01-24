@@ -4,11 +4,10 @@
 	
 	
 	/** @var Field_Checkbox $this */
-	$rand_id = \hiweb\core\Strings::rand( 5 );
 	$value = $this->get_sanitize_admin_value( $value );
 
 ?>
-<div class="hiweb-field-type-checkbox">
-	<input class="checkbox" type="checkbox" id="<?= $rand_id ?>" name="<?= $this->get_sanitize_admin_name( $name ) ?>" <?= $value ? 'checked="checked"' : '' ?>>
-	<label for="<?= $rand_id ?>"><?= $this->options()->label_checkbox() ?></label>
+<div <?= $this->get_admin_wrap_tag_properties([], $name) ?>>
+	<input class="checkbox" type="checkbox" name="<?= $this->get_sanitize_admin_name( $name ) ?>" <?= $value ? 'checked="checked"' : '' ?>>
+	<label><?= $this->options()->label_checkbox() ?></label>
 </div>

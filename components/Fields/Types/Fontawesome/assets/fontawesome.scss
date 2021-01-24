@@ -1,0 +1,151 @@
+@import "../../../css/Fields_UI";
+
+.hiweb-field_fontawesome {
+	position: relative;
+
+	.button-group {
+		@include display-flex;
+		flex-wrap: nowrap;
+		max-width: 360px;
+	}
+
+	[data-icon-preview] {
+		position: absolute;
+		width: 30px;
+		height: 24px;
+		line-height: 1;
+		vertical-align: top;
+		left: 2px;
+		top: 3px;
+		border-right: 1px dashed $fields_color_grey_white;
+		flex-grow: 0;
+
+		svg {
+			vertical-align: middle;
+			max-width: 100%;
+			max-height: 100%;
+			min-height: 22px;
+		}
+	}
+
+	&[data-selected="0"] {
+		[data-click="styles"] {
+			width: 0;
+			padding-left: 0;
+			padding-right: 0;
+			@include opacity(0);
+		}
+	}
+
+	&[data-input_empty="1"] {
+		border-color: red !important;
+
+		[data-click="find"] {
+			width: 0;
+			padding-left: 0;
+			padding-right: 0;
+			@include opacity(0);
+		}
+
+		[data-click="clear"] {
+			width: 0;
+			padding-left: 0;
+			padding-right: 0;
+			@include opacity(0);
+		}
+	}
+
+	input[name] {
+		@include fields_ui_text-input_oneline;
+		max-width: 100%;
+		width: 100%;
+		vertical-align: top;
+		padding-left: 36px;
+		flex-basis: 100%;
+		flex-grow: 1;
+	}
+
+	button.button {
+		display: inline-block;
+		vertical-align: top;
+		position: relative;
+		left: -5px;
+		width: 44px;
+		text-align: center;
+		font-size: unset;
+		@include transition();
+		flex-grow: 0;
+
+		svg {
+			height: 16px;
+			width: auto;
+			max-width: 22px;
+		}
+	}
+
+}
+
+.hiweb-field_fontawesome__dropdown {
+	min-width: 180px;
+	max-width: 640px;
+	min-height: 120px;
+	max-height: 380px;
+	overflow: auto;
+
+	&[data-status="loading"] {
+		@include fields_ui_load_wrap;
+		background-image: url(../../../../../assets/img/loader-cloud.gif);
+		background-repeat: no-repeat;
+		background-position: 50% 50%;
+		background-size: contain;
+	}
+
+	[data-icon] {
+		cursor: pointer;
+		display: inline-block;
+		width: 28px;
+		height: 22px;
+		margin: .3em .2em;
+		vertical-align: middle;
+		@include transition();
+		@include opacity(.5);
+
+		svg {
+			max-width: 100%;
+			max-height: 100%;
+		}
+
+		&:hover {
+			@include opacity(1);
+			color: $fields_color_black;
+		}
+	}
+}
+
+[data-fontawesome-result-place] {
+	min-width: 180px;
+	max-width: 640px;
+	max-height: 200px;
+	width: 100%;
+	overflow: auto;
+
+	[data-result-icon] {
+		display: inline-block;
+		width: 28px;
+		height: 22px;
+		margin: .3em .2em;
+		vertical-align: middle;
+		@include transition();
+		@include opacity(.5);
+
+		svg {
+			max-width: 100%;
+			max-height: 100%;
+		}
+
+		&:hover {
+			@include opacity(1);
+			color: $fields_color_black;
+		}
+	}
+}

@@ -1,9 +1,0 @@
-@import "../../css/Fields_UI";
-
-.hiweb-field-type-info {
-
-	input[disabled] {
-		@include fields_ui_text-input_oneline;
-	}
-
-}

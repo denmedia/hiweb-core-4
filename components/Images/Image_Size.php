@@ -247,9 +247,13 @@ class Image_Size {
      * @return bool|int
      */
     public function make($force_renew = false, $quality_jpg_png_webp = 75, $tryMakeWebP = null) {
+        ///skip if original file is not exists
         if ( !$this->Image->is_exists()) return 0;
-        if (is_null($tryMakeWebP)) $tryMakeWebP = ImagesFactory::$useWebPExtension && function_exists('imagewebp');
-        if (( !$force_renew && $this->is_exists() && ($tryMakeWebP && $this->is_exists_webp()))) return 0;
+        ///check try make webp file format
+        if (is_null($tryMakeWebP)) $tryMakeWebP = ImagesFactory::$useWebPExtension && function_exists('imagewebp') && ($force_renew || !$this->is_exists_webp());
+        ///skip make file
+        if ( !$force_renew && $this->is_exists() && !$tryMakeWebP && $this->is_exists_webp()) return 0;
+        ///
         $new_file_path = $this->get_path_absolute();
         if ( !$force_renew && $this->is_exists() && $tryMakeWebP) {
             $new_file_path = $this->get_path_absolute_webp();
@@ -257,10 +261,10 @@ class Image_Size {
         ///Process Resize
         $R = $this->Image->path()->image()->resize($this->get_width(), $this->get_height(), $new_file_path, $quality_jpg_png_webp, $tryMakeWebP);
         if ($R === true || (is_array($R) && count($R) > 0)) {
-            ConsoleFactory::add('New image file created', 'info', __METHOD__, [ 'result' => $R, $new_file_path ], true);
+            console_info(__('New image file created', 'hiweb-core-4'), __METHOD__, [ 'result' => $R, $new_file_path ]);
             $this->Image->_update_image_sizes_meta();
         } else {
-            ConsoleFactory::add('Error while create new image file', 'warn', __METHOD__, [ 'result' => $R, $new_file_path ], true);
+            console_warn(__('Error while create new image file', 'hiweb-core-4'), __METHOD__, [ 'result' => $R, $new_file_path ]);
         }
         return $R;
     }

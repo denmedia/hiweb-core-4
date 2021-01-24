@@ -69,7 +69,7 @@ class Field_Options_Location extends Options {
 			$this->_( 'post_type', new Field_Options_Location_PostType( $this ) );
 			if ( !is_null( $post_type ) )
 				$this->posts()->post_type( $post_type );
-			FieldsFactory::$fieldIds_by_locations['post_type'][$this->getParent_OptionsObject()->field()->global_ID()] = $this->getParent_OptionsObject()->field();
+			FieldsFactory::$fieldIds_by_locations['post_type'][$this->getParent_OptionsObject()->field()->global_id()] = $this->getParent_OptionsObject()->field();
 		}
 		return $this->_( 'post_type' );
 	}
@@ -81,7 +81,7 @@ class Field_Options_Location extends Options {
 	public function nav_menu() {
 		if ( !$this->_( 'nav_menu' ) instanceof Field_Options_Location_NavMenu ) {
 			$this->_( 'nav_menu', new Field_Options_Location_NavMenu( $this ) );
-			FieldsFactory::$fieldIds_by_locations['nav_menu'][$this->getParent_OptionsObject()->field()->global_ID()] = $this->getParent_OptionsObject()->field();
+			FieldsFactory::$fieldIds_by_locations['nav_menu'][$this->getParent_OptionsObject()->field()->global_id()] = $this->getParent_OptionsObject()->field();
 		}
 		return $this->_( 'nav_menu' );
 	}
@@ -99,7 +99,7 @@ class Field_Options_Location extends Options {
 				$taxonomy = [ $taxonomy ];
 			if ( is_array( $taxonomy ) )
 				$this->taxonomies()->taxonomy( $taxonomy );
-			FieldsFactory::$fieldIds_by_locations['taxonomy'][$this->getParent_OptionsObject()->field()->global_ID()] = $this->getParent_OptionsObject()->field();
+			FieldsFactory::$fieldIds_by_locations['taxonomy'][$this->getParent_OptionsObject()->field()->global_id()] = $this->getParent_OptionsObject()->field();
 		}
 		return $this->_( 'taxonomy' );
 	}
@@ -111,7 +111,7 @@ class Field_Options_Location extends Options {
 	public function users() {
 		if ( !$this->_( 'user' ) instanceof Field_Options_Location_User ) {
 			$this->_( 'user', new Field_Options_Location_User( $this ) );
-			FieldsFactory::$fieldIds_by_locations['user'][$this->getParent_OptionsObject()->field()->global_ID()] = $this->getParent_OptionsObject()->field();
+			FieldsFactory::$fieldIds_by_locations['user'][$this->getParent_OptionsObject()->field()->global_id()] = $this->getParent_OptionsObject()->field();
 		}
 		return $this->_( 'user' );
 	}
@@ -141,7 +141,7 @@ class Field_Options_Location extends Options {
 	public function options($page_slug = null) {
 		if ( !is_null( $page_slug ) ) {
 			$this->_( 'options', $page_slug );
-			FieldsFactory::$fieldIds_by_locations['options'][$page_slug][$this->getParent_OptionsObject()->field()->global_ID()] = $this->getParent_OptionsObject()->field();
+			FieldsFactory::$fieldIds_by_locations['options'][$page_slug][$this->getParent_OptionsObject()->field()->global_id()] = $this->getParent_OptionsObject()->field();
 		}
 		if ( is_string( $page_slug ) && $this->getParent_OptionsObject()->field()->get_allow_save_field() && function_exists('\register_setting') ) {
 			\register_setting( $page_slug, 'hiweb-option-' . $page_slug . '-' . $this->getParent_OptionsObject()->field()->id() );

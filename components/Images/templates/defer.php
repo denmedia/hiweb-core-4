@@ -34,6 +34,13 @@ $img_attributes->push('height', $dimension->height);
 $img_attributes->push('alt', $this->get_alt());
 $img_attributes->push('title', $this->get_title());
 ///
+if (is_array($attributes)) foreach ($attributes as $key => $val) {
+    if (is_null($val)) {
+        $img_attributes->unset_key($key);
+    } else {
+        $img_attributes->set_value($key, $val);
+    }
+}
 
 if (ImagesFactory::$usePictureHtmlTag) {
     ?>

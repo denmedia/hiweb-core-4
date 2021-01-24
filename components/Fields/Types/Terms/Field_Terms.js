@@ -32,6 +32,6 @@ let hiweb_field_type_terms = {
 }
 
 jQuery('.hiweb-field-post').each(hiweb_field_type_terms.init);
-jQuery('body').on('hiweb-form-ajax-loaded hiweb-field-repeat-added-row', '.hiweb-components-form-ajax-wrap', function () {
+jQuery('body').on('hiweb-form-ajax-loaded hiweb-field-repeat-added-row', '.hiweb-components-fields-form-ajax-wrap', function () {
     jQuery(this).find('.hiweb-field-type-terms').each(hiweb_field_type_terms.init);
 });

@@ -13,7 +13,7 @@ use hiweb\core\hidden_methods;
 /**
  * Class Path_File
  * @package hiweb\core\Paths
- * @version 1.1
+ * @version 1.2
  */
 class Path_File {
 
@@ -83,7 +83,7 @@ class Path_File {
         }
         ///
         if ($this->path()->is_relative()) {
-            $this->absolute_path = PathsFactory::get_root_path() . '/' . $this->original_path;
+            $this->absolute_path = PathsFactory::get_root_path() . '/' . ltrim($this->original_path,'\\/');
             $this->relative_path = trim($this->original_path, '\\/');
         } elseif ($this->path()->is_absolute()) {
             $this->absolute_path = $this->original_path;
@@ -140,7 +140,7 @@ class Path_File {
      * @return string|string[]
      */
     public function get_path_at_theme() {
-        return ltrim(str_replace(get_stylesheet_directory(), '', $this->get_absolute_path()), '/\\');
+        return ltrim(str_replace(str_replace('\\', '/', get_stylesheet_directory()), '', $this->get_absolute_path()), '/\\');
     }
 
 
@@ -227,45 +227,21 @@ class Path_File {
 
     /**
      * @param array $needle_file_names
+     * @param int   $depth
      * @return Path_File[]
-     * @version 1.0
+     * @version 1.1
      */
-    public function include_files_by_name($needle_file_names = [ 'functions.php' ]): array {
-        if ( !is_array($needle_file_names)) $needle_file_names = [ $needle_file_names ];
+    public function include_files_by_name($needle_file_names = [ 'functions.php' ], $depth = 999): array {
+        $needle_file_names = (array)$needle_file_names;
         $dir = $this;
         $R = [];
-        if ( !$dir->is_readable() || !$dir->is_dir()) {
-            ConsoleFactory::add('Folder not readable', 'warn', __METHOD__, $dir, true);
-        } else {
-            $needle_file_names_flip = array_flip($needle_file_names);
-            $subFiles = $dir->get_sub_files();
-            foreach ($subFiles as $file) {
-                ///skip folders and files
-                if ($file->get_next_file('.notinclude')->is_exists()) continue;
-                if ( !$file->is_readable()) continue;
-                //
-                if (array_key_exists($file->get_basename(), $needle_file_names_flip)) {
-                    switch($file->get_extension()) {
-                        case 'php':
-                            $path = $file->get_path();
-                            include_once $path;
-                            $R[$file->original_path] = $file;
-                            break;
-                        //							case 'css':
-                        //								$path = apply_filters( '\hiweb\paths\path::include_files_by_name-css', $file->get_path(), $file );
-                        //								css::add( $path );
-                        //								$R[ $file->original_path ] = $file;
-                        //								break;
-                        //							case 'js':
-                        //								$path = apply_filters( '\hiweb\paths\path::include_files_by_name-js', $file->Url()->get(), $file );
-                        //								\hiweb\js( $path ); //TODO!
-                        //								$R[ $file->original_path ] = $file;
-                        //								break;
-                    }
+        if ($dir->is_readable() && $dir->is_dir()) {
+            foreach ($dir->get_sub_files([], $depth) as $file) {
+                if (in_array($file->get_basename(), $needle_file_names) && $file->is_exists() && $file->is_file() && $file->is_readable()) {
+                    include $file->get_absolute_path();
                 }
             }
         }
-
         return $R;
     }
 
@@ -488,30 +464,33 @@ class Path_File {
 
     /**
      * Возвращает массив вложенных файлов
-     * @param array $mask  - маска файлов
-     * @param int   $depth - грлубина просмотра файлов
+     * @param array $extensionsFilter - маска файлов
+     * @param int   $depth            - грлубина просмотра файлов
      * @return Path_File[]
-     * @version 1.2
+     * @version 1.4
      */
-    public function get_sub_files($mask = [], $depth = 99): array {
+    public function get_sub_files($extensionsFilter = [], $depth = 99): array {
         if ( !$this->path()->is_local() || $depth < 0) return [];
         ///
-        $mask = is_array($mask) ? $mask : [ $mask ];
-        $maskKey = json_encode($mask);
+        $extensionsFilter = (array)$extensionsFilter;
+        $maskKey = json_encode($extensionsFilter);
         $cache_key = $maskKey . 'depth:' . $depth;
         if ( !array_key_exists($cache_key, $this->cache_subFiles)) {
             $this->cache_subFiles[$cache_key] = [];
-            if ($this->is_dir()) foreach (scandir($this->get_absolute_path()) as $subFileName) {
-                if ($subFileName == '.' || $subFileName == '..') continue;
-                $subFilePath = $this->get_path() . '/' . $subFileName;
-                $subFile = PathsFactory::get($subFilePath)->file();
-                if ($subFile->is_dir()) {
-                    $this->cache_subFiles[$cache_key] = array_merge($this->cache_subFiles[$cache_key], $subFile->get_sub_files($mask, $depth - 1));
-                } else {
-                    if (is_array($mask) && count($mask) > 0) {
-                        if ( !in_array(PathsFactory::get_extension($subFileName), $mask)) continue;
+            if ($this->is_dir()) {
+                $dir = opendir($this->get_absolute_path());
+                while(false !== ($subFileName = readdir($dir))) {
+                    if ($subFileName == '.' || $subFileName == '..') continue;
+                    $subFilePath = $this->get_path() . '/' . $subFileName;
+                    $subFile = PathsFactory::get($subFilePath)->file();
+                    if ($subFile->is_dir()) {
+                        $this->cache_subFiles[$cache_key] = array_merge($this->cache_subFiles[$cache_key], $subFile->get_sub_files($extensionsFilter, $depth - 1));
+                    } else {
+                        if (is_array($extensionsFilter) && count($extensionsFilter) > 0) {
+                            if ( !in_array(PathsFactory::get_extension($subFileName), $extensionsFilter)) continue;
+                        }
+                        $this->cache_subFiles[$cache_key][$subFile->get_original_path()] = $subFile;
                     }
-                    $this->cache_subFiles[$cache_key][$subFile->get_original_path()] = $subFile;
                 }
             }
         }
@@ -526,13 +505,16 @@ class Path_File {
      */
     public function get_sub_files_by_mtime($returnOnlyPaths = false): array {
         $R = get_array();
-        if ($this->is_dir()) foreach (scandir($this->get_absolute_path()) as $subFileName) {
-            if ($subFileName == '.' || $subFileName == '..') continue;
-            $subFilePath = $this->get_path() . '/' . $subFileName;
-            if (is_dir($subFilePath) && is_readable($subFilePath)) {
-                $R->push(PathsFactory::get($subFilePath)->file()->get_sub_files_by_mtime());
-            } else {
-                $R->push($R->free_key(filemtime($subFilePath)), $returnOnlyPaths ? $subFilePath : PathsFactory::get($subFilePath)->file());
+        if ($this->is_dir()) {
+            $dir = opendir($this->get_absolute_path());
+            while(false !== ($subFileName = readdir($dir))) {
+                if ($subFileName == '.' || $subFileName == '..') continue;
+                $subFilePath = $this->get_path() . '/' . $subFileName;
+                if (is_dir($subFilePath) && is_readable($subFilePath)) {
+                    $R->push(PathsFactory::get($subFilePath)->file()->get_sub_files_by_mtime());
+                } else {
+                    $R->push($R->free_key(filemtime($subFilePath)), $returnOnlyPaths ? $subFilePath : PathsFactory::get($subFilePath)->file());
+                }
             }
         }
         return $R->get();
