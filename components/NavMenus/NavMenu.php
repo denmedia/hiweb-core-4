@@ -13,7 +13,7 @@ use WP_Term;
 /**
  * Class NavMenu
  * @package hiweb\components\NavMenus
- * @version 1.1
+ * @version 1.2
  */
 class NavMenu {
 
@@ -33,6 +33,7 @@ class NavMenu {
 
     /**
      * Load all menu items to wp cache
+     * @version 1.1
      */
     public function _load() {
         if ($this->loaded) return;
@@ -75,7 +76,7 @@ class NavMenu {
             foreach ($this->items as $id => $item) {
                 switch($item->type) {
                     case 'post_type_archive':
-                        $item->url = get_post_type_archive_link($item->object_id);
+                        $item->url = get_post_type_archive_link($item->object);
                         break;
                     case 'post_type':
                         $item->url = get_permalink($item->object_id);

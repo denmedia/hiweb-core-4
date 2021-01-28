@@ -1,7 +1,12 @@
-@import "../../../css/Fields_UI";
+@import "../../../assets/ui";
 
 .hiweb-field_fontawesome {
 	position: relative;
+
+	svg {
+		width: inherit;
+		height: inherit;
+	}
 
 	.button-group {
 		@include display-flex;

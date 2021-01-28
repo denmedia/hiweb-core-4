@@ -14,7 +14,7 @@ class Field_Script extends Field {
             HIWEB_DIR_VENDOR . '/codemirror/codemirror.css',
             HIWEB_DIR_VENDOR . '/codemirror/addon/hint/show-hint.css',
             HIWEB_DIR_VENDOR . '/codemirror/addon/fold/foldgutter.css',
-            //            __DIR__ . '/assets/script.css'
+            __DIR__ . '/assets/script.css'
         ];
     }
 

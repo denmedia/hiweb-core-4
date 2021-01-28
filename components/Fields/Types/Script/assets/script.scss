@@ -1,7 +1,14 @@
-@import "../../../css/Fields_UI";
+@import "../../../assets/ui";
 
 .hiweb-field_script {
 
+	max-width: 100%;
+	overflow: auto;
 
+	.CodeMirror-scroll {
+		position: absolute;
+		left: 0;
+		right: 0;
+	}
 
 }

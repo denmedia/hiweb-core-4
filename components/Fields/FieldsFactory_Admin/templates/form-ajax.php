@@ -3,8 +3,9 @@
 	$ajax_tags = get_array( [
 		'data-fields-query-id' => md5( json_encode( $field_query ) ),
 		'data-fields-query' => $field_query,
-		'data-scripts-done' => wp_scripts()->done,
-		'data-form-options' => $form_options
+		//'data-scripts-done' => wp_scripts()->done,
+		'data-form-options' => $form_options,
+        'data-form-loaded' => '0'
 	] );
 
 ?>

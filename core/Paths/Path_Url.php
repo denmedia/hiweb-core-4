@@ -132,6 +132,7 @@ class Path_Url {
 
 
     /**
+     * Return current root (base) url
      * @param null|bool $useNoScheme
      * @return string
      * @version 1.1

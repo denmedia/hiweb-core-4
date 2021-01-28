@@ -224,7 +224,7 @@ class FieldsFactory_Admin_PostType {
                     'post_type' => get_current_screen()->post_type,
                 ],
             ];
-            $Field = FieldsFactory_Admin::get_Field($field_id, $query);
+            $Field = FieldsFactory_Admin::get_field($field_id, $query);
             $callback = $Field->options()->location()->posts()->columnsManager()->callback();
             if ( !is_null($callback) && is_callable($callback)) {
                 call_user_func_array($callback, [ $post_id, $Field, $columns_name ]);

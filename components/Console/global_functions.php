@@ -12,7 +12,7 @@
 		 * @param array  $additionData
 		 * @return hiweb\components\console\Console
 		 */
-		function console_info( $info, $groupTitle = '', $additionData = [] ){
+		function console_info( $info, $groupTitle = '', $additionData = [] ): Console {
 			return ConsoleFactory::add( $info, 'info', $groupTitle, $additionData );
 		}
 	}
@@ -25,7 +25,7 @@
 		 * @param array  $additionData
 		 * @return hiweb\components\console\Console
 		 */
-		function console_warn( $info, $groupTitle = '', $additionData = [] ){
+		function console_warn( $info, $groupTitle = '', $additionData = [] ): Console {
 			return ConsoleFactory::add( $info, 'warn', $groupTitle, $additionData );
 		}
 	}
@@ -38,7 +38,7 @@
 		 * @param array  $additionData
 		 * @return hiweb\components\console\Console
 		 */
-		function console_error( $info, $groupTitle = '', $additionData = [] ){
+		function console_error( $info, $groupTitle = '', $additionData = [] ): Console {
 			return ConsoleFactory::add( $info, 'error', $groupTitle, $additionData );
 		}
 	}
@@ -51,7 +51,7 @@
 		 * @param array  $additionData
 		 * @return hiweb\components\console\Console
 		 */
-		function console_log( $info, $groupTitle = '', $additionData = [] ){
+		function console_log( $info, $groupTitle = '', $additionData = [] ): Console {
 			return ConsoleFactory::add( $info, 'log', $groupTitle, $additionData );
 		}
 	}

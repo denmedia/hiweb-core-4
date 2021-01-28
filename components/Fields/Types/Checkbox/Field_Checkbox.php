@@ -44,7 +44,7 @@ class Field_Checkbox extends Field {
      * @param bool $update_meta_process
      * @return bool
      */
-    public function get_sanitize_admin_value($value, $update_meta_process = false) {
+    public function get_sanitize_admin_value($value, $update_meta_process = false): bool {
         return (bool)$value;
     }
 

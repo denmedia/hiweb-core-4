@@ -8,6 +8,11 @@ use hiweb\core\Paths\PathsFactory;
 use hiweb\core\Strings;
 
 
+/**
+ * Class Field_Repeat
+ * @package hiweb\components\Fields\Types\Repeat
+ * @version 2.0
+ */
 class Field_Repeat extends Field {
 
     protected $options_class = '\hiweb\components\Fields\Types\Repeat\Field_Repeat_Options';
@@ -129,11 +134,11 @@ class Field_Repeat extends Field {
     //        return $this->the_name;
     //    }
 
-    protected function get_head_html($thead = true, $handle_title = '&nbsp;') {
-        ob_start();
-        include __DIR__ . '/templates/head.php';
-        return ob_get_clean();
-    }
+//    protected function get_head_html($thead = true, $handle_title = '&nbsp;') {
+//        ob_start();
+//        include __DIR__ . '/templates/head.php';
+//        return ob_get_clean();
+//    }
 
 
     public function get_admin_html($value = null, $name = null) {

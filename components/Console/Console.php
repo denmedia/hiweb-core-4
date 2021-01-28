@@ -49,7 +49,7 @@ class Console {
     /**
      * @return string
      */
-    public function type() {
+    public function type(): string {
         $allow_types = [ 'info', 'log', 'warn', 'error' ];
         return array_search($this->type, $allow_types) === false ? 'info' : $this->type;
     }
@@ -59,7 +59,7 @@ class Console {
      * @param $variable
      * @return string
      */
-    private function get_variable_type($variable) {
+    private function get_variable_type($variable): string {
         if (is_null($variable)) {
             return '[NULL]';
         } elseif (is_array($variable)) {
@@ -108,17 +108,22 @@ class Console {
 
 
     /**
+     * @param bool $returnScriptCapsule
      * @return string
-     * @version 1.7
+     * @version 1.8
      */
-    public function html(): string {
+    public function html($returnScriptCapsule = true): string {
         if (defined('SHORTINIT') && SHORTINIT) return '';
         if ( !$this->debugStatus || (function_exists('is_user_logged_in') && function_exists('is_user_admin') && function_exists('is_super_admin') && is_user_logged_in() && (is_user_admin() || is_super_admin()))) {
             $params = [ json_encode([ self::get_variable_type($this->content) => $this->get_variable_data($this->content) ]) ];
-            if (is_string($this->addition_data) && strlen($this->addition_data) > 0) $this->addition_data = [ $this->addition_data ];
-            if (is_array($this->addition_data) && count($this->addition_data) > 0) $params[] = json_encode([ 'addition_data' => $this->addition_data ]);
+            if (is_string($this->addition_data) && strlen($this->addition_data) > 0) {
+                $this->addition_data = [ $this->addition_data ];
+            }
+            if (is_array($this->addition_data) && count($this->addition_data) > 0) {
+                $params[] = json_encode([ 'addition_data' => $this->addition_data ]);
+            }
             $params = implode(', ', $params);
-            return "<script>console.{$this->type()}({$params});</script>";
+            return $returnScriptCapsule ? "<script>console.{$this->type()}({$params});</script>" : "console.{$this->type()}({$params});";
         }
         return '';
     }
@@ -126,10 +131,10 @@ class Console {
 
     /**
      * Print html
+     * @param bool $returnScriptCapsule
      */
-    public function the() {
-        $R = $this->html();
-        echo $R;
+    public function the($returnScriptCapsule = true) {
+        echo $this->html($returnScriptCapsule);
     }
 
 
@@ -137,7 +142,7 @@ class Console {
      * @param bool $set
      * @return Console
      */
-    public function set_groupTitle($set = true) {
+    public function set_groupTitle($set = true): Console {
         $this->groupTitle = $set;
         return $this;
     }
@@ -147,7 +152,7 @@ class Console {
      * @param bool $set
      * @return $this
      */
-    public function set_debugStatus($set = true) {
+    public function set_debugStatus($set = true): Console {
         $this->debugStatus = $set;
         return $this;
     }

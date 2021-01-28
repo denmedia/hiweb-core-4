@@ -6,6 +6,11 @@ namespace hiweb\components\Fields\Types\Repeat;
 use hiweb\core\Strings;
 
 
+/**
+ * Class Field_Repeat_Value
+ * @package hiweb\components\Fields\Types\Repeat
+ * @version 1.1
+ */
 class Field_Repeat_Value {
 
     private $Field_Repeat;
@@ -27,12 +32,12 @@ class Field_Repeat_Value {
         $value_filtered = [];
         while($value_raw->have()) {
             $value_raw->the();
-            $flexRowId = $value_raw->get_sub_field('_flex_row_id', '');
+            $flexRowId = Strings::sanitize_id($value_raw->get_sub_field('_flex_row_id', ''));
             $rowCollapsed = $value_raw->get_sub_field('_flex_row_collapsed', '0');
             if (array_key_exists($flexRowId, $this->Field_Repeat->options()->get_cols())) {
                 $value_filtered[$value_raw->get_index()] = [
                     '_flex_row_id' => $flexRowId,
-                    '_flex_row_collapsed' => $rowCollapsed
+                    '_flex_row_collapsed' => absint($rowCollapsed)
                 ];
                 foreach ($this->Field_Repeat->options()->get_cols()[$flexRowId] as $colId => $col) {
                     $value_filtered[$value_raw->get_index()][$col->get_id()] = $value_raw->get_sub_field($col->get_id());

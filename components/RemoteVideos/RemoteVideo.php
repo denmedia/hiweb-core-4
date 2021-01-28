@@ -3,7 +3,6 @@
 	namespace hiweb\components\RemoteVideos;
 
 
-	use hiweb\core\Cache\Cache;
 	use hiweb\core\Cache\CacheFactory;
 	use hiweb\core\Paths\PathsFactory;
 
@@ -11,7 +10,7 @@
     /**
      * Class RemoteVideo
      * @package hiweb\components\RemoteVideos
-     * @version 1.1
+     * @version 1.2
      */
 	class RemoteVideo{
 
@@ -66,7 +65,7 @@
 
 
         /**
-         * @version 1.1
+         * @version 1.2
          */
 		private function setup_data(){
 			if( $this->data_is_setuped ){
@@ -77,14 +76,14 @@
 					$RemoteVideo = func_get_arg( 0 );
 					if( !$RemoteVideo instanceof RemoteVideo ) return;
 					if( $RemoteVideo->is_youtube() ){
-						$youtube = "http://www.youtube.com/oembed?url=" . $RemoteVideo->url . "&format=json";
+						$youtube = "https://www.youtube.com/oembed?url=" . $RemoteVideo->url . "&format=json";
 						$curl = curl_init( $youtube );
 						curl_setopt( $curl, CURLOPT_RETURNTRANSFER, 1 );
 						$return = curl_exec( $curl );
 						curl_close( $curl );
 						return json_decode( $return, true );
 					} elseif( $RemoteVideo->is_vimeo() ) {
-						$vimeo = "http://vimeo.com/api/v2/video/" . $this->get_id() . ".json";
+						$vimeo = "https://vimeo.com/api/v2/video/" . $this->get_id() . ".json";
 						$curl = curl_init( $vimeo );
 						curl_setopt( $curl, CURLOPT_RETURNTRANSFER, 1 );
 						$return = curl_exec( $curl );

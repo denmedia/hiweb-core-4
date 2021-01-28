@@ -44,5 +44,14 @@
 				}, 10, 2 );
 			}
 		}
+
+
+        /**
+         * Disable Gutenberg editor
+         */
+		static function _disable_gutenberg(){
+            add_filter('use_block_editor_for_post', '__return_false', 10);
+
+        }
 		
 	}

@@ -93,12 +93,13 @@ if (function_exists('add_action')) {
 
     ///DEFAULT OPTIONSPAGES
     add_action('current_screen', function() {
-        foreach (Field_Options_Location_AdminMenu::$default_options_pages as $option_page_file => $option_slug) {
-            if (get_current_screen()->base !== '' && get_current_screen()->base . '.php' == basename($option_page_file)) {
-                add_settings_section('hiweb-form', null, function() {
-                    echo \hiweb\components\Fields\FieldsFactory_Admin::get_ajax_form_html([ 'options' => get_current_screen()->base . '.php' ]);
-                }, $option_slug);
-            }
+        if (get_current_screen()->id !== '' && array_key_exists(get_current_screen()->id, Field_Options_Location_AdminMenu::$default_options_pages)) {
+            add_settings_section('hiweb-form', null, function() {
+                $slug = Field_Options_Location_AdminMenu::$default_options_pages[get_current_screen()->id];
+                echo \hiweb\components\Fields\FieldsFactory_Admin::get_ajax_form_html([ 'options' => $slug ], [ 'name_before' => \hiweb\components\Fields\FieldsFactory_Admin::_get_prepend_name_by_options($slug) . '-' ]);
+            }, Field_Options_Location_AdminMenu::$default_options_pages[get_current_screen()->id]);
         }
     });
+
+    add_action('check_admin_referer', '\hiweb\components\Fields\FieldsFactory_Admin\FieldsFactory_Admin_Options_Permalink::_update');
 }

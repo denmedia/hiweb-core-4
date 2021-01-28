@@ -121,10 +121,11 @@ class Field {
 
 
     /**
+     * Return sanitize input name
      * @param null $name
-     * @return null
+     * @return null|string
      */
-    public function get_sanitize_admin_name($name = null) {
+    public function get_sanitize_admin_name($name = null): ?string {
         if ( !is_string($name) || trim($name) == '') return $this->id();
         return $name;
     }

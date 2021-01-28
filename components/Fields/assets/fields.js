@@ -30,16 +30,6 @@ jQuery(document).ready(function ($) {
         }
     };
 
-    $('form').on('submit', function(){
-        fields_input_change = false;
-    });
-    $(window).on('beforeunload', function () {
-        if (fields_input_change) {
-            return wp.i18n.__('The changes you made will be lost if you navigate away from this page.');
-        }
-        return undefined;
-    });
-
     let loadStyleSheet = function (path, fn, scope) {
         let head = document.getElementsByTagName('head')[0], // reference to document.head for appending/ removing link nodes
             link = document.createElement('link');           // create the link node
@@ -146,8 +136,8 @@ jQuery(document).ready(function ($) {
         load_next_style();
     };
 
-    let load_form_inputs = function ($form_wrap, response) {
-        let new_inputs = $(response.form_html);
+    let load_form_inputs = function ($form_wrap, form_html) {
+        let new_inputs = $(form_html);
         let $form_inner = $form_wrap.find('.hiweb-components-form-ajax-inner');
         $form_inner.append(new_inputs);
         //new_inputs.find(':input[name]').trigger('hiweb-form-ajax-input-loaded').trigger('hiweb-form-updated');
@@ -171,26 +161,48 @@ jQuery(document).ready(function ($) {
         } else {
             $form_wrap = $ajax_forms.not('[data-fields-query-id="' + form_loading_ids.join('"], [data-fields-query-id="') + '"]').eq(0);
         }
-        if ($form_wrap.length > 0) {
-            form_loading_ids.push($form_wrap.attr('data-fields-query-id'));
-            $form_wrap.addClass('loading').removeClass('preloaded');
-            $form_wrap.height($form_wrap.height());
+        ///
+        let forms = {};
+        let $forms = $('.hiweb-components-fields-form-ajax-wrap[data-fields-query][data-fields-query-id][data-form-loaded="0"]');
+        $forms.each(function () {
+            let $form = $(this);
+            forms[$form.attr('data-fields-query-id')] = {query: $form.attr('data-fields-query'), options: $form.attr('data-form-options')};
+            form_loading_ids.push($form.attr('data-fields-query-id'));
+            $form.height($form.height());
+            $form.attr('data-form-loaded', '1');
+        });
+        ///
+        if ($forms.length > 0) {
+            $forms.addClass('loading').removeClass('preloaded');
             $.ajax({
                 url: ajaxurl + '?action=hiweb-components-form',
                 type: 'post',
                 dataType: 'json',
-                data: {field_query: $form_wrap.attr('data-fields-query'), form_options: $form_wrap.attr('data-form-options'), scripts_done: hiweb_components_fields_form_scripts_done},
+                data: {forms: forms, scripts_done: hiweb_components_fields_form_scripts_done},
                 async: true,
                 success: function (response) {
                     if (response.hasOwnProperty('success')) {
                         load_form_scripts($form_wrap, response, () => {
-                            load_form_inputs($form_wrap, response);
-                            form_auto_height($form_wrap, () => {
-                                $form_wrap.removeClass('loading').removeClass('loaded');
-                                $form_wrap.trigger('hiweb-form-ajax-loaded');
-                                init_inputs();
+                            // load_form_inputs($form_wrap, response);
+                            // form_auto_height($form_wrap, () => {
+                            //     $form_wrap.removeClass('loading').removeClass('loaded');
+                            //     $form_wrap.trigger('hiweb-form-ajax-loaded');
+                            //     init_inputs();
+                            // });
+                            // $form_wrap.removeClass('preloading');
+                            $forms.each(function () {
+                                let form_id = $(this).attr('data-fields-query-id');
+                                let $form_wrap = $(this);
+                                if (response.forms_html.hasOwnProperty(form_id)) {
+                                    load_form_inputs($form_wrap, response.forms_html[form_id]);
+                                    form_auto_height($form_wrap, () => {
+                                        $form_wrap.removeClass('loading').removeClass('loaded');
+                                        $form_wrap.trigger('hiweb-form-ajax-loaded');
+                                        init_inputs($form_wrap);
+                                    });
+                                }
                             });
-                            $form_wrap.removeClass('preloading');
+                            $forms.removeClass('preloading');
                         });
                     }
                     if (response.hasOwnProperty('max_input_vars')) {
@@ -205,11 +217,14 @@ jQuery(document).ready(function ($) {
                     setTimeout(load_next_form, 50);
                 },
                 complete: function () {
-                    form_loaded_ids.push($form_wrap.attr('data-fields-query-id'));
+                    $forms.each(function () {
+                        let $form_wrap = $(this);
+                        form_loaded_ids.push($form_wrap.attr('data-fields-query-id'));
+                    });
                     ///unlock submit button
                     if ($ajax_forms.length <= form_loaded_ids.length) {
                         $ajax_forms.closest('form').each(function () {
-                            $(this).find('button[disabled][data-hiweb-form-submit-stop="1"], input[type="submit"][disabled][data-hiweb-form-submit-stop="1"]').removeAttr('disabled').removeAttr('data-hiweb-form-submit-stop');
+                            $(this).find('button[disabled][data-hiweb-form-submit-stop="1"], input[type="submit"][disabled][data-hiweb-form-submit-stop="1"]').removeAttr('disabled').attr('data-hiweb-form-submit-stop', '0');
                         });
                     }
                 }
@@ -228,8 +243,8 @@ jQuery(document).ready(function ($) {
         }
     }
 
-    let init_inputs = function () {
-        $forms.find('[data-field-init="0"]').each(function () {
+    let init_inputs = function ($form_wrap) {
+        $form_wrap.find('[data-field-init="0"]').each(function () {
             $(this).trigger('field_init').attr('data-field-init', '1');
         });
     }
@@ -272,11 +287,21 @@ jQuery(document).ready(function ($) {
     if ($ajax_forms.length > 0) {
         ///disable submit form
         $ajax_forms.closest('form').each(function () {
-            $(this).find('button, input[type="submit"]').not('[disabled]').attr('disabled', '').attr('data-hiweb-form-submit-stop', '1');
+            $(this).find('button, input[type="submit"]').not('[disabled], [data-hiweb-form-submit-stop="1"]').attr('disabled', '').attr('data-hiweb-form-submit-stop', '1');
         });
         ///
         load_next_form();
     }
+
+    $('form').on('submit', function () {
+        fields_input_change = false;
+    });
+    $(window).on('beforeunload', function () {
+        if (fields_input_change) {
+            return wp.i18n.__('The changes you made will be lost if you navigate away from this page.');
+        }
+        return undefined;
+    });
 
     ///TABS
     $forms.on('click', '.hiweb-fields-form-tabs-handles [data-tab-handle]', tab_click_handle);
@@ -284,5 +309,6 @@ jQuery(document).ready(function ($) {
     ///HELP TOOLTIP
     $forms.on('hiweb-form-ajax-loaded', make_qtips);
 
-    init_inputs();
+    init_inputs($forms);
+    setInterval(()=>{ load_next_form() }, 1000);
 });

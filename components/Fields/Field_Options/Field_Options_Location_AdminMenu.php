@@ -13,7 +13,7 @@ use hiweb\core\Options\Options;
  */
 class Field_Options_Location_AdminMenu extends Options {
 
-    static $default_options_pages = [ 'options-permalink.php' => 'permalink', 'options-media.php' => 'media', 'options-discussion.php' => 'discussion', 'options-reading.php' => 'reading', 'options-writing.php' => 'writing', 'options-general.php' => 'general' ];
+    static $default_options_pages = [ 'options-permalink' => 'permalink', 'options-media' => 'media', 'options-discussion' => 'discussion', 'options-reading' => 'reading', 'options-writing' => 'writing', 'options-general' => 'general' ];
 
 
     public function page_slug($set = null) {

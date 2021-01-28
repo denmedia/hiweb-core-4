@@ -2,6 +2,7 @@
 
 .plugins_page_hiweb-components .hiweb-components-fields-form-wrap {
 	padding: 1em 0;
+
 	label, .component__label, .component__description {
 		display: block;
 		@include transition(color);
@@ -10,5 +11,12 @@
 	.component__label {
 		font-size: 1.2em;
 		font-weight: 500;
+	}
+}
+
+.wp-admin {
+	svg {
+		width: 1.2em;
+		height: 1em;
 	}
 }

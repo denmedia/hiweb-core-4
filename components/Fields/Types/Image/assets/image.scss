@@ -1,4 +1,4 @@
-@import "../../../css/Fields_UI";
+@import "../../../assets/ui";
 
 .hiweb-field_image {
 
@@ -9,6 +9,11 @@
 	position: relative;
 	background: $fields_color_white url(../../../../../assets/img/pattern-4.png) 50% 50%;
 	@include fields_ui_shadow_panel;
+
+	svg {
+		width: inherit;
+		height: inherit;
+	}
 
 	[data-image-place] {
 		background: 50% 50% no-repeat;

@@ -1,6 +1,9 @@
 .hiweb-field_images {
   border: 1px solid #ccd0d4;
   background-color: #fff; }
+  .hiweb-field_images svg {
+    width: inherit;
+    height: inherit; }
   .hiweb-field_images .images-top-panel {
     background-color: #f1f1f1;
     border-bottom: 1px solid #ccd0d4;

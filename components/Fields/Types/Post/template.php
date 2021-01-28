@@ -25,7 +25,7 @@ $attributes->push('data-options', [ 'post_type' => $this->options()->post_type()
 $attributes->push('data-value', (array)$value);
 ?>
 <div <?= $this->get_admin_wrap_tag_properties($attributes) ?>>
-    <select <?= $this->get_admin_input_tags_name_properties($name) ?> <?= $attributes->get_as_tag_attributes() ?>>
+    <select <?= $this->get_admin_input_tags_name_properties($name, $this->options()->multiple() ? '[]' : '') ?> <?= $attributes->get_as_tag_attributes() ?>>
         <?php
         foreach ($selected as $val => $title) {
             ?>

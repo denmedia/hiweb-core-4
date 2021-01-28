@@ -29,28 +29,11 @@ class FieldsFactory_Admin {
 
 
     /**
-     * Return field name(id) form options page and options field register
-     * @param Field|string $field_or_id
-     * @param null|string  $options_slug
+     * @param null $options_slug
      * @return string
      */
-    static public function get_field_input_option_name($field_or_id, $options_slug = null) {
-        $field_id = '';
-        if ($field_or_id instanceof Field) {
-            $field_id = $field_or_id->id();
-            if (is_null($options_slug)) {
-                $options_slug = $field_or_id->options()->location()->_('options') . '-';
-            }
-        } elseif (is_string($field_or_id) && $field_or_id != '') {
-            $field_id = $field_or_id;
-            if (is_string($options_slug)) {
-                $options_slug .= '-';
-            }
-        }
-        if (is_null($options_slug)) {
-            $options_slug = '';
-        }
-        return 'hiweb-option-' . $options_slug . $field_id;
+    static public function _get_prepend_name_by_options($options_slug = null): string {
+        return 'hiweb-option-' . $options_slug;
     }
 
 
@@ -105,31 +88,30 @@ class FieldsFactory_Admin {
      * @return array
      * @deprecated
      */
-//    static function get_current_fields_query_by_currentScreen() {
-//        $R = [
-//
-//        ];
-//        if (function_exists('get_current_screen')) {
-//            if (get_current_screen()->base == 'post') {
-//                $R = [
-//                    'post_type' => [
-//                        'ID' => $_GET['post'],
-//                        'post_type' => get_current_screen()->post_type
-//                    ]
-//                ];
-//            } else {
-//                console_warn(get_current_screen());
-//            }
-//        }
-//        return $R;
-//    }
-
+    //    static function get_current_fields_query_by_currentScreen() {
+    //        $R = [
+    //
+    //        ];
+    //        if (function_exists('get_current_screen')) {
+    //            if (get_current_screen()->base == 'post') {
+    //                $R = [
+    //                    'post_type' => [
+    //                        'ID' => $_GET['post'],
+    //                        'post_type' => get_current_screen()->post_type
+    //                    ]
+    //                ];
+    //            } else {
+    //                console_warn(get_current_screen());
+    //            }
+    //        }
+    //        return $R;
+    //    }
 
     /**
      * @param null $location_query
      * @return array
      */
-    static function get_current_location_raw_values($location_query = null) {
+    static function get_current_location_raw_values($location_query = null): array {
         $R = [];
         $fields = FieldsFactory::get_field_by_query(is_array($location_query) ? $location_query : self::$the_form_fields_query);
         foreach ($fields as $Field) {
@@ -163,7 +145,7 @@ class FieldsFactory_Admin {
                 }
             } elseif (array_key_exists('options', $location_query)) {
                 if ($Field->get_allow_save_field()) {
-                    $R[$Field->id()] = get_option('hiweb-option-' . $location_query['options'] . '-' . $Field->id(), null);
+                    $R[$Field->id()] = get_option(FieldsFactory_Admin::_get_prepend_name_by_options($location_query['options']) . '-' . $Field->id(), null);
                 } else {
                     $R[$Field->id()] = null;
                 }
@@ -182,10 +164,14 @@ class FieldsFactory_Admin {
      */
     static function get_ajax_form_html($field_query, $form_options = []) {
         if ( !is_array($field_query)) return '';
-        IncludesFactory::jquery_qtip();
-        IncludesFactory::js(HIWEB_DIR_VENDOR . '/jquery.regex-selector/jquery.regex-selector.min.js')->deeps('jquery-core');
-        IncludesFactory::js(__DIR__ . '/FieldsAdmin.min.js')->deeps('jquery-core');
-        IncludesFactory::css(__DIR__ . '/css/FieldsAdmin.css');
+        //IncludesFactory::jquery_qtip();
+        //IncludesFactory::js(HIWEB_DIR_VENDOR . '/jquery.regex-selector/jquery.regex-selector.min.js')->deeps('jquery-core');
+        //IncludesFactory::js(__DIR__ . '/assets/fields.min.js')->deeps('jquery-core');
+        //IncludesFactory::css(__DIR__ . '/css/FieldsAdmin.css');
+        ///assets
+        include_admin_css(__DIR__ . '/assets/fields.css');
+        include_admin_js(__DIR__ . '/assets/fields.min.js', include_admin()->jquery_qtip());
+        ///
         if (count(FieldsFactory::get_field_by_query($field_query)) == 0) return '<!--HIWEB FIELDS FORM is EMPTY-->';
         //Init fields
         foreach (FieldsFactory::get_field_by_query($field_query) as $Field) {
@@ -213,26 +199,37 @@ class FieldsFactory_Admin {
      *
      */
     static function get_ajax_form_hock() {
-        $fields = [];
+        $forms = $_POST['forms'];
+        if ( !is_array($forms)) {
+            wp_send_json([ 'success' => false, 'message' => '$_POST[forms] not found or not array' ]);
+            return false;
+        }
+        ob_start();
+        $forms_html = [];
         $css = [];
         $js = [];
-        $fields_query = json_decode(stripslashes($_POST['field_query']), true);
-        $form_options = json_decode(stripslashes($_POST['form_options']), true);
-        $debug = 0;
-        if (json_last_error() == JSON_ERROR_NONE && is_array($fields_query)) {
-            self::$the_form_fields_query = $fields_query;
-            self::$the_form_options = $form_options;
-            $values = self::get_current_location_raw_values(self::$the_form_fields_query);
-            $fields = FieldsFactory::get_field_by_query(self::$the_form_fields_query);
-            $debug = 1;
-            foreach ($fields as $Field) {
-                $debug = 2;
-                if ($Field->id() != '') {
-                    $field_css = $Field->get_css();
-                    $css = array_merge($css, is_array($field_css) ? $field_css : [ $field_css ]);
-                    $field_js = $Field->get_js();
-                    $js = array_merge($js, is_array($field_js) ? $field_js : [ $field_js ]);
+        foreach ($forms as $form_id => $form) {
+            $forms_html[$form_id] = '<p>Error:</p>';
+            $fields = [];
+            $fields_query = json_decode(stripslashes($form['query']), true);
+            $form_options = json_decode(stripslashes($form['options']), true);
+            $debug = 0;
+            if (json_last_error() == JSON_ERROR_NONE && is_array($fields_query)) {
+                self::$the_form_fields_query = $fields_query;
+                self::$the_form_options = $form_options;
+                $values = self::get_current_location_raw_values(self::$the_form_fields_query);
+                $fields = FieldsFactory::get_field_by_query(self::$the_form_fields_query);
+                $debug = 1;
+                foreach ($fields as $Field) {
+                    $debug = 2;
+                    if ($Field->id() != '') {
+                        $field_css = $Field->get_css();
+                        $css = array_merge($css, is_array($field_css) ? $field_css : [ $field_css ]);
+                        $field_js = $Field->get_js();
+                        $js = array_merge($js, is_array($field_js) ? $field_js : [ $field_js ]);
+                    }
                 }
+                $forms_html[$form_id] = self::get_form_html($fields, $values, $form_options) . ConsoleFactory::get_html();
             }
         }
         ///Scripts done
@@ -282,17 +279,12 @@ class FieldsFactory_Admin {
             }
         }
         ///
-        $form_html = self::get_form_html($fields, $values, $form_options);
-        ob_start();
-        ConsoleFactory::the();
-        $form_html .= ob_get_clean();
-        ///
         wp_send_json([
             'success' => true,
             'query' => self::$the_form_fields_query,
-            'form_options' => $form_options,
-            'debug' => $debug,
-            'values' => $values,
+            //'form_options' => $form_options,
+            //'debug' => $debug,
+            //'values' => $values,
             'scripts_done' => $scripts_done,
             'css' => $css_filtered,
             'js' => $js_filtered,
@@ -304,9 +296,11 @@ class FieldsFactory_Admin {
             'max_execution_time' => ini_get('max_execution_time'),
             'upload_max_filesize' => ini_get('upload_max_filesize'),
             'post_max_size' => ini_get('post_max_size'),
-            'field_ids' => array_keys($fields),
-            'form_html' => $form_html
+            //'field_ids' => array_keys($fields),
+            'forms_html' => $forms_html,
+            'other_html' => ob_get_clean()
         ]);
+        return;
     }
 
 
@@ -428,7 +422,7 @@ class FieldsFactory_Admin {
      * @param $query
      * @return Field
      */
-    static function get_Field($field_ID, $query) {
+    static function get_field($field_ID, $query): Field {
         if (is_string($field_ID)) {
             $fields = FieldsFactory::get_field_by_query($query);
             foreach ($fields as $field) {

@@ -14,6 +14,7 @@ let hiweb_field_script = {
                     extraKeys: {"Ctrl-Space": "autocomplete"},
                     lineWrapping: true,
                     foldGutter: true,
+                    matchBrackets: true,
                     gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
                 });
             }

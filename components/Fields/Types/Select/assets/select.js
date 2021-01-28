@@ -13,8 +13,7 @@ let hiweb_field_select = {
                 searchField: 'title',
                 placeholder: $root.attr('placeholder'),
                 options: [],
-                plugins: ['remove_button', 'drag_drop'],
-                create: false
+                plugins: ['remove_button', 'drag_drop']
             });
         }
     }

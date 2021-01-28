@@ -11,7 +11,7 @@ use hiweb\components\Fields\Types\Separator\Field_Separator;
     <?php
     if ($this->options()->separator_label() != '') {
     ?>
-    <<?= $this->options()->tag_label() ?> class="hw-field-separator-title<?= $this->options()->description() != '' ? ' has-description' : ' no-description' ?>"><?= $this->options()->separator_label() ?></<?= $this->options()->tag_label() ?>>
+    <<?= $this->options()->tag_label() ?> class="hw-field-separator-title<?= $this->options()->separator_description() != '' ? ' has-description' : ' no-description' ?>"><?= $this->options()->separator_label() ?></<?= $this->options()->tag_label() ?>>
 <?php
 }
 ?>

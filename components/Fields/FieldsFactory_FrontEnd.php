@@ -55,19 +55,19 @@ class FieldsFactory_FrontEnd {
                     $value = get_post_meta($contextObject_sanitize->ID, $field_ID, true);
                 }
             } elseif ($contextObject_sanitize instanceof WP_Term) {
-                if (metadata_exists('term', $contextObject_sanitize->term_id, $field_ID)) { //TODO
+                if (metadata_exists('term', $contextObject_sanitize->term_id, $field_ID)) {
                     $value = get_term_meta($contextObject_sanitize->term_id, $field_ID, true);
                 }
             } elseif ($contextObject_sanitize instanceof WP_User) {
-                if (metadata_exists('user', $contextObject_sanitize->ID, $field_ID)) { //TODO
+                if (metadata_exists('user', $contextObject_sanitize->ID, $field_ID)) {
                     $value = get_user_meta($contextObject_sanitize->ID, $field_ID, true);
                 }
             } elseif ($contextObject_sanitize instanceof WP_Comment) {
-                if (metadata_exists('comment', $contextObject_sanitize->comment_ID, $field_ID)) { //TODO
+                if (metadata_exists('comment', $contextObject_sanitize->comment_ID, $field_ID)) {
                     $value = get_comment_meta($contextObject_sanitize->comment_ID, $field_ID, true);
                 }
             } elseif (is_string($contextObject_sanitize)) {
-                $value = get_option('hiweb-option-' . $contextObject_sanitize . '-' . $field_ID, $default);
+                $value = get_option(FieldsFactory_Admin::_get_prepend_name_by_options($contextObject_sanitize) . '-' . $field_ID, $default);
             }
             ///Find default value
             if (is_null($value) && is_null($default)) {
@@ -75,8 +75,8 @@ class FieldsFactory_FrontEnd {
                 $fields = FieldsFactory::get_field_by_query($fields_query);
                 if (array_key_exists($field_ID, $fields)) {
                     $Field = $fields[$field_ID];
-                    if($field_ID == 'show-aside') { //todo-
-                        console_info([$value, $Field->options()->default_value()]);
+                    if ($field_ID == 'show-aside') { //todo-
+                        console_info([ $value, $Field->options()->default_value() ]);
                     }
                     $value = $Field->options()->default_value();
                 }

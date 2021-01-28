@@ -3,7 +3,6 @@
 namespace hiweb\components\ComponentsManager;
 
 
-use hiweb\core\Debug\Debug;
 use hiweb\core\Strings;
 
 
@@ -116,9 +115,7 @@ class Component {
      * @return null|false|mixed
      */
     public function init(): ?bool {
-        if (is_callable($this->initCallback)) {
-            return call_user_func_array($this->initCallback, $this->get_callback_args());
-        }
+        if (is_callable($this->initCallback)) return call_user_func_array($this->initCallback, $this->get_callback_args());
         return null;
     }
 

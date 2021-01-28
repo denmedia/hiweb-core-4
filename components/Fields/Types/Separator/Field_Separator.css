@@ -5,17 +5,25 @@
   margin-bottom: 1em;
   border-bottom: 1px dashed #ccc; }
   .hiweb-field_separator .hw-field-separator-title {
-    font-size: 140% !important;
     margin: 4px 0;
-    padding: 0 !important; }
+    padding: 0 !important;
+    font-weight: 700; }
     .hiweb-field_separator .hw-field-separator-title.has-description {
-      margin-bottom: 4px;
+      margin-bottom: 0;
       padding-bottom: 0; }
     .hiweb-field_separator .hw-field-separator-title.no-description {
-      margin-bottom: 10px;
+      margin-bottom: .2em;
       padding-bottom: 0; }
+  .hiweb-field_separator h1.hw-field-separator-title {
+    font-size: 1.8em; }
+  .hiweb-field_separator h2.hw-field-separator-title {
+    font-size: 1.6em; }
+  .hiweb-field_separator h3.hw-field-separator-title {
+    font-size: 1.4em; }
+  .hiweb-field_separator h4.hw-field-separator-title {
+    font-size: 1.2em; }
   .hiweb-field_separator .hw-field-separator-description {
-    margin: 0 0 4px 0;
+    margin: 0;
     font-style: italic; }
   .hiweb-field_separator svg {
     font-size: 1em;

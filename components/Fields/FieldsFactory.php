@@ -336,7 +336,7 @@ class FieldsFactory {
                     return update_comment_meta($contextObject_sanitize->ID, $field->id(), $setValue);
                 }
             } elseif (is_string($contextObject_sanitize)) {
-                $option_name = 'hiweb-option-' . $contextObject_sanitize . '-' . $field->id();
+                $option_name = FieldsFactory_Admin::_get_prepend_name_by_options($contextObject_sanitize) . '-' . $field->id();
                 if (is_null($setValue)) {
                     return delete_option($option_name);
                 } else {

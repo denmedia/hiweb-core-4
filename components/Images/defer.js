@@ -42,6 +42,7 @@ jQuery(document).ready(function ($) {
                                 hiweb_imagesDefer.receive_images_data(hiweb_imagesDefer.find_images_on_windows)
                             }
                         });
+                        //setInterval(()=>{ hiweb_imagesDefer.receive_images_data(hiweb_imagesDefer.find_images_on_windows) }, 5000);
                     }
                 }, 100);
             },
@@ -134,7 +135,7 @@ jQuery(document).ready(function ($) {
                 if (!hiweb_imagesDefer.receive_images_html.hasOwnProperty(defer_id)) return;
                 let $img = $('[data-image-defer-id="' + defer_id + '"]');
                 if ($img.length > 0) {
-                    $img.addClass('data-image-defer-status', 'loading');
+                    $img.attr('data-image-defer-status', 'loading');
                     let urls = hiweb_imagesDefer.receive_images_src[defer_id];
                     let urls_count = urls.length;
                     if (urls_count === 0 && typeof successCallback === 'function') {

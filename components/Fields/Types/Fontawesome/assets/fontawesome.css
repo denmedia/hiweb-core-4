@@ -1,5 +1,8 @@
 .hiweb-field_fontawesome {
   position: relative; }
+  .hiweb-field_fontawesome svg {
+    width: inherit;
+    height: inherit; }
   .hiweb-field_fontawesome .button-group {
     display: -webkit-box;
     display: -moz-box;

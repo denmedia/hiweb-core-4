@@ -1,10 +1,15 @@
-@import "../../css/Fields_UI";
+@import "../../../assets/ui";
 
 
 .hiweb-field_images {
 
 	border: 1px solid $fields_color_border;
 	background-color: $fields_color_white;
+
+	svg {
+		width: inherit;
+		height: inherit;
+	}
 
 	.images-top-panel {
 		background-color: $fields_color_grey_white;

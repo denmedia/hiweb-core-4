@@ -261,10 +261,10 @@ class Image_Size {
         ///Process Resize
         $R = $this->Image->path()->image()->resize($this->get_width(), $this->get_height(), $new_file_path, $quality_jpg_png_webp, $tryMakeWebP);
         if ($R === true || (is_array($R) && count($R) > 0)) {
-            console_info(__('New image file created', 'hiweb-core-4'), __METHOD__, [ 'result' => $R, $new_file_path ]);
+            console_info('New image file created', __METHOD__, [ 'result' => $R, $new_file_path ]);
             $this->Image->_update_image_sizes_meta();
         } else {
-            console_warn(__('Error while create new image file', 'hiweb-core-4'), __METHOD__, [ 'result' => $R, $new_file_path ]);
+            console_warn('Error while create new image file', __METHOD__, [ 'result' => $R, $new_file_path ]);
         }
         return $R;
     }
