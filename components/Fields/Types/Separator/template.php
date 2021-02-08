@@ -7,7 +7,7 @@ use hiweb\components\Fields\Types\Separator\Field_Separator;
 
 
 ?>
-<div <?= $this->get_admin_wrap_tag_properties() ?>>
+<div <?= $this->get_admin_wrap_tag_properties([], $name) ?>>
     <?php
     if ($this->options()->separator_label() != '') {
     ?>

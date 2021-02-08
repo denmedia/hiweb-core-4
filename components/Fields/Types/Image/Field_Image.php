@@ -53,6 +53,7 @@
 				$Image = ImagesFactory::get( $value );
 				if( !$Image->is_exists() ) $value = 0;
 			}
+			if($value == 0) $value = null;
 			return $value;
 		}
 		

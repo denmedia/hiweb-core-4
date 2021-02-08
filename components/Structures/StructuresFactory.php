@@ -6,6 +6,7 @@ namespace hiweb\components\Structures;
 use hiweb\components\Console\ConsoleFactory;
 use hiweb\core\Cache\CacheFactory;
 use hiweb\core\Paths\PathsFactory;
+use WP_Comment;
 use WP_Post;
 use WP_Post_Type;
 use WP_Query;
@@ -223,10 +224,10 @@ class StructuresFactory {
 
     /**
      * Convert wp object (like WP_Post / WP_Term) to string id
-     * @param $wp_object
+     * @param null|string|WP_Post|WP_Term|WP_User|WP_Comment|WP_Post_Type $wp_object
      * @return string
      */
-    static function get_id_from_object($wp_object) {
+    static function get_id_from_object($wp_object): string {
         if (is_string($wp_object)) {
             return $wp_object;
         } elseif ($wp_object instanceof WP_Post_Type) {
@@ -237,6 +238,8 @@ class StructuresFactory {
             return 'taxonomy:' . $wp_object->term_id;
         } elseif ($wp_object instanceof WP_User) {
             return 'user:' . $wp_object->ID;
+        } elseif ($wp_object instanceof WP_Comment) {
+            return 'comment:' . $wp_object->comment_ID;
         } elseif (is_null($wp_object)) {
             global $wp_query;
             if ($wp_query instanceof WP_Query && $wp_query->is_front_page()) {
@@ -261,7 +264,7 @@ class StructuresFactory {
             ConsoleFactory::add('Unknown object id (1)', 'warn', __FUNCTION__, $object_id, true);
             return null;
         }
-        list($object_type, $object_id) = explode(':', $object_id);
+        [$object_type, $object_id] = explode(':', $object_id);
         $R = null;
         switch($object_type) {
             case 'post_type_archive':

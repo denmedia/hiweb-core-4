@@ -21,10 +21,30 @@
 	//}
 
 	.hiweb-fieldset {
-		margin-bottom: 1.2em;
+		padding-bottom: 1.2em;
+		@include transition(opacity);
+
+		&.hiweb-fieldset-disabled {
+			position: relative;
+			@include opacity(.1);
+			@include filter(grayscale(80%) blur(.5px));
+
+			&:after {
+				content: '';
+				display: block;
+				@include position_stretch_2(-.2em);
+				z-index: 15;
+			}
+		}
 
 		&:last-child {
 			margin-bottom: 0;
+		}
+
+		.description {
+			font-style: italic;
+			color: $fields_color_grey;
+			font-size: .9em;
 		}
 
 		.hiweb-fieldset-help {
@@ -212,7 +232,7 @@
 	}
 }
 
-.qtip.qtip-default.qtip-hiweb-fields{
+.qtip.qtip-default.qtip-hiweb-fields {
 	width: auto;
 	max-width: 340px;
 	z-index: 100100 !important;

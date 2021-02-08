@@ -247,6 +247,7 @@ jQuery(document).ready(function ($) {
         $form_wrap.find('[data-field-init="0"]').each(function () {
             $(this).trigger('field_init').attr('data-field-init', '1');
         });
+        show_hide_inputs($form_wrap);
     }
 
     let make_qtips = function () {
@@ -283,6 +284,65 @@ jQuery(document).ready(function ($) {
         $.fn.qtip.zindex = 100000;
     }
 
+    let show_hide_inputs = function ($form) {
+        let $rule_inputs = $form.find('[data-field-input_name][data-field-show_if], [data-field-input_name][data-field-hide_if]');
+        if ($rule_inputs.length === 0) return;
+        ///
+        setTimeout(() => {
+            show_hide_inputs($form)
+        }, 1105);
+        $rule_inputs.each(function () {
+            let $current_input = $(this);
+            let rules;
+            let showIf = true;
+            if ($current_input.is('[data-field-show_if]')) {
+                rules = JSON.parse($current_input.attr('data-field-show_if'));
+            } else if ($current_input.is('[data-field-hide_if]')) {
+                rules = JSON.parse($current_input.attr('data-field-hide_if'));
+                showIf = false;
+            }
+            let math = true;
+            if (typeof rules === 'undefined') return null;
+            for (let fieldId in rules) {
+                let rule = rules[fieldId];
+                let $source_field_wrap = $form.find('[data-field-init="1"][data-field-input_name][data-field-id="' + fieldId + '"]');
+                let $input = $source_field_wrap.find(':input[name="' + $source_field_wrap.attr('data-field-input_name') + '"]');
+                if ($input.length > 0) {
+                    if (typeof rule === 'object') {
+                        for (let i in rule) {
+                            if (rule[i] === $input.val() || ($input.prop('checked') === rule[i])) {
+                                math = math && true;
+                                break;
+                            }
+                        }
+                    } else if ($input.val() === rule || ($input.prop('checked') === rule)) {
+                        math = math && true;
+                    } else {
+                        math = false;
+                    }
+                }
+            }
+            if (math) {
+                if (showIf) {
+                    $current_input.closest('.hiweb-fieldset').removeClass('hiweb-fieldset-disabled');
+                } else {
+                    $current_input.closest('.hiweb-fieldset').removeClass('hiweb-fieldset-disabled');
+                }
+            } else {
+                if (!showIf) {
+                    $current_input.closest('.hiweb-fieldset').removeClass('hiweb-fieldset-disabled');
+                } else {
+                    $current_input.closest('.hiweb-fieldset').removeClass('hiweb-fieldset-disabled');
+                }
+            }
+            if ((showIf && math === true) || (!showIf && math === false)) {
+                $current_input.closest('.hiweb-fieldset').removeClass('hiweb-fieldset-disabled');
+            } else {
+                $current_input.closest('.hiweb-fieldset').addClass('hiweb-fieldset-disabled');
+            }
+        });
+    }
+
     ///AJAX FORM
     if ($ajax_forms.length > 0) {
         ///disable submit form
@@ -310,5 +370,7 @@ jQuery(document).ready(function ($) {
     $forms.on('hiweb-form-ajax-loaded', make_qtips);
 
     init_inputs($forms);
-    setInterval(()=>{ load_next_form() }, 1000);
+    setInterval(() => {
+        load_next_form();
+    }, 1000);
 });

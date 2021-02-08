@@ -37,7 +37,7 @@
 			$term = get_term_by( 'id', $term_id, $taxonomy );
 			if( $term instanceof \WP_Term ){
 				$query = FieldsFactory::get_query_from_contextObject( $term );
-				$fields = FieldsFactory::get_field_by_query( $query );
+				$fields = FieldsFactory::get_fields_by_query( $query );
 				foreach( $fields as $Field ){
 					$field_name = 'hiweb-' . $Field->get_id();
 					if( $Field->get_allow_save_field( array_key_exists( $field_name, $_POST ) ? $_POST[ $field_name ] : null ) ){

@@ -19,7 +19,7 @@ class FieldsFactory_Admin_Customize {
 	 * @param WP_Customize_Manager $wp_customize
 	 */
 	static function customize_register(WP_Customize_Manager $wp_customize) {
-		$fields = FieldsFactory::get_field_by_query( [ 'customize' => [] ] );
+		$fields = FieldsFactory::get_fields_by_query( [ 'customize' => [] ] );
 		$sections = [];
 		foreach ( $fields as $field ) {
 			///add settings by field

@@ -97,7 +97,7 @@
 					}
 				}
 				return $menu_icon;
-			}, [ $menu_icon ], true )->Cache_File()->set_lifetime( 31535965 );
+			}, [ $menu_icon ], true )->file()->set_lifetime( 31535965 );
 		}
 		else{
 			return $menu_icon;

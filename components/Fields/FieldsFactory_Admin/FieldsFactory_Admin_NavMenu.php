@@ -33,7 +33,7 @@
 		 */
 		static function wp_update_nav_menu_item( $menu_id, $menu_item_db_id, $args ){
 			if( !array_key_exists( 'hiweb-core-field-form-nonce', $_POST ) || !wp_verify_nonce( $_POST['hiweb-core-field-form-nonce'], 'hiweb-core-field-form-save' ) ) return;
-			$fields = FieldsFactory::get_field_by_query( [ 'nav_menu' => [] ] );
+			$fields = FieldsFactory::get_fields_by_query( [ 'nav_menu' => [] ] );
 			foreach( $fields as $Field ){
 				$field_name = 'hiweb-nav_menu-' . $Field->id();
 				if( $Field->get_allow_save_field( array_key_exists( $field_name, $_POST ) ? $_POST[ $field_name ] : null ) ){

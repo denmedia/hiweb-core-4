@@ -24,4 +24,4 @@ if ($font_size != 1) {
     $attributes->push('style', 'font-size: ' . $font_size . 'em;');
 }
 ?>
-<div <?= $this->get_admin_wrap_tag_properties() ?>><input <?= $attributes->get_as_tag_attributes() ?>/></div>
+<div <?= $this->get_admin_wrap_tag_properties([], $name) ?>><input <?= $attributes->get_as_tag_attributes() ?>/></div>

@@ -239,7 +239,7 @@
 				background: -webkit-linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
 				background: linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
 				filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#ffffff", GradientType=1);
-				@include fields_backdrop_blur(1px);
+				//@include fields_backdrop_blur(1px);
 			}
 		}
 	}
@@ -325,11 +325,12 @@
 
 	.repeat__row__fields {
 		flex-basis: 100%;
+		max-height: min-content;
 		@include display-flex;
 		min-height: 2em;
 		flex-wrap: wrap;
 		justify-content: stretch;
-		@include transition(height);
+		@include transition((height, max-height));
 		position: relative;
 	}
 

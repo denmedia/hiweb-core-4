@@ -47,9 +47,39 @@
       display: none; }
 
 .hiweb-components-fields-form-ajax-wrap .hiweb-fieldset, .hiweb-components-fields-form-wrap .hiweb-fieldset {
-  margin-bottom: 1.2em; }
+  padding-bottom: 1.2em;
+  -webkit-transition: opacity 0.2s ease-in-out;
+  -moz-transition: opacity 0.2s ease-in-out;
+  -o-transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out; }
+  .hiweb-components-fields-form-ajax-wrap .hiweb-fieldset.hiweb-fieldset-disabled, .hiweb-components-fields-form-wrap .hiweb-fieldset.hiweb-fieldset-disabled {
+    position: relative;
+    -webkit-opacity: 0.1;
+    -moz-opacity: 0.1;
+    -ms-opacity: 0.1;
+    -o-opacity: 0.1;
+    opacity: 0.1;
+    filter: alpha(opacity=10);
+    -webkit-filter: grayscale(80%) blur(0.5px);
+    -moz-filter: grayscale(80%) blur(0.5px);
+    -o-filter: grayscale(80%) blur(0.5px);
+    -ms-filter: grayscale(80%) blur(0.5px);
+    filter: grayscale(80%) blur(0.5px); }
+    .hiweb-components-fields-form-ajax-wrap .hiweb-fieldset.hiweb-fieldset-disabled:after, .hiweb-components-fields-form-wrap .hiweb-fieldset.hiweb-fieldset-disabled:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: -0.2em;
+      right: -0.2em;
+      bottom: -0.2em;
+      left: -0.2em;
+      z-index: 15; }
   .hiweb-components-fields-form-ajax-wrap .hiweb-fieldset:last-child, .hiweb-components-fields-form-wrap .hiweb-fieldset:last-child {
     margin-bottom: 0; }
+  .hiweb-components-fields-form-ajax-wrap .hiweb-fieldset .description, .hiweb-components-fields-form-wrap .hiweb-fieldset .description {
+    font-style: italic;
+    color: #72777c;
+    font-size: .9em; }
   .hiweb-components-fields-form-ajax-wrap .hiweb-fieldset .hiweb-fieldset-help, .hiweb-components-fields-form-wrap .hiweb-fieldset .hiweb-fieldset-help {
     display: inline-block;
     width: 1.4em;

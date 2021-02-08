@@ -33,7 +33,7 @@ foreach ($this->get_cols() as $col_id => $col) {
 $flex = $this->field()->get_flex($this->get_flex_row_id());
 
 ?>
-    <div class="repeat__row__fields">
+    <div class="repeat__row__fields" data-unique_id="<?=$this->field()->get_unique_id()?>">
         <?php
 
         if ($flex->id() != '') {
@@ -75,10 +75,10 @@ $flex = $this->field()->get_flex($this->get_flex_row_id());
                         <?php if ($col->label() != '') { ?>
                             <div class="repeat__row__col__label"><?= $col->label() ?></div><?php } elseif ($col->field()->options()->label() != '') { ?>
                             <div class="repeat__row__col__label"><?= $col->field()->options()->label() ?></div><?php } ?>
+                        <?= $col->field()->get_admin_html($this->get_col_input_value($col->ID())); ?>
                         <?php if ($col->description() != '') { ?>
                             <div class="repeat__row__col__description"><?= $col->description() ?></div><?php } elseif ($col->field()->options()->description() != '') { ?>
                             <div class="repeat__row__col__description"><?= $col->field()->options()->description() ?></div><?php } ?>
-                        <?= $col->field()->get_admin_html($this->get_col_input_value($col->ID())); ?>
                     </div>
                     <?php
                 }
@@ -94,10 +94,10 @@ if (count($fields_hidden) > 0) {
     $rand_id = $this->field()->get_unique_id() . '-fields_hidden-' . \hiweb\core\Strings::rand(5);
     ?>
     <div class="repeat__row__options_button">
-        <a title="<?= __('Options for this row', 'hiweb-core-4') ?>" data-unique_id="<?= $this->field()->get_unique_id() ?>" data-action="options"><?= get_fontawesome('fad fa-cog') ?></a>
+        <a title="<?= __('Options for this row', 'hiweb-core-4') ?>" data-unique_id="<?= $this->field()->get_unique_id() ?>" data-tb-inline-id="<?= $rand_id ?>" data-action="options"><?= get_fontawesome('fad fa-cog') ?></a>
     </div>
     <div style="display: none;">
-        <a href="/?TB_inline&inlineId=<?= urlencode($rand_id) ?>&width=700&height=500" data-tb-inline-id="<?= $rand_id ?>" class="thickbox"></a>
+        <a href="/?TB_inline&inlineId=<?= urlencode($rand_id) ?>" data-tb-inline-id="<?= $rand_id ?>" class="thickbox"></a>
         <div class="repeat__row__options_fields__outer" id="<?= $rand_id ?>">
             <div class="repeat__row__options_fields">
                 <?php

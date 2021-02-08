@@ -81,7 +81,7 @@
 					}
 				}
 				return false;
-			}, [], true )->Cache_File()->set_lifetime( 2.628e+6 )->Cache()->get_value();
+			}, [], true )->file()->set_lifetime( 2.628e+6 )->cache()->get_value();
 			if( is_array( $icon_data ) && count( $icon_data ) > 0 ){
 				if( isset( $icon_data['changes'] ) ) $this->changes = $icon_data['changes'];
 				if( isset( $icon_data['ligatures'] ) ) $this->ligatures = $icon_data['ligatures'];

@@ -6,14 +6,15 @@ if ( !function_exists('hw_template_part')) {
      * @param string      $slug
      * @param null|string $name
      * @param array       $args
+     * @return bool
      */
-    function hw_template_part(string $slug, $name = null, $args = []) {
+    function hw_template_part(string $slug, $name = null, $args = []): bool {
         ///find parts
         if (get_template_part($slug, $name, $args) === false && function_exists('debug_backtrace')) {
             foreach (debug_backtrace() as $location) {
                 $location = (object)$location;
                 if ($location->file != '') {
-                    if ((defined('HIWEB_DIR') && strpos($location->file, HIWEB_DIR) === 0) || defined('HIWEB_THEME_DIR') && strpos($location->file, HIWEB_THEME_DIR) === 0) {
+                    if ((defined('HIWEB_DIR') && strpos($location->file, HIWEB_DIR) === 0) || (defined('HIWEB_THEME_DIR') && strpos($location->file, HIWEB_THEME_DIR) === 0)) {
                         $directory = str_replace('\\', '/', dirname($location->file));
                         $templates = [ $directory . '/' . $slug . '.php' ];
                         if ($name != '') {
@@ -31,12 +32,13 @@ if ( !function_exists('hw_template_part')) {
                         foreach ($templates as $path) {
                             if (file_exists($path)) {
                                 require $path;
-                                break 2;
+                                return true;
                             }
                         }
                     }
                 }
             }
         }
+        return false;
     }
 }

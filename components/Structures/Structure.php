@@ -48,7 +48,7 @@ class Structure {
     /**
      * @return string
      */
-    public function get_id() {
+    public function get_id(): string {
         return $this->id;
     }
 
@@ -56,7 +56,7 @@ class Structure {
     /**
      * @return bool
      */
-    public function is_front_page() {
+    public function is_front_page(): bool {
         return $this->id == 'home' || ($this->wp_object instanceof \WP_Post && StructuresFactory::get_front_page_id() == $this->wp_object->ID);
     }
 
@@ -64,7 +64,7 @@ class Structure {
     /**
      * @return bool
      */
-    public function is_page_for_posts() {
+    public function is_page_for_posts(): bool {
         return ($this->wp_object instanceof \WP_Post && StructuresFactory::get_blog_id() == $this->wp_object->ID);
     }
 
@@ -72,7 +72,7 @@ class Structure {
     /**
      * @return bool
      */
-    public function is_search() {
+    public function is_search(): bool {
         return $this->id == 'search';
     }
 
@@ -80,7 +80,7 @@ class Structure {
     /**
      * @return bool
      */
-    public function is_exists() {
+    public function is_exists(): bool {
         return strpos($this->id, ':') !== 0;
     }
 
@@ -108,7 +108,7 @@ class Structure {
      * @param bool $force_raw
      * @return mixed|string
      */
-    public function get_title($force_raw = true) {
+    public function get_title($force_raw = true): string {
         if ($this->is_search()) {
             return apply_filters('\hiweb\components\Structures\Structure::get_title', 'Результаты поиска', $this->wp_object, $force_raw, $this);
         } elseif ($this->wp_object instanceof WP_Post) {
@@ -135,7 +135,7 @@ class Structure {
     /**
      * @return array|WP_Post[]
      */
-    public function get_parent_front_page() {
+    public function get_parent_front_page(): array {
         return CacheFactory::get($this->id, __METHOD__, function() {
             if ( !$this->is_front_page() && StructuresFactory::get_front_page() instanceof WP_Post) {
                 return [ StructuresFactory::get_front_page() ];
@@ -149,7 +149,7 @@ class Structure {
     /**
      * @return array|WP_Post[]
      */
-    public function get_parent_wp_post() {
+    public function get_parent_wp_post(): array {
         return CacheFactory::get($this->id, __METHOD__, function() {
             if ($this->wp_object instanceof WP_Post) {
                 if ($this->wp_object->post_parent != 0) {
@@ -166,7 +166,7 @@ class Structure {
      * @param null|string|array $taxonomy_filter
      * @return array|WP_Term[]
      */
-    public function get_parent_wp_terms($taxonomy_filter = null) {
+    public function get_parent_wp_terms($taxonomy_filter = null): array {
         if (is_string($taxonomy_filter) && $taxonomy_filter != '') $taxonomy_filter = [ $taxonomy_filter ]; elseif ( !is_array($taxonomy_filter)) $taxonomy_filter = null;
         ///
         return CacheFactory::get([ $taxonomy_filter, $this->id ], __METHOD__, function() {
@@ -194,7 +194,7 @@ class Structure {
     /**
      * @return array
      */
-    public function get_parent_blog_page() {
+    public function get_parent_blog_page(): array {
         return CacheFactory::get($this->id, __METHOD__, function() {
             $R = [];
             if (StructuresFactory::get_blog_id() != 0) {
@@ -222,7 +222,7 @@ class Structure {
     /**
      * @return WP_Post_Type[]
      */
-    public function get_parent_wp_post_type() {
+    public function get_parent_wp_post_type(): array {
         return CacheFactory::get($this->id, __METHOD__, function() {
             $R = [];
             if ($this->wp_object instanceof WP_Post) {
@@ -249,7 +249,7 @@ class Structure {
     /**
      * @return WP_Post[]
      */
-    public function get_parent_woocommerce_shop_page() {
+    public function get_parent_woocommerce_shop_page(): array {
         return CacheFactory::get($this->id, __METHOD__, function() {
             $R = [];
             if (function_exists('WC') && WC() instanceof WooCommerce) {
@@ -279,7 +279,7 @@ class Structure {
     /**
      * @return array
      */
-    public function get_parent_wp_object_by_nav() {
+    public function get_parent_wp_object_by_nav(): array {
         return CacheFactory::get($this->id, __METHOD__, function() {
             $R = [];
             foreach (get_nav_menu_locations() as $location) {
@@ -309,10 +309,10 @@ class Structure {
     /**
      * @return array|WP_Post[]|WP_Post_Type[]|WP_Term[]
      */
-    public function get_parent_wp_object_variants() {
+    public function get_parent_wp_object_variants(): array {
         return CacheFactory::get($this->id, __METHOD__, function() {
             $R = [];
-            //TODO: сделать возможность установки приморитетов
+            //TODO: сделать возможность установки приоритетов
             if ($this->wp_object instanceof WP_Post) {
                 if (count($this->get_parent_wp_post()) > 0) {
                     $R = $this->get_parent_wp_post();
@@ -376,7 +376,7 @@ class Structure {
      * @param bool $return_current - возвращать вместе с текущей структурой в массиве
      * @return Structure[]
      */
-    public function get_parents($return_current = true) {
+    public function get_parents($return_current = true): array {
         return CacheFactory::get($this->id, __METHOD__, function() {
             $R = func_get_arg(0) ? [ $this->get_id() => $this ] : [];
             $parent_objects = $this->get_parent_wp_object_variants();
@@ -392,7 +392,7 @@ class Structure {
     /**
      * @return array
      */
-    public function get_parent_urls() {
+    public function get_parent_urls(): array {
         return CacheFactory::get($this->id, __METHOD__, function() {
             $R = [];
             foreach ($this->get_parents() as $structure) {
@@ -407,7 +407,7 @@ class Structure {
      * @param null $wp_object
      * @return bool
      */
-    public function has_children_object($wp_object = null) {
+    public function has_children_object($wp_object = null): bool {
         if (is_null($wp_object) && function_exists('get_queried_object')) $wp_object = get_queried_object();
         if ($this->id == StructuresFactory::get_id_from_object($wp_object)) {
             return true;
@@ -426,7 +426,7 @@ class Structure {
      * @param null $wp_object
      * @return bool
      */
-    public function has_parents_object($wp_object = null) {
+    public function has_parents_object($wp_object = null): bool {
         if (is_null($wp_object) && function_exists('get_queried_object')) $wp_object = get_queried_object();
         $wp_object_id = StructuresFactory::get_id_from_object($wp_object);
         if ($this->id == $wp_object_id) {
@@ -447,7 +447,7 @@ class Structure {
      * @return bool
      * @version 1.0
      */
-    public function is_current() {
+    public function is_current(): bool {
         if ( !function_exists('get_queried_object')) return false;
         $current_object_id = StructuresFactory::get_id_from_object(get_queried_object());
         $this_wp_object_id = $this->wp_object;

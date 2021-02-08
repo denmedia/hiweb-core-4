@@ -155,6 +155,26 @@ if ( !function_exists('hw_the_field_default')) {
     }
 }
 
+if ( !function_exists('get_parent_rows')) {
+    /**
+     * Return parent array of the current rows
+     * @return array
+     */
+    function get_parent_rows(): array {
+        return FieldsFactory_Rows::get_parent();
+    }
+}
+
+if ( !function_exists('hw_get_parent_rows')) {
+    /**
+     * Return parent array of the current rows
+     * @return array
+     */
+    function hw_get_parent_rows(): array {
+        return FieldsFactory_Rows::get_parent();
+    }
+}
+
 ////ROWS
 
 if ( !function_exists('have_rows')) {

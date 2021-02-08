@@ -16,7 +16,7 @@ use WP_User;
 /**
  * Class FieldsFactory
  * @package hiweb\components\Fields
- * @version 1.2
+ * @version 1.3
  */
 class FieldsFactory {
 
@@ -50,7 +50,7 @@ class FieldsFactory {
      * @param string $field_options_class - set options class name or leave them
      * @return mixed|Field_Options - return \hiweb\components\Fields\Field_Options or similar options instance
      */
-    static function add_field(Field $Field, $field_options_class = '\hiweb\components\Fields\Field_Options') {
+    static function add_field(Field $Field, $field_options_class = '\hiweb\components\Fields\Field_Options'): Field_Options {
         $global_ID = self::get_free_global_id($Field->id());
         $Field->global_id = $global_ID;
         self::$fields[$global_ID] = $Field;
@@ -62,7 +62,7 @@ class FieldsFactory {
     /**
      * @return array|Field[]
      */
-    static function get_fields() {
+    static function get_fields(): array {
         return self::$fields;
     }
 
@@ -72,11 +72,11 @@ class FieldsFactory {
      * @param string $field_ID
      * @return array|Field[]
      */
-    static function get_search_fields_by_id($field_ID = 'field*') {
+    static function get_search_fields_by_id($field_ID = 'field*'): array {
         $R = [];
         $field_ID = strtr($field_ID, [ '*' => '.*', '-' => '\-' ]);
         foreach (self::get_fields() as $id => $field) {
-            if (preg_match('/^' . $field_ID . '$/i', $id) > 0) $R[$field->global_id()] = $field;
+            if (preg_match('/^' . $field_ID . '$/i', $id) > 0) $R[$field->get_global_id()] = $field;
         }
         return $R;
     }
@@ -106,7 +106,7 @@ class FieldsFactory {
      * @return array
      * @version 1.1
      */
-    static function diff($locationQuery, $fieldLocation, $parent_key = null, $parent_operator = '&') {
+    static function diff($locationQuery, $fieldLocation, $parent_key = null, $parent_operator = '|'): array {
         $R = [];
         ///Prepare Arrays
         $is_end_of_branch = true;
@@ -208,17 +208,25 @@ class FieldsFactory {
     /**
      * @param $locationQuery
      * @return Field[]
+     * @version 1.1
      */
-    static function get_field_by_query($locationQuery) {
+    static function get_fields_by_query($locationQuery): array {
         return CacheFactory::get(json_encode($locationQuery), '\hiweb\components\Fields\FieldsFactory::get_field_by_query', function() {
             $locationQuery = func_get_arg(0);
             if (is_string($locationQuery)) $locationQuery = json_decode($locationQuery, true);
             $Fields = [];
+            $fields_by_order = [];
             foreach (FieldsFactory::get_fields() as $global_id => $Field) {
                 $field_location_options = $Field->options()->location()->_get_optionsCollect();
                 if (count($field_location_options) == 0) continue;
                 $diff = self::diff($locationQuery, $field_location_options);
                 if (count($diff) == 0) {
+                    $fields_by_order[$Field->options()->location()->order()][$Field->get_id()] = $Field;
+                }
+            }
+            ksort($fields_by_order);
+            foreach ($fields_by_order as $order => $fields) {
+                foreach ($fields as $global_id => $Field) {
                     $Fields[$Field->id()] = $Field;
                 }
             }
@@ -304,11 +312,11 @@ class FieldsFactory {
      * @param                                                $field_ID
      * @param null|string|WP_Post|WP_User|WP_Comment|WP_Term $objectContext
      * @param null|mixed                                     $setValue - new value
-     * @return false
+     * @return bool|int|\WP_Error
      */
     static function set_field_value($field_ID, $objectContext = null, $setValue = null) {
         $contextObject_sanitize = FieldsFactory::get_sanitize_objectContext($objectContext);
-        $fields = self::get_field_by_query(self::get_query_from_contextObject($contextObject_sanitize));
+        $fields = self::get_fields_by_query(self::get_query_from_contextObject($contextObject_sanitize));
         if (array_key_exists($field_ID, $fields)) {
             $field = $fields[$field_ID];
             if ($contextObject_sanitize instanceof WP_Post) {

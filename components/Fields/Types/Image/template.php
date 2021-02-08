@@ -26,9 +26,9 @@ if ($this->the_Image()->is_exists()) {
 $style->push('width', $this->options()->admin_width());
 $style->push('height', $this->options()->admin_height());
 ?>
-<div <?= $this->get_admin_wrap_tag_properties([ 'data-has-file' => $has_file ? '1' : '0', 'data-file-mime' => $this->the_Image()->get_mime_type() ]) ?> style="<?= $style->get_as_tag_style() ?>">
+<div <?= $this->get_admin_wrap_tag_properties([ 'data-has-file' => $has_file ? '1' : '0', 'data-file-mime' => $this->the_Image()->get_mime_type() ], $name) ?> style="<?= $style->get_as_tag_style() ?>">
     <div data-image-place style="<?= $style2->get_as_tag_style() ?>"></div>
-    <input type="hidden" value="<?= htmlentities($value) ?>" name="<?= $name ?>"/>
+    <input type="hidden" value="<?= esc_attr($value) ?>" name="<?= $name ?>"/>
     <!--CONTROL-->
     <div data-image-control-wrap="0">
         <a data-click="select" href="#"><?= FontAwesomeFactory::get('<i class="fad fa-folder-open"></i>') ?></a>

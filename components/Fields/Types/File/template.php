@@ -26,7 +26,7 @@ $attributes = [
 ];
 
 ?>
-<div <?= $this->get_admin_wrap_tag_properties($attributes) ?>>
+<div <?= $this->get_admin_wrap_tag_properties($attributes, $name) ?>>
     <input type="hidden" value="<?= htmlentities($value) ?>" name="<?= $name ?>"/>
     <div data-status="empty">
         <input type="text" disabled data-message="empty" value="<?= htmlentities($this->options()->label_empty()) ?>"/>

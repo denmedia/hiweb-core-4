@@ -28,7 +28,7 @@
 	] );
 
 ?>
-<div <?=$this->get_admin_wrap_tag_properties($attributes)?>>
+<div <?=$this->get_admin_wrap_tag_properties($attributes, $name)?>>
 	<div class="images-top-panel">
 		<div class="images-top-panel-label"><?= $this->options()->label_top() ?> : <b data-images-count-wrap><?= count( $value_sanitized ) ?></b></div>
 		<div data-constrol-wrap>

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: hiweb-core-4\n"
-"POT-Creation-Date: 2021-01-27 22:05+0300\n"
-"PO-Revision-Date: 2021-01-27 22:05+0300\n"
+"POT-Creation-Date: 2021-01-30 20:16+0300\n"
+"PO-Revision-Date: 2021-01-30 20:17+0300\n"
 "Last-Translator: DenMedia\n"
 "Language-Team: DenMedia\n"
 "Language: ru\n"
@@ -18,6 +18,32 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: .\n"
+
+#: components/Landing/Landing.php:33
+msgid "Add new section"
+msgstr "Добавить новую секцию"
+
+#: components/Landing/Landing.php:35
+msgid "Stretch a section to its full available width"
+msgstr "Растягивать секцию на всю доступную ширину страницы"
+
+#: components/Landing/Landing.php:36
+msgid "Background color"
+msgstr "Цвет фона"
+
+#: components/Landing/Landing.php:42
+msgid "Column for objects"
+msgstr "Колонка для объектов"
+
+#: components/Landing/Landing.php:42
+msgid ""
+"To place objects in this column, place them directly below. In order for new "
+"objects to fall into a new column, create one more object \"column for "
+"objects\" and place new objects after it."
+msgstr ""
+"Чтобы поместить объекты в данную колонку, разместите их непосредственно "
+"ниже. Чтобы новые объекты попадали уже в новую колонку, создайде еще один "
+"объект \"колонка для объектов\" и новые объекты размещайте уже после нее."
 
 #: components/error_404/options.php:3
 msgid "Page 404"
@@ -46,6 +72,105 @@ msgstr "Текстовое содержимое страницы"
 #: components/forms/form_submit.php:51
 msgid "Invalid form field"
 msgstr "Не верное поле формы"
+
+#: components/forms/inputs/button.php:21
+msgid "Submit"
+msgstr "Отправить"
+
+#: components/forms/inputs/button.php:21
+msgid "Button with text"
+msgstr "Кнопка с текстом"
+
+#: components/forms/inputs/button.php:22
+msgid "Form submit"
+msgstr "Отправить форму"
+
+#: components/forms/inputs/button.php:22
+msgid "Form reset"
+msgstr "Сбросить форму"
+
+#: components/forms/inputs/checkbox.php:21
+msgid "Option item"
+msgstr "Элемент опции"
+
+#: components/forms/inputs/checkbox.php:21
+msgid "Checkbox"
+msgstr "Чекбокс (галочка)"
+
+#: components/forms/inputs/checkbox.php:22
+msgid "Name (id) of field"
+msgstr "Имя (id) поля на латинице"
+
+#: components/forms/inputs/checkbox.php:23
+msgid "Required to filed"
+msgstr "Обязательно для заполнения"
+
+#: components/forms/inputs/checkbox.php:24
+msgid "Incorrectly filled field message"
+msgstr "Сообщение о неверно заполненном поле"
+
+#: components/forms/inputs/checkbox.php:24
+msgid "You have filled in the field incorrectly"
+msgstr "Вы не верно заполнили поле"
+
+#: components/forms/inputs/checkbox.php:25
+msgid "Do not send this field by mail"
+msgstr "Не отправлять данное поле по email"
+
+#: components/forms/options.php:18
+msgid "Options"
+msgstr "Опции"
+
+#: components/forms/options.php:21
+msgid "Main settings"
+msgstr "Основные настройки"
+
+#: components/forms/options.php:21
+msgid "Destination address of the recipient of messages from forms"
+msgstr "Целевой адрес получателя сообщений с форм"
+
+#: components/forms/options.php:22
+msgid "The mail address to which messages will be sent."
+msgstr "Адрес почты, на который будет отправляться сообщения."
+
+#: components/forms/options.php:22
+#, php-format
+msgid ""
+"This will be the default address for receiving messages. If you leave this "
+"field empty, emails will be sent to the super-admin address <b>% s <a href="
+"\"%s\" data-tooltip=\"Change this address\" title=\"Change this address\"> "
+"<i class = \"fas fa -pencil-alt \"> </i> </a> </b> For each form, you can "
+"also set an individual address. You can also specify several addresses "
+"separated by commas or spaces, for example: <code> info@email.com "
+"admin@email.com </code>"
+msgstr ""
+"Этот адрес будет стандартным для приема сообщений. Если оставить поле "
+"пустым, письма будут отправляться на адрес супер-администратора <b>%s <a "
+"href=\"%s\" data-tooltip=\"Изменить этот адрес\" title=\"Изменить этот адрес"
+"\"><i class=\"fas fa-pencil-alt\"></i></a></b> Для каждой формы так же можно "
+"установить индивидуальный адрес. Так же можно указать несколько адресов "
+"через запятую или пробел, например: <code>info@email.com admin@email.com</"
+"code>"
+
+#: components/forms/options.php:29
+msgid "Privacy policy"
+msgstr "Политика конфиденциальности"
+
+#: components/forms/options.php:29
+msgid "Checkbox for form with information"
+msgstr "Галочка для формы с информацией"
+
+#: components/forms/parts/columns-shortcode.php:3
+msgid "Print form widget"
+msgstr "Вывести виджет формы"
+
+#: components/forms/parts/columns-shortcode.php:3
+msgid "Print button calling modal form"
+msgstr "Вывести кнопку, открывающая форму в модальном окне"
+
+#: components/forms/parts/columns-shortcode.php:3
+msgid "Open contact form"
+msgstr "Открыть форму"
 
 #: components/forms/post-type-messages.php:7
 msgid "All messages"
@@ -111,6 +236,146 @@ msgstr "UTL отслеживаемые данные"
 #: components/forms/post-type-messages.php:48
 msgid "Form data"
 msgstr "Данные формы"
+
+#: components/forms/post-type.php:31
+msgid "Contact Form"
+msgstr "Контактные формы"
+
+#: components/forms/post-type.php:31 components/forms/post-type.php:37
+msgid "Forms"
+msgstr "Формы"
+
+#: components/forms/post-type.php:38
+msgid "Create form"
+msgstr "Создать форму"
+
+#: components/forms/post-type.php:41
+msgid "Form"
+msgstr "Форма"
+
+#: components/forms/post-type.php:42
+msgid "Show form title"
+msgstr "Показывать заголовок формы"
+
+#: components/forms/post-type.php:44
+msgid "Input fields"
+msgstr "Поля данных"
+
+#: components/forms/post-type.php:44
+msgid "Shortcodes"
+msgstr "Шорткоды"
+
+#: components/forms/post-type.php:67
+msgid "List of filled data"
+msgstr "Список заполненных данных"
+
+#: components/forms/post-type.php:68
+msgid "Content of this field (replace {name} with the field name)"
+msgstr "Содержимое данного поля (замените {name} на латинское название поля)"
+
+#: components/forms/post-type.php:75
+msgid "Submission status of this form"
+msgstr "Статус отправки сообщений формы"
+
+#: components/forms/post-type.php:77
+msgid "AJAX form submit status"
+msgstr "AJAX статус отправки данных"
+
+#: components/forms/post-type.php:77
+#, php-format
+msgid ""
+"These settings are relevant only for this form. If left blank, the default "
+"settings from the <a data-tooltip=\"Open Options Page\" href=\"%s\"> Form "
+"Options </a> page will be used instead"
+msgstr ""
+"Эти настройки актуальны только для данной формы. Если оставить их "
+"незаполненными, вместо них будут использованы стандартные установки со "
+"страницы <a data-tooltip=\"Открыть страницу опций\" href=\"%s\">Опции формы</"
+"a>"
+
+#: components/forms/post-type.php:78
+msgid "Submission process icon"
+msgstr "Иконка процесса отправки"
+
+#: components/forms/post-type.php:79
+msgid "Successful message icon"
+msgstr "Иконка удачной отправки сообщения"
+
+#: components/forms/post-type.php:80
+msgid "Incorrectly filled form icon"
+msgstr "Иконка неверно заполненной формы"
+
+#: components/forms/post-type.php:81
+msgid "Error icon while submitting"
+msgstr "Иконка ошибки во время отправки"
+
+#: components/forms/post-type.php:82
+msgid "Form submit text"
+msgstr "Текст отправки формы"
+
+#: components/forms/post-type.php:83
+msgid "Successful form submission text"
+msgstr "Текст удачной отправки формы"
+
+#: components/forms/post-type.php:84
+msgid "Filled form error text"
+msgstr "Текст ошибки заполненной формы"
+
+#: components/forms/post-type.php:85
+msgid "Error text during form submission"
+msgstr "Текст ошибки в процессе отправки формы"
+
+#: components/forms/post-type.php:86
+msgid "Email templates"
+msgstr "Шаблоны писем email"
+
+#: components/forms/post-type.php:88
+msgid "Email templates for this form"
+msgstr "Шаблоны для данной формы"
+
+#: components/forms/post-type.php:88
+#, php-format
+msgid ""
+"These template settings are relevant only for this form. If left blank, the "
+"default settings from the <a data-tooltip=\"Open Options Page\" href=\"%s\"> "
+"Form Options </a> page will be used instead"
+msgstr ""
+"Эти настройки шаблонов актуальны только для данной формы. Если оставить их "
+"незаполненными, вместо них будут использованы стандартные установки со "
+"страницы <a data-tooltip=\"Открыть страницу опций\" href=\"%s\">Опции формы</"
+"a>"
+
+#: components/forms/post-type.php:89
+msgid "Email subject for admin"
+msgstr "Тема письма для администратора"
+
+#: components/forms/post-type.php:90
+msgid "Default email content for admin"
+msgstr "Стандартное содержимое письма для администратора"
+
+#: components/forms/post-type.php:91
+msgid ""
+"Send a email to the form filler to the address specified by him, if the form "
+"had an email field and it was filled in correctly."
+msgstr ""
+"Отправлять письмо заполнителю формы по указанному им адресу, в случае, если "
+"в форме было поле email и оно было корректно заполнено."
+
+#: components/forms/post-type.php:92
+msgid "Placeholder email subject"
+msgstr "Тема письма для заполнителя"
+
+#: components/forms/post-type.php:93
+msgid "Default email content for placeholder"
+msgstr "Стандартное содержимое письма для заполнителя"
+
+#: components/forms/post-type.php:96
+msgid "JavaScript that will be executed if the form is submitted successfully."
+msgstr "JavaScript, который будет выполнен в случае удачной отправки формы."
+
+#: components/forms/post-type.php:96
+msgid "Filling example:"
+msgstr "Пример заполнения:"
 
 #: components/migration/includes/hooks.php:84
 msgid "Migration Panel"
@@ -390,8 +655,8 @@ msgstr "Выбрать варианты"
 msgid "Select option"
 msgstr "Выбрать вариант"
 
-#: hiweb-core-4/components/Fields/assets/fields.js:38
-#: hiweb-core-4/components/Fields/assets/fields.min.js:8
+#: hiweb-core-4/components/Fields/assets/fields.js:301
+#: hiweb-core-4/components/Fields/assets/fields.min.js:17
 msgid "The changes you made will be lost if you navigate away from this page."
 msgstr ""
 "Изменения, которые Вы сделали делали, не сохраняться, если Вы покините эту "
@@ -431,6 +696,14 @@ msgstr "Дубликат был создан."
 msgid "Failed to create duplicate entry"
 msgstr "Ошибка создания дубля"
 
+#: hiweb-core-4/components/RewriteSlugs/RewriteSlugs.php:13
+msgid ""
+"Rewrite base slug for post type archive page, base custom post and "
+"taxonomies."
+msgstr ""
+"Перезаписывать базовый slug для архивных страниц, таксономий и посадочных "
+"страниц."
+
 #: hiweb-core-4/components/RewriteSlugs/init.php:3
 #, php-format
 msgid ""
@@ -440,27 +713,18 @@ msgstr ""
 "Перезаписывать базовый slug для архивных страниц, таксономий и посадочных "
 "страниц. Для настройки, перейдите в %s"
 
-#: hiweb-core-4/components/RewriteSlugs/options.php:3
-msgid ""
-"Rewrite base slug for post type archive page, base custom post and "
-"taxonomies."
-msgstr ""
-"Перезаписывать базовый slug для архивных страниц, таксономий и посадочных "
-"страниц."
-
-#: hiweb-core-4/components/RewriteSlugs/options.php:9
-msgid "Enable"
-msgstr "Включить"
-
-#: hiweb-core-4/components/RewriteSlugs/options.php:13
+#: hiweb-core-4/components/RewriteSlugs/options-post_type.php:21
+#: hiweb-core-4/components/RewriteSlugs/options-taxonomies.php:12
 msgid "Rewrite archive page slug"
 msgstr "Перезаписать slug архивной страницы"
 
-#: hiweb-core-4/components/RewriteSlugs/options.php:14
+#: hiweb-core-4/components/RewriteSlugs/options-post_type.php:22
+#: hiweb-core-4/components/RewriteSlugs/options-taxonomies.php:13
 msgid "Disable paginate on archive page"
 msgstr "Отключить пагинация на архивной странице"
 
-#: hiweb-core-4/components/RewriteSlugs/options.php:14
+#: hiweb-core-4/components/RewriteSlugs/options-post_type.php:22
+#: hiweb-core-4/components/RewriteSlugs/options-taxonomies.php:13
 msgid ""
 "This option is useful if you do not plan to use pagination on the archive "
 "page of this post type. For example, ajax loading posts or just displaying "
@@ -469,16 +733,6 @@ msgstr ""
 "Эта опция полезна в случае, если Вы не планируете использовать пагинацию на "
 "архивной страницы даннойго типа записей. Например, ajax загрузка записей или "
 "просто вывод подкатегорий, вместо записей."
-
-#: hiweb-core-4/components/RewriteSlugs/options.php:19
-#, php-format
-msgid "Taxonomies of %s"
-msgstr "Таксономии для %s"
-
-#: hiweb-core-4/components/RewriteSlugs/options.php:24
-#, php-format
-msgid "Slug of %s"
-msgstr "Slug для %s"
 
 #: hiweb-core-4/components/Taxonomy_Main_Select/init.php:3
 msgid "Taxonomy/Category Main Select"
@@ -553,192 +807,14 @@ msgstr "&mdash; Выбрать &mdash;"
 msgid "Edit Menu"
 msgstr "Редактировать меню"
 
-#~ msgid "Submit"
-#~ msgstr "Отправить"
+#~ msgid "Enable"
+#~ msgstr "Включить"
 
-#~ msgid "Button with text"
-#~ msgstr "Кнопка с текстом"
+#~ msgid "Taxonomies of %s"
+#~ msgstr "Таксономии для %s"
 
-#~ msgid "Form submit"
-#~ msgstr "Отправить форму"
-
-#~ msgid "Form reset"
-#~ msgstr "Сбросить форму"
-
-#~ msgid "Option item"
-#~ msgstr "Элемент опции"
-
-#~ msgid "Checkbox"
-#~ msgstr "Чекбокс (галочка)"
-
-#~ msgid "Name (id) of field"
-#~ msgstr "Имя (id) поля на латинице"
-
-#~ msgid "Required to filed"
-#~ msgstr "Обязательно для заполнения"
-
-#~ msgid "Incorrectly filled field message"
-#~ msgstr "Сообщение о неверно заполненном поле"
-
-#~ msgid "You have filled in the field incorrectly"
-#~ msgstr "Вы не верно заполнили поле"
-
-#~ msgid "Do not send this field by mail"
-#~ msgstr "Не отправлять данное поле по email"
-
-#~ msgid "Options"
-#~ msgstr "Опции"
-
-#~ msgid "Main settings"
-#~ msgstr "Основные настройки"
-
-#~ msgid "Destination address of the recipient of messages from forms"
-#~ msgstr "Целевой адрес получателя сообщений с форм"
-
-#~ msgid "The mail address to which messages will be sent."
-#~ msgstr "Адрес почты, на который будет отправляться сообщения."
-
-#~ msgid ""
-#~ "This will be the default address for receiving messages. If you leave "
-#~ "this field empty, emails will be sent to the super-admin address <b>% s "
-#~ "<a href=\"%s\" data-tooltip=\"Change this address\" title=\"Change this "
-#~ "address\"> <i class = \"fas fa -pencil-alt \"> </i> </a> </b> For each "
-#~ "form, you can also set an individual address. You can also specify "
-#~ "several addresses separated by commas or spaces, for example: <code> "
-#~ "info@email.com admin@email.com </code>"
-#~ msgstr ""
-#~ "Этот адрес будет стандартным для приема сообщений. Если оставить поле "
-#~ "пустым, письма будут отправляться на адрес супер-администратора <b>%s <a "
-#~ "href=\"%s\" data-tooltip=\"Изменить этот адрес\" title=\"Изменить этот "
-#~ "адрес\"><i class=\"fas fa-pencil-alt\"></i></a></b> Для каждой формы так "
-#~ "же можно установить индивидуальный адрес. Так же можно указать несколько "
-#~ "адресов через запятую или пробел, например: <code>info@email.com "
-#~ "admin@email.com</code>"
-
-#~ msgid "Privacy policy"
-#~ msgstr "Политика конфиденциальности"
-
-#~ msgid "Checkbox for form with information"
-#~ msgstr "Галочка для формы с информацией"
-
-#~ msgid "Print form widget"
-#~ msgstr "Вывести виджет формы"
-
-#~ msgid "Print button calling modal form"
-#~ msgstr "Вывести кнопку, открывающая форму в модальном окне"
-
-#~ msgid "Open contact form"
-#~ msgstr "Открыть форму"
-
-#~ msgid "Contact Form"
-#~ msgstr "Контактные формы"
-
-#~ msgid "Forms"
-#~ msgstr "Формы"
-
-#~ msgid "Create form"
-#~ msgstr "Создать форму"
-
-#~ msgid "Form"
-#~ msgstr "Форма"
-
-#~ msgid "Show form title"
-#~ msgstr "Показывать заголовок формы"
-
-#~ msgid "Input fields"
-#~ msgstr "Поля данных"
-
-#~ msgid "Shortcodes"
-#~ msgstr "Шорткоды"
-
-#~ msgid "List of filled data"
-#~ msgstr "Список заполненных данных"
-
-#~ msgid "Content of this field (replace {name} with the field name)"
-#~ msgstr ""
-#~ "Содержимое данного поля (замените {name} на латинское название поля)"
-
-#~ msgid "Submission status of this form"
-#~ msgstr "Статус отправки сообщений формы"
-
-#~ msgid "AJAX form submit status"
-#~ msgstr "AJAX статус отправки данных"
-
-#~ msgid ""
-#~ "These settings are relevant only for this form. If left blank, the "
-#~ "default settings from the <a data-tooltip=\"Open Options Page\" href=\"%s"
-#~ "\"> Form Options </a> page will be used instead"
-#~ msgstr ""
-#~ "Эти настройки актуальны только для данной формы. Если оставить их "
-#~ "незаполненными, вместо них будут использованы стандартные установки со "
-#~ "страницы <a data-tooltip=\"Открыть страницу опций\" href=\"%s\">Опции "
-#~ "формы</a>"
-
-#~ msgid "Submission process icon"
-#~ msgstr "Иконка процесса отправки"
-
-#~ msgid "Successful message icon"
-#~ msgstr "Иконка удачной отправки сообщения"
-
-#~ msgid "Incorrectly filled form icon"
-#~ msgstr "Иконка неверно заполненной формы"
-
-#~ msgid "Error icon while submitting"
-#~ msgstr "Иконка ошибки во время отправки"
-
-#~ msgid "Form submit text"
-#~ msgstr "Текст отправки формы"
-
-#~ msgid "Successful form submission text"
-#~ msgstr "Текст удачной отправки формы"
-
-#~ msgid "Filled form error text"
-#~ msgstr "Текст ошибки заполненной формы"
-
-#~ msgid "Error text during form submission"
-#~ msgstr "Текст ошибки в процессе отправки формы"
-
-#~ msgid "Email templates"
-#~ msgstr "Шаблоны писем email"
-
-#~ msgid "Email templates for this form"
-#~ msgstr "Шаблоны для данной формы"
-
-#~ msgid ""
-#~ "These template settings are relevant only for this form. If left blank, "
-#~ "the default settings from the <a data-tooltip=\"Open Options Page\" href="
-#~ "\"%s\"> Form Options </a> page will be used instead"
-#~ msgstr ""
-#~ "Эти настройки шаблонов актуальны только для данной формы. Если оставить "
-#~ "их незаполненными, вместо них будут использованы стандартные установки со "
-#~ "страницы <a data-tooltip=\"Открыть страницу опций\" href=\"%s\">Опции "
-#~ "формы</a>"
-
-#~ msgid "Email subject for admin"
-#~ msgstr "Тема письма для администратора"
-
-#~ msgid "Default email content for admin"
-#~ msgstr "Стандартное содержимое письма для администратора"
-
-#~ msgid ""
-#~ "Send a email to the form filler to the address specified by him, if the "
-#~ "form had an email field and it was filled in correctly."
-#~ msgstr ""
-#~ "Отправлять письмо заполнителю формы по указанному им адресу, в случае, "
-#~ "если в форме было поле email и оно было корректно заполнено."
-
-#~ msgid "Placeholder email subject"
-#~ msgstr "Тема письма для заполнителя"
-
-#~ msgid "Default email content for placeholder"
-#~ msgstr "Стандартное содержимое письма для заполнителя"
-
-#~ msgid ""
-#~ "JavaScript that will be executed if the form is submitted successfully."
-#~ msgstr "JavaScript, который будет выполнен в случае удачной отправки формы."
-
-#~ msgid "Filling example:"
-#~ msgstr "Пример заполнения:"
+#~ msgid "Slug of %s"
+#~ msgstr "Slug для %s"
 
 #~ msgid "Save Changes"
 #~ msgstr "Сохранить Изменения"

@@ -9,26 +9,42 @@
 use hiweb\components\Fields\Types\Select\Field_Select;
 
 
-$options = $this->options()->options();
 $value = $this->get_sanitize_admin_value($value);
+$options = $this->options()->options();
 if ( !is_array($options)) $options = [];
-$options_html = '<option value="">' . htmlentities($this->options()->placeholder()) . '</option>';
+///
+if($this->options()->allow_empty() != true) $options_html = array_key_exists('', $options) ? '' : '<option value="">' . htmlentities($this->options()->placeholder()) . '</option>';
+else $options_html = '';
+$optgroup = false;
 foreach ($options as $key => $val) {
-    $selected = '';
-    if ( !is_null($value) && $key == $value || $val === $value) {
-        $selected = 'selected';
+    if (is_array($val)) {
+        if ($optgroup !== false) $options_html .= '</optgroup>';
+        $options_html .= '<optgroup label="' . esc_attr($key) . '">';
+    } else {
+        $val = [ $key => $val ];
     }
-    $options_html .= '<option ' . $selected . ' value="' . htmlentities($key == 0 ? $val : $key, ENT_QUOTES, 'UTF-8') . '">' . $val . '</option>';
+    ///
+    foreach ($val as $option_key => $option_val) {
+        if ($option_key == '' && is_null($this->options()->allow_empty())) $this->options()->allow_empty(true);
+        $selected = ( !is_null($value) && $option_key == $value || $option_val === $value) ? 'selected="1"' : '';
+        $options_html .= '<option ' . $selected . ' value="' . esc_attr($option_key) . '">' . $option_val . '</option>';
+    }
 }
-$attributes = new \hiweb\core\ArrayObject\ArrayObject();
-$attributes->push('name', $name);
+if ($optgroup !== false) $options_html .= '</optgroup>';
+///
+$attributes = get_array();
 if ($this->options()->multiple()) {
     $attributes->push('multiple', '');
 }
 if ($this->options()->placeholder() != '') {
     $attributes->push('placeholder', $this->options()->placeholder());
+} else if (array_key_exists('', $options)) {
+    $attributes->push('placeholder', $options['']);
 }
+$attributes->push('data-allow_empty', $this->options()->allow_empty() ? '1' : '0');
+$attributes->push('data-max_items', $this->options()->multiple() === true ? 9999 : $this->options()->multiple());
+//$attributes->push('data-options', $options);
 ?>
 <div <?= $this->get_admin_wrap_tag_properties([], $name) ?>>
-    <select <?= $this->get_admin_input_tags_name_properties() ?> <?= $attributes->get_as_tag_attributes() ?>><?= $options_html ?></select>
+    <select <?= $this->get_admin_input_tags_name_properties($name, absint($this->options()->multiple()) > 0 ? '[]' : null) ?> <?= $attributes->get_as_tag_attributes() ?>><?= $options_html ?></select>
 </div>

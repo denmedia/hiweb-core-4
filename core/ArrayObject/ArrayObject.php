@@ -45,7 +45,7 @@ class ArrayObject extends \ArrayObject {
      * @param null $array
      * @return ArrayObject
      */
-    static function get_instance($array = null) {
+    static function get_instance($array = null): ArrayObject {
         return new ArrayObject($array);
     }
 
@@ -53,7 +53,7 @@ class ArrayObject extends \ArrayObject {
     /**
      * @return string
      */
-    public function __toString() {
+    public function __toString(): string {
         return htmlentities($this->json()->JSON_PRETTY_PRINT()->get());
     }
 
@@ -73,7 +73,7 @@ class ArrayObject extends \ArrayObject {
      * @param $name
      * @return bool
      */
-    public function __isset($name) {
+    public function __isset($name): bool {
         return $this->is_key_exists($name);
     }
 
@@ -82,7 +82,7 @@ class ArrayObject extends \ArrayObject {
      * @param $name
      * @return ArrayObject
      */
-    public function __unset($name) {
+    public function __unset($name): ArrayObject {
         return $this->unset_key($name);
     }
 
@@ -108,7 +108,7 @@ class ArrayObject extends \ArrayObject {
     /**
      * @return ArrayObject_Json
      */
-    public function json() {
+    public function json(): ArrayObject_Json {
         if ( !$this->Json instanceof ArrayObject_Json) $this->Json = new ArrayObject_Json($this);
         return $this->Json;
     }
@@ -117,7 +117,7 @@ class ArrayObject extends \ArrayObject {
     /**
      * @return ArrayObject_Rows
      */
-    public function rows() {
+    public function rows(): ArrayObject_Rows {
         if ( !$this->Rows instanceof ArrayObject_Rows) $this->Rows = new ArrayObject_Rows($this);
         return $this->Rows;
     }
@@ -127,7 +127,7 @@ class ArrayObject extends \ArrayObject {
      * Return original array
      * @return array
      */
-    public function get() {
+    public function get(): array {
         return $this->array;
     }
 
@@ -135,7 +135,7 @@ class ArrayObject extends \ArrayObject {
     /**
      * @return array
      */
-    public function get_keys() {
+    public function get_keys(): array {
         return array_keys($this->get());
     }
 
@@ -480,7 +480,7 @@ class ArrayObject extends \ArrayObject {
      * @param $value
      * @return bool
      */
-    public function has_value($value) {
+    public function has_value($value): bool {
         $haystack = @array_flip($this->array);
         if (array_key_exists($value, $haystack)) return true;
         return false;
@@ -492,7 +492,7 @@ class ArrayObject extends \ArrayObject {
      * @alias self::has_value
      * @return bool
      */
-    public function in($needle) {
+    public function in($needle): bool {
         return $this->has_value($needle);
     }
 
@@ -501,7 +501,7 @@ class ArrayObject extends \ArrayObject {
      * @param $key
      * @return ArrayObject
      */
-    public function unset_key($key) {
+    public function unset_key($key): ArrayObject {
         $new_array = $this->array;
         if ( !is_array($key) || count($key) == 1) {
             $key = is_array($key) ? reset($key) : $key;
@@ -519,7 +519,7 @@ class ArrayObject extends \ArrayObject {
      * @param $value
      * @return ArrayObject
      */
-    public function unset_value($value) {
+    public function unset_value($value): ArrayObject {
         $keys = $this->key_by_value($value);
         return $this->unset_key($keys);
     }
@@ -544,7 +544,7 @@ class ArrayObject extends \ArrayObject {
      * @param bool $low_priority
      * @return ArrayObject
      */
-    public function merge($mixedOrArray, $low_priority = false) {
+    public function merge($mixedOrArray, $low_priority = false): ArrayObject {
         if (is_array($mixedOrArray)) {
             if ($low_priority) {
                 $this->array = array_merge($mixedOrArray, $this->get());
@@ -588,11 +588,16 @@ class ArrayObject extends \ArrayObject {
     /**
      * Return string like `color: #000; background: #fff`
      * @return string
+     * @version 1.1
      */
-    public function get_as_tag_style() {
+    public function get_as_tag_style(): string {
         $R = [];
         foreach ($this->get() as $key => $val) {
-            $R[] = $key . ':' . addslashes($val);
+            if (is_numeric($key)) {
+                $R[] = addslashes($val);
+            } else {
+                $R[] = $key . ':' . addslashes($val);
+            }
         }
         return join(';', $R);
     }
@@ -604,7 +609,7 @@ class ArrayObject extends \ArrayObject {
      * @deprecated
      * @alias $this->get_as_tag_style();
      */
-    public function get_param_html_style() {
+    public function get_param_html_style(): string {
         return $this->get_as_tag_style();
     }
 
@@ -614,7 +619,7 @@ class ArrayObject extends \ArrayObject {
      * @param bool $return_null_params
      * @return string
      */
-    public function get_param_url($return_null_params = false) {
+    public function get_param_url($return_null_params = false): string {
         $pairs = [];
         foreach ($this->get() as $key => $val) {
             if ( !$return_null_params && is_null($val)) continue;
@@ -629,7 +634,7 @@ class ArrayObject extends \ArrayObject {
      * @param bool $return_null_params
      * @return string
      */
-    public function get_params_url($return_null_params = false) {
+    public function get_params_url($return_null_params = false): string {
         return $this->get_param_url($return_null_params);
     }
 
@@ -638,7 +643,7 @@ class ArrayObject extends \ArrayObject {
      * @param $key
      * @return bool
      */
-    public function key_exists($key) {
+    public function key_exists($key): bool {
         return array_key_exists($key, $this->array);
     }
 
@@ -648,7 +653,7 @@ class ArrayObject extends \ArrayObject {
      * @param $key
      * @return bool
      */
-    public function is_key_exists($key) {
+    public function is_key_exists($key): bool {
         return $this->key_exists($key);
     }
 
@@ -658,7 +663,7 @@ class ArrayObject extends \ArrayObject {
      * @param $new_key
      * @return bool
      */
-    public function key_rename($key, $new_key) {
+    public function key_rename($key, $new_key): bool {
         if ($this->key_exists($key)) {
             $value = $this->array[$key];
             unset($this->array[$key]);

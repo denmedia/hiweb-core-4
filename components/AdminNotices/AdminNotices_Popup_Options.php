@@ -20,7 +20,7 @@
 		private static function Cache(){
 			if( !self::$Cache instanceof Cache ){
 				self::$Cache = CacheFactory::get( self::$options_key, null, [] );
-				self::$Cache->Cache_File()->enable();
+				self::$Cache->file()->set_enable();
 			}
 			return self::$Cache;
 		}
@@ -45,7 +45,7 @@
 			if( intval( $timestamp ) < 1 ) $timestamp = microtime( true );
 			$notices = self::get_timestamp_by_notices();
 			$notices[ $notice_id ] = $timestamp;
-			self::Cache()->Cache_File()->set( $notices, true );
+			self::Cache()->file()->set_value( $notices, true );
 			return self::Cache()->get_value();
 		}
 

@@ -51,8 +51,16 @@ class ArrayObject_Rows {
     /**
      * @return ArrayObject
      */
-    public function arrayObject() {
+    public function arrayObject(): ArrayObject {
         return $this->array;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function get_parent_array(): array {
+        return $this->arrayObject()->get();
     }
 
 
@@ -103,7 +111,7 @@ class ArrayObject_Rows {
      * @param $callable - user function, call event array item
      * @return array - return array of result call user function
      */
-    public function each($callable) {
+    public function each($callable): array {
         $R = [];
         if (is_callable($callable)) {
             $this->reset();
@@ -161,7 +169,7 @@ class ArrayObject_Rows {
     /**
      * @return bool
      */
-    public function is_sub_rows() {
+    public function is_sub_rows(): bool {
         return is_array($this->current_row) && $this->current_sub_rows instanceof ArrayObject_Rows;
     }
 
@@ -257,6 +265,16 @@ class ArrayObject_Rows {
     public function get_count_next() {
         if ( !is_array($this->rows)) return 0;
         return count($this->rows);
+    }
+
+
+    /**
+     * Return true if sub field is array and have rows
+     * @param $col_id
+     * @return ArrayObject_Rows
+     */
+    public function have_sub_rows($col_id): ArrayObject_Rows {
+        return get_array($this->get_sub_field($col_id))->rows();
     }
 
 

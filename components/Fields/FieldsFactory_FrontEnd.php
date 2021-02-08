@@ -72,7 +72,7 @@ class FieldsFactory_FrontEnd {
             ///Find default value
             if (is_null($value) && is_null($default)) {
                 $fields_query = func_get_arg(3);
-                $fields = FieldsFactory::get_field_by_query($fields_query);
+                $fields = FieldsFactory::get_fields_by_query($fields_query);
                 if (array_key_exists($field_ID, $fields)) {
                     $Field = $fields[$field_ID];
                     if ($field_ID == 'show-aside') { //todo-
@@ -93,7 +93,7 @@ class FieldsFactory_FrontEnd {
      */
     static function get_Field($field_ID, $objectContext = null): Field {
         $fields_query = FieldsFactory::get_query_from_contextObject($objectContext);
-        $fields = FieldsFactory::get_field_by_query($fields_query);
+        $fields = FieldsFactory::get_fields_by_query($fields_query);
         if (array_key_exists($field_ID, $fields)) {
             return $fields[$field_ID];
         } else {

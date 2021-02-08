@@ -14,7 +14,7 @@ class Field_Info extends Field {
 
 
     public function get_admin_html($value = null, $name = null) {
-        return '<div ' . $this->get_admin_wrap_tag_properties() . '><input disabled value="' . htmlentities($value) . '"></div>';
+        return '<div ' . $this->get_admin_wrap_tag_properties([], $name) . '><input disabled value="' . htmlentities($value) . '"></div>';
     }
 
 

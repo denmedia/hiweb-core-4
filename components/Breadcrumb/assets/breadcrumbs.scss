@@ -1,0 +1,23 @@
+.breadcrumb {
+
+	display: inline-block;
+	width: max-content;
+
+	svg {
+		display: inline-block;
+		width: 1.2em;
+		height: 1em;
+		line-height: 1;
+		vertical-align: text-top;
+		margin-right: .1em;
+	}
+
+	li {
+		display: inline-block;
+		list-style: none;
+	}
+
+	a {
+		display: inline-block;
+	}
+}

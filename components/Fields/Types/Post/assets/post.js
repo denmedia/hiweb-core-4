@@ -43,7 +43,7 @@ let hiweb_field_type_post = {
         //let data_options = JSON.parse($select.attr('data-options'));
         $select.selectize({
             closeAfterSelect: true,
-            allowEmptyOption: true,
+            allowEmptyOption: false,
             valueField: 'value',
             labelField: 'title',
             searchField: 'title',

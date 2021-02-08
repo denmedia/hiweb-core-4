@@ -122,4 +122,24 @@ class Field_Options extends Options {
         return $this;
     }
 
+
+    /**
+     * Set equation, like '[field_id = ""]' for show this field in form
+     * @param null $equation
+     * @return array|Field_Options|mixed|null
+     */
+    public function show_if($equation = null) {
+        return $this->_('show_if', $equation);
+    }
+
+
+    /**
+     * Set equation, like '[field_id = ""]' for hide this field from form
+     * @param null $equation
+     * @return array|Field_Options|mixed|null
+     */
+    public function hide_if($equation = null) {
+        return $this->_('hide_if', $equation);
+    }
+
 }

@@ -16,7 +16,7 @@
 		}
 		
 		
-		public function get_allow_save_field( $value = null ){
+		public function get_allow_save_field( $value = null ): bool{
 			return false;
 		}
 		

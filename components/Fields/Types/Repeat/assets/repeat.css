@@ -247,9 +247,7 @@
       background: -moz-linear-gradient(0deg, white 0%, rgba(255, 255, 255, 0) 100%);
       background: -webkit-linear-gradient(0deg, white 0%, rgba(255, 255, 255, 0) 100%);
       background: linear-gradient(0deg, white 0%, rgba(255, 255, 255, 0) 100%);
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#ffffff", GradientType=1);
-      -webkit-backdrop-filter: saturate(120%) brightness(120%) blur(1px);
-      backdrop-filter: saturate(120%) brightness(120%) blur(1px); }
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#ffffff", GradientType=1); }
   .hiweb-field_repeat .repeat__row__left, .hiweb-field_repeat .repeat__row__right {
     text-align: center;
     width: auto;
@@ -314,6 +312,7 @@
       color: #72777c; }
   .hiweb-field_repeat .repeat__row__fields {
     flex-basis: 100%;
+    max-height: min-content;
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -322,10 +321,10 @@
     min-height: 2em;
     flex-wrap: wrap;
     justify-content: stretch;
-    -webkit-transition: height 0.2s ease-in-out;
-    -moz-transition: height 0.2s ease-in-out;
-    -o-transition: height 0.2s ease-in-out;
-    transition: height 0.2s ease-in-out;
+    -webkit-transition: height 0.2s ease-in-out, max-height 0.2s ease-in-out;
+    -moz-transition: height 0.2s ease-in-out, max-height 0.2s ease-in-out;
+    -o-transition: height 0.2s ease-in-out, max-height 0.2s ease-in-out;
+    transition: height 0.2s ease-in-out, max-height 0.2s ease-in-out;
     position: relative; }
   .hiweb-field_repeat .repeat__row__options_button {
     text-align: center;

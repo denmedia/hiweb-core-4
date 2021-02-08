@@ -86,7 +86,7 @@ class Field {
      * Return field ID
      * @return string
      */
-    public function id() {
+    public function id(): string {
         return $this->id;
     }
 
@@ -96,7 +96,7 @@ class Field {
      * @alias ID()
      * @return string
      */
-    public function get_id() {
+    public function get_id(): string {
         return $this->id();
     }
 
@@ -145,7 +145,7 @@ class Field {
      * @param $value
      * @return bool
      */
-    public function get_allow_save_field($value = null) {
+    public function get_allow_save_field($value = null): bool {
         return true && !$this->id_empty;
     }
 
@@ -166,6 +166,8 @@ class Field {
             'data-field-global_id' => $this->get_global_id(),
             'data-field-input_name' => $this->get_sanitize_admin_name(( !is_string($name) || trim($name) === '') ? $this->get_id() : $name)
         ]);
+        if(!empty($this->options()->show_if())) $tags->push('data-field-show_if', $this->options()->show_if());
+        if(!empty($this->options()->hide_if())) $tags->push('data-field-hide_if', $this->options()->hide_if());
         if (is_array($append_tags)) $append_tags = get_array($append_tags);
         if ($append_tags instanceof ArrayObject) foreach ($append_tags->get() as $key => $val) {
             if ($tags->is_key_exists($key) && array_key_exists($key, $join_tags)) {

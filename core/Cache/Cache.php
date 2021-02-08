@@ -35,7 +35,7 @@
 		/**
 		 * @return Cache_File
 		 */
-		public function Cache_File(){
+		public function file(): Cache_File {
 			if( !$this->Cache_File instanceof Cache_File ) $this->Cache_File = new Cache_File( $this );
 			return $this->Cache_File;
 		}
@@ -44,7 +44,7 @@
 		/**
 		 * @return Cache_CallbackValue
 		 */
-		public function Cache_CallbackValue(){
+		public function callbackValue(): Cache_CallbackValue {
 			if( !$this->Cache_CallbackValue instanceof Cache_CallbackValue ) $this->Cache_CallbackValue = new Cache_CallbackValue( $this );
 			return $this->Cache_CallbackValue;
 		}
@@ -61,7 +61,7 @@
 		/**
 		 * @return string
 		 */
-		public function __toString(){
+		public function __toString(): string {
 			return (string)$this->value;
 		}
 
@@ -69,7 +69,7 @@
 		/**
 		 * @return string|null
 		 */
-		public function get_variable_name(){
+		public function get_variable_name(): ?string {
 			return $this->variable_name;
 		}
 
@@ -77,28 +77,28 @@
 		/**
 		 * @return string|null
 		 */
-		public function get_group_name(){
+		public function get_group_name(): ?string {
 			return $this->group_name;
 		}
 
 
 		/**
 		 * Get cache value from instant, callback or file if same exists
-		 * @return null
+		 * @return null|mixed
 		 */
 		public function get_value(){
-			if( $this->Cache_File()->is_enable() ){
-				if($this->Cache_File()->is_alive() ){
-					$this->value = $this->Cache_File()->get();
+			if( $this->file()->is_enable() ){
+				if($this->file()->is_alive() ){
+					$this->value = $this->file()->get_value();
 				} else {
-					if( $this->Cache_CallbackValue()->is_callable() && $this->Cache_CallbackValue()->get_count() == 0 ){
-						$this->value = $this->Cache_CallbackValue()->get();
+					if($this->callbackValue()->is_callable() && $this->callbackValue()->get_count() == 0 ){
+						$this->value = $this->callbackValue()->get();
 					}
-					$this->Cache_File()->set( $this->value );
+					$this->file()->set_value( $this->value );
 				}
 			} else {
-				if( $this->Cache_CallbackValue()->is_callable() && $this->Cache_CallbackValue()->get_count() == 0 ){
-					$this->value = $this->Cache_CallbackValue()->get();
+				if($this->callbackValue()->is_callable() && $this->callbackValue()->get_count() == 0 ){
+					$this->value = $this->callbackValue()->get();
 				}
 			}
 			return $this->value;
@@ -109,11 +109,11 @@
 		 * @param mixed $value
 		 * @return Cache
 		 */
-		public function set( $value ){
+		public function set_value( $value ): Cache {
 			$this->value = $value;
 			$this->is_value_set = microtime( true );
-			if( $this->Cache_File()->is_enable() ){
-				$this->Cache_File()->set( $value );
+			if( $this->file()->is_enable() ){
+				$this->file()->set_value( $value );
 			}
 			return $this;
 		}

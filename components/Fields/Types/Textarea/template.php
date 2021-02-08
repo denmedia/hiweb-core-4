@@ -17,6 +17,6 @@ if ($this->options()->placeholder() != '') {
     $attributes->push('placeholder', $this->options()->placeholder());
 }
 ?>
-<div <?= $this->get_admin_wrap_tag_properties() ?>>
+<div <?= $this->get_admin_wrap_tag_properties([], $name) ?>>
     <textarea <?= $this->get_admin_input_tags_name_properties($name) ?> <?=$attributes->get_as_tag_attributes()?>><?= $value ?></textarea>
 </div>

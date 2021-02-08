@@ -82,38 +82,13 @@ class FieldsFactory_Admin {
         return self::$the_form_field_name;
     }
 
-
-    /**
-     * Get current admin fields query
-     * @return array
-     * @deprecated
-     */
-    //    static function get_current_fields_query_by_currentScreen() {
-    //        $R = [
-    //
-    //        ];
-    //        if (function_exists('get_current_screen')) {
-    //            if (get_current_screen()->base == 'post') {
-    //                $R = [
-    //                    'post_type' => [
-    //                        'ID' => $_GET['post'],
-    //                        'post_type' => get_current_screen()->post_type
-    //                    ]
-    //                ];
-    //            } else {
-    //                console_warn(get_current_screen());
-    //            }
-    //        }
-    //        return $R;
-    //    }
-
     /**
      * @param null $location_query
      * @return array
      */
     static function get_current_location_raw_values($location_query = null): array {
         $R = [];
-        $fields = FieldsFactory::get_field_by_query(is_array($location_query) ? $location_query : self::$the_form_fields_query);
+        $fields = FieldsFactory::get_fields_by_query(is_array($location_query) ? $location_query : self::$the_form_fields_query);
         foreach ($fields as $Field) {
             if (array_key_exists('post_type', $location_query)) {
                 if (metadata_exists('post', $location_query['post_type']['ID'], $Field->id())) {
@@ -164,17 +139,13 @@ class FieldsFactory_Admin {
      */
     static function get_ajax_form_html($field_query, $form_options = []) {
         if ( !is_array($field_query)) return '';
-        //IncludesFactory::jquery_qtip();
-        //IncludesFactory::js(HIWEB_DIR_VENDOR . '/jquery.regex-selector/jquery.regex-selector.min.js')->deeps('jquery-core');
-        //IncludesFactory::js(__DIR__ . '/assets/fields.min.js')->deeps('jquery-core');
-        //IncludesFactory::css(__DIR__ . '/css/FieldsAdmin.css');
         ///assets
         include_admin_css(__DIR__ . '/assets/fields.css');
         include_admin_js(__DIR__ . '/assets/fields.min.js', include_admin()->jquery_qtip());
         ///
-        if (count(FieldsFactory::get_field_by_query($field_query)) == 0) return '<!--HIWEB FIELDS FORM is EMPTY-->';
+        if (count(FieldsFactory::get_fields_by_query($field_query)) == 0) return '<!--HIWEB FIELDS FORM is EMPTY-->';
         //Init fields
-        foreach (FieldsFactory::get_field_by_query($field_query) as $Field) {
+        foreach (FieldsFactory::get_fields_by_query($field_query) as $Field) {
             $Field->admin_init();
         }
         //Print Fields FORM
@@ -196,9 +167,9 @@ class FieldsFactory_Admin {
 
 
     /**
-     *
+     * @return bool
      */
-    static function get_ajax_form_hock() {
+    static function get_ajax_form_hock(): bool {
         $forms = $_POST['forms'];
         if ( !is_array($forms)) {
             wp_send_json([ 'success' => false, 'message' => '$_POST[forms] not found or not array' ]);
@@ -218,7 +189,7 @@ class FieldsFactory_Admin {
                 self::$the_form_fields_query = $fields_query;
                 self::$the_form_options = $form_options;
                 $values = self::get_current_location_raw_values(self::$the_form_fields_query);
-                $fields = FieldsFactory::get_field_by_query(self::$the_form_fields_query);
+                $fields = FieldsFactory::get_fields_by_query(self::$the_form_fields_query);
                 $debug = 1;
                 foreach ($fields as $Field) {
                     $debug = 2;
@@ -300,7 +271,7 @@ class FieldsFactory_Admin {
             'forms_html' => $forms_html,
             'other_html' => ob_get_clean()
         ]);
-        return;
+        return true;
     }
 
 
@@ -424,7 +395,7 @@ class FieldsFactory_Admin {
      */
     static function get_field($field_ID, $query): Field {
         if (is_string($field_ID)) {
-            $fields = FieldsFactory::get_field_by_query($query);
+            $fields = FieldsFactory::get_fields_by_query($query);
             foreach ($fields as $field) {
                 if ($field_ID == $field->id()) {
                     return $field;

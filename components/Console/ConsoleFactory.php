@@ -3,6 +3,9 @@
 namespace hiweb\components\Console;
 
 
+use hiweb\components\Context;
+
+
 /**
  * Class ConsoleFactory
  * @package hiweb\components\Console
@@ -56,7 +59,7 @@ class ConsoleFactory {
             ///
             while(self::$messages_limit > 0 && count($messages) > 0) {
                 $message = array_shift($messages);
-                if ($message instanceof Console) $message->the(false);
+                if ($message instanceof Console) $html .= $message->html(false);
                 self::$messages_limit --;
             }
             ///
@@ -74,6 +77,7 @@ class ConsoleFactory {
      * @version 1.5
      */
     static function the() {
+        if(!Context::is_frontend_page() && !Context::is_admin_page() && !Context::is_login_page()) return;
         echo self::get_html();
     }
 }

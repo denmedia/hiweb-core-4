@@ -11,8 +11,8 @@ if ( !$this->have_cols()) return;
 ?>
     <div class="repeat__handle">
         <div class="repeat__handle__left">
-            <a href="#" data-action="collapse_all"><?= get_fontawesome('far fa-compress-alt') ?></a>
-            <a href="#" data-action="expand_all"><?= get_fontawesome('far fa-expand-alt') ?></a>
+            <a href="#" data-action="collapse_all" data-unique_id="<?= $this->get_unique_id() ?>"><?= get_fontawesome('far fa-compress-alt') ?></a>
+            <a href="#" data-action="expand_all" data-unique_id="<?= $this->get_unique_id() ?>"><?= get_fontawesome('far fa-expand-alt') ?></a>
         </div>
         <div class="repeat__handle__cols">
 

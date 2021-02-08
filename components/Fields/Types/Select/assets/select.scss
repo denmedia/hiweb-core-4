@@ -30,4 +30,21 @@
 		-webkit-backdrop-filter: saturate(180%) brightness(120%) blur(10px);
 		backdrop-filter: saturate(180%) brightness(120%) blur(10px);
 	}
+
+	.selectize-dropdown {
+		.optgroup-header {
+			font-weight: 500;
+			font-size: 1.1em;
+		}
+		.optgroup {
+			.option {
+				padding-left: 1em;
+
+				&.selected {
+					background-color: $fields_color_bg_grey_white;
+				}
+			}
+		}
+	}
+
 }

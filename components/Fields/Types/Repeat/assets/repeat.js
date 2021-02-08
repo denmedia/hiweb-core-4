@@ -148,6 +148,10 @@ jQuery(document).ready(function ($) {
                         case 'collapse':
                             hiweb_field_repeat.click_row_expand($click_element);
                             break;
+                        case 'expand_all':
+                        case 'collapse_all':
+                            hiweb_field_repeat.click_row_expand_all($click_element);
+                            break;
                         case 'options':
                             hiweb_field_repeat.click_options($click_element);
                             break;
@@ -456,41 +460,52 @@ jQuery(document).ready(function ($) {
         },
 
         click_options: function ($click_element) {
-            let unique_id = $click_element.attr('data-unique_id');
-            let $row = $('[data-row="' + $click_element.closest('[data-row]').attr('data-row') + '"][data-unique_id="' + unique_id + '"]');
-            let wrap_id = $row.find('.repeat__row__options_fields__outer').attr('id');
+            let wrap_id = $click_element.attr('data-tb-inline-id');
             if (typeof tb_show === 'function') {
-                $('a[data-tb-inline-id="' + wrap_id + '"]').trigger('click');
+                $('a.thickbox[data-tb-inline-id="' + wrap_id + '"]').trigger('click');
             }
         },
 
         click_row_expand: function ($click_element) {
             let unique_id = $click_element.attr('data-unique_id');
-            let $row = jQuery('[data-row="' + hiweb_field_repeat.lastRowIndex[unique_id] + '"][data-unique_id="' + unique_id + '"]');
+            let $rowClosest = $click_element.closest('[data-row][data-unique_id="' + unique_id + '"]');
+            let $row;
+            if ($rowClosest.length > 0) {
+                $row = $rowClosest;
+            } else {
+                $row = jQuery('[data-row="' + hiweb_field_repeat.lastRowIndex[unique_id] + '"][data-unique_id="' + unique_id + '"]');
+            }
+            let $fieldWrap = $row.find('.repeat__row__fields[data-unique_id="' + unique_id + '"]');
             let is_dragged = $row.closest('.ui-sorting-process').length > 0;
             if (!is_dragged) {
                 if ($row.is('.repeat__row__collapsed')) {
                     $row.removeClass('repeat__row__collapsed');
                     jQuery('[data-flex-row-collapsed-input="' + unique_id + '"]').val('0');
                 } else {
-                    $row.height($row.find(jQuery('> .repeat__row_inner > .repeat__row__fields').height()));
+                    $fieldWrap.css({'max-height': $fieldWrap.height()});
                     $row.addClass('repeat__row__collapsed');
-                    $row.height('auto');
+                    $fieldWrap.css({'max-height': ''});
                     jQuery('[data-flex-row-collapsed-input="' + unique_id + '"]').val('1');
                 }
             }
         },
 
-        click_row_expand_all: function (e) {
-            e.preventDefault();
-            let $table_id = jQuery(this).attr('data-unique_id');
-            let $rows = jQuery(hiweb_field_repeat.selector + '[data-unique_id="' + $table_id + '"] [data-row]');
-            if ($rows.length !== $rows.filter('.row-collapsed').length) {
-                $rows.addClass('row-collapsed');
-                jQuery('[data-flex-row-collapsed-input="' + $table_id + '"]').val('1');
+        click_row_expand_all: function ($click_button) {
+            let unique_id = jQuery($click_button).attr('data-unique_id');
+            let $rows = jQuery(hiweb_field_repeat.selector + ' [data-row][data-unique_id="' + unique_id + '"]');
+            let $fields_wrap = $rows.find('.repeat__row__fields[data-unique_id="' + unique_id + '"]');
+            if ($rows.length !== $rows.filter('.repeat__row__collapsed').length) {
+                $fields_wrap.each(function () {
+                    $(this).css({'max-height': $(this).height()});
+                });
+                $rows.addClass('repeat__row__collapsed');
+                jQuery('[data-flex-row-collapsed-input="' + unique_id + '"]').val('1');
+                $fields_wrap.each(function () {
+                    $(this).css({'max-height': ''});
+                });
             } else {
-                $rows.removeClass('row-collapsed');
-                jQuery('[data-flex-row-collapsed-input="' + $table_id + '"]').val('0');
+                $rows.removeClass('repeat__row__collapsed');
+                jQuery('[data-flex-row-collapsed-input="' + unique_id + '"]').val('0');
             }
         }
 

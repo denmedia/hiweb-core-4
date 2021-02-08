@@ -87,7 +87,7 @@ class FieldsFactory_Admin_PostType {
             if ($current_screen->base == 'post') {
                 $disable_gutenberg = false;
                 $disable_editor = false;
-                foreach (FieldsFactory::get_field_by_query(self::get_current_query()) as $field) {
+                foreach (FieldsFactory::get_fields_by_query(self::get_current_query()) as $field) {
                     if ($field->options()->location()->posts()->disable_gutenberg()) {
                         $disable_gutenberg = true;
                     }
@@ -157,7 +157,7 @@ class FieldsFactory_Admin_PostType {
     static function _add_meta_boxes() {
         $query = self::get_current_query([ 'position' => '', 'metabox' => [] ]);
         $query_by_box = [];
-        $fields = FieldsFactory::get_field_by_query($query);
+        $fields = FieldsFactory::get_fields_by_query($query);
         if ( !is_array($fields) || count($fields) == 0) return;
         $first_field_location = reset($fields)->options()->location()->posts();
         foreach ($fields as $Field) {
@@ -183,7 +183,7 @@ class FieldsFactory_Admin_PostType {
      */
     static function _save_post($post_ID, $post, $update) {
         if ( !$update || !array_key_exists('hiweb-core-field-form-nonce', $_POST) || !wp_verify_nonce($_POST['hiweb-core-field-form-nonce'], 'hiweb-core-field-form-save')) return;
-        foreach (FieldsFactory::get_field_by_query(self::get_current_query([], $post)) as $Field) {
+        foreach (FieldsFactory::get_fields_by_query(self::get_current_query([], $post)) as $Field) {
             $field_name = 'hiweb-' . $Field->get_id();
             if ($Field->get_allow_save_field(array_key_exists($field_name, $_POST) ? $_POST[$field_name] : null)) {
                 if (array_key_exists($field_name, $_POST)) {
@@ -203,7 +203,7 @@ class FieldsFactory_Admin_PostType {
                 'columns_manager' => [],
             ],
         ];
-        $fields = FieldsFactory::get_field_by_query($query);
+        $fields = FieldsFactory::get_fields_by_query($query);
         if (count($fields) > 0) {
             $posts_columns = ArrayObject::get_instance($posts_columns);
             foreach ($fields as $field_ID => $Field) {
@@ -240,7 +240,7 @@ class FieldsFactory_Admin_PostType {
      * @return array
      */
     static function manage_posts_sortable_columns($sortable_columns) {
-        $fields = FieldsFactory::get_field_by_query([
+        $fields = FieldsFactory::get_fields_by_query([
             'post_type' => [
                 'post_type' => get_current_screen()->post_type,
             ],

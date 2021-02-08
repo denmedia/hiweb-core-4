@@ -24,9 +24,9 @@ if (function_exists('add_action')) {
                 if (array_key_exists('rand_id', $_POST)) $field->get_unique_id($_POST['unique_id']);
                 $cols = $field->options()->get_cols();
                 $R['cols'] = $cols;
-                if ( !array_key_exists($_POST['value'], $field->get_flexes())) {
+                if (is_string($_POST['value']) && !array_key_exists($_POST['value'], $field->get_flexes()) && !in_array($_POST['value'], ['::paste::'])) {
                     $R['success'] = false;
-                    $R['message'] = sprintf(__('Flex ID [%s] not found','hiweb-core-4'), $_POST['value']);
+                    $R['message'] = sprintf(__('Flex ID [%s] not found', 'hiweb-core-4'), $_POST['value']);
                 } else {
                     $R['success'] = true;
                     ob_start();

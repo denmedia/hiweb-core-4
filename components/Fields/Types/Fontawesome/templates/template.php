@@ -15,7 +15,7 @@ $FontAwesome_unknown = FontAwesomeFactory::get('question');
 $FontAwesome_loader = FontAwesomeFactory::get('fas fa-spinner-third');
 $rand_id = 'hiweb-field-fontawesome-' . \hiweb\core\Strings::rand(5);
 ?>
-<div <?= $this->get_admin_wrap_tag_properties([ 'data-input_empty' => ($value !== '' ? '0' : '1'), 'data-selected' => $FontAwesome->is_exists() ? '1' : '0', 'data-status' => 'loaded', 'data-rand_id' => $rand_id ]) ?>>
+<div <?= $this->get_admin_wrap_tag_properties([ 'data-input_empty' => ($value !== '' ? '0' : '1'), 'data-selected' => $FontAwesome->is_exists() ? '1' : '0', 'data-status' => 'loaded', 'data-rand_id' => $rand_id ], $name) ?>>
     <div class="button-group">
         <div data-icon-preview><?= $FontAwesome->is_exists() ? $FontAwesome : $FontAwesome_unknown ?></div>
         <input type="text" <?= $this->get_admin_input_tags_name_properties($name) ?> value="<?= htmlentities($value) ?>"/>
